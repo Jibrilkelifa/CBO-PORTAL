@@ -1,0 +1,10 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
+<div>
+  <form #uploadEmployeeListForm="ngForm" (ngSubmit)="uploadEmployeeList(uploadEmployeeListForm)">
+    <div class="flex flex-wrap gap-2 mb-2">
+
+    </div>
+    <div class="mt-4"></div>
+    <p-button label="Upload Employee List" [disabled]="uploadEmployeeListForm.invalid" type="submit"></p-button>
+  </form>
+</div>

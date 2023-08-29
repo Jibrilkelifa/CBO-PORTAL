@@ -1,0 +1,24 @@
+<div class="block" *ngIf="cobHistory">
+  <div class="box">Average elapsed time: <strong>{{cobHistory.averageCOBElapsedTime}}</strong></div>
+  <div class="box">Fastest elapsed time: <strong>{{cobHistory.fastestCOBElapsedTime}}</strong></div>
+  <div class="box">Slowest elapsed time: <strong>{{cobHistory.slowestCOBElapsedTime}}</strong></div>
+  <div class="box">Total JT analyzed: <strong>{{cobHistory.totalJTAnalyzed}}</strong></div>
+</div>
+<c-row class="mt-4 mb-4">
+  <c-col>
+    <c-card>
+      <c-card-header class="graph-header">
+        Monthly elapsed times
+      </c-card-header>
+      <c-card-body>
+        <monthly-barChart></monthly-barChart>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<div class="block" *ngIf="cobHistory">
+  <div class="box">Earliest JT analyzed: <strong>{{cobHistory.initialJTAnalyzed}}</strong></div>
+  <div class="box">Latest elapsed time: <strong>{{cobHistory.latestRecordedJTAnalyzed}}</strong></div>
+  <div class="box">Total COB elapsed time: <strong>{{cobHistory.totalCOBElapsedTime}}</strong></div>
+</div>

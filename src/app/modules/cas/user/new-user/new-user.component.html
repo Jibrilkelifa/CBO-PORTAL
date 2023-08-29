@@ -1,0 +1,260 @@
+<div *ngIf="newDiv">
+  <div class="container">
+    <div *ngIf="selectedTab1" class="centered">
+      <h2>Search Employee</h2>
+      <div>
+        <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+          [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="fullName"
+          [required]="true" class="clickable-button align-items-center"
+          [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+      </div>
+      <br>
+      <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
+        class="clickable-button"></button>
+    </div>
+  </div>
+  <form #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm)" required>
+    <div *ngIf="selectedTab2">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Employee ID: </label>
+          <input pInputText id="empId" ngModel [(ngModel)]="selectedEmployeeId" name="employeeId"
+            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Full Name: </label>
+          <input pInputText id="fullName" ngModel [(ngModel)]="selectedFullName" name="fullName"
+            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Job Title: </label>
+          <input pInputText id="jobTitle" ngModel [(ngModel)]="selectedJobTitle" name="jobTitle" type="text"
+            [style]="{'width':'30vw','height':'45px'}" required minlength="2" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphanumeric" class=" block mb-2"> Work Center: </label>
+          <input pInputText id="workCenter" ngModel [(ngModel)]="selectedWorkCenter" name="workCenter"
+            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphanumeric" class=" block mb-2"> Process: </label>
+          <input pInputText id="process" ngModel [(ngModel)]="selectedProcess" name="process"
+            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphanumeric2" class=" block mb-2"> Sub Process: </label>
+          <input pInputText id="subProcess" ngModel [(ngModel)]="selectedSubProcess" name="subProcess"
+            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha" />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Branch/Team: </label>
+          <input pInputText id="ou" ngModel [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
+            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha" />
+        </div>
+        <div class="flex-auto"
+          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedPhoneNumber == undefined))">
+          <label for="number" class=" block mb-2"> Phone number: </label>
+          <input pInputText id="number" ngModel [(ngModel)]="selectedPhoneNumber" name="phoneNumber"
+            [style]="{'width':'30vw','height':'45px'}" minlength="10" pKeyFilter="num"
+            [readonly]="(selectedTab2 && selectedTab3)" />
+        </div>
+
+        <div class="flex-auto"
+          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedGender == null))">
+          <label class="block mb-2"> Gender: </label>
+          <div [style]="{'width':'30vw','height':'45px'}" class="flex flex-wrap gap-3">
+            <div class="flex align-items-center">
+              <p-radioButton name="gender" [(ngModel)]="selectedGender" value="Male"></p-radioButton>
+              <label class="ml-2">Male</label>
+            </div>
+            <div class="flex align-items-center">
+              <p-radioButton name="gender" [(ngModel)]="selectedGender" value="Female"></p-radioButton>
+              <label class="ml-2">Female</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex-auto"
+          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedPersonalEmail == '' || selectedPersonalEmail == undefined))">
+          <label for="alphanumeric2" class=" block mb-2"> Personal Email: </label>
+          <input pInputText id="personalEmail" ngModel [(ngModel)]="selectedPersonalEmail" name="personalEmail"
+            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha"
+            [readonly]="(selectedTab2 && selectedTab3)" />
+        </div>
+
+        <div class="flex-auto"
+          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedCompanyEmail == '' || selectedCompanyEmail == undefined))">
+          <label for="alphanumeric" class=" block mb-2"> Company Email: </label>
+          <input pInputText id="companyEmail" ngModel [(ngModel)]="selectedCompanyEmail" name="companyEmail"
+            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha"
+            [readonly]="(selectedTab2 && selectedTab3)" />
+        </div>
+
+        <div class="flex-auto"
+          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedDateOfBirth == null))">
+          <label for="number" class=" block mb-2"> Date of birth: </label>
+          <p-calendar id="number" ngModel name="birthDate" [(ngModel)]="selectedDateOfBirth" [showIcon]="true"
+            dateFormat="dd/mm/yy" [style]="{'width':'30vw','height':'45px'}" [maxDate]="maxDate"></p-calendar>
+        </div>
+      </div>
+      <div class="button-container" *ngIf="selectedTab2 && !selectedTab3">
+        <button pButton (click)="generateCredentials()" [disabled]="addUserForm.invalid" label="Continue"></button>
+      </div>
+      <div *ngIf="selectedTab3">
+        <div class="flex flex-wrap gap-3 mb-3">
+          <div class="flex-auto">
+            <label for="alphabetic" class=" block mb-2"> Username </label>
+            <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="username" name="username"
+              [style]="{'width':'30vw','height':'45px'}" required  readonly />
+          </div>
+          <div class="flex-auto">
+            <label for="number" class="block mb-2"> Password </label>
+            <p-password [(ngModel)]="password" name="password" class="w-full" styleClass="p-password"
+              [inputStyle]="{'width':'30vw','height':'45px'}" [toggleMask]="true" minlength="8"
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required readonly>
+            </p-password>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-3 mb-3">
+          <div class="flex-auto">
+            <label for="hex" class=" block mb-2"> Select Role(s)</label>
+            <p-dropdown [options]="roles" name="role" optionLabel="name" [filter]="true" [(ngModel)]="selectedRole"
+              filterBy="name" [showClear]="true" placeholder="Enter Role" styleClass="p-password"
+              [style]="{'width':'30vw','height':'45px'}" [required]="true" class="clickable-button">
+              <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedRole">
+                  <div>{{ selectedRole.name}}</div>
+                </div>
+              </ng-template>
+              <ng-template let-role pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                  <div>{{role.name}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-8" *ngIf="(selectedTab2 && selectedTab3)">
+          <div class="flex-auto" *ngIf="(selectedTab2 && selectedTab3)">
+            <label for="employeeImage" class=" block mb-2"> Employee Image: </label>
+            <p-fileUpload name="employeeImage" (onSelect)="onSelect1($event)" [showUploadButton]=false accept="image/*"
+              [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000">
+              <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                  <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                </ul>
+              </ng-template>
+            </p-fileUpload>
+          </div>
+
+          <div class="flex-auto" *ngIf="(selectedTab2 && selectedTab3)">
+            <label for="signatureImage" class=" block mb-2"> Signature Image: </label>
+            <p-fileUpload name="signatureImage" (onSelect)="onSelect2($event)" [showUploadButton]=false accept="image/*"
+              [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000" required>
+              <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length">
+                  <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                </ul>
+              </ng-template>
+            </p-fileUpload>
+          </div>
+        </div>
+        <div class="button-container">
+          <div class="spacer" *ngIf="selectedTab2 && selectedTab3"></div>
+          <button pButton type="submit" [disabled]="addUserForm.invalid" label="Create User"></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="update">
+  <form #updateUserForm="ngForm" (ngSubmit)="updateUser(updateUserForm)">
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+    <div class="flex flex-wrap gap-3 mb-3">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Username </label>
+        <input pInputText id="alphabetic" pKeyFilter="alpha" ngModel [(ngModel)]="user.username" name="username"
+          [style]="{'width':'30vw','height':'45px'}" required  />
+      </div>
+      <div *ngIf="!isClicked">
+        <p-button label="Update Password" type="button" class="updateButton mt-4" [style]="{'width':'633px'}"
+          (onClick)="changeStatus()"></p-button>
+      </div>
+      <div class="flex-auto" [hidden]="!isClicked">
+        <label for="number" class="block mb-2"> Password </label>
+        <p-password [(ngModel)]="value" ngModel [(ngModel)]="isClicked? '' : user.password" pKeyFilter="num" ngModel
+          name="password" required class="w-full" styleClass="p-password"
+          [inputStyle]="{'width':'500px','height':'45px'}" [toggleMask]="true" minlength="8">
+          <ng-template pTemplate="header">
+            <h6>Pick a password</h6>
+          </ng-template>
+          <ng-template pTemplate="footer">
+            <p-divider></p-divider>
+            <p class="mt-2">Suggestions</p>
+            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+              <li>At least one lowercase</li>
+              <li>At least one uppercase</li>
+              <li>At least one numeric</li>
+              <li>Minimum 8 characters</li>
+            </ul>
+          </ng-template>
+        </p-password>
+        <p-button label="Dismiss" type="button" class="updateButton ml-3" [style]="{'width':'120px', 'height': '35px'}"
+          (onClick)="changeStatus()"></p-button>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-3">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Employee </label>
+        <p-dropdown [options]="employees" name="employee" ngModel [(ngModel)]="selectedEmployee" optionLabel="givenName"
+          [filter]="true" filterBy="givenName" [showClear]="true" placeholder="Select Employee" class="w-full"
+          styleClass="p-password" [style]="{'width':'30vw','height':'45px'}">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedEmployee">
+              <div>{{ selectedEmployee.fullname}}</div>
+            </div>
+          </ng-template>
+          <ng-template let-employeed pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ employeed.givenName + " " + employeed.fatherName + " " + employeed.grandFatherName }} </div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Roles </label>
+        <p-multiSelect [options]="roles" [(ngModel)]="selectedRole" defaultLabel="Select Role" optionLabel="name"
+          display="chip" styleClass="custom-multiselect"></p-multiSelect>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-3">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> State </label>
+        <p-dropdown [options]="states" name="active" ngModel [(ngModel)]="selectedState" optionLabel="name"
+          optionValue="value" [showClear]="true" placeholder="Select State" class="w-full" styleClass="p-password"
+          [style]="{'width':'30vw','height':'45px'}">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedState }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-state pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{state.name}}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <p-button label="Update User" type="submit" [disabled]="updateUserForm.invalid" class="createButton"></p-button>
+  </form>
+</div>

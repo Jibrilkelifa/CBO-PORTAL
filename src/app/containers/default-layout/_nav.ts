@@ -1,0 +1,557 @@
+export let navItemMenu: Object;
+export let navItemsSuperAdmin: Object;
+export let navItemsEMSAdmin: Object;
+export let navItemsEMSUser: Object;
+export let navItemsCCAdmin: Object;
+export let navItemsCCUser: Object;
+export let navItemsCCUserDeliquent: Object;
+export let navItemsICMSAdmin: Object;
+export let navItemsICMSDistrict: Object;
+export let navItemsICMSBranch: Object;
+export let navItemsICMSProvision: Object;
+export let navItemsICMSBranchManager: Object;
+export let navItemsSASVAdmin: Object;
+export let navItemsSASVUser: Object;
+export let navItemsMemoAdmin: Object;
+export let navItemsMemoUser: Object;
+export let navItemsECXAdmin: Object;
+export let navItemsECXUser: Object;
+export let navItemsCMSAdmin: Object;
+export let navItemsCMSUser: Object;
+
+navItemMenu = {
+  name: 'Menu',
+  title: true
+}
+navItemsSuperAdmin = {
+  name: 'System Admin',
+  url: '/',
+  iconComponent: { name: 'cil-settings' },
+  children: [
+    {
+      name: 'Module',
+      url: '/module',
+      children: [
+        {
+          name: 'Add Module',
+          url: '/module/addModule'
+        },
+        {
+          name: 'View Modules',
+          url: '/module/viewModule'
+        },
+      ]
+    },
+    {
+      name: 'User',
+      url: '/user',
+      children: [
+        {
+          name: 'Add Admin',
+          url: '/user/addAdmin'
+        },
+        {
+          name: 'View All Admins',
+          url: '/user/viewAdmins'
+        },
+      ]
+    }
+  ]
+}
+navItemsICMSAdmin = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
+  children: [
+    {
+      name: 'User',
+      url: '/ICMS/user',
+      children: [
+        {
+          name: 'Add User',
+          url: '/ICMS/user/addUser'
+        },
+        {
+          name: 'View User',
+          url: '/ICMS/user/viewUsers'
+        },
+      ]
+    },
+    {
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/CIPM/viewCIPM',
+        },
+        // {
+        //   name: 'Add Collateral Type',
+        //   url: '/ICMS/CIPM/addCT',
+        // }
+      ]
+    },
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'View DCQ',
+          url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'View Reports',
+          url: '/ICMS/Fraud/viewFraud',
+        },
+        {
+          name: 'NBE IFR Summary',
+          url: '/ICMS/Fraud/viewFraudForNBE',
+        },
+      ]
+    },
+    {
+      name: 'DACGM',
+      url: '/ICMS/DACGM',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/DACGM/viewDACGM',
+        },
+      ]
+    }
+  ]
+}
+navItemsICMSBranch = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
+  children: [
+    {
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
+      children: [
+        {
+          name: 'Add Data',
+          url: '/ICMS/CIPM/addCIPM',
+        },
+        {
+          name: 'View History',
+          url: '/ICMS/CIPM/viewCIPM',
+        },
+      ]
+    },
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'View Data',
+          url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'Add Data',
+          url: '/ICMS/Fraud/addFraud',
+        },
+        {
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
+        },
+      ]
+    },
+    {
+      name: 'DACGM',
+      url: '/ICMS/DACGM',
+      children: [
+        {
+          name: 'Add Data',
+          url: '/ICMS/DACGM/addDACGM',
+        },
+        {
+          name: 'View History',
+          url: '/ICMS/DACGM/viewDACGM',
+        },
+      ]
+    }
+  ]
+}
+
+navItemsICMSDistrict = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
+  children: [
+    {
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
+      children: [
+        {
+          name: 'View CIPM History',
+          url: '/ICMS/CIPM/viewCIPM',
+        },
+      ]
+    },
+    {
+      name: 'DACGM',
+      url: '/ICMS/DACGM',
+      children: [
+        {
+          name: 'View DACGM History',
+          url: '/ICMS/DACGM/viewDACGM',
+        },
+      ]
+    }
+  ]
+}
+
+navItemsICMSBranchManager = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
+  children: [
+    {
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
+      children: [
+        {
+          name: 'Authorize Data',
+          url: '/ICMS/CIPM/authorizeCIPMData',
+        }
+      ]
+    },
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'Add Data',
+          url: '/ICMS/DCQ/addDCQ'
+        },
+        {
+          name: 'View History',
+          url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'Authorize Data',
+          url: '/ICMS/Fraud/authorizeFraudCases',
+        }
+      ]
+    },
+    {
+      name: 'DACGM',
+      url: '/ICMS/DACGM',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/DACGM/viewDACGM',
+        },
+      ]
+    }
+  ]
+}
+
+navItemsICMSProvision = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  children: [
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
+        },
+      ]
+    }
+  ]
+}
+
+navItemsCCAdmin = {
+  name: 'Compliance Check',
+  url: '/CC',
+  iconComponent: { name: 'cil-shield-alt' },
+  children: [
+    {
+      name: 'User',
+      url: '/CC/user',
+      children: [
+        {
+          name: 'New',
+          url: '/CC/user/addUser',
+        },
+        {
+          name: 'Table',
+          url: '/CC/user/viewUsers',
+        },
+      ]
+    },
+    {
+      name: 'Uploads',
+      url: '/CC/upload',
+      children: [
+        {
+          name: 'UK',
+          url: '/CC/upload/uk',
+        },
+        {
+          name: 'EU',
+          url: '/CC/upload/eu',
+        },
+        {
+          name: 'PEP',
+          url: '/CC/upload/pep',
+        },
+        {
+          name: 'Media Adverser',
+          url: '/CC/upload/adverser',
+        },
+      ]
+    },
+    {
+      name: 'Weekly Check',
+      url: '/CC/weeklyCheck'
+    },
+    {
+      name: 'Search',
+      url: '/CC/viewSanction'
+    },
+
+  ]
+}
+
+navItemsCCUser = {
+  name: 'Compliance Check',
+  url: '/CC',
+  iconComponent: { name: 'cil-shield-alt' },
+  children: [
+
+    {
+      name: 'Search',
+      url: '/CC/viewSanction'
+    }
+  ]
+}
+
+navItemsCCUserDeliquent = {
+  name: 'Compliance Check',
+  url: '/CC',
+  iconComponent: { name: 'cil-shield-alt' },
+  children: [
+
+    {
+      name: 'Search',
+      url: '/CC/viewSanction'
+    },
+    {
+      name: 'Deliquent List',
+      url: '/CC/upload/deliquent'
+    },
+    {
+      name: 'Business Contuinity',
+      url: '/CC/upload/business'
+    }
+  ]
+}
+
+navItemsECXAdmin = {
+  name: 'ECX',
+  url: '/ecx',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
+
+    {
+      name: 'Balance',
+      url: '/ecx/balance',
+      iconComponent: { name: 'cil-balance-scale' },
+      children: [
+        {
+          name: 'Generate Balance',
+          url: '/ecx/balance/update'
+        },
+        {
+          name: 'Update History',
+          url: '/ecx/balance/filehistory'
+        },
+
+      ]
+    },
+    {
+      name: 'Account',
+      url: '/ecx/account',
+      iconComponent: { name: 'cil-wallet' },
+      children: [
+        {
+          name: 'New',
+          url: '/ecx/account/newAccount',
+        },
+        {
+          name: 'Table',
+          url: '/ecx/account/accountTable',
+        },
+        {
+          name: 'Account Relation',
+          url: '/ecx/account/relation'
+        },
+
+      ]
+    },
+  ]
+}
+navItemsECXUser = {
+
+}
+
+navItemsSASVAdmin = {
+  name: 'Signature & Stamp',
+  url: '/SASV',
+  iconComponent: { name: 'cil-folder-open' },
+  children: [
+    {
+      name: 'User',
+      url: '/SASV/user',
+      children: [
+        {
+          name: 'New',
+          url: '/SASV/user/addUser',
+        },
+        {
+          name: 'Table',
+          url: '/SASV/user/viewUsers',
+        },
+      ]
+    },
+    {
+      name: 'Authority',
+      url: '/SASV/authority',
+      children: [
+        {
+          name: 'New',
+          url: '/SASV/authority/newAuthority'
+        },
+        {
+          name: 'Table',
+          url: '/SASV/authority/authorityTable'
+        },
+      ]
+    },
+
+  ]
+}
+
+navItemsSASVUser = {
+  name: 'Signature & Stamp',
+  url: '/SASV',
+  children: [
+    {
+      name: 'Signature and Stamp',
+      url: '/SASV/userPage',
+    },
+  ]
+}
+
+navItemsMemoAdmin = {
+  name: 'Memo',
+  url: '/memo',
+  iconComponent: { name: 'cil-envelope-closed' },
+  children: [
+    {
+      name: 'User',
+      url: '/memo/user',
+      children: [
+        {
+          name: 'New',
+          url: '/memo/user/addUser',
+        },
+        {
+          name: 'Table',
+          url: '/memo/user/viewUsers',
+        },
+      ]
+    },
+    {
+      name: 'Search Memo',
+      url: '/Memo/searchMemo',
+    },
+  ]
+}
+
+navItemsMemoUser = {
+  name: 'Memo',
+  url: '/Memo',
+  children: [
+    {
+      name: 'New Memo',
+      url: '/Memo/newMemo',
+    },
+    {
+      name: 'Search Memo',
+      url: '/Memo/searchMemo',
+    },
+
+  ]
+}
+
+navItemsEMSAdmin = {
+
+}
+
+navItemsEMSUser = {
+
+}
+
+navItemsCMSAdmin = {
+  name: 'CMS',
+  url: '/CMS',
+  children: [
+    {
+      name: 'JT Analyzer',
+      url: '/CMS',
+      children: [
+        // {
+        //   name: 'View JT',
+        //   url: '/CMS/viewJT',
+        // },
+        {
+          name: 'Upload JT',
+          url: '/CMS/uploadJT',
+        }
+      ]
+    },
+    {
+      name: 'RT Analyzer',
+      url: '/CMS',
+      children: [
+        // {
+        //   name: 'View RT',
+        //   url: '/CMS/viewRT',
+        // },
+        {
+          name: 'Upload RT',
+          url: '/CMS/uploadRT',
+        }
+      ]
+    }
+  ]
+}
+
+navItemsCMSUser = {
+
+}

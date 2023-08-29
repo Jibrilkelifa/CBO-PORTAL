@@ -1,0 +1,46 @@
+<div class="card">
+  <div class="header">
+    <h5>ECX File Table</h5>
+  </div>
+  <p-table #dt1 [value]="fileUpdateHistory" selectionMode="single" [tableStyle]="{'min-width': '50rem'}" dataKey="id" [(selection)]="selectedCustomer1"
+   styleClass="p-datatable-customers" [showCurrentPageReport]="true" sortField="id"
+   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+      [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local">
+      <ng-template pTemplate="header">
+          <tr>
+              <th scope="col" pSortableColumn="fileName" style="width:20%">File Name <p-sortIcon field="fileName"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="batchNumber" style="width:20%">Batch Number <p-sortIcon field="batchNumber"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="createdTime" style="width:40%">Created On<p-sortIcon field="createdTime"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="actions" style="width:20%">Actions</th>
+          </tr>
+          <tr>
+            <th scope="col"> <input pInputText type="text" (input)="dt1.filter($any($event.target)?.value, 'fileName', 'contains')"
+                [value]="$any(dt1.filters['fileName'])?.value" placeholder="Search by Name" class="p-column-filter"></th>
+            <th scope="col"></th>
+            <th scope="col"> <input pInputText type="date" (input)="dt1.filter($any($event.target)?.value, 'createdTime', 'contains')"
+                [value]="$any(dt1.filters['createdTime'])?.value" placeholder="Search by Date" class="p-column-filter"></th>
+            <th scope="col"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-fileUpdateHistory>
+          <tr [pSelectableRow]="fileUpdateHistory" >
+            <td>{{fileUpdateHistory.fileName}}</td>
+            <td>{{fileUpdateHistory?.batchNumber}}</td>
+            <td>{{fileUpdateHistory?.createdTime}}</td>
+            <td>
+              <button pButton (click)="viewHistory(fileUpdateHistory?.batchNumber)" [ngClass]="{updateBlue: true}" class="p-button-sm" label="Details"></button>
+              <button pButton (click)="downloadFile(fileUpdateHistory?.batchNumber)" [ngClass]="{updateBlue: false}" class="p-button-sm" label=""><i class="pi pi-download" style="color: white; font-size: 1.0rem; cursor: pointer;"></i></button>
+              
+            </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="4">No found.</td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+
+

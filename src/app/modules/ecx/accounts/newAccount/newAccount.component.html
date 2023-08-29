@@ -1,0 +1,91 @@
+<div *ngIf="newDiv">
+  <p-toast></p-toast>
+  <div *ngIf="!checkedAccount">
+    <form #checkAccForm="ngForm" (ngSubmit)="checkAccount(checkAccForm)">
+      <div class="flex flex-wrap gap-2 mb-6">
+        <div class="flex-auto">
+          <label for="integer" class=" block mb-2"> Account Number: </label>
+          <div class="flex">
+            <input pInputText id="integer" pKeyFilter="int" ngModel name="accountNumber"
+              [style]="{'width':'630px','height':'45px'}" required minlength="10" />
+            <p-button label="Verify Account" [style]="{'height':'45px', 'margin-left':'5px'}"
+              [disabled]="checkAccForm.invalid" type="submit" *ngIf="!checking"></p-button>
+              <p-progressSpinner *ngIf="checking" styleClass="w-2rem h-2rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" [style]="{'margin-left':'5px'}" ></p-progressSpinner>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="checkedAccount">
+    <form #addAccForm="ngForm" (ngSubmit)="addAccountInfo(addAccForm)">
+      <div class="flex flex-wrap gap-2 mb-6">
+        <div class="flex-auto">
+          <label for="integer" class=" block mb-2"> Account Number: </label>
+          <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="checkedAccount.accountNumber"
+            name="accountNumber" [style]="{'width':'630px','height':'45px'}" required minlength="10" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="integer" class=" block mb-2"> Organization Name: </label>
+          <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="checkedAccount.organizationName"
+            name="organizationName" [style]="{'width':'630px','height':'45px'}" required minlength="3" readonly />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-6">
+        <div class="flex-auto">
+          <label for="integer" class=" block mb-2">Amount(Account Balance)</label>
+          <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="checkedAccount.amount" name="amount"
+            [style]="{'width':'630px','height':'45px'}" required minlength="3" readonly />
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-6" >
+        <p-button label="Create Account" [disabled]="addAccForm.invalid" type="submit"></p-button>
+        <p-button label="Cancel"  (click)="cancelChecked()" [style]="{'background-color':'rgba(255, 0, 0, 0.5)'}"></p-button>
+      </div>
+
+    </form>
+  </div>
+</div>
+<div *ngIf="update">
+  <form #updateAccForm="ngForm" (ngSubmit)="updateAccountInfo(updateAccForm)">
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+
+    <div class="flex flex-wrap gap-2 mb-2">
+      <div class="flex-auto">
+        <label for="integer" class=" block mb-2"> Organization Name: </label>
+        <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="accountInfo.organizationName"
+          name="organizationName" [style]="{'width':'630px','height':'45px'}" required minlength="3" readonly />
+      </div>
+      <div class="flex-auto">
+        <label for="integer" class=" block mb-2"> Account Number: </label>
+        <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="accountInfo.accountNumber"
+          name="accountNumber" [style]="{'width':'630px','height':'45px'}" required minlength="3" readonly />
+      </div>
+      <div class="flex flex-wrap gap-3 mb-3">
+        <div class="flex-auto">
+          <label for="integer" class=" block mb-2">Amount(Account Balance)</label>
+          <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="accountInfo.amount" name="amount"
+            [style]="{'width':'630px','height':'45px'}" required minlength="3" readonly/>
+        </div>
+        <div class="flex-auto">
+          <label for="hex" class=" block mb-2">Status</label>
+          <p-dropdown [options]="states" name="state" ngModel [(ngModel)]="accountInfo.state" optionLabel="name"
+            optionValue="value" [showClear]="true" placeholder="Select State" class="w-full" styleClass="p-password"
+            [style]="{'width':'630px','height':'45px'}">
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2">
+                <div>{{ accountInfo.state }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-state pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{state.name}}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+    </div>
+    <p-button label="Update Account" [disabled]="updateAccForm.invalid" type="submit"></p-button>
+  </form>
+</div>

@@ -1,0 +1,1001 @@
+<form #searchForm="ngForm">
+  <span class="p-input-icon-left" [style]="{'width' : '100%'}">
+    <i [style]="{  'margin-left': '19px', 'padding-right': '0px', 'pointer-events': 'none', 'cursor': 'text'}" class="pi pi-search "></i>
+    <input name="fullName" [ngModel]="fullName" type="search" (focus)="checkUpdate()" (input)="getSearchResult(searchForm.value.fullName)"
+      [style]="{'width':'100%','margin':'10px', 'padding':'25px', 'text-indent': '20px'}" type="text" pInputText
+      class="p-inputtext-lg" />
+  </span>
+
+</form>
+
+<p-tabView [style]="{  'width': '100%','margin-left': '5px'}">
+  <p-tabPanel header="ALL">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_un_individual != null && asro_all_un_individual.length != 0 ">
+      <h3 style="color: green">Record in UN Individual Sanction List</h3>
+
+
+      <p-table [value]="asro_all_un_individual" [paginator]="true" [rows]="5 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td><span *ngIf="data.firstName !== null">{{ data?.firstName +" " }}</span>
+              <span *ngIf="data.secondName !== null">{{data?.secondName +" "}}</span>
+              <span *ngIf="data.thirdName !== null">{{data?.thirdName+" " }}</span>
+              <span *ngIf="data.fourthName !== null">{{data?.fourthName +" "}}</span>
+            </td>
+            <!-- Display the corresponding score value -->
+            <td>
+              <p-progressBar [value]="100 - aaui_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+
+    <div style="text-align: center" *ngIf="asro_all_un_entities != null && asro_all_un_entities.length != 0">
+      <h3 style="color: green">Record in UN Entity Sanction List</h3>
+
+
+      <p-table [value]="asro_all_un_entities" [paginator]="true" [rows]="5 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td><span *ngIf="data.firstName !== null">{{ data?.firstName +" " }}</span>
+              <span *ngIf="data.secondName !== null">{{data?.secondName +" "}}</span>
+              <span *ngIf="data.thirdName !== null">{{data?.thirdName+" " }}</span>
+            </td>
+            <td>
+              <p-progressBar [value]="100 - aaue_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_eu_sanction != null && asro_all_eu_sanction.length != 0">
+      <h3 style="color: green">Record in EU Sanction List</h3>
+
+
+      <p-table [value]="asro_all_eu_sanction" [paginator]="true" [rows]="5 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>
+              <ng-container *ngFor="let alias of data.nameAlias">
+                <span *ngIf="alias.wholeName !== null">{{ alias.wholeName+" " }}</span>
+              </ng-container>
+
+            </td>
+            <td>
+              <p-progressBar [value]="100 - aaes_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+    <div style="text-align: center" *ngIf="asro_all_uk_sanction != null && asro_all_uk_sanction.length != 0">
+      <h3 style="color: green">Record in UK Sanction List</h3>
+
+
+      <p-table [value]="asro_all_uk_sanction" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>
+              <ng-container *ngFor="let name of data.names.nameList">
+                <span>
+                  {{ [name.name1, name.name2, name.name3, name.name4, name.name5, name.name6].join(' ') }}
+                </span>
+              </ng-container>
+            </td>
+            <td>
+              <p-progressBar [value]="100 - aaus_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+    <div style="text-align: center" *ngIf="asro_all_nbe_sanction != null && asro_all_nbe_sanction.length != 0">
+      <h3 style="color: green">Record in Business Continuity  List</h3>
+
+
+      <p-table [value]="asro_all_nbe_sanction" [paginator]="true" [rows]="9 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{data?.customer_name }}</td>
+            <td>
+              <p-progressBar [value]="100 - aans_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_adverser_sanction != null && asro_all_adverser_sanction.length != 0">
+      <h3 style="color: green">Record in Media Adversery </h3>
+
+
+      <p-table [value]="asro_all_adverser_sanction" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{data?.name}}</td>
+            <td>
+              <p-progressBar [value]="100 - aaas_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_ofac_sanction != null && asro_all_ofac_sanction.length != 0">
+      <h3 style="color: green">Record in OFAC Sanction List</h3>
+
+
+      <p-table [value]="asro_all_ofac_sanction " [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{data?.name}}</td>
+            <td>
+              <p-progressBar [value]="100 - aaos_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" styleClass="small-button" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_pep_sanction != null && asro_all_pep_sanction .length != 0">
+      <h3 style="color: green">Record in Politically Exposed People </h3>
+
+
+      <p-table [value]="asro_all_pep_sanction " [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{ [data.nameInEng, data.nameInAmh].join(' ') }}</td>
+            <td>
+              <p-progressBar [value]="100 - aaps_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" styleClass="small-button" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+    
+
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_deliquent_sanction != null && asro_all_deliquent_sanction .length != 0">
+      <h3 style="color: green">Record in Delinquent List </h3>
+
+
+      <p-table [value]="asro_all_deliquent_sanction " [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{ data.customer_name }}</td>
+            <td>
+              <p-progressBar [value]="100 - aads_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" styleClass="small-button" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+
+  </p-tabPanel>
+  <p-tabPanel header="UN">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_un_individual != null && asro_all_un_individual.length != 0 ">
+      <h3 style="color: green">Record in UN Individual Sanction List</h3>
+
+
+      <p-table [value]="asro_all_un_individual" [paginator]="true" [rows]="5 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>
+              <span *ngIf="data.firstName !== null">{{ data?.firstName +" " }}</span>
+              <span *ngIf="data.secondName !== null">{{data?.secondName +" "}}</span>
+              <span *ngIf="data.thirdName !== null">{{data?.thirdName+" " }}</span>
+              <span *ngIf="data.fourthName !== null">{{data?.fourthName +" "}}</span>
+            </td>
+            <!-- Display the corresponding score value -->
+
+            <td>
+              <p-progressBar [value]="100 - aaui_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_un_entities != null && asro_all_un_entities.length != 0">
+      <h3 style="color: green">Record in UN Entity Sanction List</h3>
+
+
+      <p-table [value]="asro_all_un_entities" [paginator]="true" [rows]="5 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col">Full Name</th>
+            <th scope="col">More Info</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>
+              <span *ngIf="data.firstName !== null">{{ data?.firstName +" " }}</span>
+              <span *ngIf="data.secondName !== null">{{data?.secondName +" "}}</span>
+              <span *ngIf="data.thirdName !== null">{{data?.thirdName+" " }}</span>
+            </td>
+            <td>
+              <p-progressBar [value]="100 - aaue_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col" style="width: 700px;">Full Name</th>
+              <th scope="col" style="width: 100px;">Score</th>
+              <th scope="col" style="width: 200px;">More Info</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="UK">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_uk_sanction != null && asro_all_uk_sanction.length != 0">
+      <h3 style="color: green">Record in UK Sanction List</h3>
+
+
+      <p-table [value]="asro_all_uk_sanction" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>
+              <ng-container *ngFor="let name of data.names.nameList">
+                <span>
+                  {{ [name.name1, name.name2, name.name3, name.name4, name.name5, name.name6].join('
+                  ') }}
+                </span>
+              </ng-container>
+            </td>
+            <td>
+              <p-progressBar [value]="100 - aaus_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+
+  </p-tabPanel>
+  <p-tabPanel header="EU">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_eu_sanction != null && asro_all_eu_sanction.length != 0">
+      <h3 style="color: green">Record in EU Sanction List</h3>
+
+
+      <p-table [value]="asro_all_eu_sanction" [paginator]="true" [rows]="5 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>
+              <ng-container *ngFor="let alias of data.nameAlias">
+                <span *ngIf="alias.wholeName !== null">{{ alias.wholeName+" " }}</span>
+              </ng-container>
+
+            </td>
+            <td>
+              <p-progressBar [value]="100 - aaes_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Business Continuity">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_nbe_sanction != null && asro_all_nbe_sanction.length != 0">
+      <h3 style="color: green">Record in Business Continuity List</h3>
+
+
+      <p-table [value]="asro_all_nbe_sanction" [paginator]="true" [rows]="9 " [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{data?.customer_name }}</td>
+            <td>
+              <p-progressBar [value]="100 - aans_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="PEP">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_pep_sanction != null && asro_all_pep_sanction .length != 0">
+      <h3 style="color: green">Record in Politically Exposed People </h3>
+
+
+      <p-table [value]="asro_all_pep_sanction " [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{ [data.nameInEng, data.nameInAmh].join(' ') }}</td>
+            <td>
+              <p-progressBar [value]="100 - aaps_score[i]*100"></p-progressBar>
+            </td>
+            <td><p-button label="More Info" styleClass="small-button" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="Media Adversery">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_adverser_sanction != null && asro_all_adverser_sanction.length != 0">
+      <h3 style="color: green">Record in Media Adversery </h3>
+
+
+      <p-table [value]="asro_all_adverser_sanction" [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{data?.name}}</td>
+            <td>
+              <p-progressBar [value]="100 - aaas_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="OFAC">
+    <div style="text-align: center; width:100%"
+      *ngIf="asro_all_ofac_sanction != null && asro_all_ofac_sanction .length != 0">
+      <h3 style="color: green">Record in OFAC Sanction List</h3>
+
+
+      <p-table [value]="asro_all_ofac_sanction " [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+        [tableStyle]="{ 'width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[5, 25, 50]">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" style="width: 700px;">Full Name</th>
+            <th scope="col" style="width: 100px;">Score</th>
+            <th scope="col" style="width: 200px;">More Info</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data let-i="rowIndex">
+          <tr>
+            <td>{{data?.name}}</td>
+            <td>
+              <p-progressBar [value]="100 - aaos_score[i]*100"></p-progressBar>
+            </td>
+
+            <td><p-button label="More Info" styleClass="small-button" (onClick)="showDialog(data)"></p-button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+      <p-dialog header="More Information" [(visible)]="displayDialog">
+        <p-table [value]="selectedDataProperties">
+          <ng-template pTemplate="header">
+            <tr>
+              <th scope="col">Property</th>
+              <th scope="col">Value</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-data>
+            <tr>
+              <td>{{data.property}}</td>
+              <td>
+                <ng-container *ngIf="isObject(data.value); else notObject">
+                  {{data.value | json}}
+                </ng-container>
+                <ng-template #notObject>{{data.value}}</ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-dialog>
+
+    </div>
+  </p-tabPanel>
+  <p-tabPanel header="NBE Delinquent List">
+
+    <div style="text-align: center; width:100%"
+    *ngIf="asro_all_deliquent_sanction != null && asro_all_deliquent_sanction .length != 0">
+    <h3 style="color: green">Record in Delinquent List </h3>
+
+
+    <p-table [value]="asro_all_deliquent_sanction " [paginator]="true" [rows]="5" [showCurrentPageReport]="true"
+      [tableStyle]="{ 'width': '100%' }"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [rowsPerPageOptions]="[5, 25, 50]">
+      <ng-template pTemplate="header">
+        <tr>
+          <th scope="col" style="width: 700px;">Full Name</th>
+          <th scope="col" style="width: 100px;">Score</th>
+          <th scope="col" style="width: 200px;">More Info</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-data let-i="rowIndex">
+        <tr>
+          <td>{{ data.customer_name }}</td>
+          <td>
+            <p-progressBar [value]="100 - aads_score[i]*100"></p-progressBar>
+          </td>
+
+          <td><p-button label="More Info" styleClass="small-button" (onClick)="showDialog(data)"></p-button></td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+    <p-dialog header="More Information" [(visible)]="displayDialog">
+      <p-table [value]="selectedDataProperties">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col">Property</th>
+            <th scope="col">Value</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+          <tr>
+            <td>{{data.property}}</td>
+            <td>
+              <ng-container *ngIf="isObject(data.value); else notObject">
+                {{data.value | json}}
+              </ng-container>
+              <ng-template #notObject>{{data.value}}</ng-template>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-dialog>
+
+  </div>
+  </p-tabPanel>
+  <p-tabPanel header="FIS">
+  </p-tabPanel>
+  <p-tabPanel header="HPR">
+  </p-tabPanel>
+</p-tabView>
+<div
+  *ngIf="this.loadingnbe || this.loadingunindividual|| this.loadingunentity || this.loadingeusanction || this.loadinguksanction || this.loadingpep || this.loadingadverser  || this.loadingofac || this.loadingde"
+  class="spinner-container">
+  <p-progressSpinner></p-progressSpinner>
+  <p> Loading Please Wait!
+  <p>
+</div>

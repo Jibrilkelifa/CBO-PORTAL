@@ -1,0 +1,49 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="card">
+  <h5>Account Table</h5>
+  <p-table #dt1 [value]="accounts" selectionMode="single" [tableStyle]="{'min-width': '50rem'}" dataKey="id" [(selection)]="selectedAccountInfo"
+   styleClass="p-datatable-customers" [showCurrentPageReport]="true"
+   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+      [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local">
+      <ng-template pTemplate="header">
+          <tr>
+              <th scope="col" pSortableColumn="organizationName" style="width:10%;">Organization Name<p-sortIcon field="organizationName"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="accountNumber" style="width:30%">Account Number <p-sortIcon field="accountNumber"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="amount" style="width:30%">Current Balance <p-sortIcon field="amount"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="state" style="width:30%">Status<p-sortIcon field="state"></p-sortIcon></th>
+              <th scope="col" style="width:32%">Actions</th>
+          </tr>
+          <tr>
+            <th scope="col"> <input pInputText type="text" (input)="dt1.filter($any($event.target)?.value, 'organizationName', 'contains')"
+                [value]="$any(dt1.filters['organizationName'])?.value" placeholder="Search by Organization Name" class="p-column-filter"></th>
+            <th scope="col"> <input pInputText type="text" (input)="dt1.filter($any($event.target)?.value, 'accountNumber', 'contains')"
+                [value]="$any(dt1.filters['accountNumber'])?.value" placeholder="Search by Account Number" class="p-column-filter"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+
+          <p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position" [baseZIndex]="10000"></p-confirmDialog>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-accounts>
+          <tr [pSelectableRow]="accounts">
+            <td style="width: 20% !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" tooltipPosition="top">{{accounts?.organizationName}}</td>
+            <td>{{accounts?.accountNumber}}</td>
+            <td>{{accounts?.amount}}</td>
+            <td>{{accounts?.state}}</td>
+            <td>
+              <button pButton (click)="updateAccountInfos(accounts.id)" [ngClass]="{updateBlue: true}" class="p-button-sm" label="Update"></button>
+            </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="4">No found.</td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+
+

@@ -1,0 +1,39 @@
+:host ::ng-deep .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+button {
+  margin: 0 0.5em;
+  height: 2em;
+}
+
+input {
+  height: 2em;
+}
+
+h5 {
+  padding: 0.5em;
+}
+
+.black {
+  color: black;
+  font-weight: bolder;
+}
+
+.red {
+  color: red;
+  font-weight: bolder;
+}
+
+.yellow {
+  color: rgb(187, 187, 39);
+  font-weight: bolder;
+}
+
+.green {
+  color: green;
+  font-weight: bolder;
+}

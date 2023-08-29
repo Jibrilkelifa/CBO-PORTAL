@@ -1,0 +1,79 @@
+<div class="body flex-grow-1 px-3" style="margin: auto;">
+  <h5>List of Authorities</h5>
+  <p-table #dt1 [value]="authorities" selectionMode="single" dataKey="id" [tableStyle]="{'min-width': '50rem'}"
+    [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="session"
+    stateKey="statedemo-session">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" pSortableColumn="id" style="width:10%">ID<p-sortIcon field="id"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="employee.givenName" style="width:50%">Employee <p-sortIcon
+            field="employee.givenName"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="employee.division.name" style="width:30%">Division <p-sortIcon
+            field="employee.division.name"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="status" style="width:10%">Actions</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'employee.givenName', 'contains')"
+            [value]="$any(dt1.filters['employee.givenName'])?.value" placeholder="Search by Employee"
+            class="p-column-filter"></th>
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'employee.division.name', 'contains')"
+            [value]="$any(dt1.filters['employee.division.name'])?.value" placeholder="Search by Division"
+            class="p-column-filter"></th>
+        <th scope="col"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-authorities>
+      <tr [pSelectableRow]="authorities">
+        <td>{{authorities.id}}</td>
+        <td>{{authorities?.employee?.givenName + " " + authorities?.employee?.fatherName + " " + " " +
+          authorities?.employee?.grandFatherName}}</td>
+        <td>{{authorities?.division?.name}}</td>
+        <td>
+          <button style="height: 2em;" pButton label="Show" class="p-button-sm"
+            (click)="showDetail(authorities.id)"></button>
+          <p-dialog [(visible)]="displayBasic" [style]="{width: '50vw'}" [baseZIndex]="10000">
+            <div class="infoContainer" *ngIf="detail">
+              <div class="nameInfo">
+                <h1>{{postResponse?.employee?.givenName + " " + postResponse?.employee?.fatherName + " " +
+                  postResponse?.employee?.grandFatherName}}</h1>
+                <p><b>{{postResponse?.employee?.division?.name}}</b></p>
+              </div>
+              <div class="imageInfo">
+                <div>
+                  <img class="signatureImage" (mouseout)="deleteBlurred1()" (mouseover)="showBlurred1()"
+                    [src]="dbSignImage" alt="signatureImage">
+                  <figcaption>Signature</figcaption>
+                  <div class="displayLarge" *ngIf="bluredimage1">
+                    <div class="signatureImageBox">
+                      <img [src]="dbSignImage" alt="dbSignatureImage">
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <img class="stampImage" (mouseout)="deleteBlurred2()" (mouseover)="showBlurred2()"
+                    [src]="dbStampImage" alt="stampImage">
+                  <figcaption>Stamp</figcaption>
+                  <div class="displayLarge" *ngIf="bluredimage2">
+                    <div class="stampImageBox">
+                      <img [src]="dbStampImage" alt="dbStampImage">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </p-dialog>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

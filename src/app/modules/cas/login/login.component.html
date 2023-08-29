@@ -1,0 +1,30 @@
+<div class="login-container">
+  <div class="bigLogo">
+    <h1 style="font-size: 80px; color: rgb(89,202,245); font-weight: bolder;">Cooperative Bank of Oromia</h1>
+  </div>
+
+  <div id="login-box">
+    <div class="cooplogo">
+      <img src="/assets/Cooplogo.svg" alt="Coop logo">
+    </div>
+
+    <form (ngSubmit)="login()" #form="ngForm">
+      <span class="p-float-label">
+        <input id="float-input" type="text" name="username" ngModel [(ngModel)]="model.username" pInputText required>
+        <label htmlFor="username">Username</label>
+      </span>
+
+      <span class="p-float-label">
+        <input id="float-input" type="password" name="password" ngModel [(ngModel)]="model.password" pInputText required>
+        <label for="float-input">Password</label>
+      </span>
+      
+      <button pButton type="submit" label="Login" [disabled]="submitted || !form.valid" value="Login"></button>
+      
+      <!-- Display error message -->
+      <div style="margin-top: 20px; color: red;" *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

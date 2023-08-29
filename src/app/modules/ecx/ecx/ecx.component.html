@@ -1,0 +1,24 @@
+
+<div class="container">
+  <p-card header="Account Balance Update System" footer="Powered by primeng">
+    <p-toast></p-toast>
+    <p>Click the button below to generate an updated xml file for all active accounts.</p>
+    <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
+    <p-button label="Generate xml" icon="pi pi-file" (click)="confirm()" *ngIf="!loading"></p-button>  
+    <div *ngIf="loading" [style]="{'margin':'10px'}" >
+      <!-- <p-progressBar [value]="progress"></p-progressBar> -->
+      <p-progressSpinner *ngIf="loading" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
+
+    </div>
+    
+    <p *ngIf="updated">Your xml file has been generated successfully.</p>
+    <p-button *ngIf="updated" label="View account update history" icon="pi pi-list" (click)="viewHistory()"></p-button>
+
+    <p-dialog header="Note" [(visible)]="display" [style]="{ width: '50vw' }"> 
+      <p> After generating the xml file, please review all the account update histories carefully. There may be some errors or discrepancies in the account balance due to the core system integration. </p> 
+      <p-footer> 
+        <button type="button" pButton icon="pi pi-check" (click)="display=false" label="OK"></button> </p-footer> </p-dialog>
+  </p-card>
+
+</div>
+

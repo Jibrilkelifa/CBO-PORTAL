@@ -1,0 +1,52 @@
+<p-toast position="top-right"></p-toast>
+<div class="but"><p-button label="Create a new Relation" (click)="createNewaccountRelation()"></p-button></div>
+<div class="card">
+    <h5 class="table-title">Account Relations</h5>
+    <p-table #dt1 [value]="accountRelations" [exportHeader]="'customExportHeader'" selectionMode="single" dataKey="id" [tableStyle]="{'min-width': '50rem'}"
+        [rows]="5" [rowsPerPageOptions]="[5,10,15,20]" [paginator]="true" stateStorage="session"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">ID </th>
+                <th pSortableColumn="ecxAccount">ECX Account<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="balanceAccount">Balance Account <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="altAccount">ALT Account <p-sortIcon field="description"></p-sortIcon></th>
+                <th scope="col">Actions</th>
+
+            </tr>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'ecxAccount', 'contains')"
+                        [value]="$any(dt1.filters['ecxAccount'])?.value" placeholder="Search by ECX Account" class="p-column-filter">
+                </th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'balanceAccount', 'contains')"
+                        [value]="$any(dt1.filters['balanceAccount'])?.value" placeholder="Search by Balance Account"
+                        class="p-column-filter"></th>
+                        <th scope="col"> <input pInputText type="text"
+                            (input)="dt1.filter($any($event.target)?.value, 'altAccount', 'contains')"
+                            [value]="$any(dt1.filters['altAccount'])?.value" placeholder="Search by ALT Account"
+                            class="p-column-filter"></th>
+                <th scope="col"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-accountRelations let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="accountRelations">
+                <td>{{rowIndex + 1}}</td>
+                <td>{{accountRelations?.ecxAccount}}</td>
+                <td>{{accountRelations?.balanceAccount}}</td>
+                <td>{{accountRelations?.altAccount}}</td>
+                <td>
+                    <button pButton (click)="updateaccountRelation(accountRelations.id)" [ngClass]="{updateBlue: true}"
+                        class="p-button-sm" label="Update"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
