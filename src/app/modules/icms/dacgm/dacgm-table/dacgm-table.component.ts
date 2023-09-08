@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
 import { DACGM } from '../../../../models/icms-models/dacgm-models/dacgm';
 import { DACGMService } from '../../../../services/icms-services/dacgm-services/dacgm.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service';
-import { TimeService } from '../../../../services/cas-services/time.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
+import { TimeService } from '../../../../services/sso-services/time.service';
 import * as XLSX from 'xlsx';
 
 @Component({

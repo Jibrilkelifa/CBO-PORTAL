@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import { EmployeeService } from 'src/app/services/cas-services/employee.service';
+import { EmployeeService } from 'src/app/services/sso-services/employee.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 

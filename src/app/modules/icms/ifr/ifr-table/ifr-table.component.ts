@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
-import { TimeService } from '../../../../services/cas-services/time.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service'
+import { TimeService } from '../../../../services/sso-services/time.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service'
 import { IFR } from 'src/app/models/icms-models/ifr-models/ifr';
 import * as XLSX from 'xlsx';
 import { DialogService } from 'primeng/dynamicdialog';

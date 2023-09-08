@@ -510,7 +510,29 @@ navItemsMemoUser = {
 }
 
 navItemsEMSAdmin = {
-
+  name: 'EMS',
+  url: '/EMS',
+  iconComponent: { name: 'cil-library-add' },
+  children: [
+    {
+      name: 'User',
+      url: '/EMS/user',
+      children: [
+        {
+          name: 'New',
+          url: '/EMS/user/addUser',
+        },
+        {
+          name: 'Table',
+          url: '/EMS/user/viewUsers',
+        },
+      ]
+    },
+    {
+      name: 'Upload',
+      url: '/EMS/uploadEmployeeData',
+    },
+  ]
 }
 
 navItemsEMSUser = {

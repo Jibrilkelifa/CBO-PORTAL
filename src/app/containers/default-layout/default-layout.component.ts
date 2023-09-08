@@ -66,11 +66,11 @@ export class DefaultLayoutComponent {
           switch (localStorage.getItem("role_" + i)) {
             case "ROLE_SUPER_ADMIN":
               this.navItems.push(navItemsSuperAdmin);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_EMS_ADMIN":
               this.navItems.push(navItemsEMSAdmin);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_EMS_USER":
               this.navItems.push(navItemsEMSUser);
@@ -94,43 +94,43 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ICMS_DISTRICT":
               this.navItems.push(navItemsICMSDistrict);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_ICMS_BRANCH":
               this.navItems.push(navItemsICMSBranch);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_ICMS_PROVISION":
               this.navItems.push(navItemsICMSProvision);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_ICMS_BRANCH_MANAGER":
               this.navItems.push(navItemsICMSBranchManager);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_SASV_ADMIN":
               this.navItems.push(navItemsSASVAdmin);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_SASV_USER":
               this.navItems.push(navItemsSASVUser);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_MEMO_ADMIN":
               this.navItems.push(navItemsMemoAdmin);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_MEMO_USER":
               this.navItems.push(navItemsMemoUser);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_ECX_ADMIN":
               this.navItems.push(navItemsECXAdmin);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_ECX_USER":
               this.navItems.push(navItemsECXUser);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_CMS_ADMIN":
               this.navItems.push(navItemsCMSAdmin);
@@ -138,7 +138,7 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_CMS_USER":
               this.navItems.push(navItemsCMSUser);
-              this.dashboardRoute = "cc_dashboard"
+              this.dashboardRoute = "default_dashboard"
               break;
           }
         }

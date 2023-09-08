@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { Module } from '../../../models/cas-models/module';
-import { ModuleService } from '../../../services/cas-services/module.service';
+import { Module } from '../../../models/sso-models/module';
+import { ModuleService } from '../../../services/sso-services/module.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { ECXServiceService } from '../../../services/ecx-services/ecx-service.service';

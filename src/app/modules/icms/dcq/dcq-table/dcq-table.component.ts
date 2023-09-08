@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService, FilterService, Message, MessageService } from 'primeng/api';
 import { DCQService } from '../../../../services/icms-services/dcq-services/dcq.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service';
-import { TimeService } from '../../../../services/cas-services/time.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
+import { TimeService } from '../../../../services/sso-services/time.service';
 import { DCQ } from '../../../../models/icms-models/dcq-models/dcq';
 import * as XLSX from 'xlsx';
 

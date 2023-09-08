@@ -6,8 +6,8 @@ import { CaseStatusService } from '../../../../services/icms-services/ifr-servic
 import { AllCategoryService } from '../../../../services/icms-services/all-category.service';
 import { FraudTypeService } from '../../../../services/icms-services/ifr-services/fraud-type.service';
 import { SuspectedFraudsterProfessionService } from '../../../../services/icms-services/ifr-services/suspectedFraudsterProfession.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service';
-import { TimeService } from '../../../../services/cas-services/time.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
+import { TimeService } from '../../../../services/sso-services/time.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { IFR } from "../../../../models/icms-models/ifr-models/ifr";
@@ -15,7 +15,7 @@ import { CaseStatus } from '../../../../models/icms-models/ifr-models/case-statu
 import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
-import { OrganizationalUnit } from 'src/app/models/cas-models/organizational-unit';
+import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 
 @Component({
   selector: 'app-accordions',

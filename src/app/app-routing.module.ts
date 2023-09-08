@@ -1,17 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
-import { LoginComponent } from './modules/cas/login/login.component';
-import { NewUserComponent } from './modules/cas/user/new-user/new-user.component';
+import { LoginComponent } from './modules/sso/login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { NewCIPMComponent } from './modules/icms/cipm/new-cipm/new-cipm.component';
 import { NewDACGMComponent } from './modules/icms/dacgm/new-dacgm/new-dacgm.component'
 import { NewDCQComponent } from './modules/icms/dcq/new-dcq/new-dcq.component';
 import { NewFraudComponent } from './modules/icms/ifr/new-ifr/new-ifr.component';
-import { sasvViewerLoginComponent } from './modules/sasv/sasv-viewer/sasv-viewer-login.component';
 import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history.component';
 import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
-import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
 
 const routes: Routes = [
   {
@@ -21,62 +18,13 @@ const routes: Routes = [
     path: 'login', component: LoginComponent
   },
   {
-    path: 'dashboard', redirectTo: 'dashboard', pathMatch: 'full'
-  },
-  {
-    path: 'changeOTP', redirectTo: 'changeOTP', pathMatch: 'full'
-  },
-  {
-    path: 'userPage', redirectTo: 'userPage', pathMatch: 'full'
-  },
-  {
-    path: 'updateDivision/:id', redirectTo: 'updateDivision/:id', pathMatch: 'full'
-  },
-  {
-    path: 'updateEmployee/:id', redirectTo: 'updateEmployee/:id', pathMatch: 'full'
-  },
-  {
-    path: 'updateUser/:id', redirectTo: 'updateUser/:id', pathMatch: 'full'
-  },
-  {
-    path: 'updateCIPM/:id', redirectTo: 'updateCIPM/:id', pathMatch: 'full'
-  },
-  {
-    path: 'updateDACGM/:id', redirectTo: 'updateDACGM/:id', pathMatch: 'full'
-  },
-  {
-    path: 'ecx/balance/updateHistory/:batchNumber', redirectTo: 'ecx/balance/updateHistory/:batchNumber', pathMatch: 'full'
-  },
-  {
     path: '',
     component: DefaultLayoutComponent, canActivate: [AuthGuard],
     data: { title: 'Home' },
 
     children: [
-      {
-        path: '',
-        loadChildren: () =>
-          import('./modules/cc/dashboard/dashboard.module').then((m) => m.DashboardModule)
-      },
-      {
-        path: 'sasvPage', component: sasvViewerLoginComponent, canActivate: [AuthGuard],
-      },
-    ]
-  },
-  {
-    path: '',
-    component: DefaultLayoutComponent, canActivate: [AuthGuard],
-    data: { title: 'Home' },
-
-    children: [
-      {
-        path: 'updateUser/:id', component: NewUserComponent, data: { title: 'User / Update User' }
-      },
       {
         path: 'updateAccount/:id', component: NewAccountComponent, data: {title: 'Account / Update Account'}
-      },
-      {
-        path: 'ICMS/Fraud/calculateProvision/:id',  component: IFRProvisionComponent, data: {title: 'Fraud / Calculate Provision'}
       },
       {
         path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: {title: 'History / Update History'}
@@ -109,9 +57,9 @@ const routes: Routes = [
           import('./modules/cms/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
-        path: 'changeOTP',
+        path: 'default_dashboard',
         loadChildren: () =>
-          import('./modules/cas/change-otp/change-otp.module').then((m) => m.ChangeOTPModule)
+          import('./containers/default-layout/default-dashboard/default-dashboard.module').then((m) => m.DefaultDashboardModule)
       },
       {
         path: 'CMS',
@@ -126,32 +74,32 @@ const routes: Routes = [
       {
         path: 'user',
         loadChildren: () =>
-          import('./modules/cas/user/user.module').then((m) => m.UserModule)
+          import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
       {
         path: 'ICMS/user',
         loadChildren: () =>
-          import('./modules/cas/user/user.module').then((m) => m.UserModule)
+          import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
       {
         path: 'ecx/user',
         loadChildren: () =>
-          import('./modules/cas/user/user.module').then((m) => m.UserModule)
+          import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
       {
         path: 'SASV/user',
         loadChildren: () =>
-          import('./modules/cas/user/user.module').then((m) => m.UserModule)
+          import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
       {
         path: 'CC/user',
         loadChildren: () =>
-          import('./modules/cas/user/user.module').then((m) => m.UserModule)
+          import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
       {
         path: 'module',
         loadChildren: () =>
-          import('./modules/cas/module/module.module').then((m) => m.ModuleModule)
+          import('./modules/sso/module/module.module').then((m) => m.ModuleModule)
       },
       {
         path: 'SASV/authority',

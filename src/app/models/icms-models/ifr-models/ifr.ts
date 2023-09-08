@@ -2,7 +2,7 @@ import { SuspectedFraudsterProfession } from './suspected-fraudster-profession'
 import { CaseStatus } from './case-status'
 import { AllCategory } from '../all-category'
 import { FraudType } from './fraud-type'
-import { OrganizationalUnit } from '../../cas-models/organizational-unit';
+import { OrganizationalUnit } from '../../sso-models/organizational-unit';
 
 export interface IFR {
   id: number,

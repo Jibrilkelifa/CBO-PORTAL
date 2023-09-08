@@ -1,4 +1,4 @@
-import { OrganizationalUnit } from '../../cas-models/organizational-unit'
+import { OrganizationalUnit } from '../../sso-models/organizational-unit'
 import { AllIrregularity } from '../all-irregularity'
 import { ActivityStatus } from './activity-status'
 export interface DACGM {

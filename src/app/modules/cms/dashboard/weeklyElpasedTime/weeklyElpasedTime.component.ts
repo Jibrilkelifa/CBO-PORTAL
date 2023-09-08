@@ -233,6 +233,8 @@ export class WeeklyElpasedTimeComponent implements OnInit {
     this.selectedWeek.endDate = endDate;
 
     this.selectedDateValue = startDate;
+    this.stageDate = startDate;
+
 
     this.updateDailyHistory();
   }

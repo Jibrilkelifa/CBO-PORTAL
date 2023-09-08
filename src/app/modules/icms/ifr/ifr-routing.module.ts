@@ -47,6 +47,13 @@ const routes: Routes = [
         },
       },
       {
+        path: 'ICMS/Fraud/calculateProvision/:id',
+        component: IFRProvisionComponent,
+        data: {
+          title: 'Fraud / Calculate Provision'
+        }
+      },
+      {
         path: 'viewFraudForNBE',
         component: FraudNBETableComponent,
         data: {

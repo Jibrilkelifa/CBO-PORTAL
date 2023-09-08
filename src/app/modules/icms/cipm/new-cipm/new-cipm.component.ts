@@ -3,14 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { CIPMService } from '../../../../services/icms-services/cipm-services/cipm.service';
 import { CollateralTypeService } from '../../../../services/icms-services/cipm-services/ct.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { IPCTService } from '../../../../services/icms-services/cipm-services/ipct.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { CIPM } from "../../../../models/icms-models/cipm-models/cipm";
 import { CollateralType } from '../../../../models/icms-models/cipm-models/collatoral-type';
 import { IPCT } from '../../../../models/icms-models/cipm-models/ipct';
-import { OrganizationalUnit } from 'src/app/models/cas-models/organizational-unit';
+import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 
 @Component({
   selector: 'app-accordions',

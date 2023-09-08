@@ -1,4 +1,4 @@
-import { Module } from "./cas-models/module";
+import { Module } from "./sso-models/module";
 
 export interface Role {
   id: number;

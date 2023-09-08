@@ -2,15 +2,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, retry, throwError } from 'rxjs';
-import { JwtResponse } from '../models/cas-models/Jwt-response';
+import { JwtResponse } from '../models/sso-models/Jwt-response';
 
-interface LoginResponse {
-  access_token: string;
-  data: any;
-  name: string;
-  status: string;
-  message: string;
-}
 @Injectable({
   providedIn: 'root'
 })
@@ -18,8 +11,8 @@ export class AuthService {
 
   // API path
 
-  centralBasePath = 'http://10.1.125.58:8081';
-  // centralBasePath = 'http://10.1.125.58:9081';
+  ssoBathPath = 'http://10.1.11.44:8081';
+  // ssoBathPath = 'http://10.1.125.58:9081';
   emsBasePath = 'http://10.1.125.58:8082';
   // emsBasePath = 'http://10.1.125.58:9082';
 
@@ -54,7 +47,7 @@ export class AuthService {
   loginForm(data: any): Observable<JwtResponse> {
     localStorage.clear();
     return this.http
-      .post<JwtResponse>(this.centralBasePath + '/auth/login', data, this.httpOptions)
+      .post<JwtResponse>(this.ssoBathPath + `/login?username=${data.username}&password=${data.password}`, null, this.httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
@@ -64,12 +57,8 @@ export class AuthService {
   // After login save token and other values(if any) in localStorage
   setUser(resp: JwtResponse) {
     const role = resp?.user?.roles[0]?.name;
-    const otp = resp?.user?.otp;
 
     if (role) {
-      if (otp) {
-        this.router.navigate(['changeOTP']);
-      } else {
         if (this.checkModule(resp?.user, "CC")) {
           this.router.navigate(['cc_dashboard']);
         } else if (this.checkModule(resp?.user, "ICMS")) {
@@ -77,15 +66,13 @@ export class AuthService {
         } else if (this.checkModule(resp?.user, "CMS")) {
           this.router.navigate(['cms_dashboard']);
         } else {
-          this.router.navigate(['cc_dashboard']); // changed later
+          this.router.navigate(['default_dashboard']); // changed later
         }
-      }
     }
     localStorage.clear();
     localStorage.setItem('userId', resp?.user?.id.toString())
     localStorage.setItem('employeeId', resp?.user?.employee.id.toString())
-    localStorage.setItem('gender', resp?.user?.employee.gender)
-    localStorage.setItem('otp', resp?.user?.otp.toString())
+    localStorage.setItem('gender', resp?.user?.employee?.gender)
     localStorage.setItem('resp', JSON.stringify(resp))
     localStorage.setItem('email', resp?.user?.employee?.companyEmail);
     localStorage.setItem('access_token', resp?.accessToken);
@@ -103,7 +90,7 @@ export class AuthService {
     localStorage.setItem('allRoles', JSON.stringify(resp?.user?.roles));
     for (let i = 1; i <= resp?.user.roles.length + 2; i++) {
       if (i == 1) {
-        localStorage.setItem('url_1', this.centralBasePath);
+        localStorage.setItem('url_1', this.ssoBathPath);
       } else if (i == 2 && this.checkIfUserIsAdmin(resp?.user)) {
         localStorage.setItem('url_2', this.emsBasePath);
       }
@@ -129,7 +116,7 @@ export class AuthService {
   checkModule(user: any, moduleCode: string): boolean {
     if (user?.roles?.length > 0) {
       for (const role of user.roles) {
-        if (role.name.includes(moduleCode) && role.name.includes("ADMIN")) {
+        if (role.name.split("_")[1] == moduleCode && role.name.includes("ADMIN")) {
           return true;
         }
       }
@@ -149,6 +136,6 @@ export class AuthService {
   // After clearing localStorage redirect to login screen
   logout() {
     localStorage.clear();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/login']);
   }
 }

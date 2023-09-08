@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthorityDTO } from 'src/app/models/sasv-models/authorityDTO';
-import { Employee } from 'src/app/models/cas-models/employee';
+import { Employee } from 'src/app/models/sso-models/employee';
 import { AuthorityService } from 'src/app/services/sasv-services/authority.service';
-import { EmployeeService } from 'src/app/services/cas-services/employee.service';
+import { EmployeeService } from 'src/app/services/sso-services/employee.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 

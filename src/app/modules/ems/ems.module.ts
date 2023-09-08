@@ -10,6 +10,7 @@ import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { ToastModule } from 'primeng/toast';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import {
   FormModule,
   AccordionModule,
@@ -31,7 +32,7 @@ import {
   TooltipModule,
   UtilitiesModule
 } from '@coreui/angular';
-import { EMSComponent } from './ems.component';
+import { EMSComponent } from './upload-employee-data/ems-upload.component';
 import { EMSRoutingModule } from './ems-routing.module';
 import { IconModule } from '@coreui/icons-angular';
 import { MessagesModule } from 'primeng/messages';
@@ -77,7 +78,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     ConfirmDialogModule,
     KeyFilterModule,
     PasswordModule,
-    DividerModule
+    DividerModule,
+    ProgressSpinnerModule
   ],
   declarations: [
     EMSComponent

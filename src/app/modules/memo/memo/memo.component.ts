@@ -6,8 +6,8 @@ import { MemoService } from '../../../services/memo-services/memo.service';
 import { Templates } from '../../../services/memo-services/Templates';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { EmployeeService } from '../../../services/cas-services/employee.service';
-import { Employee } from '../../../models/cas-models/employee';
+import { EmployeeService } from '../../../services/sso-services/employee.service';
+import { Employee } from '../../../models/sso-models/employee';
 
 @Component({
   selector: 'app-memo',

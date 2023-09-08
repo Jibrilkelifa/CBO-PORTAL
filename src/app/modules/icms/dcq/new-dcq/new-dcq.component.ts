@@ -4,14 +4,14 @@ import { NgForm } from '@angular/forms';
 import { DCQService } from '../../../../services/icms-services/dcq-services/dcq.service';
 import { ChequeTypeService } from '../../../../services/icms-services/dcq-services/cheque-type.service';
 import { ActionTakenService } from '../../../../services/icms-services/dcq-services/action-taken.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service';
-import { TimeService } from '../../../../services/cas-services/time.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
+import { TimeService } from '../../../../services/sso-services/time.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { DCQ } from "../../../../models/icms-models/dcq-models/dcq";
 import { ChequeType } from '../../../../models/icms-models/dcq-models/cheque-type';
 import { ActionTaken } from 'src/app/models/icms-models/dcq-models/action-taken';
-import { OrganizationalUnit } from 'src/app/models/cas-models/organizational-unit';
+import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 
 
 @Component({

@@ -1,4 +1,4 @@
-import { Employee } from "../cas-models/employee";
+import { Employee } from "../sso-models/employee";
 
 export interface Authority {
     id: number;

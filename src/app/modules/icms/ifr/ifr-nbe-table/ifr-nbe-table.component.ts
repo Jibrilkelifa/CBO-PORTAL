@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
-import { TimeService } from '../../../../services/cas-services/time.service';
+import { TimeService } from '../../../../services/sso-services/time.service';
 import { IFR } from 'src/app/models/icms-models/ifr-models/ifr';
 import { IFRSummary } from 'src/app/models/icms-models/ifr-models/ifr-summary';
 import * as XLSX from 'xlsx';

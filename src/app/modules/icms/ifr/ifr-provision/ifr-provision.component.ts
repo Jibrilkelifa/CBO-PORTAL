@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
-import { OrganizationalUnitService } from '../../../../services/cas-services/organizational-unit.service';
+import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { IFR } from "../../../../models/icms-models/ifr-models/ifr";
@@ -10,7 +10,7 @@ import { CaseStatus } from '../../../../models/icms-models/ifr-models/case-statu
 import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
-import { OrganizationalUnit } from 'src/app/models/cas-models/organizational-unit';
+import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 import { Router } from '@angular/router';
 
 @Component({

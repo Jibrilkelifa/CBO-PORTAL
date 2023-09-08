@@ -18,8 +18,9 @@ export class CMSDashboardService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = localStorage.getItem('url_8');
-    // this.apiServiceUrl = 'http://10.1.11.44:8088';
+    // this.apiServiceUrl = localStorage.getItem('url_8');
+    this.apiServiceUrl = 'http://10.1.11.44:8088';
+    // this.apiServiceUrl = 'http://10.1.125.58:8088';
   }
 
   constructor(private http: HttpClient) {}

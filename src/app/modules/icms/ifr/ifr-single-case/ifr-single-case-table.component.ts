@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
-import { EmployeeService } from '../../../../services/cas-services/employee.service';
+import { EmployeeService } from '../../../../services/sso-services/employee.service';
 import { IFR } from 'src/app/models/icms-models/ifr-models/ifr';
 import jsPDF from 'jspdf';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
