@@ -63,6 +63,7 @@ export class NewAdminComponent implements OnInit {
   selectedGender: boolean;
   username: string;
   userExists: boolean = false;
+  selectedTab1: boolean = true;
 
   public divisions: any[] = [];
   public employee: Employee;
@@ -71,6 +72,8 @@ export class NewAdminComponent implements OnInit {
   selectedDivision: any;
   gender: string;
   maxDate: Date;
+  
+
 
   uploadedFiles: any[] = [];
   myDate = new Date();
@@ -114,6 +117,8 @@ export class NewAdminComponent implements OnInit {
 
 
   populateEmployeeData() {
+    this.selectedTab1 = false;
+
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
     this.selectedFullName = this.selectedEmployee.fullName;
     this.selectedJobTitle = this.selectedEmployee.jobTitle.name;
@@ -122,6 +127,28 @@ export class NewAdminComponent implements OnInit {
     this.selectedProcess = this.selectedEmployee.organizationalUnit.subProcess.process.name;
     this.selectedWorkCenter = this.selectedEmployee.organizationalUnit.subProcess.workCenter.name;
   }
+  getEmployeeData(event: any) {
+    const searchTerm = event.query;
+    if (searchTerm.length == 0) {
+      this.previousTerm = "";
+    }
+    if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+      this.employeeService.getEmployeesByName(searchTerm).subscribe(
+        (response: any) => {
+          this.searchedEmployees = response;
+          this.baseVariable = this.searchedEmployees;
+        }
+      )
+    }
+    if (searchTerm.length > 3) {
+      if (this.previousTerm.length > searchTerm.length) {
+        this.searchedEmployees = this.baseVariable;
+      }
+      this.searchedEmployees = this.searchedEmployees.filter(searchedEmployee => searchedEmployee.fullName.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    this.previousTerm = searchTerm;
+  }
+
 
   public changeStatus() {
     this.isClicked = !this.isClicked;

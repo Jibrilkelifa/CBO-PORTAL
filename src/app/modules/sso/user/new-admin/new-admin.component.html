@@ -1,17 +1,18 @@
 <div *ngIf="newDiv">
-  <div class="container" *ngIf="!userExists">
-    <div class="centered">
-      <h2>Search Employee By Username</h2>
-      <div>
-          <div class="flex flex-wrap gap-3 mb-3">
-            <div class="flex-auto">
-              <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="username" name="username"
-              [style]="{'width':'10vw','height':'45px', 'text-align':'center'}" required class="onTop" />
-            </div>
-          </div>
+  <!-- <div class="container" *ngIf="!userExists"> -->
+  <div class="container">
+    <div class="container">
+      <div *ngIf="selectedTab1" class="centered">
+        <h2>Search Employee</h2>
+        <div>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="fullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <br>
+        <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
+          class="clickable-button"></button>
       </div>
-      <br>
-      <button pButton (click)="searchUsernameFromAD()" label="Continue" class="onTop"></button>
     </div>
   </div>
   <form *ngIf="userExists" #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm)" required>
