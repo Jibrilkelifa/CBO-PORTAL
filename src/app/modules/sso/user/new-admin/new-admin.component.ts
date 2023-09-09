@@ -9,7 +9,7 @@ import { EmployeeService } from 'src/app/services/sso-services/employee.service'
 import { ModuleService } from 'src/app/services/sso-services/module.service';
 import { OrganizationalUnitService } from 'src/app/services/sso-services/organizational-unit.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Message, MessageService } from 'primeng/api';
+import { Message, MessageService, ConfirmationService, ConfirmEventType } from 'primeng/api';
 import { Module } from 'src/app/models/sso-models/module';
 import { RoleService } from 'src/app/services/sso-services/role.service';
 import { TimeService } from 'src/app/services/sso-services/time.service';
@@ -58,12 +58,15 @@ export class NewAdminComponent implements OnInit {
   selectedWorkCenter: string;
   selectedPhoneNumber: string;
   selectedPersonalEmail: string;
+  selectedAdUser: string;
+  
   selectedCompanyEmail: string;
   selectedDateOfBirth: string;
   selectedGender: boolean;
   username: string;
   userExists: boolean = false;
   selectedTab1: boolean = true;
+  selectedTab2: boolean = false;
 
   public divisions: any[] = [];
   public employee: Employee;
@@ -72,7 +75,7 @@ export class NewAdminComponent implements OnInit {
   selectedDivision: any;
   gender: string;
   maxDate: Date;
-  
+
 
 
   uploadedFiles: any[] = [];
@@ -87,8 +90,9 @@ export class NewAdminComponent implements OnInit {
     private moduleService: ModuleService,
     private organizationalUnitService: OrganizationalUnitService,
     private roleService: RoleService,
-    private adUserService: ADUserService
-    ) { }
+    private adUserService: ADUserService,
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit() {
     this.populateRoles();
@@ -108,7 +112,6 @@ export class NewAdminComponent implements OnInit {
     let index = 0;
     let cond = localStorage.getItem('role_' + index);
     while (cond) {
-
       this.rolesStr.push(cond);
       index++;
       cond = localStorage.getItem('role_' + index);
@@ -117,8 +120,9 @@ export class NewAdminComponent implements OnInit {
 
 
   populateEmployeeData() {
+    console.log(this.selectedEmployee.fullName)
     this.selectedTab1 = false;
-
+    this.selectedTab2 = true;
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
     this.selectedFullName = this.selectedEmployee.fullName;
     this.selectedJobTitle = this.selectedEmployee.jobTitle.name;
@@ -127,6 +131,7 @@ export class NewAdminComponent implements OnInit {
     this.selectedProcess = this.selectedEmployee.organizationalUnit.subProcess.process.name;
     this.selectedWorkCenter = this.selectedEmployee.organizationalUnit.subProcess.workCenter.name;
   }
+
   getEmployeeData(event: any) {
     const searchTerm = event.query;
     if (searchTerm.length == 0) {
@@ -172,22 +177,26 @@ export class NewAdminComponent implements OnInit {
     }
   }
 
-  public searchUsernameFromAD() {
-    console.log("username = "+this.username)
-    this.adUserService.checkIfUserExistsOnAD(this.username).subscribe(
-      (response: any) => {
-        this.userExists = (this.username == response[0]?.username) || false;
-        const dnPattern = /CN=([^,]+)/;
-        const matches = response[0].dn.match(dnPattern);
-        const name = matches ? matches[1] : '';
-        if (this.userExists) this.searchEmployees(name);
-        console.log(name)
-      },
-      (error: HttpErrorResponse) => {
+  public searchUsernameFromAD(usernametosearch: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+        this.adUserService.checkIfUserExistsOnAD(usernametosearch).subscribe(
+            (response: any) => {
+                this.userExists = (this.username == response[0]?.username) || false;
+                const dnPattern = /CN=([^,]+)/;
+                const matches = response[0].dn.match(dnPattern);
+                const name = matches ? matches[1] : '';
+                if (this.userExists) this.searchEmployees(name);
+                console.log(name)
+                this.selectedAdUser = name;
+                resolve();  // Resolve the promise
+            },
+            (error: HttpErrorResponse) => {
+                reject(error);  // Reject the promise
+            }
+        )
+    });
+}
 
-      }
-    )
-  }
 
   public getModules(): void {
     this.moduleService.getModules().subscribe(
@@ -210,7 +219,42 @@ export class NewAdminComponent implements OnInit {
     });
     return result; // return the result at the end of the function
   }
+  async startAdding(addUserForm: NgForm): Promise<void> {
+    try {
+    let position: string = "buttom";
+    await this.searchUsernameFromAD(addUserForm.value.adUserName);
 
+
+    this.confirmationService.confirm({
+
+      message: " From AD:  " + this.selectedAdUser + "  ,From Employee Management System:  " + this.selectedFullName ,
+      header: 'Confirm that these users are the same',
+      icon: 'pi pi-info-circle',
+      acceptLabel: " Yes",
+      rejectLabel: " No",
+      acceptVisible: true,
+      accept: () => {
+
+
+        this.addUser(addUserForm);
+
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record Created', life: 5000 });
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 5000 });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled', life: 5000 });
+            break;
+        }
+      },
+      key: 'positionDialog'
+    });    } catch (error) {
+      console.error(error);
+  }
+  }
   public addUser(addUserForm: NgForm): void {
     let time: string;
     let roles: any[];
@@ -220,10 +264,9 @@ export class NewAdminComponent implements OnInit {
     }).then((moduleRoles) => {
       roles = moduleRoles;
       const filteredRoles = roles.filter(role => role.name.includes("ADMIN"));
-
-
       const formData = new FormData();
       formData.append('username', addUserForm.value.username);
+      formData.append('adUserName', addUserForm.value.adUserName);
       formData.append('password', addUserForm.value.password);
       formData.append('active', 'true');
       formData.append('createdAt', time);
@@ -246,9 +289,7 @@ export class NewAdminComponent implements OnInit {
       if (addUserForm.value.birthDate) {
         formData.append('birthDate', addUserForm.value.birthDate.toISOString());
       }
-      if (addUserForm.value.phoneNumber) {
-        formData.append('phoneNumber', addUserForm.value.phoneNumber);
-      }
+
 
       if (this.selectedFiles1) {
 
