@@ -1,21 +1,22 @@
 <div *ngIf="newDiv">
-  <div class="container" *ngIf="!userExists">
-    <div class="centered">
-      <h2>Search Employee By Username</h2>
-      <div>
-          <div class="flex flex-wrap gap-3 mb-3">
-            <div class="flex-auto">
-              <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="username" name="username"
-              [style]="{'width':'10vw','height':'45px', 'text-align':'center'}" required class="onTop" />
-            </div>
-          </div>
+  <!-- <div class="container" *ngIf="!userExists"> -->
+  <div class="container">
+    <div class="container">
+      <div *ngIf="selectedTab1" class="centered">
+        <h2>Search Employee</h2>
+        <div>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="fullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <br>
+        <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
+          class="clickable-button"></button>
       </div>
-      <br>
-      <button pButton (click)="searchUsernameFromAD()" label="Continue" class="onTop"></button>
     </div>
   </div>
-  <form *ngIf="userExists" #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm)" required>
-    <div>
+  <form  #addUserForm="ngForm" required>
+    <div *ngIf="selectedTab2">
       <div class="flex flex-wrap gap-2 mb-4">
         <div class="flex-auto">
           <label for="alphabetic" class=" block mb-2"> Employee ID: </label>
@@ -90,11 +91,10 @@
             [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha"
              required/>
         </div>
-        <div class="flex-auto"
-          *ngIf="!!(selectedPhoneNumber == undefined)">
-          <label for="number" class=" block mb-2"> Phone number: </label>
-          <input pInputText id="number" ngModel [(ngModel)]="selectedPhoneNumber" name="phoneNumber"
-            [style]="{'width':'30vw','height':'45px'}" minlength="10" pKeyFilter="num"
+        <div class="flex-auto">
+          <label  class=" block mb-2"> AD username: </label>
+          <input pInputText  ngModel [(ngModel)]="selectedAdUser" name="adUserName"
+            [style]="{'width':'30vw','height':'45px'}" 
            required/>
         </div>
         <div class="flex-auto"
@@ -140,7 +140,9 @@
         </div>
         <div class="button-container">
           <div class="spacer"></div>
-          <button pButton type="submit" [disabled]="addUserForm.invalid" label="Create Admin"></button>
+          <p-toast></p-toast>
+          <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" position="buttom" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+          <button pButton type="submit" [disabled]="addUserForm.invalid" label="Create Admin" (click)="startAdding(addUserForm)"></button>
         </div>
       </div>
     </div>
