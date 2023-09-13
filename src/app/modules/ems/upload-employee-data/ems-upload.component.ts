@@ -14,7 +14,6 @@ export class EMSComponent {
   constructor(private emsService: EMSService) { }
 
   public ems_employee_url: string = localStorage.getItem('url_2') + `/EMS/uploadEmployeeData`
-  public ems_supervisor_url: string = localStorage.getItem('url_2') + `/EMS/uploadSupervisorData`
   public messages: Message[] = [];
   closeTimeout = 5000; // 5 seconds
   public loading: boolean = false;
