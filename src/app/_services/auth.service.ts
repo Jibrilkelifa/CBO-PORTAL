@@ -13,7 +13,7 @@ export class AuthService {
 
   ssoBathPath = 'http://10.1.11.44:8081';
   // ssoBathPath = 'http://10.1.125.58:9081';
-  emsBasePath = 'http://10.1.125.58:8082';
+  emsBasePath = 'http://10.1.11.44:8082';
   // emsBasePath = 'http://10.1.125.58:9082';
 
 
@@ -74,7 +74,7 @@ export class AuthService {
     localStorage.setItem('employeeId', resp?.user?.employee.id.toString())
     localStorage.setItem('gender', resp?.user?.employee?.gender)
     localStorage.setItem('resp', JSON.stringify(resp))
-    localStorage.setItem('email', resp?.user?.employee?.companyEmail);
+    // localStorage.setItem('email', resp?.user?.employee?.companyEmail);
     localStorage.setItem('access_token', resp?.accessToken);
     localStorage.setItem('moduleId', resp?.user?.roles[0]?.module.id.toString())    ////////need to change
     localStorage.setItem('moduleName', resp?.user?.roles[0]?.module.name)           ////////need to change
@@ -99,7 +99,7 @@ export class AuthService {
       }
     }
     localStorage.setItem('name', resp?.user?.employee?.fullName);
-    localStorage.setItem('organizationalUnitId', resp?.user?.employee?.organizationalUnit?.id.toString());  //need to change
+    localStorage.setItem('organizationalUnitId', resp?.user?.employee?.branch != null? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
   }
 
   checkIfUserIsAdmin(user: any): boolean {

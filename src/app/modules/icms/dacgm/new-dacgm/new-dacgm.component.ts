@@ -6,7 +6,7 @@ import { OrganizationalUnitService } from '../../../../services/sso-services/org
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { DACGM } from "../../../../models/icms-models/dacgm-models/dacgm";
-import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
+// import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 import { AllCategory } from 'src/app/models/icms-models/all-category';
 import { AllSubCategory } from 'src/app/models/icms-models/all-sub-category';
 import { AllIrregularity } from 'src/app/models/icms-models/all-irregularity';
@@ -26,7 +26,7 @@ import { ActivityStatus } from 'src/app/models/icms-models/dacgm-models/activity
 export class NewDACGMComponent implements OnInit {
   public dacgms: DACGM[] = [];
   public dacgm: DACGM;
-  public selectedOrganizationalUnit: OrganizationalUnit;
+  public selectedOrganizationalUnit: any;
   public selectedCategory: AllCategory;
   public selectedSubCategory: AllSubCategory;
   public selectedIrregularity: AllIrregularity;

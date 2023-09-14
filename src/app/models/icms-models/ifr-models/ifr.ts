@@ -2,7 +2,7 @@ import { SuspectedFraudsterProfession } from './suspected-fraudster-profession'
 import { CaseStatus } from './case-status'
 import { AllCategory } from '../all-category'
 import { FraudType } from './fraud-type'
-import { OrganizationalUnit } from '../../sso-models/organizational-unit';
+// import { OrganizationalUnit } from '../../sso-models/branch';
 
 export interface IFR {
   id: number,
@@ -31,5 +31,5 @@ export interface IFR {
   suspectedFraudsterProfession: SuspectedFraudsterProfession,
   otherSuspectedFraudsterProfession: string,
   otherComment: string,
-  organizationalUnit: OrganizationalUnit,
+  organizationalUnit: any,
 }

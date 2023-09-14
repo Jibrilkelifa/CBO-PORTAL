@@ -11,7 +11,7 @@ import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { DCQ } from "../../../../models/icms-models/dcq-models/dcq";
 import { ChequeType } from '../../../../models/icms-models/dcq-models/cheque-type';
 import { ActionTaken } from 'src/app/models/icms-models/dcq-models/action-taken';
-import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
+// import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class NewDCQComponent implements OnInit {
   selecteDCQType: ChequeType;
   public actionsTaken: ActionTaken[] = [];
   selectedActionTaken: ActionTaken;
-  selectedOrganizationalUnit: OrganizationalUnit;
+  selectedOrganizationalUnit: any;
   update: boolean = false;
   newDiv: boolean = true;
   public idY: number;

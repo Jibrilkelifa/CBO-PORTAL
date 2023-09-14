@@ -6,7 +6,7 @@
         <h2>Search Employee</h2>
         <div>
           <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
-            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="fullName"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="employeeFullName"
             [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
         </div>
         <br>
@@ -63,19 +63,10 @@
           <input pInputText id="ou" ngModel [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
             [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
         </div>
-        <div class="flex-auto"
-          *ngIf="!(selectedGender == null)">
+        <div class="flex-auto">
           <label class="block mb-2"> Gender: </label>
-          <div [style]="{'width':'30vw','height':'45px'}" class="flex flex-wrap gap-3">
-            <div class="flex align-items-center">
-              <p-radioButton name="gender" [(ngModel)]="selectedGender" value="Male" required></p-radioButton>
-              <label class="ml-2">Male</label>
-            </div>
-            <div class="flex align-items-center">
-              <p-radioButton name="gender" [(ngModel)]="selectedGender" value="Female" required></p-radioButton>
-              <label class="ml-2">Female</label>
-            </div>
-          </div>
+          <input pInputText id="gen" ngModel [(ngModel)]="selectedGender" name="gender"
+            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
         </div>
         <div class="flex-auto"
           *ngIf="!(selectedCompanyEmail == '' || selectedCompanyEmail == undefined)">
@@ -94,7 +85,7 @@
         <div class="flex-auto">
           <label  class=" block mb-2"> AD username: </label>
           <input pInputText  ngModel [(ngModel)]="selectedAdUser" name="adUserName"
-            [style]="{'width':'30vw','height':'45px'}" 
+            [style]="{'width':'30vw','height':'45px'}"
            required/>
         </div>
         <div class="flex-auto"
@@ -160,28 +151,6 @@
       </div>
       <div *ngIf="!isClicked">
         <p-button label="Update Password" type="button" class="updateButton mt-4" [style]="{'width':'633px'}"
-          (onClick)="changeStatus()"></p-button>
-      </div>
-      <div class="flex-auto" [hidden]="!isClicked">
-        <label for="number" class="block mb-2"> Password </label>
-        <p-password [(ngModel)]="value" ngModel [(ngModel)]="isClicked? '' : user.password" pKeyFilter="num" ngModel
-          name="password" required class="w-full" styleClass="p-password"
-          [inputStyle]="{'width':'500px','height':'45px'}" [toggleMask]="true" minlength="8">
-          <ng-template pTemplate="header">
-            <h6>Pick a password</h6>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            <p-divider></p-divider>
-            <p class="mt-2">Suggestions</p>
-            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-              <li>At least one lowercase</li>
-              <li>At least one uppercase</li>
-              <li>At least one numeric</li>
-              <li>Minimum 8 characters</li>
-            </ul>
-          </ng-template>
-        </p-password>
-        <p-button label="Dismiss" type="button" class="updateButton ml-3" [style]="{'width':'120px', 'height': '35px'}"
           (onClick)="changeStatus()"></p-button>
       </div>
     </div>

@@ -10,7 +10,7 @@ import { ConfirmationService, FilterService, Message, MessageService, PrimeNGCon
 import { CIPM } from "../../../../models/icms-models/cipm-models/cipm";
 import { CollateralType } from '../../../../models/icms-models/cipm-models/collatoral-type';
 import { IPCT } from '../../../../models/icms-models/cipm-models/ipct';
-import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
+// import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 
 @Component({
   selector: 'app-accordions',
@@ -22,7 +22,7 @@ import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-uni
 export class NewCIPMComponent implements OnInit {
   public cipms: CIPM[] = [];
   public cipm: CIPM;
-  public selectedOrganizationalUnit: OrganizationalUnit;
+  public selectedOrganizationalUnit: any;
   public cipmR: CIPM[] = [];
   selectedCIMP: CIPM;
   public collatoralTypes: CollateralType[] = [];

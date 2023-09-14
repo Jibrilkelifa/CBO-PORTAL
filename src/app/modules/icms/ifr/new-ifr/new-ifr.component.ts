@@ -15,7 +15,6 @@ import { CaseStatus } from '../../../../models/icms-models/ifr-models/case-statu
 import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
-import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
 
 @Component({
   selector: 'app-accordions',
@@ -38,7 +37,7 @@ export class NewFraudComponent implements OnInit {
   selectedFraudType: FraudType;
   public suspectedFraudsterProfessions: SuspectedFraudsterProfession[] = [];
   selectedSuspectedFraudsterProfession: SuspectedFraudsterProfession;
-  selectedOrganizationalUnit: OrganizationalUnit;
+  selectedOrganizationalUnit: any;
   fraudOccurrenceDate: Date;
   fraudDetectionDate: Date = new Date();
   update: boolean = false;

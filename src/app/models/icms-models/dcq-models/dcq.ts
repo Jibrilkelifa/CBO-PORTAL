@@ -1,6 +1,6 @@
 import { ChequeType } from './cheque-type'
 import { ActionTaken } from './action-taken'
-import { OrganizationalUnit } from '../../sso-models/organizational-unit';
+// import { OrganizationalUnit } from '../../sso-models/branch';
 
 export interface DCQ {
   datePresented: string,
@@ -14,5 +14,5 @@ export interface DCQ {
   tin: string,
   chequeType: ChequeType,
   nameOfBeneficiary: string,
-  organizationalUnit: OrganizationalUnit,
+  organizationalUnit: any,
 }

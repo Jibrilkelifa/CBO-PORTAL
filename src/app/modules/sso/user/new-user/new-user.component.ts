@@ -173,12 +173,12 @@ export class NewUserComponent implements OnInit{
     this.selectedTab2 = true;
     this.selectedTab3 = false;
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
-    this.selectedFullName = this.selectedEmployee.fullName;
-    this.selectedJobTitle = this.selectedEmployee.jobTitle.name;
-    this.selectedOrganizationalUnit = this.selectedEmployee.organizationalUnit.name;
-    this.selectedSubProcess = this.selectedEmployee.organizationalUnit.subProcess.name;
-    this.selectedProcess = this.selectedEmployee.organizationalUnit.subProcess.process.name;
-    this.selectedWorkCenter = this.selectedEmployee.organizationalUnit.subProcess.workCenter.name;
+    this.selectedFullName = this.selectedEmployee.employeeFullName;
+    this.selectedJobTitle = this.selectedEmployee.jobTitle.job.title;
+    this.selectedOrganizationalUnit = this.selectedEmployee.branch == null? this.selectedEmployee.team.externalName : this.selectedEmployee.branch.name;
+    this.selectedSubProcess = this.selectedEmployee.subProcess.name;
+    this.selectedProcess = this.selectedEmployee.process.name;
+    this.selectedWorkCenter = this.selectedEmployee.branch == null? "HO" : "DISTRICT";
   }
 
   public getEmplloyees(): void {

@@ -92,11 +92,11 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsICMSAdmin);
               this.dashboardRoute = "icms_dashboard"
               break;
-            case "ROLE_ICMS_DISTRICT":
+            case "ROLE_ICMS_DISTRICT_IC":
               this.navItems.push(navItemsICMSDistrict);
               this.dashboardRoute = "default_dashboard"
               break;
-            case "ROLE_ICMS_BRANCH":
+            case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
               this.dashboardRoute = "default_dashboard"
               break;

@@ -1,17 +1,28 @@
-import { OrganizationalUnit } from "./organizational-unit";
+import { Job } from "./job";
+import { Branch } from "./branch";
+import { Shared } from "./shared";
+import { SharedWithCode } from "./shared-with-code";
+import { Team } from "./team";
 
 export interface Employee {
   id: number;
-  employeeId : string;
+  employeeId : number;
+  employeeSapUserName : string;
   fullName : string;
-  jobTitle : string;
-  organizationalUnit : OrganizationalUnit;
   supervisorId : number;
-  personalEmail : string;
-  companyEmail : string;
-  phoneNumber : string;
+  supervisorFullName : string;
+  hrManagerId : number;
+  hrManagerFullName : string;
+  companyEntryDate : string;
+  latestPositionEntryDate : string;
+  gender : string;
+  salutation : string;
+  job : Job;
+  branch : Branch;
+  position : Shared;
+  team : Team;
+  subProcess : SharedWithCode;
+  process : SharedWithCode;
   employeeImage : string;
   signatureImage : string;
-  gender : string;
-  birthDate : string;
 }

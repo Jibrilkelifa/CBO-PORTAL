@@ -186,28 +186,6 @@
         <p-button label="Update Password" type="button" class="updateButton mt-4" [style]="{'width':'633px'}"
           (onClick)="changeStatus()"></p-button>
       </div>
-      <div class="flex-auto" [hidden]="!isClicked">
-        <label for="number" class="block mb-2"> Password </label>
-        <p-password [(ngModel)]="value" ngModel [(ngModel)]="isClicked? '' : user.password" pKeyFilter="num" ngModel
-          name="password" required class="w-full" styleClass="p-password"
-          [inputStyle]="{'width':'500px','height':'45px'}" [toggleMask]="true" minlength="8">
-          <ng-template pTemplate="header">
-            <h6>Pick a password</h6>
-          </ng-template>
-          <ng-template pTemplate="footer">
-            <p-divider></p-divider>
-            <p class="mt-2">Suggestions</p>
-            <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
-              <li>At least one lowercase</li>
-              <li>At least one uppercase</li>
-              <li>At least one numeric</li>
-              <li>Minimum 8 characters</li>
-            </ul>
-          </ng-template>
-        </p-password>
-        <p-button label="Dismiss" type="button" class="updateButton ml-3" [style]="{'width':'120px', 'height': '35px'}"
-          (onClick)="changeStatus()"></p-button>
-      </div>
     </div>
     <div class="flex flex-wrap gap-3 mb-3">
       <div class="flex-auto">
