@@ -39,7 +39,7 @@ export class EmployeeService {
   public getEmployeesByProcess(processId: number): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}sasv/authority/processes/${processId}/employees`,
+      `${this.apiServiceUrl}/sasv/authority/processes/${processId}/employees`,
       this.httpOptions
     );
   }

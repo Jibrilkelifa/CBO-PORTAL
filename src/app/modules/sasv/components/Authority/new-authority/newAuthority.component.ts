@@ -39,7 +39,7 @@ export class NewAuthorityComponent implements OnDestroy {
 
   public update: boolean = false;
 
-  public dropdownOptions = ['Organization unit', 'Sub Process', 'Process', 'Branch', 'District'];
+  public dropdownOptions = ['Sub Process', 'Process', 'District', 'Branch' ];
   public selectedDropdown: string;
   public processSelected: boolean;
 
@@ -60,7 +60,6 @@ export class NewAuthorityComponent implements OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getOrganizationalUnitList();
     this.getProcessList();
     this.getSubProcessList();
     this.getDistrictList();
@@ -87,17 +86,6 @@ export class NewAuthorityComponent implements OnDestroy {
     const selectedProcessId = event.value.id;
     this.getEmployeeslist(selectedProcessId);
     this.processSelected = true;
-  }
-
-  getOrganizationalUnitList(): void {
-    this.organizationalUnitService.getOrganizationalUnitList().subscribe(
-      (response: any) => {
-        this.organizationUnitList = response.result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
   }
 
   getProcessList(): void {

@@ -62,6 +62,8 @@ export class NewSignatureComponent implements OnDestroy {
   getEmployeeslist(processId: number): void {
     this.employeeService.getEmployeesByProcess(processId).subscribe(
       (response: any) => {
+        console.log("ttt", response);
+        
         this.employeeslist = response.result;
       },
       (error: HttpErrorResponse) => {
