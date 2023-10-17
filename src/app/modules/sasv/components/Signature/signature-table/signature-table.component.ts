@@ -34,7 +34,6 @@ export class SignatureTableComponent implements OnInit, OnDestroy {
     this.subscriptions.push(
       this.signatureService.getSignatureList().subscribe(
         (response: any) => {
-          console.log('www', response);
           this.signatureList = response.result;
         },
         (error: HttpErrorResponse) => {
