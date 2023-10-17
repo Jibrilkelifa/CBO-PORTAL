@@ -8,6 +8,8 @@ import { EmployeeService } from '../../../services/employee-service/employee.ser
 import { SignatureService } from '../../../services/signature-service/signature.service';
 import { SignatureDTO } from '../../../models/signature';
 import { Employee } from '../../../models/employee';
+import { ProcessService } from '../../../services/process-service/process.service';
+import { Process } from '../../../models/process';
 
 @Component({
   selector: 'newSignature',
@@ -17,9 +19,13 @@ import { Employee } from '../../../models/employee';
 })
 export class NewSignatureComponent implements OnDestroy {
   public employeeslist: Employee[] = [];
+  public processList: Process[] = [];
 
   public signatureInfo: SignatureDTO = new SignatureDTO();
   selectedUniverseInfo: SignatureDTO;
+
+  public processSelected: boolean;
+
 
   selectedFile: any;
   imageURL: string;
@@ -30,28 +36,44 @@ export class NewSignatureComponent implements OnDestroy {
     private messageService: MessageService,
     private signatureService: SignatureService,
     private employeeService: EmployeeService,
+    private processService: ProcessService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig
   ) {}
 
   ngOnInit() {
-    this.getEmployeeslist();
+    this.getProcessList();
     if (this.config.data?.auditUniverse) {
       this.signatureInfo = this.config.data.auditUniverse;
     }
   }
 
-  getEmployeeslist(): void {
-    this.employeeService.getEmployeesList().subscribe(
+  getProcessList(): void {
+    this.processService.getProcessList().subscribe(
       (response: any) => {
-        console.log("oooo", response);
-        
+        this.processList = response.result;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+  
+  getEmployeeslist(processId: number): void {
+    this.employeeService.getEmployeesByProcess(processId).subscribe(
+      (response: any) => {
         this.employeeslist = response.result;
       },
       (error: HttpErrorResponse) => {
         console.log(error);
       }
     );
+  }
+
+  onProcessChange(event: any): void {
+    const selectedProcessId = event.value.id;
+    this.getEmployeeslist(selectedProcessId);
+    this.processSelected = true;
   }
 
   addSignature(addDivForm: NgForm): void {

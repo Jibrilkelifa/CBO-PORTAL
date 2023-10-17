@@ -15,7 +15,7 @@ export class EmployeeService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://10.1.125.58:8085';
+    this.apiServiceUrl = 'http://10.1.125.58:8099';
   }
 
   constructor(private http: HttpClient) {}
@@ -32,6 +32,14 @@ export class EmployeeService {
     this.init();
     return this.http.get<any>(
       `${this.apiServiceUrl}/sasv/authority/employees`,
+      this.httpOptions
+    );
+  }
+  
+  public getEmployeesByProcess(processId: number): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}sasv/authority/processes/${processId}/employees`,
       this.httpOptions
     );
   }

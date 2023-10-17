@@ -21,6 +21,7 @@
     dataKey="id"
     [rows]="5"
     [globalFilterFields]="[
+      'organizationalUnit.name',
       'process.name',
       'subProcess.name',
       'district.name',
@@ -35,6 +36,11 @@
         <th pSortableColumn="id">ID</th>
         <th pSortableColumn="employee.name">
           Employee name<p-sortIcon field="employee.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="organizationalUnit.name">
+          Organizational unit<p-sortIcon
+            field="organizationalUnit.name"
+          ></p-sortIcon>
         </th>
         <th pSortableColumn="subProcess.name">
           Sub process<p-sortIcon field="subProcess.name"></p-sortIcon>
@@ -59,6 +65,12 @@
           tooltipPosition="bottom"
         >
           {{ authorityList?.employee?.fullName }}
+        </td>
+        <td
+          pTooltip="{{ authorityList?.organizationalUnit?.name }}"
+          tooltipPosition="bottom"
+        >
+          {{ authorityList?.organizationalUnit?.name }}
         </td>
         <td
           pTooltip="{{ authorityList?.subProcess?.name }}"

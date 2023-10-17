@@ -5,11 +5,12 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { EmployeeService } from '../../../services/employee-service/employee.service';
-import { SignatureService } from '../../../services/signature-service/signature.service';
 import { SignatureDTO } from '../../../models/signature';
 import { Employee } from '../../../models/employee';
+import { OrganizationalUnitService } from '../../../services/organizationalUnit-service/organizationalunit.service';
 import { SubProcessService } from '../../../services/subprocess-service/subprocess.service';
 import { ProcessService } from '../../../services/process-service/process.service';
+import { OrganizationalUnit } from '../../../models/organizationalunit';
 import { SubProcess } from '../../../models/subProcess';
 import { Process } from '../../../models/process';
 import { AuthorityDTO } from '../../../models/authority';
@@ -26,6 +27,7 @@ import { DistrictService } from '../../../services/district-service/district.ser
   providers: [MessageService, ConfirmationService],
 })
 export class NewAuthorityComponent implements OnDestroy {
+  public organizationUnitList: OrganizationalUnit[] = [];
   public subProcessList: SubProcess[] = [];
   public processList: Process[] = [];
   public employeeslist: Employee[] = [];
@@ -37,14 +39,17 @@ export class NewAuthorityComponent implements OnDestroy {
 
   public update: boolean = false;
 
-  public dropdownOptions = ['Sub Process', 'Process', 'Branch/Team', 'District'];
+  public dropdownOptions = ['Organization unit', 'Sub Process', 'Process', 'Branch', 'District'];
   public selectedDropdown: string;
+  public processSelected: boolean;
+
 
   private subscriptions: Subscription[] = [];
 
   constructor(
     private messageService: MessageService,
     private authorityService: AuthorityService,
+    private organizationalUnitService: OrganizationalUnitService,
     private subProcessService: SubProcessService,
     private processService: ProcessService,
     private employeeService: EmployeeService,
@@ -52,25 +57,42 @@ export class NewAuthorityComponent implements OnDestroy {
     private districtService: DistrictService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig
-  ) { }
+  ) {}
 
   ngOnInit() {
+    this.getOrganizationalUnitList();
     this.getProcessList();
     this.getSubProcessList();
-    this.getEmployeeslist();
     this.getDistrictList();
     this.getBranchList();
     if (this.config.data?.authority) {
-      this.authorityInfo = this.config.data.authority;
+      this.authorityInfo = this.config.data.authority;      
       this.update = true;
     }
     this.identifyUpdateDropdown(this.authorityInfo);
   }
 
-  getEmployeeslist(): void {
-    this.employeeService.getEmployeesList().subscribe(
+  getEmployeeslist(processId: number): void {
+    this.employeeService.getEmployeesByProcess(processId).subscribe(
       (response: any) => {
         this.employeeslist = response.result;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+
+  onProcessChange(event: any): void {
+    const selectedProcessId = event.value.id;
+    this.getEmployeeslist(selectedProcessId);
+    this.processSelected = true;
+  }
+
+  getOrganizationalUnitList(): void {
+    this.organizationalUnitService.getOrganizationalUnitList().subscribe(
+      (response: any) => {
+        this.organizationUnitList = response.result;
       },
       (error: HttpErrorResponse) => {
         console.log(error);
@@ -130,7 +152,7 @@ export class NewAuthorityComponent implements OnDestroy {
     }
   }
 
-  addAuthority(addDivForm: NgForm): void {
+  addAuthority(addDivForm: NgForm): void {    
     this.subscriptions.push(
       this.authorityService
         .createAuthority(addDivForm.value)
@@ -154,17 +176,20 @@ export class NewAuthorityComponent implements OnDestroy {
     );
   }
 
-  identifyUpdateDropdown(authorityData: AuthorityDTO) {
-    if (authorityData.subProcess) {
+  identifyUpdateDropdown(authorityData: AuthorityDTO){
+    if(authorityData.organizationalUnit){
+      this.selectedDropdown = "Organization unit";
+    }
+    else if(authorityData.subProcess){
       this.selectedDropdown = "Sub Process";
     }
-    else if (authorityData.process) {
+    else if(authorityData.process){
       this.selectedDropdown = "Process";
     }
-    else if (authorityData.branch) {
+    else if(authorityData.branch){
       this.selectedDropdown = "Branch";
     }
-    else if (authorityData.district) {
+    else if(authorityData.district){
       this.selectedDropdown = "District";
     }
   }

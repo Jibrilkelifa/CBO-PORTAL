@@ -16,7 +16,7 @@ export class AuthorityService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://10.1.125.58:8085';
+    this.apiServiceUrl = 'http://10.1.125.58:8099';
   }
 
   constructor(private http: HttpClient) {}
