@@ -48,7 +48,6 @@ export class NewAuthorityComponent implements OnDestroy {
   constructor(
     private messageService: MessageService,
     private authorityService: AuthorityService,
-    private organizationalUnitService: OrganizationalUnitService,
     private subProcessService: SubProcessService,
     private processService: ProcessService,
     private employeeService: EmployeeService,
