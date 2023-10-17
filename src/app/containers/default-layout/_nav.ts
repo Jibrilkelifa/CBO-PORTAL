@@ -420,76 +420,65 @@ navItemsECXUser = {
 }
 
 navItemsSASVAdmin = {
-  name: 'Signature & Stamp',
-  url: '/SASV',
-  iconComponent: { name: 'cil-folder-open' },
+  name: "Signature & Stamp",
+  url: "/sasv",
+  iconComponent: { name: "cil-folder-open" },
   children: [
     {
-      name: 'User',
-      url: '/SASV/user',
+      name: "User",
+      url: "/sasv/user",
       children: [
         {
-          name: 'New',
-          url: '/SASV/user/addUser',
+          name: "New",
+          url: "/sasv/user/addUser",
         },
         {
-          name: 'Table',
-          url: '/SASV/user/viewUsers',
+          name: "Table",
+          url: "/sasv/user/viewUsers",
         },
-      ]
+      ],
     },
     {
-      name: 'Authority',
-      url: '/SASV/authority',
+      name: "Admin",
+      url: "/sasv",
       children: [
         {
-          name: 'New',
-          url: '/SASV/authority/newAuthority'
+          name: "Signature",
+          url: "/sasv/signature-table",
         },
         {
-          name: 'Table',
-          url: '/SASV/authority/authorityTable'
+          name: "Stamp",
+          url: "/sasv/stamp-table",
         },
-      ]
+        {
+          name: "Authority",
+          url: "/sasv/authority-table",
+        },
+      ],
     },
 
-  ]
-}
-
+  ],
+};
 navItemsSASVUser = {
   name: 'Signature & Stamp',
-  url: '/SASV',
-  children: [
-    {
-      name: 'Signature and Stamp',
-      url: '/SASV/userPage',
-    },
-  ]
+  url: '/sasv/user-view',
+ 
 }
+
 
 navItemsMemoAdmin = {
   name: 'Memo',
-  url: '/memo',
-  iconComponent: { name: 'cil-envelope-closed' },
+  url: '/Memo',
   children: [
     {
-      name: 'User',
-      url: '/memo/user',
-      children: [
-        {
-          name: 'New',
-          url: '/memo/user/addUser',
-        },
-        {
-          name: 'Table',
-          url: '/memo/user/viewUsers',
-        },
-      ]
+      name: 'New Memo',
+      url: '/Memo/newMemo',
     },
     {
       name: 'Search Memo',
       url: '/Memo/searchMemo',
     },
+
   ]
 }
 

@@ -1,0 +1,29 @@
+:host ::ng-deep .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  background: #3b82f6;
+  color: white;
+  font-size: 24px;
+}
+
+::ng-deep .p-dialog {
+  border: 1px solid #3b82f6;
+  animation: fadeIn 0.5s, fadeOut 0.5s;
+}
+
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+  color: white;
+}
+
+p-button {
+  padding: 0.5em;
+}
+
+::ng-deep .p-tooltip {
+  max-width: 800px !important;
+}

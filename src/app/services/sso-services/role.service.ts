@@ -26,6 +26,11 @@ export class RoleService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/role/all/${moduleName}`, this.httpOptions)
   }
+
+  public getEveryRole(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/role/getRoles`, this.httpOptions)
+  }
   public addRole(role: Role): Observable<any> {
     this.init();
     return this.http.post<Role>(`${this.apiServiceUrl}/role/add`, role, this.httpOptions)

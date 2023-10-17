@@ -12,7 +12,6 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
-
 export class MemoService {
 
   private apiServerUrl = localStorage.getItem("url_6");;
@@ -20,11 +19,13 @@ export class MemoService {
   memos: Memo;
 
   constructor(private http: HttpClient) { }
+
   public getMemos(): Observable<Memo[]> {
     return this.http.get<Memo[]>(`${this.apiServerUrl}/api/memos`, httpOptions);
   }
-  public getMemosById(memoId: number): Observable<Memo> {
-    return this.http.get<Memo>(`${this.apiServerUrl}/api/memos/${memoId}`, httpOptions);
+  public getMemosById(memoId: number): Observable<any> {
+    
+    return this.http.get<any>(`${this.apiServerUrl}/api/memos/${memoId}`, httpOptions);
   }
 
   public addMemos(memo: Memo): Observable<Memo> {

@@ -88,4 +88,8 @@ export class EmployeeService {
     this.init();
     return this.http.delete<void>(`${this.apiServiceUrl}/employee/delete/${employeeId}`, this.httpOptions)
   }
+  getAllSubProcess(): Observable<any>{
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getAllSubProcessList`, this.httpOptions)
+  }
 }

@@ -6,6 +6,9 @@ import html2canvas from 'html2canvas';
 import { EmployeeService } from 'src/app/services/sso-services/employee.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { AuthService } from 'src/app/_services/auth.service';
+
+
 
 @Component({
   selector: 'app-default-header',
@@ -23,6 +26,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   public newMessages = new Array(4)
   public newTasks = new Array(5)
   public newNotifications = new Array(5)
+ 
 
   display: boolean = false;
   roles = JSON.parse(localStorage.getItem("allRoles"));
@@ -31,18 +35,24 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.display = true;
   }
 
-  constructor(private classToggler: ClassToggleService, private router: Router, private employeeService: EmployeeService, private sanitizer: DomSanitizer) {
+
+  constructor(private classToggler: ClassToggleService, private router: Router, private employeeService: EmployeeService, private sanitizer: DomSanitizer, private authService:AuthService) {
     super();
   }
 
   ngOnInit() {
-    this.user = localStorage.getItem('name');
+
     this.getDefaultAvatar();
+    this.user = localStorage.getItem('name');
+
+  
   }
+
   logout() {
     localStorage.clear();
     this.router.navigate(['login']);
   }
+
 
 
   public downloadPDF() {
@@ -94,6 +104,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
         }
       }
     );
+    console
   }
 }
 

@@ -18,6 +18,10 @@ $enable-rtl: true;
 // Prism.js
 @import "examples";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .small-button .p-button {
     font-size: 8px;
     padding: 1px 1px;
@@ -30,3 +34,4 @@ $enable-rtl: true;
 .indent-2 {
   text-indent: 2em;
 }
+

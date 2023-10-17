@@ -23,6 +23,4 @@ export interface Employee {
   team : Team;
   subProcess : SharedWithCode;
   process : SharedWithCode;
-  employeeImage : string;
-  signatureImage : string;
 }

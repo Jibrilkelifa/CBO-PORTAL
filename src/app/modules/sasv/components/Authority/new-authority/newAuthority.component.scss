@@ -1,0 +1,29 @@
+host {
+  #exampleColorInput {
+    min-width: 2.5rem;
+  }
+  .color-box {
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+}
+
+.block {
+  display: block;
+}
+
+::ng-deep .p-dropdown-items{
+  width: 250px;
+}
+
+::ng-deep .p-dropdown-clearable{
+  width: 250px;
+}
+
+::ng-deep .p-dropdown{
+  width: 250px;
+}
+
+::ng-deep .p-tooltip {
+  max-width: 800px !important;
+}

@@ -13,9 +13,12 @@ export class SearchComponent {
   public memo: Memo;
   constructor(private memoService: MemoService, private router: Router) { }
   public getMemosById(x: any): void {
-    this.memoService.getMemosById(x).subscribe((response: Memo) => {
+  
+    this.memoService.getMemosById(x).subscribe((response: any) => {
+  
       this.memo = response;
       this.memoService.memos = response;
+
 
     },
       (error: HttpErrorResponse) => {

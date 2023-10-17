@@ -8,6 +8,7 @@ import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { EmployeeService } from '../../../services/sso-services/employee.service';
 import { Employee } from '../../../models/sso-models/employee';
+import { SubProcess } from '../../../models/sasv-models/subProcess';
 
 @Component({
   selector: 'app-memo',
@@ -30,23 +31,22 @@ export class MemoComponent extends HeaderComponent {
 
   postMemo = {} as Memo;
   ngOnInit() {
+    console.log(localStorage.getItem('id')," this is aaayidi");
     this.ldivision = localStorage.getItem('division');
+    this.getAllSubProcess();
   }
   constructor(private templates: Templates, private employeeService: EmployeeService, private memoService: MemoService, private router: Router, private template: Templates, private classToggler: ClassToggleService) { super() };
+  subprocesslist: SubProcess[] = [];
 
+  selectedSubprocess: SubProcess;
+  
   ckeditorContent: string;
   public Editor = ClassicEditor;
   public date: Date;
   public values = [];
   public nvalues = [];
   public dateTime = new Date();
-  public sendTo = [
-    { name: "HTML" },
-    { name: "ReactJS" },
-    { name: "Angular" },
-    { name: "Bootstrap" },
-    { name: "PrimeNG" },
-  ];
+
   value;
   //Array of all available templates
   tempArray = this.template.templateArray;
@@ -63,6 +63,16 @@ export class MemoComponent extends HeaderComponent {
       }
     );
   }
+  public getAllSubProcess(): void {
+    this.employeeService.getAllSubProcess().subscribe(
+      (response: SubProcess[]) => {
+        this.subprocesslist = response;
+      },
+      (errors: HttpErrorResponse) => {
+
+      }
+    );
+  }
 
   addMemo(data: any) {
 
@@ -70,6 +80,7 @@ export class MemoComponent extends HeaderComponent {
     data.value.sendate = now;
     data.value.toTo = data.value.toTo.name;
     data.value.fromFrom = localStorage.getItem("name");
+    data.value.senderId =  localStorage.getItem('id');
 
     let carbonCopies: string = "";
     for (const element of data.value.ncarbonCopy) {
@@ -83,7 +94,7 @@ export class MemoComponent extends HeaderComponent {
       (response: Memo) => {
         this.memoService.getMemos();
         this.memoService.memos = response;
-        this.router.navigate(['Memo/letter']);
+        this.router.navigate(['Memo/letter'],{state:{response}});
       },
       (error: HttpErrorResponse) => {
 

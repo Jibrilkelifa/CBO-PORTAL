@@ -7,38 +7,39 @@
             placeholder="Date" name="curdate" [minDate]="dateTime" [(ngModel)]="date" ngModel
             [required]="true"></p-calendar>
           <br>
-          <!-- <div class="flex-auto">
-            <p-dropdown [style]="{'min-width':'500px', 'margin':'10px' , 'height': '45px'}" [options]="division"
-              id="divisions" class="divisions" name="toTo" ngModel [(ngModel)]="selectedDivision" optionLabel="name"
+          <div class="flex-auto">
+            <p-dropdown [style]="{'min-width':'500px', 'margin':'10px' , 'height': '45px'}" [options]="subprocesslist"
+              id="divisions" class="divisions" name="toTo" ngModel [(ngModel)]="selectedSubprocess" optionLabel="name"
               placeholder="Select Division" [required]="true">
               <ng-template pTemplate="selectedItem">
-                <div class="flex align-items-center gap-2" *ngIf="selectedDivision">
-                  <div>{{selectedDivision.name}}</div>
+                <div class="flex align-items-center gap-2" *ngIf="selectedSubprocess">
+                  <div>{{selectedSubprocess.name}}</div>
                 </div>
               </ng-template>
-              <ng-template let-divisioned pTemplate="item">
+              <ng-template let-subprocess pTemplate="item">
                 <div class="flex align-items-center gap-2">
-                  <div>{{divisioned.name}}</div>
+                  <div>{{subprocess.name}}</div>
                 </div>
               </ng-template>
             </p-dropdown>
-          </div> -->
-          <!-- <div class="div">
-            <p-multiSelect [style]="{'width':'500px', 'margin':'10px 10px 0 10px'}" [options]="division"
+          </div>
+          
+          <div class="div">
+            <p-multiSelect [style]="{'width':'500px', 'margin':'10px 10px 0 10px'}" [options]="subprocesslist"
               [(ngModel)]="nvalues" placeholder="Cc" optionLabel="name" name="ncarbonCopy" type="text" ngModel
               [required]="true">
               <ng-template pTemplate="selectedItem">
-                <div class="flex align-items-center gap-2" *ngIf="selectedDivision">
-                  <div>{{selectedDivision.name}}</div>
+                <div class="flex align-items-center gap-2" *ngIf="selectedSubprocess">
+                  <div>{{selectedSubprocess.name}}</div>
                 </div>
               </ng-template>
-              <ng-template let-divisioned pTemplate="item">
+              <ng-template let-subprocess pTemplate="item">
                 <div class="flex align-items-center gap-2">
-                  <div>{{divisioned.name}}</div>
+                  <div>{{subprocess.name}}</div>
                 </div>
               </ng-template>
             </p-multiSelect>
-          </div> -->
+          </div>
           <br>
         </div>
         <div class="group">

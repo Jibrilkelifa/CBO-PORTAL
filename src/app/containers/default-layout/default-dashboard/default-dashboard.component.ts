@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+
 interface IUser {
   name: string;
   state: string;
@@ -38,11 +39,15 @@ export class DefaultDashboardComponent implements OnInit {
   nowsec: number;
 
   ngOnInit(): void {
+    console.log(localStorage.getItem('name'))
     if (!localStorage.getItem('isReloaded')) {
       localStorage.setItem('isReloaded', 'true');
       window.location.reload();
     } else {
       localStorage.removeItem('isReloaded');
     }
+    console.log(localStorage.getItem('access_token'));
+    console.log(localStorage.getItem('gender'));
   }
+  
 }

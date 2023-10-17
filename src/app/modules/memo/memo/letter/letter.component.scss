@@ -128,7 +128,7 @@ hr {
 
 .ref {
   width: 100%;
-  margin: 0 90px 0 0;
+  margin: 0 90px 0 40%;
 }
 
 .ending {
@@ -137,7 +137,7 @@ hr {
   display: flex;
   align-items: center;
   margin: 0 20px 0 20px;
-
+  
 }
 
 .theline {
@@ -146,28 +146,43 @@ hr {
   height: 3px;
 }
 
-.ending>div>p {
-  margin: 0 10px 0 10px;
+.ending > div {
+  display: flex;
+  align-items: center;
+}
+
+.ending > div > p {
+  margin: -13px 10px 0 10px;
+}
+
+.ending > div > p > em {
   font-size: 16pt;
   font-family: Arial, Helvetica, sans-serif;
   color: #00AEEF;
 }
 
-@media print {
 
-  .mcontainer,
-  body * {
-    visibility: hidden;
-  }
 
-  #content * {
-    visibility: visible;
-
-  }
-
-  #content {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
+.signatureImage{
+  width: 200px;
+ 
 }
+
+// @media print {
+
+//   .mcontainer,
+//   body * {
+//     visibility: hidden;
+//   }
+
+//   #content * {
+//     visibility: visible;
+
+//   }
+
+//   #content {
+//     position: absolute;
+//     left: 0;
+//     top: 0;
+//   }
+// }

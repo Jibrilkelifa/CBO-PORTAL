@@ -37,6 +37,7 @@
           </tr>
         </table>
       </div>
+      <br>
       <hr>
 
 
@@ -46,7 +47,12 @@
       <div class="last">
         <div class="closing">
           Regards
-          <img src="/assets/signature.png" alt="">
+          <img style="width: 200px; "
+          class="w-24 h-24 "
+          [src]="dbSignImage"
+          alt="signatureImage"
+        />
+          <!-- <img [src]="signatureImageUrl" alt=""> -->
         </div>
         <div class="ref">
           Reference No: {{refno}}
@@ -67,10 +73,10 @@
   </div>
   <div class="buttons">
 
-    <p-button (click)="downloadPDF()" label="Print" type="submit"
+    <p-button (click)="downloadPDF()" label="Print" 
       [style]="{'width':'500px','margin':'10px', 'background-color': '#00AEEF'}"></p-button>
 
-
+      <!-- type="submit" -->
   </div>
 
 

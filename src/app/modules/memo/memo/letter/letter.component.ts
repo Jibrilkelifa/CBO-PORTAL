@@ -2,6 +2,9 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { MemoService } from 'src/app/services/memo-services/memo.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { SignatureService } from 'src/app/modules/sasv/services/signature-service/signature.service';
+import { SignatureDTO } from 'src/app/modules/sasv/models/signature';
 
 @Component({
   selector: 'app-letter',
@@ -9,17 +12,48 @@ import { MemoService } from 'src/app/services/memo-services/memo.service';
   styleUrls: ['./letter.component.scss']
 })
 export class LetterComponent {
+  dbSignImage: any;
+  postResponse: any;
 
-  constructor(private memoService: MemoService) { };
+  constructor(private memoService: MemoService,private http: HttpClient,private signatureService: SignatureService,) { };
+  refno: number;
+  curdate: Date ;
+  sendate: Date ;
+  to: string ;
+  from: string ;
+  cc: string ;
+  subject: string ;
+  body: string;
+  id:number ;
+  ngOnInit(): void {
 
-  refno: number = this.memoService.memos.refnom;
-  curdate: Date = this.memoService.memos.curdate;
-  sendate: Date = this.memoService.memos.sendate;
-  to: string = this.memoService.memos.toTo;
-  from: string = this.memoService.memos.fromFrom;
-  cc: string = this.memoService.memos.carbonCopy;
-  subject: string = this.memoService.memos.subject;
-  body: string = this.memoService.memos.body;
+    this.refno = this.memoService.memos.refnom;
+    this.curdate = this.memoService.memos.curdate;
+    this.sendate = this.memoService.memos.sendate;
+    this.to= this.memoService.memos.toTo;
+    this.from= this.memoService.memos.fromFrom;
+    this.cc = this.memoService.memos.carbonCopy;
+    this.subject= this.memoService.memos.subject;
+    this.body = this.memoService.memos.body;
+    this.id = this.memoService.memos.senderId;
+      
+      this.getSignatureImage( this.id);
+    
+  }
+  public getSignatureImage(id: number) {
+    this.signatureService.getSignatureImageByEmployee(id).subscribe(
+      (response: SignatureDTO) => {
+        this.postResponse = response;
+        this.dbSignImage =
+          'data:image/jpeg;base64,' + this.postResponse.signature;
+      },
+      (error: HttpErrorResponse) => {}
+    );
+  }
+
+  
+
+
 
   @ViewChild('content', { static: false }) el!: ElementRef
 
@@ -47,7 +81,7 @@ export class LetterComponent {
       pdf.addImage(contentDataURL, 'PNG', 0, position, imgWidth, imgHeight);
       pdf.save('test.pdf');
     });
-    content.classList.remove('bring-to-front');
+    // content.classList.remove('bring-to-front');
 
   }
 }

@@ -24,10 +24,10 @@ const routes: Routes = [
 
     children: [
       {
-        path: 'updateAccount/:id', component: NewAccountComponent, data: {title: 'Account / Update Account'}
+        path: 'updateAccount/:id', component: NewAccountComponent, data: { title: 'Account / Update Account' }
       },
       {
-        path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: {title: 'History / Update History'}
+        path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: { title: 'History / Update History' }
       },
       {
         path: 'updateCIPM/:id', component: NewCIPMComponent, data: { title: 'CIPM / Update CIPM' }
@@ -87,10 +87,11 @@ const routes: Routes = [
           import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
       {
-        path: 'SASV/user',
+        path: "sasv/user",
         loadChildren: () =>
-          import('./modules/sso/user/user.module').then((m) => m.UserModule)
+          import("./modules/sso/user/user.module").then((m) => m.UserModule),
       },
+
       {
         path: 'CC/user',
         loadChildren: () =>
@@ -102,10 +103,11 @@ const routes: Routes = [
           import('./modules/sso/module/module.module').then((m) => m.ModuleModule)
       },
       {
-        path: 'SASV/authority',
+        path: 'sasv',
         loadChildren: () =>
-          import('./modules/sasv/authority/authority.module').then((m) => m.AuthorityModule)
+          import('./modules/sasv/sasv.module').then((m) => m.SASVModule),
       },
+
       {
         path: 'ICMS/CIPM',
         loadChildren: () =>
@@ -131,11 +133,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/cc/cc.module').then((m) => m.CCModule)
       },
-      {
-        path: 'sasvViewerLogin',
-        loadChildren: () =>
-          import('./modules/sasv/sasv-viewer/sasv-viewer-login.module').then((m) => m.sasvViewerLoginModule)
-      },
+  
       {
         path: 'ecx/account',
         loadChildren: () =>

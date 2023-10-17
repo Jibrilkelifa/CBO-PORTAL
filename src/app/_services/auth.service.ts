@@ -3,6 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, retry, throwError } from 'rxjs';
 import { JwtResponse } from '../models/sso-models/Jwt-response';
+import { Employee } from '../models/sso-models/employee';
+import { BehaviorSubject } from 'rxjs';
+import { EMSService } from '../services/ems-services/ems-services.service';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +16,16 @@ export class AuthService {
 
   // API path
 
-  ssoBathPath = 'http://10.1.11.44:8081';
+  ssoBathPath = 'http://localhost:8081';
   // ssoBathPath = 'http://10.1.125.58:9081';
-  emsBasePath = 'http://10.1.11.44:8082';
+  emsBasePath = 'http://localhost:8082';
   // emsBasePath = 'http://10.1.125.58:9082';
 
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private emsService:EMSService
   ) { }
 
   // Http Options
@@ -54,25 +60,24 @@ export class AuthService {
       );
   }
 
+  userData = new BehaviorSubject<any>(null);
   // After login save token and other values(if any) in localStorage
-  setUser(resp: JwtResponse) {
-    const role = resp?.user?.roles[0]?.name;
-
-    if (role) {
-        if (this.checkModule(resp?.user, "CC")) {
-          this.router.navigate(['cc_dashboard']);
-        } else if (this.checkModule(resp?.user, "ICMS")) {
-          this.router.navigate(['icms_dashboard']);
-        } else if (this.checkModule(resp?.user, "CMS")) {
-          this.router.navigate(['cms_dashboard']);
-        } else {
-          this.router.navigate(['default_dashboard']); // changed later
-        }
-    }
+  async setUser(resp: JwtResponse) {
+   
+   
     localStorage.clear();
-    localStorage.setItem('userId', resp?.user?.id.toString())
-    localStorage.setItem('employeeId', resp?.user?.employee.id.toString())
-    localStorage.setItem('gender', resp?.user?.employee?.gender)
+
+       // Get employee by ID
+       const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
+
+
+
+    
+
+    localStorage.setItem('gender', employee?.gender);
+    localStorage.setItem('name', employee?.employeeFullName);
+    localStorage.setItem('id', employee?.id);
+    localStorage.setItem('userId', resp?.user?.id.toString());
     localStorage.setItem('resp', JSON.stringify(resp))
     // localStorage.setItem('email', resp?.user?.employee?.companyEmail);
     localStorage.setItem('access_token', resp?.accessToken);
@@ -98,9 +103,26 @@ export class AuthService {
         localStorage.setItem('url_' + (resp?.user?.roles[i - 3].module.id), resp?.user?.roles[i - 3].module.url);
       }
     }
-    localStorage.setItem('name', resp?.user?.employee?.fullName);
-    localStorage.setItem('organizationalUnitId', resp?.user?.employee?.branch != null? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
+   
+    // localStorage.setItem('organizationalUnitId', resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
+
+    const role = resp?.user?.roles[0]?.name;
+
+  if (role) {
+    if (this.checkModule(resp?.user, "CC")) {
+      await this.router.navigate(['cc_dashboard']);
+    } else if (this.checkModule(resp?.user, "ICMS")) {
+      await this.router.navigate(['icms_dashboard']);
+    } else if (this.checkModule(resp?.user, "CMS")) {
+      await this.router.navigate(['cms_dashboard']);
+    } else {
+      await this.router.navigate(['default_dashboard']); // changed later
+    }
   }
+  }
+
+
+  
 
   checkIfUserIsAdmin(user: any): boolean {
     if (user?.roles?.length > 0) {

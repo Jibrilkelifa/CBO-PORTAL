@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Employee } from 'src/app/models/sso-models/employee';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,11 @@ export class EMSService {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post<any>(`${this.apiServiceUrl}/EMS/uploadEmployeeData`, formData, this.httpOptions);
+  }
+
+  getEmployeeById(id: number): Observable<any> {
+    this.init();
+    return this.http.get<Employee>(`http://localhost:8082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
+
   }
 }

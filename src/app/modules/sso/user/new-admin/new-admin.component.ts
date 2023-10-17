@@ -37,6 +37,7 @@ export class NewAdminComponent implements OnInit {
   value: string;
   selectedModules: Module[];
   selectedEmployee: any;
+  selectedRole: Role[];
   selectedState: boolean;
   project: any = {};
   isClicked: boolean = false;
@@ -59,7 +60,7 @@ export class NewAdminComponent implements OnInit {
   selectedPhoneNumber: string;
   selectedPersonalEmail: string;
   selectedAdUser: string;
-
+  fullName: string;
   selectedCompanyEmail: string;
   selectedDateOfBirth: string;
   selectedGender: boolean;
@@ -97,6 +98,7 @@ export class NewAdminComponent implements OnInit {
   ngOnInit() {
     this.populateRoles();
     this.getModules();
+    this.getRoles();
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
 
@@ -134,6 +136,7 @@ export class NewAdminComponent implements OnInit {
   }
 
   getEmployeeData(event: any) {
+
     const searchTerm = event.query;
     if (searchTerm.length == 0) {
       this.previousTerm = "";
@@ -143,6 +146,9 @@ export class NewAdminComponent implements OnInit {
         (response: any) => {
           this.searchedEmployees = response;
           this.baseVariable = this.searchedEmployees;
+
+
+
         }
       )
     }
@@ -169,6 +175,7 @@ export class NewAdminComponent implements OnInit {
         (response: any) => {
           this.searchedEmployees = response;
           this.selectedEmployee = this.searchedEmployees[0];
+          console.log(this.selectedEmployee.organizationalUnit)
           this.populateEmployeeData();
         },
         (error: HttpErrorResponse) => {
@@ -188,7 +195,7 @@ export class NewAdminComponent implements OnInit {
           const name = matches ? matches[1] : '';
           if (this.userExists) this.searchEmployees(name);
           console.log(name)
-          this.selectedAdUser = name;
+          this.fullName = name;
           resolve();  // Resolve the promise
         },
         (error: HttpErrorResponse) => {
@@ -203,6 +210,16 @@ export class NewAdminComponent implements OnInit {
     this.moduleService.getModules().subscribe(
       (response: Module[]) => {
         this.modules = response.filter(module => module.id !== 1);
+      },
+      (error: HttpErrorResponse) => {
+
+      }
+    );
+  }
+  public getRoles(): void {
+    this.roleService.getEveryRole().subscribe(
+      (response: Role[]) => {
+        this.roles = response;
       },
       (error: HttpErrorResponse) => {
 
@@ -227,7 +244,7 @@ export class NewAdminComponent implements OnInit {
 
       this.confirmationService.confirm({
 
-        message: " From AD:  " + this.selectedAdUser.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName,
+        message: " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName,
         header: 'Confirm that these users are the same',
         icon: 'pi pi-info-circle',
         acceptLabel: " Yes",
@@ -266,33 +283,14 @@ export class NewAdminComponent implements OnInit {
       roles = moduleRoles;
       const filteredRoles = roles.filter(role => role.name.includes("ADMIN"));
       const formData = new FormData();
-      formData.append('username', addUserForm.value.username);
-      formData.append('adUserName', addUserForm.value.adUserName);
+
+      formData.append('username', addUserForm.value.adUserName);
       formData.append('active', 'true');
       formData.append('createdAt', time);
       formData.append('updatedAt', time);
-      formData.append('employeeId', addUserForm.value.employeeId);
-      formData.append('fullName', addUserForm.value.fullName);
-      formData.append('jobTitle', addUserForm.value.jobTitle);
-      formData.append('process', addUserForm.value.process);
-      formData.append('subProcess', addUserForm.value.subProcess);
-      formData.append('workCenter', addUserForm.value.workCenter);
-      if (addUserForm.value.personalEmail) {
-        formData.append('personalEmail', addUserForm.value.personalEmail);
-      }
-      if (addUserForm.value.companyEmail) {
-        formData.append('companyEmail', addUserForm.value.companyEmail);
-      }
-      if (addUserForm.value.gender) {
-        formData.append('gender', addUserForm.value.gender);
-      }
-      if (addUserForm.value.birthDate) {
-        formData.append('birthDate', addUserForm.value.birthDate.toISOString());
-      }
-
+      formData.append('id', addUserForm.value.employeeId);
 
       if (this.selectedFiles1) {
-
         formData.append('employeeImage', this.selectedFiles1);
         this.selectedFiles1 = undefined;
       }
@@ -301,12 +299,16 @@ export class NewAdminComponent implements OnInit {
         formData.append('signatureImage', this.selectedFiles2);
         this.selectedFiles2 = undefined;
       }
-      formData.append('roles', new Blob([JSON.stringify(filteredRoles)], { type: 'application/json' }));
-      formData.append('organizationalUnit', new Blob([JSON.stringify(this.selectedEmployee.organizationalUnit)], { type: 'application/json' }));
+      
+      console.log(filteredRoles);
+      console.log(roles);
+
+      formData.append('roles', new Blob([JSON.stringify(this.selectedRole)], { type: 'application/json' }));
+   
       return this.userService.addUser(formData).toPromise();
     }).then((response: any) => {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is created.' });
-      setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
+      // setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
     }).catch((errors: HttpErrorResponse) => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });
     });
@@ -316,12 +318,10 @@ export class NewAdminComponent implements OnInit {
     this.userService.getUser(id).subscribe(
       (response: User) => {
         this.user = response;
-
         this.selectedEmployee = this.user.employee;
         this.selectedState = this.user.active;
       },
       (error: HttpErrorResponse) => {
-
       }
     );
     return this.user;
