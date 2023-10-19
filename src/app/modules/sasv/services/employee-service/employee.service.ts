@@ -20,40 +20,6 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) {}
 
-  public getEmployeeById(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/employees/{employeeId}`,
-      this.httpOptions
-    );
-  }
-
-  public getEmployeesList(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/employees`,
-      this.httpOptions
-    );
-  }
-  
-  public getEmployeesByProcess(processId: number): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/processes/${processId}/employees`,
-      this.httpOptions
-    );
-  }
-
-  public getSubProcessEmployeesByProcess(subProcessId: number): Observable<any> {
-    this.init();
-    console.log(subProcessId);
-    
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/subProcesses/${subProcessId}/employees`,
-      this.httpOptions
-    );
-  }
-
   public getEmployees(name: string): Observable<any> {
     this.init();    
     return this.http.get<any>(

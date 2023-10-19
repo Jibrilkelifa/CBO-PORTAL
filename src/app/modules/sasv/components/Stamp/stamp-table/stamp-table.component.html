@@ -31,27 +31,43 @@
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
   >
-    <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="subProcess.name">
-          Sub process<p-sortIcon field="subProcess.name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="process.name">
-          Process<p-sortIcon field="process.name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="district.name">
-          Disrict<p-sortIcon field="district.name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="team.externalName">
-          Team<p-sortIcon field="team.externalName"></p-sortIcon>
-        </th>
-        <th pSortableColumn="branch.name">
-          Branch<p-sortIcon field="branch.name"></p-sortIcon>
-        </th>
-        <th scope="col">Actions</th>
-      </tr>
-    </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">ID</th>
+      <th>
+        <div class="flex items-center">
+          Sub process
+          <p-sortIcon field="subProcess.name"></p-sortIcon>
+        </div>
+      </th>
+      <th>
+        <div class="flex items-center">
+          Process
+          <p-sortIcon field="process.name"></p-sortIcon>
+        </div>
+      </th>
+      <th>
+        <div class="flex items-center">
+          District
+          <p-sortIcon field="district.name"></p-sortIcon>
+        </div>
+      </th>
+      <th>
+        <div class="flex items-center">
+          Team
+          <p-sortIcon field="team.externalName"></p-sortIcon>
+        </div>
+      </th>
+      <th>
+        <div class="flex items-center">
+          Branch
+          <p-sortIcon field="branch.name"></p-sortIcon>
+        </div>
+      </th>
+      <th scope="col">Actions</th>
+    </tr>
+  </ng-template>
+  
     <ng-template pTemplate="body" let-stampList let-rowIndex="rowIndex">
       <tr [pSelectableRow]="stampList">
         <td>{{ rowIndex + 1 }}</td>

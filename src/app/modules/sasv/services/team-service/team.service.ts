@@ -20,14 +20,6 @@ export class TeamService {
 
   constructor(private http: HttpClient) {}
 
-  public getTeamById(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/teams/{teamId}`,
-      this.httpOptions
-    );
-  }
-
   public getTeamList(): Observable<any> {
     this.init();
     return this.http.get<any>(
