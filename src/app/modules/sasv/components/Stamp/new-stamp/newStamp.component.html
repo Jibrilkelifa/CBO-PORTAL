@@ -121,6 +121,32 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="m-4" *ngIf="selectedDropdown === 'Team'">
+        <label for="hex" class="block mb-2"> Team: </label>
+        <p-dropdown
+          [options]="teamList"
+          name="teamId"
+          optionLabel="externalName"
+          [filter]="true"
+          [(ngModel)]="stampInfo.teamId"
+          filterBy="externalName"
+          [showClear]="true"
+          placeholder="Choose team"
+          styleClass="p-password"
+          [required]="true"
+          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
+        >
+          <ng-template let-team pTemplate="item">
+            <div
+              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              pTooltip="{{ team.externalName }}"
+              tooltipPosition="right"
+            >
+              <div>{{ team.externalName }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
     </div>
     <div class="photo-container m-4 md:w-1/2">
       <div class="photo-preview">

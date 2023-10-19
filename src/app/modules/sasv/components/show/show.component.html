@@ -3,13 +3,13 @@
 >
   <div class="mb-8">
     <h1 class="text-xl items-center text-blue-600">
-      {{ postResponse?.employee?.fullName }}
+      {{ postResponse?.employee?.employeeFullName }}
     </h1>
   </div>
   <div class="flex justify-around space-x-16 mb-8">
     <div *ngIf="signatureImage" class="group">
       <img
-        class="w-24 h-24 border border-blue-600"
+        class="w-44 h-44 border border-blue-600"
         [src]="dbSignImage"
         alt="signatureImage"
       />
@@ -29,7 +29,7 @@
     </div>
     <div *ngIf="stampImage" class="group">
       <img
-        class="w-24 h-24 border border-blue-600"
+        class="w-44 h-44 border border-blue-600"
         [src]="dbStampImage"
         alt="stampImage"
       />
@@ -63,5 +63,8 @@
   </h3>
   <h3 class="text-blue-600 text-xl items-center">
     {{ postResponse?.branch?.name }}
+  </h3>
+  <h3 class="text-blue-600 text-xl items-center">
+    {{ postResponse?.team?.externalName }}
   </h3>
 </div>

@@ -25,7 +25,8 @@
       'process.name',
       'subProcess.name',
       'district.name',
-      'branch.name'
+      'branch.name',
+      'team.externalName'
     ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
@@ -42,8 +43,11 @@
         <th pSortableColumn="district.name">
           Disrict<p-sortIcon field="district.name"></p-sortIcon>
         </th>
+        <th pSortableColumn="team.externalName">
+          Team<p-sortIcon field="team.externalName"></p-sortIcon>
+        </th>
         <th pSortableColumn="branch.name">
-          Branch/Team<p-sortIcon field="branch.name"></p-sortIcon>
+          Branch<p-sortIcon field="branch.name"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
@@ -62,6 +66,9 @@
         </td>
         <td pTooltip="{{ stampList?.district?.name }}" tooltipPosition="bottom">
           {{ stampList?.district?.name }}
+        </td>
+        <td pTooltip="{{ stampList?.team?.externalName }}" tooltipPosition="bottom">
+          {{ stampList?.team?.externalName }}
         </td>
         <td pTooltip="{{ stampList?.branch?.name }}" tooltipPosition="bottom">
           {{ stampList?.branch?.name }}

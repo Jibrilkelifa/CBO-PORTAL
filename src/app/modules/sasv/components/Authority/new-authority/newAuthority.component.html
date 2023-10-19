@@ -3,64 +3,24 @@
     <div style="margin-top: 2em"></div>
     <div class="flex justify-between flex-row flex-wrap">
       <div class="m-4">
-        <label for="hex" class="block mb-2">
-          Select the employee Process:
-        </label>
-        <p-dropdown
-          [options]="processList"
-          name="process"
-          optionLabel="name"
-          (onChange)="onProcessChange($event)"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Choose process"
-          styleClass="p-password"
-          [required]="true"
-          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
-        >
-          <ng-template let-process pTemplate="item">
-            <div
-              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
-              pTooltip="{{ process.name }}"
-              tooltipPosition="top"
-            >
-              <div>{{ process.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class="m-4" *ngIf="processSelected">
         <label for="hex" class="block mb-2"> Employee: </label>
-        <p-dropdown
-          [options]="employeeslist"
-          name="employee"
-          optionLabel="fullName"
-          [filter]="true"
-          [(ngModel)]="authorityInfo.employee"
-          filterBy="fullName"
-          [showClear]="true"
-          placeholder="Choose employee"
-          styleClass="p-password"
-          [required]="true"
-          [disabled]="update"
-          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
-        >
-          <ng-template let-employee pTemplate="item">
-            <div
-              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
-              pTooltip="{{ employee.fullName }}"
-              tooltipPosition="top"
+        <div class="w-60">
+          <p-autoComplete
+            name="employee"
+            [(ngModel)]="authorityInfo.employee"
+            [suggestions]="employeeslist"
+            (completeMethod)="onSearch($event)"
+            field="employeeFullName"
+            placeholder="Choose employee"
+            [required]="true"
+            [inputStyle]="{ width: '20vw' }"
+            [disabled]="update"
             >
-              <div>{{ employee.fullName }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+          </p-autoComplete>
+        </div>
       </div>
-    </div>
-    <div class="flex justify-between flex-row flex-wrap">
       <div class="m-4" *ngIf="!update">
-        <label for="dropdown" class="block mb-2"> Select level: </label>
+        <label for="dropdown" class="block mb-2"> Select authority level: </label>
         <p-dropdown
           [options]="dropdownOptions"
           name="selectedDropdown"
@@ -74,7 +34,8 @@
         >
         </p-dropdown>
       </div>
-
+    </div>
+    <div class="flex justify-between flex-row flex-wrap">
       <div class="m-4" *ngIf="selectedDropdown === 'Process'">
         <label for="hex" class="block mb-2"> Process: </label>
         <p-dropdown
@@ -180,23 +141,50 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="m-4" *ngIf="selectedDropdown === 'Team'">
+        <label for="hex" class="block mb-2"> Team: </label>
+        <p-dropdown
+          [options]="teamList"
+          name="teamId"
+          optionLabel="externalName"
+          [filter]="true"
+          [(ngModel)]="authorityInfo.team"
+          filterBy="externalName"
+          [showClear]="true"
+          placeholder="Choose team"
+          styleClass="p-password"
+          [required]="true"
+          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
+        >
+          <ng-template let-team pTemplate="item">
+            <div
+              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              pTooltip="{{ team.externalName }}"
+              tooltipPosition="right"
+            >
+              <div>{{ team.externalName }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div *ngIf="update" class="m-4">
+        <label for="dropdown" class="block mb-2"> Status: </label>
+        <p-dropdown
+          [options]="['Active', 'Inactive']"
+          name="status"
+          [(ngModel)]="authorityInfo.status"
+          [showClear]="true"
+          placeholder="Choose status"
+          styleClass="p-password"
+          [required]="true"
+          [style]="{ width: '250px', height: '45px' }"
+        >
+        </p-dropdown>
+      </div>
     </div>
-    <div *ngIf="update" class="m-4">
-      <label for="dropdown" class="block mb-2"> Status: </label>
-      <p-dropdown
-        [options]="['Active', 'Inactive']"
-        name="status"
-        [(ngModel)]="authorityInfo.status"
-        [showClear]="true"
-        placeholder="Choose status"
-        styleClass="p-password"
-        [required]="true"
-        [style]="{ width: '250px', height: '45px' }"
-      >
-      </p-dropdown>
-    </div>
+   
 
-    <div style="margin-top: 10em"></div>
+    <div style="margin-top: 13em"></div>
     <div class="flex justify-between">
       <p-button label="Cancel" (click)="closeDialog()"></p-button>
       <p-button

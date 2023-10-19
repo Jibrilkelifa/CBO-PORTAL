@@ -21,12 +21,12 @@
     dataKey="id"
     [rows]="5"
     [globalFilterFields]="[
-      'organizationalUnit.name',
       'process.name',
       'subProcess.name',
       'district.name',
       'branch.name',
-      'employee.fullName'
+      'team.externalName',
+      'employee.employeeFullName'
     ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
@@ -37,11 +37,6 @@
         <th pSortableColumn="employee.name">
           Employee name<p-sortIcon field="employee.name"></p-sortIcon>
         </th>
-        <th pSortableColumn="organizationalUnit.name">
-          Organizational unit<p-sortIcon
-            field="organizationalUnit.name"
-          ></p-sortIcon>
-        </th>
         <th pSortableColumn="subProcess.name">
           Sub process<p-sortIcon field="subProcess.name"></p-sortIcon>
         </th>
@@ -51,8 +46,11 @@
         <th pSortableColumn="district.name">
           Disrict<p-sortIcon field="district.name"></p-sortIcon>
         </th>
+        <th pSortableColumn="team.externalName">
+          Team<p-sortIcon field="team.externalName"></p-sortIcon>
+        </th>
         <th pSortableColumn="branch.name">
-          Branch/Team<p-sortIcon field="branch.name"></p-sortIcon>
+          Branch<p-sortIcon field="branch.name"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
@@ -65,12 +63,6 @@
           tooltipPosition="bottom"
         >
           {{ authorityList?.employee?.fullName }}
-        </td>
-        <td
-          pTooltip="{{ authorityList?.organizationalUnit?.name }}"
-          tooltipPosition="bottom"
-        >
-          {{ authorityList?.organizationalUnit?.name }}
         </td>
         <td
           pTooltip="{{ authorityList?.subProcess?.name }}"
@@ -90,6 +82,12 @@
         >
           {{ authorityList?.district?.name }}
         </td>
+        <td
+        pTooltip="{{ authorityList?.team?.externalName }}"
+        tooltipPosition="bottom"
+      >
+        {{ authorityList?.team?.externalName }}
+      </td>
         <td
           pTooltip="{{ authorityList?.branch?.name }}"
           tooltipPosition="bottom"

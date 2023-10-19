@@ -32,7 +32,7 @@
             (input)="
               dt1.filter(
                 $any($event.target)?.value,
-                'employee.fullName',
+                'employee.employeeFullName',
                 'contains'
               )
             "
@@ -50,7 +50,7 @@
     <ng-template pTemplate="body" let-signatureList let-rowIndex="rowIndex">
       <tr [pSelectableRow]="signatureList">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ signatureList?.employee?.fullName }}</td>
+        <td>{{ signatureList?.employee?.employeeFullName }}</td>
         <td>
           <button
             pButton
