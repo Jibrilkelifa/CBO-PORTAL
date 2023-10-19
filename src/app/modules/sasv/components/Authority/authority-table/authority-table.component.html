@@ -34,37 +34,37 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th>
+        <th pSortableColumn="employee.employeeFullName">
           <div class="flex flex-start">
             Employee name
-            <p-sortIcon field="employee.name"></p-sortIcon>
+            <p-sortIcon field="employee.employeeFullName"></p-sortIcon>
           </div>
         </th>
-        <th>
+        <th pSortableColumn="process.name">
           <div class="flex items-center">
             Process
             <p-sortIcon field="process.name"></p-sortIcon>
           </div>
         </th>
-        <th>
+        <th pSortableColumn="subProcess.name">
           <div class="flex items-center">
             Sub process
             <p-sortIcon field="subProcess.name"></p-sortIcon>
           </div>
         </th>
-        <th>
+        <th pSortableColumn="district.name">
           <div class="flex items-center">
             District
             <p-sortIcon field="district.name"></p-sortIcon>
           </div>
         </th>
-        <th>
+        <th pSortableColumn="team.externalName">
           <div class="flex items-center">
             Team
             <p-sortIcon field="team.externalName"></p-sortIcon>
           </div>
         </th>
-        <th>
+        <th pSortableColumn="branch.name">
           <div class="flex items-center">
             Branch
             <p-sortIcon field="branch.name"></p-sortIcon>
