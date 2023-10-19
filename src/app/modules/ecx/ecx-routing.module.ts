@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ECXComponent } from './ECX/ecx.component';
+import { ECXComponent } from './ecx/ecx.component';
 import { UpdateHistoryComponent } from './ecx-history/update-history.component';
 import { UpdateFileHistoryComponent } from './ecx-file-history/update-file-history.component';
 import { RelationComponent } from "../../modules/ecx/Acc-Relations/relations/relation.component";
