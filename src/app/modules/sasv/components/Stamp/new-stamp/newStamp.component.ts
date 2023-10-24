@@ -8,12 +8,14 @@ import { SubProcessService } from '../../../services/subprocess-service/subproce
 import { ProcessService } from '../../../services/process-service/process.service';
 import { BranchService } from '../../../services/branch-service/branch.service';
 import { DistrictService } from '../../../services/district-service/district.service';
+import { TeamService } from '../../../services/team-service/team.service';
 import { SubProcess } from '../../../models/subProcess';
 import { Process } from '../../../models/process';
 import { StampService } from '../../../services/stamp-service/stamp.service';
 import { StampDTO } from '../../../models/stamp';
 import { Branch } from '../../../models/branch';
 import { District } from '../../../models/district';
+import { Team } from 'src/app/models/sso-models/team';
 
 @Component({
   selector: 'newStamp',
@@ -26,6 +28,7 @@ export class NewStampComponent implements OnDestroy {
   public processList: Process[] = [];
   public branchList: Branch[] = [];
   public districtList: District[] = [];
+  public teamList: Team[] = [];
 
   public stampInfo: StampDTO = new StampDTO();
   selectedStampInfo: StampDTO;
@@ -33,7 +36,7 @@ export class NewStampComponent implements OnDestroy {
   selectedFile: any;
   imageURL: string;
 
-  public dropdownOptions = ['Sub Process', 'Process', 'Branch/Team', 'District'];
+  public dropdownOptions = ['Process', 'Sub Process', 'District', 'Branch', 'Team'];
   public selectedDropdown: string;
 
   private subscriptions: Subscription[] = [];
@@ -44,6 +47,7 @@ export class NewStampComponent implements OnDestroy {
     private processService: ProcessService,
     private branchService: BranchService,
     private districtService: DistrictService,
+    private teamService: TeamService,
     private stampService: StampService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig
@@ -54,6 +58,7 @@ export class NewStampComponent implements OnDestroy {
     this.getSubProcessList();
     this.getDistrictList();
     this.getBranchList();
+    this.getTeamList();
     if (this.config.data?.auditUniverse) {
       this.stampInfo = this.config.data.auditUniverse;
     }
@@ -104,6 +109,17 @@ export class NewStampComponent implements OnDestroy {
     );
   }
 
+  getTeamList(): void {
+    this.teamService.getTeamList().subscribe(
+      (response: any) => {
+        this.teamList = response.result;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+
   addStamp(addDivForm: NgForm): void {
     const formData: any = new FormData();
     if (this.selectedDropdown === 'Sub Process') {
@@ -116,6 +132,9 @@ export class NewStampComponent implements OnDestroy {
     }
     else if (this.selectedDropdown === 'District') {
       formData.append('districtId', addDivForm?.value.districtId.id);
+    }
+    else if (this.selectedDropdown === 'Team') {
+      formData.append('teamId', addDivForm?.value.teamId.id);
     }
 
     if (this.selectedFile) {

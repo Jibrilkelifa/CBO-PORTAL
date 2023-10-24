@@ -9,7 +9,6 @@ import { SignatureDTO } from '../../../models/signature';
 import { Employee } from '../../../models/employee';
 import { SubProcessService } from '../../../services/subprocess-service/subprocess.service';
 import { ProcessService } from '../../../services/process-service/process.service';
-import { OrganizationalUnit } from '../../../models/organizationalunit';
 import { SubProcess } from '../../../models/subProcess';
 import { Process } from '../../../models/process';
 import { AuthorityDTO } from '../../../models/authority';
@@ -18,6 +17,8 @@ import { Branch } from '../../../models/branch';
 import { District } from '../../../models/district';
 import { BranchService } from '../../../services/branch-service/branch.service';
 import { DistrictService } from '../../../services/district-service/district.service';
+import { TeamService } from '../../../services/team-service/team.service';
+import { Team } from 'src/app/models/sso-models/team';
 
 @Component({
   selector: 'newAuthority',
@@ -26,19 +27,21 @@ import { DistrictService } from '../../../services/district-service/district.ser
   providers: [MessageService, ConfirmationService],
 })
 export class NewAuthorityComponent implements OnDestroy {
-  public organizationUnitList: OrganizationalUnit[] = [];
   public subProcessList: SubProcess[] = [];
   public processList: Process[] = [];
   public employeeslist: Employee[] = [];
   public branchList: Branch[] = [];
   public districtList: District[] = [];
+  public teamList: Team[] = [];
 
   public authorityInfo: AuthorityDTO = new AuthorityDTO();
   selectedAuthorityInfo: SignatureDTO;
 
+  public subProcessSelected: boolean;
+
   public update: boolean = false;
 
-  public dropdownOptions = ['Sub Process', 'Process', 'District', 'Branch' ];
+  public dropdownOptions = ['Process', 'Sub Process', 'District', 'Branch', 'Team'];
   public selectedDropdown: string;
   public processSelected: boolean;
 
@@ -53,37 +56,32 @@ export class NewAuthorityComponent implements OnDestroy {
     private employeeService: EmployeeService,
     private branchService: BranchService,
     private districtService: DistrictService,
+    private teamService: TeamService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getProcessList();
     this.getSubProcessList();
     this.getDistrictList();
     this.getBranchList();
+    this.getTeamList();
     if (this.config.data?.authority) {
-      this.authorityInfo = this.config.data.authority;      
+      this.authorityInfo = this.config.data.authority;
       this.update = true;
     }
     this.identifyUpdateDropdown(this.authorityInfo);
   }
 
-  getEmployeeslist(processId: number): void {
-    this.employeeService.getEmployeesByProcess(processId).subscribe(
-      (response: any) => {
-        this.employeeslist = response.result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
-  }
-
-  onProcessChange(event: any): void {
-    const selectedProcessId = event.value.id;
-    this.getEmployeeslist(selectedProcessId);
-    this.processSelected = true;
+  onSearch(event: any) {
+    if (event.query.length >= 3) {
+      let query = event.query.toUpperCase();
+      this.employeeService.getEmployees(query)
+        .subscribe((response: any) => {
+          this.employeeslist = response.result;
+        });
+    }
   }
 
   getProcessList(): void {
@@ -130,6 +128,17 @@ export class NewAuthorityComponent implements OnDestroy {
     );
   }
 
+  getTeamList(): void {
+    this.teamService.getTeamList().subscribe(
+      (response: any) => {
+        this.teamList = response.result;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
+
   submitAuthority(authorityForm: NgForm): void {
     if (this.update) {
       this.updateAuthority(authorityForm);
@@ -138,7 +147,7 @@ export class NewAuthorityComponent implements OnDestroy {
     }
   }
 
-  addAuthority(addDivForm: NgForm): void {    
+  addAuthority(addDivForm: NgForm): void {
     this.subscriptions.push(
       this.authorityService
         .createAuthority(addDivForm.value)
@@ -162,21 +171,24 @@ export class NewAuthorityComponent implements OnDestroy {
     );
   }
 
-  identifyUpdateDropdown(authorityData: AuthorityDTO){
-    if(authorityData.organizationalUnit){
-      this.selectedDropdown = "Organization unit";
-    }
-    else if(authorityData.subProcess){
+  identifyUpdateDropdown(authorityData: AuthorityDTO) {
+    if (authorityData.subProcess) {
       this.selectedDropdown = "Sub Process";
     }
-    else if(authorityData.process){
+    else if (authorityData.process) {
       this.selectedDropdown = "Process";
     }
-    else if(authorityData.branch){
+    else if (authorityData.branch) {
       this.selectedDropdown = "Branch";
     }
-    else if(authorityData.district){
+    else if (authorityData.district) {
       this.selectedDropdown = "District";
+    }
+    else if (authorityData.branch) {
+      this.selectedDropdown = "Branch";
+    }
+    else if (authorityData.team) {
+      this.selectedDropdown = "Team";
     }
   }
 

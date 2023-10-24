@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
-export class SubProcessService {
+export class TeamService {
   private httpOptions: any;
   private apiServiceUrl: any;
 
@@ -20,10 +20,10 @@ export class SubProcessService {
 
   constructor(private http: HttpClient) {}
 
-  public getSubProcessList(): Observable<any> {
+  public getTeamList(): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/subProcesses`,
+      `${this.apiServiceUrl}/sasv/authority/teams`,
       this.httpOptions
     );
   }

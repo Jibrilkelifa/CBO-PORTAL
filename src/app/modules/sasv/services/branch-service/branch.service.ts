@@ -20,14 +20,6 @@ export class BranchService {
 
   constructor(private http: HttpClient) {}
 
-  public getBranchById(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/branches/{branchId}`,
-      this.httpOptions
-    );
-  }
-
   public getBranchList(): Observable<any> {
     this.init();
     return this.http.get<any>(

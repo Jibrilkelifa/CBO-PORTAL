@@ -20,14 +20,6 @@ export class ProcessService {
 
   constructor(private http: HttpClient) {}
 
-  public getProcessById(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/processes/{processId}`,
-      this.httpOptions
-    );
-  }
-
   public getProcessList(): Observable<any> {
     this.init();
     return this.http.get<any>(
