@@ -160,7 +160,7 @@ export class SingleFraudCaseTableComponent {
         this.items[12].description = response.otherComment;
         this.items[12].remark = "";
 
-        this.caseName = response.organizationalUnit.name + ", " + response.organizationalUnit.subProcess.name + ", " + "COOPERATIVE BANK OF OROMIA";
+        this.caseName = response.branch.name + ", " + response.branch.district+ ", " + "COOPERATIVE BANK OF OROMIA";
         this.caseIdentifier = response.caseId;
         const dateObj = new Date(this.caseIdentifier.substring(5));
         this.preparedDate = dateObj.toLocaleDateString('en-US', {

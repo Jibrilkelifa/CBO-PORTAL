@@ -10,7 +10,7 @@ import { ConfirmationService, FilterService, Message, MessageService, PrimeNGCon
 import { CIPM } from "../../../../models/icms-models/cipm-models/cipm";
 import { CollateralType } from '../../../../models/icms-models/cipm-models/collatoral-type';
 import { IPCT } from '../../../../models/icms-models/cipm-models/ipct';
-// import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
+import { Branch } from 'src/app/models/sso-models/branch';
 
 @Component({
   selector: 'app-accordions',
@@ -22,7 +22,7 @@ import { IPCT } from '../../../../models/icms-models/cipm-models/ipct';
 export class NewCIPMComponent implements OnInit {
   public cipms: CIPM[] = [];
   public cipm: CIPM;
-  public selectedOrganizationalUnit: any;
+  public selectedBranch: Branch;
   public cipmR: CIPM[] = [];
   selectedCIMP: CIPM;
   public collatoralTypes: CollateralType[] = [];
@@ -34,7 +34,7 @@ export class NewCIPMComponent implements OnInit {
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
   authorizedBy: string = "Not Authorized"
   preparedBy: string = localStorage.getItem('name');
   authorizationTimeStamp: string = "Not Authorized"
@@ -45,15 +45,15 @@ export class NewCIPMComponent implements OnInit {
   constructor(private filterService: FilterService, private primengConfig: PrimeNGConfig, private messageService: MessageService, private cipmService: CIPMService, private collatoralTypeService: CollateralTypeService, private organizationalUnitService: OrganizationalUnitService, private ipctService: IPCTService, private activatedRoute: ActivatedRoute, private confirmationService: ConfirmationService, private router: Router) { }
 
   ngOnInit() {
-    this.getCIPMs(this.organizationalUnitId);
+    this.getCIPMs(this.branchId);
     this.getCollatoralTypes();
     this.getIPCTs();
     this.primengConfig.ripple = true;
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
-    this.organizationalUnitService.getOrganizationalUnit(this.organizationalUnitId).subscribe(
+    this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
       (response: any) => {
-        this.selectedOrganizationalUnit = response;
+        this.selectedBranch = response;
       },
       (error: HttpErrorResponse) => {
 
@@ -75,8 +75,8 @@ export class NewCIPMComponent implements OnInit {
     this.isOtherCollateralTypeSelected = (event.value.name === 'Other');
   }
 
-  public getCIPMs(organizationalUnitId: number): void {
-    this.cipmService.getCIPMForBranch(organizationalUnitId).subscribe(
+  public getCIPMs(branchId: number): void {
+    this.cipmService.getCIPMForBranch(branchId).subscribe(
       (response: CIPM[]) => {
         this.cipms = response;
       },
@@ -123,7 +123,7 @@ export class NewCIPMComponent implements OnInit {
   public addCIPM(addCIPMForm: NgForm): void {
     this.cipmService.addCIPM(addCIPMForm.value).subscribe(
       (response: any) => {
-        this.getCIPMs(this.organizationalUnitId);
+        this.getCIPMs(this.branchId);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -162,7 +162,7 @@ export class NewCIPMComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['ICMS/CIPM/viewCIPM']);
         }, 1500);
-        this.getCIPMs(this.organizationalUnitId);
+        this.getCIPMs(this.branchId);
       },
       (error: HttpErrorResponse) => {
 

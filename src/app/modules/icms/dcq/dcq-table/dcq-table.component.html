@@ -76,8 +76,8 @@
     <ng-template pTemplate="body" let-DCQs>
       <tr [pSelectableRow]="DCQs">
         <td>{{DCQs?.datePresented}}</td>
-        <td>{{DCQs?.organizationalUnit?.subProcess?.name}}</td>
-        <td>{{DCQs?.organizationalUnit?.name}}</td>
+        <td>{{DCQs?.branch?.subProcess?.name}}</td>
+        <td>{{DCQs?.branch?.name}}</td>
         <td>{{DCQs?.fullNameOfDrawer}}</td>
         <td>{{DCQs?.accountNumber}}</td>
         <td>{{DCQs?.tin}}</td>

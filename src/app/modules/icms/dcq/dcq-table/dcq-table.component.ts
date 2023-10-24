@@ -25,8 +25,8 @@ export class DCQTableComponent {
   searchParameter: any[] =
     [
       { name: 'Date Presented', value: 'datePresented' },
-      { name: 'Branch Name', value: 'organizationalUnit.name' },
-      { name: 'District Name', value: 'organizationalUnit.subProcess.name' },
+      { name: 'Branch Name', value: 'branch.name' },
+      { name: 'District Name', value: 'branch.subProcess.name' },
       { name: 'Full Name of Drawer', value: 'fullNameOfDrawer' },
       { name: 'Account Number', value: 'accountNumber' },
       { name: 'TIN Number', value: 'tin' },
@@ -136,7 +136,7 @@ export class DCQTableComponent {
     return str;
   }
 
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+ branchId: number = Number(localStorage.getItem('branchId'));
   roles: string[] = [];
 
   constructor(private filterService: FilterService, private DCQService: DCQService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
@@ -200,7 +200,7 @@ export class DCQTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_BRANCH") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.DCQService.getDCQForBranch(this.organizationalUnitId).subscribe(
+      this.DCQService.getDCQForBranch(this.branchId).subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
         },
@@ -211,8 +211,8 @@ export class DCQTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT") !== -1) {
-      this.organizationalUnitService.getOrganizationalUnit(this.organizationalUnitId).subscribe(organizationalUnitId => {
-        this.districtId = organizationalUnitId?.subProcess?.id
+      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branchId => {
+        this.districtId = branchId?.subProcess?.id
       });
       this.DCQService.getDCQForDistrict(this.districtId).subscribe(
         (response: DCQ[]) => {

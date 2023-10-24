@@ -52,9 +52,9 @@
     <ng-template pTemplate="header">
       <tr>
         <!-- <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th> -->
-        <th scope="col" pSortableColumn="organizationalUnit.subProcess.name" style="width:8%"
+        <th scope="col" pSortableColumn="branch.subProcess.name" style="width:8%"
           *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">District Name</th>
-        <th scope="col" pSortableColumn="organizationalUnit.name" style="width:8%"
+        <th scope="col" pSortableColumn="branch.name" style="width:8%"
           *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT')">Branch Name</th>
         <th scope="col" pSortableColumn="date" style="width:7%">Date</th>
         <th scope="col" pSortableColumn="caseId" style="width:10%">Case ID</th>
@@ -75,8 +75,8 @@
     <ng-template pTemplate="body" let-dacgm>
       <tr [pSelectableRow]="dacgm">
 
-        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">{{dacgm?.organizationalUnit?.subProcess?.name}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT')">{{dacgm?.organizationalUnit?.name}}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">{{dacgm?.branch?.subProcess?.name}}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT')">{{dacgm?.branch?.name}}</td>
         <td>{{dacgm?.date}}</td>
         <td>{{dacgm?.caseId}}</td>
         <td>{{dacgm?.irregularity?.allSubCategory?.allcategory?.name}}</td>
@@ -92,14 +92,17 @@
         <td>{{dacgm?.amountInvolved}}</td>
         <td>{{dacgm?.responsiblePerson}}</td>
         <td>{{dacgm?.activityStatus.name}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH')">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') || this.roles.includes('ROLE_ICMS_ADMIN') ">
           {{dacgm?.actionPlanDueDate}}
         </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">
-          <button pButton (click)="approveDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+        <td >
+          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Approve"></button>
-            <button pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Escalate"></button>
+
+            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT') && dacgm.escalatedByManager===true" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Approve"></button>
         </td>
         <td *ngIf="dacgm?.activityStatus.name === 'Open' && dacgm?.actionPlanDueDate !== null"
           [ngClass]="{ 'black': calculatePastDue(dacgm?.actionPlanDueDate) == 0,'red': calculatePastDue(dacgm?.actionPlanDueDate) < 0, 'yellow': calculatePastDue(dacgm?.actionPlanDueDate) > 0 && calculatePastDue(dacgm?.actionPlanDueDate) < 30, 'green': calculatePastDue(dacgm?.actionPlanDueDate) >= 30 }">

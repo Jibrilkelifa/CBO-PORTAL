@@ -2,15 +2,20 @@
 <div *ngIf="newDiv">
   <form #addDACGMForm="ngForm" (ngSubmit)="addDACGM(addDACGMForm)" required>
     <div class="flex flex-wrap gap-3 mb-2">
-      <div class="flex-auto">
+      <!-- <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Date </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="date"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div> -->
+      <div class="flex-auto">
+        <label for="date" class="block mb-2"> Date  </label>
+        <p-calendar id="fraudOccurrenceDate" ngModel name="date"
+          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" ></p-calendar>
       </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Case ID </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="caseId"
-          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="caseId" name="caseId"
+          [style]="{'width':'30vw','height':'45px'}" [readonly]="true">
       </div>
     </div>
     <div class="flex flex-wrap gap-3 mb-2">
@@ -32,7 +37,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="flex-auto" *ngIf="selectedCategory">
+      <!-- <div class="flex-auto" *ngIf="selectedCategory">
         <label for="alphabetic" class=" block mb-2"> Sub Category </label>
         <p-dropdown [options]="subCategories" name="subCategory" ngModel [(ngModel)]="selectedSubCategory"
           optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Sub Category"
@@ -51,14 +56,44 @@
         </p-dropdown>
       </div>
       <div class="flex-auto">
-        <label for="alphabetic" class=" block mb-2"> Account Number </label>
+        <label for="alphabetic" class="block mb-2">Account Number</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
-          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
       </div>
       <div class="flex-auto">
-        <label for="alphabetic" class=" block mb-2"> Account Name </label>
+        <label for="alphabetic" class="block mb-2">Account Name</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountName"
-        [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+      </div> -->
+      <div class="flex-auto" *ngIf="selectedCategory">
+        <label for="alphabetic" class="block mb-2">Sub Category</label>
+        <p-dropdown [options]="subCategories" name="subCategory" [(ngModel)]="selectedSubCategory" optionLabel="name"
+          [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Sub Category" class="w-full"
+          styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
+          (onChange)="onSubCategoryChange($event)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedSubCategory">
+              <div>{{ selectedSubCategory.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-subCategory pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{subCategory.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      
+      <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="alphabetic" class="block mb-2">Account Number</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+      </div>
+      
+      <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="alphabetic" class="block mb-2">Account Name</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountName"
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
       </div>
       <div class="flex-auto" *ngIf="selectedCategory && selectedSubCategory">
         <label for="hex" class=" block mb-2"> Irregualrity </label>
@@ -82,10 +117,10 @@
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="otherIrregularity"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3"/>
       </div>
-      <div class="flex-auto">
-          <label for="alphabetic" class=" block mb-2"> Amount Involved </label>
-          <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="amountInvolved"
-            [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      <div class="flex-auto"  *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="alphabetic" class="block mb-2">Amount Involved</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="amountInvolved"
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
       </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Responsible Person </label>
@@ -95,8 +130,8 @@
     </div>
 
     <div class="flex-auto" [hidden]="true">
-      <label for="alphabetic" class=" block mb-2"> Organizational Unit </label>
-      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
+      <label for="alphabetic" class=" block mb-2"> Branch</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
         [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
     </div>
     <div class="flex-auto" [hidden]="true">
@@ -126,8 +161,8 @@
       </div>
       <div class="flex-auto">
         <label for="number" class="block mb-2"> Case ID </label>
-        <input pInputText id="alphabetic" pKeyFilter="alpha" ngModel [(ngModel)]="dacgm.caseId"
-          name="mortgagorName" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+        <input pInputText id="alphabetic" pKeyFilter="alpha" ngModel [(ngModel)]="caseId"
+          name="caseId" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>
     <div class="flex flex-wrap gap-3 mb-3">
@@ -173,8 +208,8 @@
     </div>
     <div class="flex flex-wrap gap-3 mb-5">
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Organization Unit </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
+        <label for="alphabetic" class=" block mb-2"> Branch</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>

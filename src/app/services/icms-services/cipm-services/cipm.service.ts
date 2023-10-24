@@ -26,6 +26,16 @@ export class CIPMService {
 
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/getAll`, this.httpOptions);
   }
+  public geExpiringWithIn30DaysCIPMs(): Observable<any> {
+    this.init();
+
+    return this.http.get<any>(`${this.apiServiceUrl}/CIPM/expiring-within-thirty-days-list`, this.httpOptions);
+  }
+  public getExpired(): Observable<any> {
+    this.init();
+
+    return this.http.get<any>(`${this.apiServiceUrl}/CIPM/ExpiredPolicies`, this.httpOptions);
+  }
   public getCIPM(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/find/${id}`, this.httpOptions)
@@ -63,8 +73,8 @@ export class CIPMService {
         otherInsuranceCoverageType: (cipm.otherInsuranceCoverageType == undefined) ? "" : cipm.otherInsuranceCoverageType,
         insuredName: cipm.insuredName,
         insuranceExpireDate: cipm.insuranceExpireDate,
-        organizationalUnit: {
-          id: cipm.organizationalUnit.id
+        branch: {
+          id: cipm.branch.id
         }
       }, this.httpOptions)
   }

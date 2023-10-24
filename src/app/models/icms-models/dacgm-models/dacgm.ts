@@ -1,4 +1,5 @@
 // import { OrganizationalUnit } from '../../sso-models/branch'
+import { Branch } from 'src/app/modules/sasv/models/branch'
 import { AllIrregularity } from '../all-irregularity'
 import { ActivityStatus } from './activity-status'
 export interface DACGM {
@@ -13,5 +14,6 @@ export interface DACGM {
   activityStatus: ActivityStatus,
   irregularity: AllIrregularity,
   otherIrregularity: string,
-  organizationalUnit: any
+  branch: Branch,
+  escalatedByManager:boolean
 }

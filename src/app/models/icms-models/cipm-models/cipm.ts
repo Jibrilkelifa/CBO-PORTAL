@@ -18,7 +18,7 @@ export interface CIPM {
   otherInsuranceCoverageType: string,
   insuredName: string,
   insuranceExpireDate: string,
-  organizationalUnit: {
+  branch: {
     id: number
   }
 }

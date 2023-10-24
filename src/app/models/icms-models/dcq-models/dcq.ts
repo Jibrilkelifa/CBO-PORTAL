@@ -1,5 +1,6 @@
 import { ChequeType } from './cheque-type'
 import { ActionTaken } from './action-taken'
+import { Branch } from 'src/app/modules/sasv/models/branch';
 // import { OrganizationalUnit } from '../../sso-models/branch';
 
 export interface DCQ {
@@ -14,5 +15,5 @@ export interface DCQ {
   tin: string,
   chequeType: ChequeType,
   nameOfBeneficiary: string,
-  organizationalUnit: any,
+  branch: Branch
 }

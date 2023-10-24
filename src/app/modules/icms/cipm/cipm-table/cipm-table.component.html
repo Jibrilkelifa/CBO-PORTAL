@@ -90,8 +90,8 @@
     <ng-template pTemplate="body" let-cipms>
       <tr [pSelectableRow]="cipms">
 
-        <td>{{cipms?.organizationalUnit?.subProcess?.name}}</td>
-        <td>{{cipms?.organizationalUnit?.name}}</td>
+        <td>{{cipms?.branch?.subProcess?.name}}</td>
+        <td>{{cipms?.branch?.name}}</td>
         <td>{{cipms?.borrowerName}}</td>
         <td>{{cipms?.loanAccount}}</td>
         <td>{{cipms?.loanType}}</td>
@@ -117,7 +117,8 @@
         <td
           [ngClass]="{ 'black': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,'red': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 0, 'yellow': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) > 0 && calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 30, 'green': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) >= 30 }">
           {{absoluteValue(calculateDaysLeftToExpire(cipms?.insuranceExpireDate))}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') && (cipms.authorizedBy === 'Not Authorized')">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH')">
+         <!-- && (cipms.authorizedBy === 'Not Authorized')" -->
           <button pButton (click)="updateCIPMs(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Update"></button>
         </td>

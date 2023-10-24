@@ -104,7 +104,7 @@ export class AuthService {
       }
     }
    
-    // localStorage.setItem('organizationalUnitId', resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
+     localStorage.setItem('organizationalUnitId', resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
 
     const role = resp?.user?.roles[0]?.name;
 

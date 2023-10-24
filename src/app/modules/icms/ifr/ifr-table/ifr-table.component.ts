@@ -36,7 +36,7 @@ export class FraudTableComponent {
     XLSX.writeFile(wb, 'IncidentFraudReport.xlsx');
 
   }
-
+  daysSinceFraudDetection: number;
   public frauds: IFR[] = [];
   public fraudR: IFR[] = [];
   public fraud: IFR;
@@ -46,6 +46,7 @@ export class FraudTableComponent {
   position: string;
   districtId: number;
   currentDate: Date;
+ 
   searchParameter: any[] =
     [
       { name: 'Case ID', value: 'caseId' },
@@ -69,6 +70,7 @@ export class FraudTableComponent {
       { name: 'Fraudster Profession', value: 'suspectedFraudsterProfession.name' },
       { name: 'Other Fraudster Profession', value: 'otherSuspectedFraudsterProfession' },
       { name: 'Other Information', value: 'otherComment' },
+      { name: 'incaseOfClosedOrWrittenOff', value: 'incaseOfClosedOrWrittenOff' },
       { name: 'Branch Name', value: 'branch.name' }
     ];
   selectedSearchParameter: any;
@@ -142,22 +144,19 @@ export class FraudTableComponent {
     );
   }
 
-  calculateDaysLeftToExpire(expiryDate: string): number {
-    let date = new Date(expiryDate);
-    let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
-    return Math.ceil(daysLeftToExpire);
+  calculateDaysSinceFraudDetection(fraudDetectionDate: string): number {
+    let date = new Date(fraudDetectionDate);
+    let daysSinceFraudDetection= (this.currentDate.getTime() - date.getTime() ) / (1000 * 3600 * 24);
+    return Math.ceil(daysSinceFraudDetection);
   }
 
-  millisFromNowTo(expiryDate: string): string {
+  millisFromNowTo(fraudDetectionDate: string): string {
 
-    return (this.calculateDaysLeftToExpire(expiryDate)).toString();
+    return (this.calculateDaysSinceFraudDetection(fraudDetectionDate)).toString();
   }
 
-  absoluteValue(number: number): number {
-    return Math.abs(number);
-  }
 
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
   roles: string[] = [];
 
   updateFrauds(id: number): void {
@@ -180,6 +179,9 @@ export class FraudTableComponent {
 
   calculateProvision(id: number): void {
     this.router.navigate(['ICMS/Fraud/calculateProvision', id]);
+  }
+  absoluteValue(number: number): number {
+    return Math.abs(number);
   }
 
   deleteBox(id: number): void {
@@ -227,7 +229,7 @@ export class FraudTableComponent {
       );
     }
     else if (roles.includes("ROLE_ICMS_BRANCH") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
-      this.fraudService.getFraudForBranch(this.organizationalUnitId).subscribe(
+      this.fraudService.getFraudForBranch(this.branchId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;
         },
@@ -238,8 +240,8 @@ export class FraudTableComponent {
       );
     }
     else if (roles.includes("ROLE_ICMS_DISTRICT")) {
-      this.organizationalUnitService.getOrganizationalUnit(this.organizationalUnitId).subscribe(organizationalUnit => {
-        this.districtId = organizationalUnit?.subProcess?.id
+      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
+        this.districtId = branch?.subProcess?.id
       });
       this.fraudService.getFraudForDistrict(this.districtId).subscribe(
         (response: IFR[]) => {

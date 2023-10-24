@@ -15,6 +15,7 @@ import * as XLSX from 'xlsx';
 })
 export class CIPMTableComponent {
   public cipms: CIPM[] = [];
+  public cipme: CIPM[] = [];
   public cipmR: CIPM[] = [];
   selectedCIPM: CIPM;
   deleteId: number = 0;
@@ -23,8 +24,8 @@ export class CIPMTableComponent {
   districtId: number;
   searchParameter: any[] =
     [
-      { name: 'District Name', value: 'organizationalUnit.subProcess.name' },
-      { name: 'Branch Name', value: 'organizationalUnit.name' },
+      { name: 'District Name', value: 'branch.subProcess.name' },
+      { name: 'Branch Name', value: 'branch.name' },
       { name: 'Borrower Name', value: 'borrowerName' },
       { name: 'Loan Account', value: 'loanAccount' },
       { name: 'Loan Type', value: 'loanType' },
@@ -69,6 +70,7 @@ export class CIPMTableComponent {
     this.getCurrentDate();
     this.getCIPMs(this.roles);
     this.primengConfig.ripple = true;
+    // this.getCIPMsExpiringWithin30Days();
 
     this.filterService.register('dateRange', (value: any, filter: any): boolean => {
       // convert value and filter to date objects
@@ -173,7 +175,7 @@ export class CIPMTableComponent {
     return Math.abs(number);
   }
 
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
 
   constructor(private filterService: FilterService, private cipmService: CIPMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
@@ -182,6 +184,16 @@ export class CIPMTableComponent {
     this.getCIPM(id);
     this.router.navigate(['updateCIPM', id]);
   }
+  // getCIPMsExpiringWithin30Days(): void {
+  //   this.cipmService.geExpiringWithIn30DaysCIPMs().subscribe(
+  //     (response: CIPM[]) => {
+  //       this.cipme = response;
+  //     },
+  //     (error: any) => {
+  //       // Handle error
+  //     }
+  //   );
+  // }
 
   authorizeCIPM(id: number): void {
     this.cipmService.authorizeCIPM(id).subscribe(
@@ -240,7 +252,7 @@ export class CIPMTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_BRANCH") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.cipmService.getCIPMForBranch(this.organizationalUnitId).subscribe(
+      this.cipmService.getCIPMForBranch(this.branchId).subscribe(
         (response: CIPM[]) => {
           this.cipms = response;
         },
@@ -250,8 +262,8 @@ export class CIPMTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT") !== -1) {
-      this.organizationalUnitService.getOrganizationalUnit(this.organizationalUnitId).subscribe(branch => {
-        console.log("organizationalUnitId = " + this.organizationalUnitId)
+      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
+        console.log("branchId = " + this.branchId)
         this.districtId = branch?.subProcess?.id
         console.log("district = " + this.districtId)
         this.cipmService.getCIPMForDistrict(this.districtId).subscribe(

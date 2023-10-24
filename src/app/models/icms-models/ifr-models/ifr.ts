@@ -2,6 +2,7 @@ import { SuspectedFraudsterProfession } from './suspected-fraudster-profession'
 import { CaseStatus } from './case-status'
 import { AllCategory } from '../all-category'
 import { FraudType } from './fraud-type'
+import { Branch } from 'src/app/modules/sasv/models/branch';
 // import { OrganizationalUnit } from '../../sso-models/branch';
 
 export interface IFR {
@@ -31,5 +32,6 @@ export interface IFR {
   suspectedFraudsterProfession: SuspectedFraudsterProfession,
   otherSuspectedFraudsterProfession: string,
   otherComment: string,
-  organizationalUnit: any,
+  branch: Branch,
+  inCaseOfClosedOrWrittenOff
 }

@@ -21,7 +21,7 @@ export class FraudNBETableComponent {
   counter: number = 0;
   flag: boolean = false;
   fraudSummariesFlagId: number = 0;
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
 
   fraudCategories: any[] = [
     { id: 1, name: 'Cash' },
@@ -115,7 +115,7 @@ export class FraudNBETableComponent {
                     amount: amount4,
                   },
                   totalAmountRecovered: this.parseAmount(this.frauds[i].amountRecovered),
-                  provisionForOutstandingCases: 0,
+                  provisionForOutstandingCases: this.parseAmount(this.frauds[i].provisionHeld),
                   amountRecoveredInCurrentQuarter: result2 ? this.parseAmount(this.frauds[i].amountRecovered) : 0,
                   writtenOffInCurrentQuarter: {
                     count: count5,

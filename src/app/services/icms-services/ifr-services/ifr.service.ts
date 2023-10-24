@@ -44,6 +44,22 @@ export class IFRService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/findBySubProcessId/${id}`, this.httpOptions)
   }
+  public getClosed(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getClosedAndWrittenOffCasesDuringQuarter-list`, this.httpOptions)
+  }
+  public getNew(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getNewCasesDuringQuarter-list`, this.httpOptions)
+  }
+  public getOutstanding(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getOutstandingCasesDuringQuarter-list`, this.httpOptions)
+  }
+  public getOutstandingp(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getOutstandingCasesInPreviousQuarter-list`, this.httpOptions)
+  }
   public addFraud(fraud: NgForm): Observable<any> {
     this.init();
     return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/add`, fraud, this.httpOptions)
@@ -75,6 +91,7 @@ export class IFRService {
         caseStatus: {
           id: fraud.caseStatus.id
         },
+        inCaseOfClosedOrWrittenOff: (fraud.inCaseOfClosedOrWrittenOff == undefined) ? "" : fraud.inCaseOfClosedOrWrittenOff,
         preparedBy: fraud.preparedBy,
         authorizedBy: fraud.authorizedBy,
         fraudCause: fraud.fraudCause,
@@ -102,8 +119,8 @@ export class IFRService {
         },
         otherSuspectedFraudsterProfession: fraud.otherSuspectedFraudsterProfession,
         otherComment: fraud.otherComment,
-        organizationalUnit: {
-          id: fraud.organizationalUnit.id
+        branch: {
+          id: fraud.branch.id
         },
       }, this.httpOptions)
   }

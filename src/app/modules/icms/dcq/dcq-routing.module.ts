@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewDCQComponent } from '../dcq/new-dcq/new-dcq.component';
 import { DCQTableComponent } from './dcq-table/dcq-table.component';
-
+import { DCQWeekComponent } from './dcq-week/dcq-week.component';
 
 const routes: Routes = [
   {
@@ -28,6 +28,13 @@ const routes: Routes = [
         component: DCQTableComponent,
         data: {
           title: 'Dishonoured Cheque Table',
+        },
+      },
+      {
+        path: 'weekDCQ',
+        component: DCQWeekComponent,
+        data: {
+          title: 'Dishonoured Cheque THREE TIMES IN LAST WEEK ',
         },
       },
     ],

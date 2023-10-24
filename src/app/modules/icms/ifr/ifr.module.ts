@@ -28,6 +28,10 @@ import {
 } from '@coreui/angular';
 import { NewFraudComponent } from './new-ifr/new-ifr.component';
 import { FraudTableComponent } from './ifr-table/ifr-table.component';
+import { FraudClosedComponent } from './ifr-closed/ifr-closed.component';
+import{ FraudOutstandingComponent} from './ifr-outstanding/ifr-outstanding.component';
+import{ FraudOutstandingpComponent} from './ifr-outstandingp/ifr-outstandingp.component';
+import { FraudNewComponent } from './ifr-new/ifr-new.component';
 import { FraudNBETableComponent } from './ifr-nbe-table/ifr-nbe-table.component';
 import { FraudRoutingModule } from './ifr-routing.module';
 import { IconModule } from '@coreui/icons-angular';
@@ -99,7 +103,11 @@ import { DialogService } from 'primeng/dynamicdialog';
     FraudTableComponent,
     FraudNBETableComponent,
     SingleFraudCaseTableComponent,
-    IFRProvisionComponent
+    IFRProvisionComponent,
+    FraudClosedComponent,
+    FraudNewComponent,
+    FraudOutstandingComponent,
+    FraudOutstandingpComponent
   ],
   providers: [ConfirmationService, MessageService, DialogService, DatePipe]
 })

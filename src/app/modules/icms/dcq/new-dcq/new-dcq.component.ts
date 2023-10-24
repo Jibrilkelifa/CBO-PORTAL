@@ -11,7 +11,7 @@ import { ConfirmationService, Message, MessageService } from 'primeng/api';
 import { DCQ } from "../../../../models/icms-models/dcq-models/dcq";
 import { ChequeType } from '../../../../models/icms-models/dcq-models/cheque-type';
 import { ActionTaken } from 'src/app/models/icms-models/dcq-models/action-taken';
-// import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
+import {Branch } from 'src/app/models/sso-models/branch';
 
 
 @Component({
@@ -31,13 +31,13 @@ export class NewDCQComponent implements OnInit {
   selecteDCQType: ChequeType;
   public actionsTaken: ActionTaken[] = [];
   selectedActionTaken: ActionTaken;
-  selectedOrganizationalUnit: any;
+  selectedBranch: Branch;
   update: boolean = false;
   newDiv: boolean = true;
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
 
   chequeNumber: string;
   currentDate: Date;
@@ -48,8 +48,8 @@ export class NewDCQComponent implements OnInit {
   constructor(private router: Router, private messageService: MessageService, private DCQService: DCQService, private organizationalUnitService: OrganizationalUnitService, private timeService: TimeService, private activatedRoute: ActivatedRoute, private actionTakenService: ActionTakenService, private chequeTypeService: ChequeTypeService) { }
 
   ngOnInit() {
-    this.getOrganizationalUnit(this.organizationalUnitId);
-    this.getDCQs(this.organizationalUnitId);
+    this.getOrganizationalUnit(this.branchId);
+    this.getDCQs(this.branchId);
     this.getChequeTypes();
     this.getActionsTaken();
     this.getCurrentDate();
@@ -85,11 +85,11 @@ export class NewDCQComponent implements OnInit {
     }
   }
 
-  getOrganizationalUnit(organizationalUnitId: number): void {
-    this.organizationalUnitService.getOrganizationalUnit(organizationalUnitId).subscribe(
+  getOrganizationalUnit(branchId: number): void {
+    this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
       (response: any) => {
-        this.selectedOrganizationalUnit = response;
-        console.log("org. unit: "+ this.selectedOrganizationalUnit)
+        this.selectedBranch = response;
+        console.log("org. unit: "+ this.selectedBranch)
       }
     );
   }
@@ -105,8 +105,8 @@ export class NewDCQComponent implements OnInit {
     );
   }
 
-  public getDCQs(organizationalUnitId: number): void {
-    this.DCQService.getDCQForBranch(organizationalUnitId).subscribe(
+  public getDCQs(branchId: number): void {
+    this.DCQService.getDCQForBranch(branchId).subscribe(
       (response: DCQ[]) => {
         this.DCQs = response;
 
@@ -156,7 +156,7 @@ export class NewDCQComponent implements OnInit {
   public addDCQ(addDCQForm: NgForm): void {
     this.DCQService.addDCQ(addDCQForm.value).subscribe(
       (response: any) => {
-        this.getDCQs(this.organizationalUnitId);
+        this.getDCQs(this.branchId);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -180,7 +180,8 @@ export class NewDCQComponent implements OnInit {
     }
     this.DCQService.updateDCQ(updateDCQ.value).subscribe(
       (response: DCQ) => {
-        this.getDCQs(this.organizationalUnitId);
+        this.DCQ = response;
+        this.getDCQs(this.branchId);
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -189,6 +190,7 @@ export class NewDCQComponent implements OnInit {
         setTimeout(() => {
           this.router.navigate(['ICMS/DCQ/viewDCQ']);
         }, 1500);
+        this.getDCQs(this.branchId);
       },
       (error: HttpErrorResponse) => {
 

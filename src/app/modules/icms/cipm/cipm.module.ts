@@ -30,6 +30,8 @@ import {
 import { NewCIPMComponent } from './new-cipm/new-cipm.component';
 import { NewCTComponent } from './new-ct/new-ct.component';
 import { CIPMTableComponent } from './cipm-table/cipm-table.component';
+import {CIPMExpiringComponent} from './cipm-expiring/cipm-expiring.component';
+import {CIPMExpiredComponent} from './cipm-expired/cipm-expired.component';
 import { CIPMRoutingModule } from './cipm-routing.module';
 import { IconModule } from '@coreui/icons-angular';
 
@@ -97,7 +99,9 @@ import { CalendarModule } from 'primeng/calendar';
   declarations: [
     NewCIPMComponent,
     CIPMTableComponent,
-    NewCTComponent
+    NewCTComponent,
+    CIPMExpiringComponent,
+    CIPMExpiredComponent,
   ],
   providers: [ConfirmationService, MessageService]
 })
