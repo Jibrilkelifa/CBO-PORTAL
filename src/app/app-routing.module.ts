@@ -107,7 +107,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/sasv/sasv.module').then((m) => m.SASVModule),
       },
-
+      {
+        path: 'ams',
+        loadChildren: () =>
+          import('./modules/ams/ams.module').then((m) => m.AmsModule),
+      },
       {
         path: 'ICMS/CIPM',
         loadChildren: () =>
