@@ -8,7 +8,7 @@ export interface Employee {
   id: number;
   employeeId : number;
   employeeSapUserName : string;
-  fullName : string;
+  employeeFullName : string;
   supervisorId : number;
   supervisorFullName : string;
   hrManagerId : number;
@@ -23,4 +23,7 @@ export interface Employee {
   team : Team;
   subProcess : SharedWithCode;
   process : SharedWithCode;
+  supervisor:boolean;
+  subordinateIds :BigInt[];
+
 }
