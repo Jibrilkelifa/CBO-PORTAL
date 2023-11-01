@@ -1,5 +1,7 @@
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
+export let navItemsAMSAdmin: Object;
+export let navItemsAMSUser: Object;
 export let navItemsEMSAdmin: Object;
 export let navItemsEMSUser: Object;
 export let navItemsCCAdmin: Object;
@@ -18,6 +20,9 @@ export let navItemsECXAdmin: Object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
+export let navItemSupervisor: Object;
+
+
 
 navItemMenu = {
   name: 'Menu',
@@ -58,6 +63,47 @@ navItemsSuperAdmin = {
     }
   ]
 }
+
+navItemSupervisor = {
+  name: 'Supervisor',
+  url: '/',
+  iconComponent: { name: 'cil-settings' },
+  children: [
+        {
+          name: 'Add User',
+          url: '/user/addUser'
+        },
+        {
+          name: 'View Users',
+          url: '/user/viewUsers'
+        },
+      ]
+    }
+  
+navItemsAMSAdmin =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit universe',
+      url: '/ams/audit-universe',
+    },
+    {
+      name: 'Audit Object',
+      url: '/ams/audit-object',
+    },
+    {
+      name: 'Annual Plan',
+      url: '/ams/annual-plan',
+    },
+    {
+      name: 'Schedule',
+      url: '/ams/audit-schedule',
+    },
+  ],
+},
+
 navItemsICMSAdmin = {
   name: 'Internal Control',
   url: '/ICMS',

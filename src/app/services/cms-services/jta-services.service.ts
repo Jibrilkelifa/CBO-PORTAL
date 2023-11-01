@@ -17,13 +17,14 @@ export class JTAService {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       })
     };
+    alert(localStorage.getItem('access_token'));
     this.httpOptions2 = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      })
+      }) 
     };
-    this.apiServiceUrl = localStorage.getItem('url_8');
+    this.apiServiceUrl = 'http://10.1.125.58:8088';//localStorage.getItem('url_8');
     this.uploadedBy = localStorage.getItem('name');
   }
   constructor(private http: HttpClient) { }

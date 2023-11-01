@@ -10,7 +10,7 @@ export interface Employee {
   id: number;
   employeeId : number;
   employeeSapUserName : string;
-  fullName : string;
+  employeeFullName : string;
   supervisorId : number;
   supervisorFullName : string;
   hrManagerId : number;

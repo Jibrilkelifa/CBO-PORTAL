@@ -1,0 +1,47 @@
+:host {
+  #exampleColorInput {
+    min-width: 2.5rem;
+  }
+  .color-box {
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+}
+.flex {
+  display: flex;
+  margin-bottom: 10px;
+}
+.flex-col {
+  flex-direction: column;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.m-16 {
+  margin: 16px;
+}
+.w-full {
+  width: 100%;
+}
+.column {
+  flex: 1;
+  text-align: center;
+}
+.risk-item {
+  text-align: left;
+}
+.save-button {
+  display: flex;
+  width: 95%;
+  margin-top: 20px;
+  justify-content: flex-end;
+}
+
+
+
