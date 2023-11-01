@@ -85,9 +85,12 @@ export class IFRService {
     this.init();
 
     return this.http.put<IFR>(`${this.apiServiceUrl}/incidentFraudReport/update`,
-      {
+     
+    {
+       
         id: fraud.id,
         caseId: fraud.caseId,
+        // provisionHeld: fraud.provisionHeld,
         caseStatus: {
           id: fraud.caseStatus.id
         },
@@ -97,7 +100,7 @@ export class IFRService {
         fraudCause: fraud.fraudCause,
         fraudAmount: fraud.fraudAmount,
         fraudCategory: {
-          id: fraud.fraudCategory.id
+          id: fraud.categ
         },
         otherFraudCategory: fraud.otherFraudCategory,
         fraudType: {
@@ -121,6 +124,9 @@ export class IFRService {
         otherComment: fraud.otherComment,
         branch: {
           id: fraud.branch.id
+        },
+        subProcess: {
+          id: fraud.subProcess.id
         },
       }, this.httpOptions)
   }

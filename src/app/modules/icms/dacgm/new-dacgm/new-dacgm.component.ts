@@ -27,7 +27,8 @@ import { TimeService } from '../../../../services/sso-services/time.service';
 export class NewDACGMComponent implements OnInit {
   public dacgms: DACGM[] = [];
   public dacgm: DACGM;
-  public selectedBranch: Branch;
+  public selectedBranch;
+  public selectedSubProcess;
   public selectedCategory: AllCategory;
   public selectedSubCategory: AllSubCategory;
   public selectedIrregularity: AllIrregularity;
@@ -40,7 +41,8 @@ export class NewDACGMComponent implements OnInit {
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  branchId: number = Number(localStorage.getItem('branchtId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   isOtherIrregularitySelected: boolean = false;
   isOtherIPCTSelected: boolean = false;
   insuranceExpireDate: Date;
@@ -101,17 +103,20 @@ export class NewDACGMComponent implements OnInit {
     this.getDACGMCategories();
     this.generateCaseId();
     this.getDACGMs(this.branchId);
+    // alert(this.branchId);
     this.primengConfig.ripple = true;
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
-    this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
-      (response: any) => {
-        this.selectedBranch = response;
-      },
-      (error: HttpErrorResponse) => {
+    // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
+    //   (response: any) => {
+    //     this.selectedBranch = response;
+    //   },
+    //   (error: HttpErrorResponse) => {
 
-      }
-    );
+    //   }
+    // );
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
     this.activityStatusService.getActivityStatus(1).subscribe(
       (response: any) => {
         this.selectedActivityStatus = response;

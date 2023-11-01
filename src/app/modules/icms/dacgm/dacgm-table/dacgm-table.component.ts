@@ -24,7 +24,7 @@ export class DACGMTableComponent {
   escalatedByManager: boolean = false;
   searchParameter: any[] =
     [
-      { name: 'District Name', value: 'branch.subProcess.name' },
+      { name: 'District Name', value: 'subProcess.name' },
       { name: 'Branch Name', value: 'branch.name' },
       { name: 'Date', value: 'date' },
       { name: 'Case ID', value: 'caseId' },
@@ -172,6 +172,7 @@ export class DACGMTableComponent {
   }
 
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   constructor(private filterService: FilterService, private dacgmService: DACGMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
@@ -258,7 +259,7 @@ this.messageService.add({
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
+    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
       this.dacgmService.getDACGMForBranch(this.branchId).subscribe(
         (response: DACGM[]) => {
           this.dacgms = response;
@@ -268,12 +269,12 @@ this.messageService.add({
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT") !== -1) {
-      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-        console.log("branchId = " + this.branchId)
-        this.districtId = branch?.subProcess?.id
-        console.log("district = " + this.districtId)
-        this.dacgmService.getDACGMForDistrict(this.districtId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
+      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
+      //   console.log("branchId = " + this.branchId)
+      //   this.districtId = branch?.subProcess?.id
+      //   console.log("district = " + this.districtId)
+        this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
           (response: DACGM[]) => {
             this.dacgms = response;
           },
@@ -281,7 +282,7 @@ this.messageService.add({
 
           }
         );
-      });
+      
 
     }
   }

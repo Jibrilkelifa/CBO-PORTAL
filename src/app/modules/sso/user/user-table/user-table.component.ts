@@ -61,7 +61,7 @@ export class UserTableComponent {
   getFilteredUsers(users: User[]): void {
     users.some((user) => user.roles.some((role) => {
       if (this.checkRole("ROLE_SUPER_ADMIN") ||
-        (this.checkRole("ROLE_ICMS_ADMIN") && ((role.name.indexOf('ROLE_ICMS_BRANCH') !== -1 || role.name.indexOf('ROLE_ICMS_BRANCH_MANAGER') !== -1 || role.name.indexOf('ROLE_ICMS_PROVISION') !== -1 || role.name.indexOf('ROLE_ICMS_DISTRICT') !== -1 || role.name.indexOf('ROLE_ICMS_ADMIN') !== -1))) ||
+        (this.checkRole("ROLE_ICMS_ADMIN") && ((role.name.indexOf('ROLE_ICMS_BRANCH_IC') !== -1 || role.name.indexOf('ROLE_ICMS_BRANCH_MANAGER') !== -1 || role.name.indexOf('ROLE_ICMS_PROVISION') !== -1 || role.name.indexOf('ROLE_ICMS_DISTRICT_IC') !== -1 || role.name.indexOf('ROLE_ICMS_ADMIN') !== -1))) ||
         (this.checkRole("ROLE_SASV_ADMIN") && (role.name.indexOf('ROLE_SASV_ADMIN') !== -1 || role.name.indexOf('ROLE_SASV_USER') !== -1)) ||
         (this.checkRole("ROLE_CC_ADMIN") && (role.name.indexOf('ROLE_CC_ADMIN') !== -1 || role.name.indexOf('ROLE_CC_USER') !== -1))) {
         if (this.filteredUsers.indexOf(user) === -1) {
@@ -123,7 +123,7 @@ export class UserTableComponent {
           for (let j = 0; j < response[i].roles.length; j++) {
             if (this.checkRole("ROLE_ICMS_ADMIN")) {
               const roleName = response[i].roles[j].name;
-              if (roleName === 'ROLE_ICMS_ADMIN' || roleName === 'ROLE_ICMS_BRANCH' || roleName === 'ROLE_ICMS_DISTRICT' || roleName === 'ROLE_ICMS_PROVISION' || roleName === 'ROLE_ICMS_BRANCH_MANAGER') {
+              if (roleName === 'ROLE_ICMS_ADMIN' || roleName === 'ROLE_ICMS_BRANCH_IC' || roleName === 'ROLE_ICMS_DISTRICT_IC' || roleName === 'ROLE_ICMS_PROVISION' || roleName === 'ROLE_ICMS_BRANCH_MANAGER') {
                 this.users.push(response[i]);
               }
             }

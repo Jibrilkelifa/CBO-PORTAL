@@ -11,6 +11,8 @@ import { CIPM } from "../../../../models/icms-models/cipm-models/cipm";
 import { CollateralType } from '../../../../models/icms-models/cipm-models/collatoral-type';
 import { IPCT } from '../../../../models/icms-models/cipm-models/ipct';
 import { Branch } from 'src/app/models/sso-models/branch';
+import {Status} from '../../../../models/icms-models/cipm-models/status';
+import {StatusService} from '../../../../services/icms-services/cipm-services/status.service'
 
 @Component({
   selector: 'app-accordions',
@@ -22,7 +24,11 @@ import { Branch } from 'src/app/models/sso-models/branch';
 export class NewCIPMComponent implements OnInit {
   public cipms: CIPM[] = [];
   public cipm: CIPM;
-  public selectedBranch: Branch;
+  // public selectedBranch: Branch;
+  public selectedBranch;
+  public selectedSubProcess;
+  public statuses: Status[] = [];
+  selectedstatus: Status;
   public cipmR: CIPM[] = [];
   selectedCIMP: CIPM;
   public collatoralTypes: CollateralType[] = [];
@@ -35,6 +41,7 @@ export class NewCIPMComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   authorizedBy: string = "Not Authorized"
   preparedBy: string = localStorage.getItem('name');
   authorizationTimeStamp: string = "Not Authorized"
@@ -42,23 +49,29 @@ export class NewCIPMComponent implements OnInit {
   isOtherIPCTSelected: boolean = false;
   insuranceExpireDate: Date;
 
-  constructor(private filterService: FilterService, private primengConfig: PrimeNGConfig, private messageService: MessageService, private cipmService: CIPMService, private collatoralTypeService: CollateralTypeService, private organizationalUnitService: OrganizationalUnitService, private ipctService: IPCTService, private activatedRoute: ActivatedRoute, private confirmationService: ConfirmationService, private router: Router) { }
+  constructor(private filterService: FilterService, private primengConfig: PrimeNGConfig, private messageService: MessageService, private cipmService: CIPMService,private statusService :StatusService, private collatoralTypeService: CollateralTypeService, private organizationalUnitService: OrganizationalUnitService, private ipctService: IPCTService, private activatedRoute: ActivatedRoute, private confirmationService: ConfirmationService, private router: Router) { }
 
   ngOnInit() {
     this.getCIPMs(this.branchId);
     this.getCollatoralTypes();
     this.getIPCTs();
+    this.getStatus()
+    // alert(this.subProcessId);
+    
     this.primengConfig.ripple = true;
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
-    this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
-      (response: any) => {
-        this.selectedBranch = response;
-      },
-      (error: HttpErrorResponse) => {
+    // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
+    //   (response: any) => {
+    //     this.selectedBranch = response;
+    //   },
+    //   (error: HttpErrorResponse) => {
 
-      }
-    );
+    //   }
+    // );
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
+
 
     if (this.idY) {
       this.getCIPM(this.idY);
@@ -107,6 +120,16 @@ export class NewCIPMComponent implements OnInit {
       }
     );
   }
+  public getStatus(): void {
+    this.statusService.getStatuses().subscribe(
+      (response: Status[]) => {
+        this.statuses = response;
+      },
+      (error: HttpErrorResponse) => {
+
+      }
+    );
+  }
 
   public getCIPM(id: number): CIPM {
     this.cipmService.getCIPM(id).subscribe(
@@ -138,7 +161,7 @@ export class NewCIPMComponent implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Failed',
-          detail: "Faled to create"
+          detail: "Failed to create"
         });
         setTimeout(() => {
         }, 1000);

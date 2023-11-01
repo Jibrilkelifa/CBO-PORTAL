@@ -17,6 +17,7 @@ export class CIPMTableComponent {
   public cipms: CIPM[] = [];
   public cipme: CIPM[] = [];
   public cipmR: CIPM[] = [];
+  
   selectedCIPM: CIPM;
   deleteId: number = 0;
   msgs: Message[] = [];
@@ -24,7 +25,7 @@ export class CIPMTableComponent {
   districtId: number;
   searchParameter: any[] =
     [
-      { name: 'District Name', value: 'branch.subProcess.name' },
+      { name: 'District Name', value: 'subProcess.name' },
       { name: 'Branch Name', value: 'branch.name' },
       { name: 'Borrower Name', value: 'borrowerName' },
       { name: 'Loan Account', value: 'loanAccount' },
@@ -35,6 +36,7 @@ export class CIPMTableComponent {
       { name: 'Insurance Policy Coverage Type', value: 'insuranceCoverageType.name' },
       { name: 'Other Insurance Policy Coverage Type', value: 'otherInsuranceCoverageType' },
       { name: 'Insured Name', value: 'insuredName' },
+      { name: 'Status', value: 'status.name' },
       { name: 'Insurance Expiry Date', value: 'insuranceExpireDate' },
     ];
   selectedSearchParameter: any;
@@ -174,8 +176,9 @@ export class CIPMTableComponent {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
-
+ 
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   constructor(private filterService: FilterService, private cipmService: CIPMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
@@ -251,22 +254,24 @@ export class CIPMTableComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
+    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
       this.cipmService.getCIPMForBranch(this.branchId).subscribe(
         (response: CIPM[]) => {
           this.cipms = response;
+        //      alert(this.subProcessId);
         },
         (error: HttpErrorResponse) => {
 
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT") !== -1) {
-      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-        console.log("branchId = " + this.branchId)
-        this.districtId = branch?.subProcess?.id
-        console.log("district = " + this.districtId)
-        this.cipmService.getCIPMForDistrict(this.districtId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
+      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
+      //   console.log("branchId = " + this.branchId)
+      //   this.districtId = branch?.subProcess?.id
+      //   console.log("district = " + this.districtId)
+        this.cipmService.getCIPMForDistrict(this.subProcessId).subscribe(
+          
           (response: CIPM[]) => {
             this.cipms = response;
           },
@@ -274,7 +279,6 @@ export class CIPMTableComponent {
 
           }
         );
-      });
 
     }
   }

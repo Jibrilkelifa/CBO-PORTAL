@@ -84,6 +84,11 @@
       <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch"
         name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
     </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> District</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
+        name="subProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+    </div>
     <div class="mb-5"></div>
     <p-button label="approve Action Plan" type="submit" [disabled]="approveActionPlanForm.invalid"
       class="createButton mb-5"></p-button>

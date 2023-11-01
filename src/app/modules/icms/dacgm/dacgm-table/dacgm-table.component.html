@@ -1,5 +1,5 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
-<div class="card" style="width: 80vw; margin-left: -120px;">
+<div class="card" >
   <div class="spacer">
     <span style="font-size: larger; font-weight: bolder;">Collateral Insurance Policy Monitoring Table</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('dacgmTable')"
@@ -52,15 +52,16 @@
     <ng-template pTemplate="header">
       <tr>
         <!-- <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th> -->
-        <th scope="col" pSortableColumn="branch.subProcess.name" style="width:8%"
+        <th scope="col" pSortableColumn="subProcess.name" style="width:8%"
           *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">District Name</th>
         <th scope="col" pSortableColumn="branch.name" style="width:8%"
-          *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT')">Branch Name</th>
+          *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">Branch Name</th>
         <th scope="col" pSortableColumn="date" style="width:7%">Date</th>
         <th scope="col" pSortableColumn="caseId" style="width:10%">Case ID</th>
         <th scope="col" pSortableColumn="irregularity.allSubCategory.allategory.name" style="width:7%">Category</th>
         <th scope="col" pSortableColumn="irregularity.allSubCategory.name" style="width:7%">SubCategory</th>
         <th scope="col" pSortableColumn="irregularity.name" style="width:25%">Irregularity</th>
+        <!-- <th scope="col" pSortableColumn="otherIrregularity.name" style="width:25%">Other Irregualrity</th> -->
         <th scope="col" pSortableColumn="amountInvolved" style="width:7%">Amount Involved</th>
         <th scope="col" pSortableColumn="responsiblePerson" style="width:10%">Responsible Person</th>
         <th scope="col" pSortableColumn="activityStatus.name" style="width:5%">Status</th>
@@ -75,8 +76,8 @@
     <ng-template pTemplate="body" let-dacgm>
       <tr [pSelectableRow]="dacgm">
 
-        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">{{dacgm?.branch?.subProcess?.name}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT')">{{dacgm?.branch?.name}}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">{{dacgm?.subProcess?.name}}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">{{dacgm?.branch?.name}}</td>
         <td>{{dacgm?.date}}</td>
         <td>{{dacgm?.caseId}}</td>
         <td>{{dacgm?.irregularity?.allSubCategory?.allcategory?.name}}</td>
@@ -92,18 +93,21 @@
         <td>{{dacgm?.amountInvolved}}</td>
         <td>{{dacgm?.responsiblePerson}}</td>
         <td>{{dacgm?.activityStatus.name}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') || this.roles.includes('ROLE_ICMS_ADMIN') ">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_ADMIN') ">
           {{dacgm?.actionPlanDueDate}}
         </td>
         <td >
-          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Approve"></button>
-            <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+          <div class="flex gap-2">
+          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
+          class="p-button-sm w-24 h-10 p-2" label="Take action"></button>
+            <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Escalate"></button>
 
-            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT') && dacgm.escalatedByManager===true" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Approve"></button>
+            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && dacgm.escalatedByManager===true" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            class="p-button-sm h-10 p-2 whitespace-nowrap"label="Take action"></button>
+          </div>
         </td>
+  
         <td *ngIf="dacgm?.activityStatus.name === 'Open' && dacgm?.actionPlanDueDate !== null"
           [ngClass]="{ 'black': calculatePastDue(dacgm?.actionPlanDueDate) == 0,'red': calculatePastDue(dacgm?.actionPlanDueDate) < 0, 'yellow': calculatePastDue(dacgm?.actionPlanDueDate) > 0 && calculatePastDue(dacgm?.actionPlanDueDate) < 30, 'green': calculatePastDue(dacgm?.actionPlanDueDate) >= 30 }">
           {{absoluteValue(calculatePastDue(dacgm?.actionPlanDueDate))}}</td>

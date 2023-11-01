@@ -1,5 +1,5 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0; margin-left: -120px;" [value]="msgs"></p-messages>
-<div class="card" style="width: 80vw; margin-left: -120px;">
+<div class="card" >
   <div class="spacer">
     <span style="font-size: larger; font-weight: bolder;">Incident/Fraud Reporting Table</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('fraudTable')"
@@ -80,7 +80,7 @@
 
     <ng-template pTemplate="body" let-fraudo>
       <tr [pSelectableRow]="fraudo">
-        <td>{{fraudo?.branch?.subProcess?.name}}</td>
+        <td>{{fraudo?.subProcess?.name}}</td>
         <td>{{fraudo?.branch?.name}}</td>
         <td>{{fraudo?.caseId}}</td>
         <td>{{fraudo?.suspectedFraudsterName}}</td>
@@ -127,7 +127,7 @@
         [ngClass]="{ 'red': calculateDaysSinceFraudDetection(fraudo?.fraudDetectionDate )>=0 }">
         {{absoluteValue(calculateDaysSinceFraudDetection(fraudo?.fraudDetectionDate))}}</td>
         <!-- <td *ngIf="fraudo.authorizedBy !== 'Not Authorized'">Authorized!</td> -->
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') ">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') ">
           <!-- && !(fraudo.authorizedBy !== 'Not Authorized') -->
           <button pButton (click)="updateFrauds(fraudo?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Update"></button>
