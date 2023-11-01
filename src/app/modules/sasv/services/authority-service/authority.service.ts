@@ -45,26 +45,10 @@ export class AuthorityService {
     );
   }
 
-  public deleteAuthority(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/delete`,
-      this.httpOptions
-    );
-  }
-
   public getAuthorityImage(id : number): Observable<any> {
     this.init();
     return this.http.get<any>(
       `${this.apiServiceUrl}/sasv/authority/images/${id}`,
-      this.httpOptions
-    );
-  }
-
-  public getAuthoritybyId(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/byId`,
       this.httpOptions
     );
   }

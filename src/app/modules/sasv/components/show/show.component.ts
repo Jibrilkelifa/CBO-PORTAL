@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, Renderer2 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { AuthorityService } from '../../services/authority-service/authority.service';
 import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { AuthorityDTO } from '../../models/authority';
@@ -30,9 +29,6 @@ export class ShowComponent {
     private signatureService: SignatureService,
     private stampService: StampService,
     private config: DynamicDialogConfig,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private renderer: Renderer2, private el: ElementRef
   ) {}
 
   ngOnInit() {
@@ -83,8 +79,7 @@ export class ShowComponent {
   }
 
   public getSignatureImage(id: number) {
-    // this.signatureService.getSignatureImage(id).subscribe(
-      this.signatureService.getSignatureImage(7).subscribe(
+      this.signatureService.getSignatureImage(id).subscribe(
       (response: SignatureDTO) => {
         this.postResponse = response;
         this.dbSignImage =

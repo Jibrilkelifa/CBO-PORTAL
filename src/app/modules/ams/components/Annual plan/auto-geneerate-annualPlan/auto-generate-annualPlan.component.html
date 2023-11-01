@@ -1,0 +1,21 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="generateAnnualPlan(addDivForm)">
+    <div style="margin-top: 2em;"></div>
+    <div class="row">
+      <div class="col mb-4">
+        <label for="year" class="block mb-2">Year:</label>
+        <p-dropdown [options]="years" name="budgetYear" [ngModel]="autoGenerateAnnualPlan.budgetYear"
+          [style]="{'width':'300px','height':'45px'}" [required]="true" [disabled]="update" placeholder="Choose budget year">
+          <ng-template let-year pTemplate="item">
+            <div>{{year}}</div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <div style="margin-top: 10em;"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button *ngIf="!update" label="Generate annual plan" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+    </div>
+  </form>
+</div>

@@ -20,14 +20,6 @@ export class DistrictService {
 
   constructor(private http: HttpClient) {}
 
-  public getDistrictById(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/districts/{districtId}`,
-      this.httpOptions
-    );
-  }
-
   public getDistrictList(): Observable<any> {
     this.init();
     return this.http.get<any>(

@@ -21,7 +21,8 @@ import {
   navItemsECXUser,
   navItemsCMSAdmin,
   navItemsCMSUser,
-  navItemSupervisor
+  navItemSupervisor,
+  navItemsAMSAdmin
 } from './_nav';
 
 @Component({
@@ -58,6 +59,7 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsCMSAdmin);
     addIndentClass(navItemsCMSUser);
     addIndentClass(navItemSupervisor);
+    addIndentClass(navItemsAMSAdmin);
     this.navItems.push(navItemMenu);
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
     const otp = localStorage.getItem('otp') == "true";
@@ -217,6 +219,10 @@ export class DefaultLayoutComponent {
                 // if(true){
                 this.navItems.push(navItemSupervisor);
               }
+              break;
+            case "ROLE_AMS_ADMIN":
+              this.navItems.push(navItemsAMSAdmin);
+              this.dashboardRoute = "default_dashboard"
               break;
           }
         }

@@ -29,10 +29,10 @@ export class AuthorityTableComponent implements OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.getSignatures();
+    this.getSignaturesAndStamp();
   }
 
-  getSignatures(): void {
+  getSignaturesAndStamp(): void {
     this.subscriptions.push(
       this.authorityService.getAuthorityList().subscribe(
         (response: any) => {
@@ -56,7 +56,7 @@ export class AuthorityTableComponent implements OnDestroy {
 
     ref.onClose.subscribe((response: any) => {
       if (response.status) {
-        this.getSignatures();
+        this.getSignaturesAndStamp();
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -91,7 +91,7 @@ export class AuthorityTableComponent implements OnDestroy {
           authority.id === response.id ? response : authority
         );
         if (response.status) {
-          this.getSignatures();
+          this.getSignaturesAndStamp();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',

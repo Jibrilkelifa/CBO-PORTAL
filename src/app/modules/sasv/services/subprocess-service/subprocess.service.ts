@@ -20,14 +20,6 @@ export class SubProcessService {
 
   constructor(private http: HttpClient) {}
 
-  public getSubProcessById(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/sasv/authority/subProcesses/{subProcessId}`,
-      this.httpOptions
-    );
-  }
-
   public getSubProcessList(): Observable<any> {
     this.init();
     return this.http.get<any>(

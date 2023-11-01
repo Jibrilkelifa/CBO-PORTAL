@@ -18,8 +18,8 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="employee.fullName">
-          Employee name<p-sortIcon field="employee.fullName"></p-sortIcon>
+        <th pSortableColumn="employee.employeeFullName">
+          Employee name<p-sortIcon field="employee.employeeFullName"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
@@ -32,11 +32,11 @@
             (input)="
               dt1.filter(
                 $any($event.target)?.value,
-                'employee.fullName',
+                'employee.employeeFullName',
                 'contains'
               )
             "
-            [value]="$any(dt1.filters['employee.fullName'])?.value"
+            [value]="$any(dt1.filters['employee.employeeFullName'])?.value"
             placeholder="Search here"
             pTooltip="Search by employee name"
             class="text-center"
@@ -50,7 +50,7 @@
     <ng-template pTemplate="body" let-signatureList let-rowIndex="rowIndex">
       <tr [pSelectableRow]="signatureList">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ signatureList?.employee?.fullName }}</td>
+        <td>{{ signatureList?.employee?.employeeFullName }}</td>
         <td>
           <button
             pButton
