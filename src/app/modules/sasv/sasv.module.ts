@@ -44,6 +44,7 @@ import { AuthorityTableComponent } from './components/Authority/authority-table/
 import { NewAuthorityComponent } from './components/Authority/new-authority/newAuthority.component';
 import { ShowComponent } from './components/show/show.component';
 import { UserViewTableComponent } from './components/userView-table/userView-table.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -95,6 +96,7 @@ import { UserViewTableComponent } from './components/userView-table/userView-tab
     MessagesModule,
     ToastModule,
     CalendarModule,
+    AutoCompleteModule
   ],
   providers: [
     ConfirmationService, 

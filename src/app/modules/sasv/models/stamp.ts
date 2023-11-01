@@ -1,22 +1,21 @@
 import { BaseModel } from './base';
-import { OrganizationalUnit } from './organizationalunit';
 import { Process } from './process';
 import { District } from './district';
 import { SubProcess } from './subProcess';
 import { Branch } from './branch';
+import { Team } from 'src/app/models/sso-models/team';
 
 export class StampDTO extends BaseModel {
-  organizationUnitId: number;
+  teamId:number;
   subProcessId: number;
   processId: number;
-  districtId: number;
   branchId: number;
+  districtId: number;
   stamp: BinaryData;
-
-  organizationalUnit: OrganizationalUnit;
+  team: Team;
   subProcess: SubProcess;
   process : Process;
-  district : District;
   branch : Branch;
+  district : District;
 }
 

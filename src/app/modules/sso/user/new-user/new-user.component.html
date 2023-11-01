@@ -1,19 +1,23 @@
 <div *ngIf="newDiv">
+  <!-- <div class="container" *ngIf="!userExists"> -->
   <div class="container">
-    <div *ngIf="selectedTab1" class="centered">
-      <h2>Search Employee</h2>
-      <div>
-        <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
-          [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="fullName"
-          [required]="true" class="clickable-button align-items-center"
-          [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+    <div class="container">
+      <div *ngIf="selectedTab1" class="centered">
+        <h2>Search Employee</h2>
+        <div>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="employeeFullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <br>
+        <button pButton [disabled]="!selectedEmployee" (click)="check()" label="Continue"
+          class="clickable-button"></button>
       </div>
-      <br>
-      <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
-        class="clickable-button"></button>
     </div>
   </div>
-  <form #addUserForm="ngForm" (ngSubmit)="addUser(addUserForm)" required>
+
+
+  <form  #addUserForm="ngForm" required>
     <div *ngIf="selectedTab2">
       <div class="flex flex-wrap gap-2 mb-4">
         <div class="flex-auto">
@@ -37,9 +41,11 @@
         <div class="flex-auto">
           <label for="alphanumeric" class=" block mb-2"> Work Center: </label>
           <input pInputText id="workCenter" ngModel [(ngModel)]="selectedWorkCenter" name="workCenter"
-            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
         </div>
       </div>
+
+
       <div class="flex flex-wrap gap-2 mb-4">
         <div class="flex-auto">
           <label for="alphanumeric" class=" block mb-2"> Process: </label>
@@ -49,7 +55,7 @@
         <div class="flex-auto">
           <label for="alphanumeric2" class=" block mb-2"> Sub Process: </label>
           <input pInputText id="subProcess" ngModel [(ngModel)]="selectedSubProcess" name="subProcess"
-            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha" />
+            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
         </div>
       </div>
 
@@ -57,90 +63,57 @@
         <div class="flex-auto">
           <label for="alphabetic" class=" block mb-2"> Branch/Team: </label>
           <input pInputText id="ou" ngModel [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
-            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha" />
-        </div>
-        <div class="flex-auto"
-          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedPhoneNumber == undefined))">
-          <label for="number" class=" block mb-2"> Phone number: </label>
-          <input pInputText id="number" ngModel [(ngModel)]="selectedPhoneNumber" name="phoneNumber"
-            [style]="{'width':'30vw','height':'45px'}" minlength="10" pKeyFilter="num"
-            [readonly]="(selectedTab2 && selectedTab3)" />
+            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
         </div>
 
-        <div class="flex-auto"
-          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedGender == null))">
+        <div class="flex-auto">
           <label class="block mb-2"> Gender: </label>
-          <div [style]="{'width':'30vw','height':'45px'}" class="flex flex-wrap gap-3">
-            <div class="flex align-items-center">
-              <p-radioButton name="gender" [(ngModel)]="selectedGender" value="Male"></p-radioButton>
-              <label class="ml-2">Male</label>
-            </div>
-            <div class="flex align-items-center">
-              <p-radioButton name="gender" [(ngModel)]="selectedGender" value="Female"></p-radioButton>
-              <label class="ml-2">Female</label>
-            </div>
-          </div>
+          <input pInputText id="gen" ngModel [(ngModel)]="selectedGender" name="gender"
+            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
         </div>
-
         <div class="flex-auto"
-          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedPersonalEmail == '' || selectedPersonalEmail == undefined))">
-          <label for="alphanumeric2" class=" block mb-2"> Personal Email: </label>
-          <input pInputText id="personalEmail" ngModel [(ngModel)]="selectedPersonalEmail" name="personalEmail"
-            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha"
-            [readonly]="(selectedTab2 && selectedTab3)" />
-        </div>
-
-        <div class="flex-auto"
-          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedCompanyEmail == '' || selectedCompanyEmail == undefined))">
+          *ngIf="!(selectedCompanyEmail == '' || selectedCompanyEmail == undefined)">
           <label for="alphanumeric" class=" block mb-2"> Company Email: </label>
           <input pInputText id="companyEmail" ngModel [(ngModel)]="selectedCompanyEmail" name="companyEmail"
             [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha"
-            [readonly]="(selectedTab2 && selectedTab3)" />
+            required/>
+        </div>
+        <div class="flex-auto"
+          *ngIf="!(selectedPersonalEmail == '' || selectedPersonalEmail == undefined)">
+          <label for="alphanumeric2" class=" block mb-2"> Personal Email: </label>
+          <input pInputText id="personalEmail" ngModel [(ngModel)]="selectedPersonalEmail" name="personalEmail"
+            [style]="{'width':'30vw','height':'45px'}"  pKeyFilter="alpha"
+             required/>
+        </div>
+
+
+        <div class="flex-auto">
+          <label  class=" block mb-2"> AD username: </label>
+          <input pInputText  ngModel [(ngModel)]="selectedAdUser" name="adUserName"
+            [style]="{'width':'30vw','height':'45px'}"
+           required/>
         </div>
 
         <div class="flex-auto"
-          *ngIf="!(selectedTab2 && selectedTab3) || ((selectedTab2 && selectedTab3) && !(selectedDateOfBirth == null))">
+          *ngIf="!(selectedDateOfBirth == null)">
           <label for="number" class=" block mb-2"> Date of birth: </label>
-          <p-calendar id="number" ngModel name="birthDate" [(ngModel)]="selectedDateOfBirth" [showIcon]="true"
-            dateFormat="dd/mm/yy" [style]="{'width':'30vw','height':'45px'}" [maxDate]="maxDate"></p-calendar>
+          <p-calendar id="number" ngModel name="birthDate" [(ngModel)]="selectedDateOfBirth" [showIcon]="true" [required]
+          dateFormat="dd/mm/yy" [style]="{'width':'30vw','height':'45px'}" [maxDate]="maxDate"></p-calendar>
         </div>
       </div>
-      <div *ngIf="selectedTab3">
+
+      
+      <div>
         <div class="flex flex-wrap gap-3 mb-3">
           <div class="flex-auto">
-            <label for="alphabetic" class=" block mb-2"> Username </label>
-            <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="username" name="username"
-              [style]="{'width':'30vw','height':'45px'}" required  readonly />
-          </div>
-          <div class="flex-auto">
-            <label for="number" class="block mb-2"> Password </label>
-            <p-password [(ngModel)]="password" name="password" class="w-full" styleClass="p-password"
-              [inputStyle]="{'width':'30vw','height':'45px'}" [toggleMask]="true" minlength="8"
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required readonly>
-            </p-password>
+            <label for="hex" class=" block mb-2"> Select Module(s)</label>
+            <p-multiSelect [options]="roles" [(ngModel)]="selectedRole" name="modules"
+              defaultLabel="Select Module(s)" optionLabel="name" display="chip" class="custom-multiselect"
+              required></p-multiSelect>
           </div>
         </div>
-        <div class="flex flex-wrap gap-3 mb-3">
+        <div class="flex flex-wrap gap-2 mb-8">
           <div class="flex-auto">
-            <label for="hex" class=" block mb-2"> Select Role(s)</label>
-            <p-dropdown [options]="roles" name="role" optionLabel="name" [filter]="true" [(ngModel)]="selectedRole"
-              filterBy="name" [showClear]="true" placeholder="Enter Role" styleClass="p-password"
-              [style]="{'width':'30vw','height':'45px'}" [required]="true" class="clickable-button">
-              <ng-template pTemplate="selectedItem">
-                <div class="flex align-items-center gap-2" *ngIf="selectedRole">
-                  <div>{{ selectedRole.name}}</div>
-                </div>
-              </ng-template>
-              <ng-template let-role pTemplate="item">
-                <div class="flex align-items-center gap-2">
-                  <div>{{role.name}}</div>
-                </div>
-              </ng-template>
-            </p-dropdown>
-          </div>
-        </div>
-        <div class="flex flex-wrap gap-2 mb-8" *ngIf="(selectedTab2 && selectedTab3)">
-          <div class="flex-auto" *ngIf="(selectedTab2 && selectedTab3)">
             <label for="employeeImage" class=" block mb-2"> Employee Image: </label>
             <p-fileUpload name="employeeImage" (onSelect)="onSelect1($event)" [showUploadButton]=false accept="image/*"
               [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000">
@@ -152,7 +125,7 @@
             </p-fileUpload>
           </div>
 
-          <div class="flex-auto" *ngIf="(selectedTab2 && selectedTab3)">
+          <div class="flex-auto">
             <label for="signatureImage" class=" block mb-2"> Signature Image: </label>
             <p-fileUpload name="signatureImage" (onSelect)="onSelect2($event)" [showUploadButton]=false accept="image/*"
               [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000" required>
@@ -165,8 +138,10 @@
           </div>
         </div>
         <div class="button-container">
-          <div class="spacer" *ngIf="selectedTab2 && selectedTab3"></div>
-          <button pButton type="submit" [disabled]="addUserForm.invalid" label="Create User"></button>
+          <div class="spacer"></div>
+          <p-toast></p-toast>
+          <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" position="buttom" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+          <button pButton type="submit" [disabled]="addUserForm.invalid" label="Create Admin" (click)="startAdding(addUserForm)"></button>
         </div>
       </div>
     </div>
@@ -195,7 +170,8 @@
           styleClass="p-password" [style]="{'width':'30vw','height':'45px'}">
           <ng-template pTemplate="selectedItem">
             <div class="flex align-items-center gap-2" *ngIf="selectedEmployee">
-              <div>{{ selectedEmployee.fullname}}</div>
+              <div>{{ selectedEmployee.givenName + " " + selectedEmployee.fatherName + " " +
+                selectedEmployee.grandFatherName}}</div>
             </div>
           </ng-template>
           <ng-template let-employeed pTemplate="item">
@@ -207,8 +183,15 @@
       </div>
       <div class="flex-auto">
         <label for="hex" class=" block mb-2"> Roles </label>
-        <p-multiSelect [options]="roles" [(ngModel)]="selectedRole" defaultLabel="Select Role" optionLabel="name"
-          display="chip" styleClass="custom-multiselect"></p-multiSelect>
+        <p-multiSelect [options]="modules" [(ngModel)]="selectedModules" defaultLabel="Select Module(s)"
+          optionLabel="name" display="chip" styleClass="custom-multiselect"></p-multiSelect>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-3">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Select Module(s)</label>
+        <p-multiSelect [options]="modules" [(ngModel)]="selectedModules" defaultLabel="Select Module(s)"
+          optionLabel="name" display="chip" styleClass="custom-multiselect"></p-multiSelect>
       </div>
     </div>
     <div class="flex flex-wrap gap-3 mb-3">

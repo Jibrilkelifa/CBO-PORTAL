@@ -8,7 +8,7 @@ import { ToastModule } from 'primeng/toast';
 
 import { FormModule } from '@coreui/angular';
 import { ECXRoutingModule } from "./ecx-routing.module";
-import { ECXComponent } from "./ECX/ecx.component";
+import { ECXComponent } from "./ecx/ecx.component";
 import { UpdateHistoryComponent } from "./ecx-history/update-history.component";
 import { UpdateFileHistoryComponent } from "./ecx-file-history/update-file-history.component";
 import { IconModule } from '@coreui/icons-angular';

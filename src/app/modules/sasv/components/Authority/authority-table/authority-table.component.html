@@ -21,12 +21,12 @@
     dataKey="id"
     [rows]="5"
     [globalFilterFields]="[
-      'organizationalUnit.name',
       'process.name',
       'subProcess.name',
       'district.name',
       'branch.name',
-      'employee.fullName'
+      'team.externalName',
+      'employee.employeeFullName'
     ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
@@ -34,25 +34,41 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="employee.name">
-          Employee name<p-sortIcon field="employee.name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="organizationalUnit.name">
-          Organizational unit<p-sortIcon
-            field="organizationalUnit.name"
-          ></p-sortIcon>
-        </th>
-        <th pSortableColumn="subProcess.name">
-          Sub process<p-sortIcon field="subProcess.name"></p-sortIcon>
+        <th pSortableColumn="employee.employeeFullName">
+          <div class="flex flex-start">
+            Employee name
+            <p-sortIcon field="employee.employeeFullName"></p-sortIcon>
+          </div>
         </th>
         <th pSortableColumn="process.name">
-          Process<p-sortIcon field="process.name"></p-sortIcon>
+          <div class="flex items-center">
+            Process
+            <p-sortIcon field="process.name"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="subProcess.name">
+          <div class="flex items-center">
+            Sub process
+            <p-sortIcon field="subProcess.name"></p-sortIcon>
+          </div>
         </th>
         <th pSortableColumn="district.name">
-          Disrict<p-sortIcon field="district.name"></p-sortIcon>
+          <div class="flex items-center">
+            District
+            <p-sortIcon field="district.name"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="team.externalName">
+          <div class="flex items-center">
+            Team
+            <p-sortIcon field="team.externalName"></p-sortIcon>
+          </div>
         </th>
         <th pSortableColumn="branch.name">
-          Branch/Team<p-sortIcon field="branch.name"></p-sortIcon>
+          <div class="flex items-center">
+            Branch
+            <p-sortIcon field="branch.name"></p-sortIcon>
+          </div>
         </th>
         <th scope="col">Actions</th>
       </tr>
@@ -61,22 +77,10 @@
       <tr [pSelectableRow]="authorityList">
         <td>{{ rowIndex + 1 }}</td>
         <td
-          pTooltip="{{ authorityList?.employee?.fullName }}"
+          pTooltip="{{ authorityList?.employee?.employeeFullName }}"
           tooltipPosition="bottom"
         >
-          {{ authorityList?.employee?.fullName }}
-        </td>
-        <td
-          pTooltip="{{ authorityList?.organizationalUnit?.name }}"
-          tooltipPosition="bottom"
-        >
-          {{ authorityList?.organizationalUnit?.name }}
-        </td>
-        <td
-          pTooltip="{{ authorityList?.subProcess?.name }}"
-          tooltipPosition="bottom"
-        >
-          {{ authorityList?.subProcess?.name }}
+          {{ authorityList?.employee?.employeeFullName }}
         </td>
         <td
           pTooltip="{{ authorityList?.process?.name }}"
@@ -85,10 +89,22 @@
           {{ authorityList?.process?.name }}
         </td>
         <td
+          pTooltip="{{ authorityList?.subProcess?.name }}"
+          tooltipPosition="bottom"
+        >
+          {{ authorityList?.subProcess?.name }}
+        </td>
+        <td
           pTooltip="{{ authorityList?.district?.name }}"
           tooltipPosition="bottom"
         >
           {{ authorityList?.district?.name }}
+        </td>
+        <td
+          pTooltip="{{ authorityList?.team?.externalName }}"
+          tooltipPosition="bottom"
+        >
+          {{ authorityList?.team?.externalName }}
         </td>
         <td
           pTooltip="{{ authorityList?.branch?.name }}"

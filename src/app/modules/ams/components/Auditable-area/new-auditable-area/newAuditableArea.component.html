@@ -1,0 +1,33 @@
+<div>
+  <form #auditableAreaForm="ngForm" (ngSubmit)="submitAuditableArea(auditableAreaForm)">
+    <div style="margin-top: 2em;"></div>
+    <div class="row">
+      <div class="col mb-4">
+        <label for="integer" class="block m-2"> Name: </label>
+        <input pInputText id="integer" pKeyFilter="int" [ngModel]="auditAreaInfo.name" name="name"
+          [style]="{'width':'300px','height':'45px'}" required minlength="10" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="row">
+        <div class="col mb-4">
+          <label for="integer" class=" block mb-2"> Description: </label>
+          <textarea pInputText id="integer" pKeyFilter="int" [ngModel]="auditAreaInfo.description" name="description"
+            style='width: 97%; height:150px; resize: none;' required minlength="3"></textarea>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="col mb-4">
+      </div>
+    </div>
+    <div style="margin-top: 10em;"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button *ngIf="!update" label="Create auditable area" [disabled]="auditableAreaForm.invalid!"
+        type="submit"></p-button>
+      <p-button *ngIf="update" label="Update auditable area" [disabled]="auditableAreaForm.invalid!"
+        type="submit"></p-button>
+    </div>
+  </form>
+</div>

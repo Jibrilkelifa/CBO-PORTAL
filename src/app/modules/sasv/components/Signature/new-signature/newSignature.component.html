@@ -3,81 +3,44 @@
     <div style="margin-top: 2em"></div>
     <div class="flex justify-between">
       <div class="m-4">
-        <label for="hex" class="block mb-2">
-          Select the employee Process:
-        </label>
-        <p-dropdown
-          [options]="processList"
-          name="process"
-          optionLabel="name"
-          (onChange)="onProcessChange($event)"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Choose process"
-          styleClass="p-password"
-          [required]="true"
-          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
-        >
-          <ng-template let-process pTemplate="item">
-            <div
-              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
-              pTooltip="{{ process.name }}"
-              tooltipPosition="top"
-            >
-              <div>{{ process.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class="m-4" *ngIf="processSelected">
         <label for="hex" class="block mb-2"> Employee: </label>
-        <p-dropdown
-          [options]="employeeslist"
-          name="employeeId"
-          optionLabel="fullName"
-          [filter]="true"
-          [(ngModel)]="signatureInfo.employeeId"
-          filterBy="fullName"
-          [showClear]="true"
-          placeholder="Choose employee"
-          styleClass="p-password"
-          [required]="true"
-          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
-        >
-          <ng-template let-employee pTemplate="item">
-            <div
-              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
-              pTooltip="{{ employee.fullName }}"
-              tooltipPosition="right"
-            >
-              <div>{{ employee.fullName }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+        <div class="w-60">
+          <p-autoComplete
+            name="employeeId"
+            [(ngModel)]="signatureInfo.employeeId"
+            [suggestions]="employeeslist"
+            (completeMethod)="onSearch($event)"
+            field="employeeFullName"
+            placeholder="Choose employee"
+            [required]="true"
+            [inputStyle]="{'width':'20vw'}"          >
+          </p-autoComplete>
+        </div>
       </div>
-    </div>
-    <div class="photo-container md:w-1/2 m-4">
-      <div class="photo-preview">
-        <img
-          *ngIf="imageURL; else noImage"
-          [src]="imageURL"
-          alt="Photo to display to public"
-        />
-        <ng-template #noImage>
-          <p>Signature image</p>
-        </ng-template>
-      </div>
-      <div class="form-group">
-        <input
-          type="file"
-          class="form-control"
-          id="signature"
-          name="signature"
-          accept="image/*"
-          (change)="onFileSelected($event)"
-          [required]="true"
-        />
+      <div>
+        <div class="photo-container md:w-1/2 m-4">
+          <div class="photo-preview">
+            <img
+              *ngIf="imageURL; else noImage"
+              [src]="imageURL"
+              alt="Photo to display to public"
+            />
+            <ng-template #noImage>
+              <p>Signature image</p>
+            </ng-template>
+          </div>
+          <div class="form-group">
+            <input
+              type="file"
+              class="form-control"
+              id="signature"
+              name="signature"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              [required]="true"
+            />
+          </div>
+        </div>
       </div>
     </div>
 
