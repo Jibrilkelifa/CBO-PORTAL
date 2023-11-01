@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+gitimport { Component } from '@angular/core';
 
 import {
   navItemMenu,
@@ -142,7 +142,7 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsCMSUser);
               this.dashboardRoute = "default_dashboard"
               break;
-            case "ROLE_AMS_ADMIN":
+            case "ROLE_CMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
               this.dashboardRoute = "default_dashboard"
               break;
