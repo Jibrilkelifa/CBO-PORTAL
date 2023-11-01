@@ -18,6 +18,9 @@ export let navItemsECXAdmin: Object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
+export let navItemSupervisor: Object;
+
+
 
 navItemMenu = {
   name: 'Menu',
@@ -58,6 +61,24 @@ navItemsSuperAdmin = {
     }
   ]
 }
+
+navItemSupervisor = {
+  name: 'Supervisor',
+  url: '/',
+  iconComponent: { name: 'cil-settings' },
+  children: [
+        {
+          name: 'Add User',
+          url: '/user/addUser'
+        },
+        {
+          name: 'View Users',
+          url: '/user/viewUsers'
+        },
+      ]
+    }
+  
+
 navItemsICMSAdmin = {
   name: 'Internal Control',
   url: '/ICMS',

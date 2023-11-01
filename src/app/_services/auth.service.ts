@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, retry, throwError } from 'rxjs';
@@ -18,7 +18,7 @@ export class AuthService {
 
   // ssoBathPath = 'http://localhost:8081';
   ssoBathPath = 'http://10.1.125.58:9081';
-  emsBasePath = 'http://10.1.125.58:9082';
+  emsBasePath = 'http://10.1.125.58:8082';
   // emsBasePath = 'http://10.1.125.58:9082';
 
 
@@ -49,17 +49,24 @@ export class AuthService {
   }
 
 
-  // Verify user credentials on server to get token
   loginForm(data: any): Observable<JwtResponse> {
     localStorage.clear();
+    const body = new HttpParams()
+      .set('username', data.username)
+      .set('password', data.password);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    };
     return this.http
-      .post<JwtResponse>(this.ssoBathPath + `/login?username=${data.username}&password=${data.password}`, null, this.httpOptions)
+      .post<JwtResponse>(this.ssoBathPath + '/login', body.toString(), httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
       );
   }
-
+  
   userData = new BehaviorSubject<any>(null);
   // After login save token and other values(if any) in localStorage
   async setUser(resp: JwtResponse) {
@@ -68,7 +75,8 @@ export class AuthService {
     localStorage.clear();
 
        // Get employee by ID
-       const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
+      //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
+      const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
 
 
@@ -77,6 +85,8 @@ export class AuthService {
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
+    localStorage.setItem('supervisor',employee?.supervisor);
+    localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
     localStorage.setItem('userId', resp?.user?.id.toString());
     localStorage.setItem('resp', JSON.stringify(resp))
     // localStorage.setItem('email', resp?.user?.employee?.companyEmail);

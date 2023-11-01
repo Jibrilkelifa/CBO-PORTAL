@@ -7,7 +7,7 @@ import { EmployeeService } from 'src/app/services/sso-services/employee.service'
 import { HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AuthService } from 'src/app/_services/auth.service';
-
+import { EMSService } from 'src/app/services/ems-services/ems-services.service';
 
 
 @Component({
@@ -36,7 +36,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   }
 
 
-  constructor(private classToggler: ClassToggleService, private router: Router, private employeeService: EmployeeService, private sanitizer: DomSanitizer, private authService:AuthService) {
+  constructor(private classToggler: ClassToggleService, private router: Router, private employeeService: EmployeeService, private sanitizer: DomSanitizer, private authService:AuthService,private emsService:EMSService) {
     super();
   }
 
@@ -44,7 +44,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
     this.getDefaultAvatar();
     this.user = localStorage.getItem('name');
-
+    console.log(this.emsService.getEmployeeById(parseInt( localStorage.getItem('userId'))).toPromise()); 
   
   }
 
@@ -85,7 +85,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   getDefaultAvatar() {
     const gender = localStorage.getItem('gender');
-    const defaultAvatar = gender === 'Male' ? 'default-male-avatar.png' : 'default-female-avatar.png';
+    const defaultAvatar = gender === 'Male' ? 'default-female-avatar.png' : 'default-male-avatar.png';
     const defaultAvatarPath = `./assets/img/${defaultAvatar}`;
 
     const employeeId = Number(localStorage.getItem('employeeId'));

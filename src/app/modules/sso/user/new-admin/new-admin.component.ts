@@ -122,7 +122,6 @@ export class NewAdminComponent implements OnInit {
 
 
   populateEmployeeData() {
-    console.log(this.selectedEmployee.fullName)
     this.selectedTab1 = false;
     this.selectedTab2 = true;
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
