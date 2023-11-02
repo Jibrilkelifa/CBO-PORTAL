@@ -96,7 +96,7 @@
         <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_ADMIN') ">
           {{dacgm?.actionPlanDueDate}}
         </td>
-        <td >
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">
           <div class="flex gap-2">
           <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
           class="p-button-sm w-24 h-10 p-2" label="Take action"></button>
