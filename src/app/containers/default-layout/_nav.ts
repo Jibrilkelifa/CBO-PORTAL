@@ -248,6 +248,28 @@ navItemsICMSDistrict = {
         },
       ]
     },
+   
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'View Data',
+          url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
+        },
+      
+      ]
+    },
     {
       name: 'DACGM',
       url: '/ICMS/DACGM',
@@ -257,10 +279,9 @@ navItemsICMSDistrict = {
           url: '/ICMS/DACGM/viewDACGM',
         },
       ]
-    }
+    },
   ]
 }
-
 navItemsICMSBranchManager = {
   name: 'Internal Control',
   url: '/ICMS',

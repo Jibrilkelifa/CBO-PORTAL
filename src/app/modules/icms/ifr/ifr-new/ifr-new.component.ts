@@ -240,7 +240,7 @@ export class FraudNewComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_BRANCH") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+    else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
       this.fraudService.getFraudForBranch(this.branchId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;

@@ -31,13 +31,15 @@ export class NewDCQComponent implements OnInit {
   selecteDCQType: ChequeType;
   public actionsTaken: ActionTaken[] = [];
   selectedActionTaken: ActionTaken;
-  selectedBranch: Branch;
+  public selectedBranch;
+  public selectedSubProcess;
   update: boolean = false;
   newDiv: boolean = true;
   public idY: number;
   msgs: Message[] = [];
   value: string;
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   chequeNumber: string;
   currentDate: Date;
@@ -48,13 +50,16 @@ export class NewDCQComponent implements OnInit {
   constructor(private router: Router, private messageService: MessageService, private DCQService: DCQService, private organizationalUnitService: OrganizationalUnitService, private timeService: TimeService, private activatedRoute: ActivatedRoute, private actionTakenService: ActionTakenService, private chequeTypeService: ChequeTypeService) { }
 
   ngOnInit() {
-    this.getOrganizationalUnit(this.branchId);
+    
     this.getDCQs(this.branchId);
     this.getChequeTypes();
     this.getActionsTaken();
     this.getCurrentDate();
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
+    
 
     if (this.idY) {
       this.getDCQ(this.idY);
@@ -62,6 +67,7 @@ export class NewDCQComponent implements OnInit {
       this.newDiv = false;
     }
   }
+  
 
   searchFrequency(accountNumber: string): void {
     if (accountNumber.length === 13) {
@@ -85,14 +91,14 @@ export class NewDCQComponent implements OnInit {
     }
   }
 
-  getOrganizationalUnit(branchId: number): void {
-    this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
-      (response: any) => {
-        this.selectedBranch = response;
-        console.log("org. unit: "+ this.selectedBranch)
-      }
-    );
-  }
+  // getOrganizationalUnit(branchId: number): void {
+  //   this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
+  //     (response: any) => {
+  //       this.selectedBranch = response;
+  //       console.log("org. unit: "+ this.selectedBranch)
+  //     }
+  //   );
+  // }
 
   getCurrentDate(): void {
     this.timeService.getDate().subscribe(

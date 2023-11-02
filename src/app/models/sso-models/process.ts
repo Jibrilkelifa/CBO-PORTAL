@@ -1,7 +1,7 @@
 import { Shared } from "./shared";
 
-export interface SubProcess {
+export interface Process {
   id: number;
   name: string;
-  code: string;
+  code: Shared;
 }

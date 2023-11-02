@@ -16,6 +16,7 @@ import { AllIrregularityService } from 'src/app/services/icms-services/all-irreg
 import { ActivityStatusService } from 'src/app/services/icms-services/dacgm-services/activity-status.service'
 import { ActivityStatus } from 'src/app/models/icms-models/dacgm-models/activity-status';
 import { TimeService } from '../../../../services/sso-services/time.service';
+import { SubProcess } from 'src/app/modules/sasv/models/subProcess';
 
 @Component({
   selector: 'app-accordions',
@@ -27,7 +28,9 @@ import { TimeService } from '../../../../services/sso-services/time.service';
 export class DACGMPlanComponent implements OnInit {
   public dacgms: DACGM[] = [];
   public dacgm: DACGM;
-  public selectedBranch: Branch;
+  public selectedBranch;
+  public selectedSubProcess;
+  // public selectedSubprocess: SubProcess;
   public selectedCategory: AllCategory;
   public selectedSubCategory: AllSubCategory;
   public selectedIrregularity: String;
@@ -80,14 +83,16 @@ export class DACGMPlanComponent implements OnInit {
     this.primengConfig.ripple = true;
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
-    this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
-      (response: any) => {
-        this.selectedBranch = response;
-      },
-      (error: HttpErrorResponse) => {
+    // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
+    //   (response: any) => {
+    //     this.selectedBranch = response;
+    //   },
+    //   (error: HttpErrorResponse) => {
 
-      }
-    );
+    //   }
+    // );
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
     this.activityStatusService.getActivityStatus(1).subscribe(
       (response: any) => {
         this.selectedActivityStatus = response;
@@ -113,7 +118,8 @@ export class DACGMPlanComponent implements OnInit {
         this.dacgm = response;
         console.log(this.dacgm)
         this.selectedCaseId = this.dacgm.caseId;
-        // this.selectedBranch = this.dacgm.branch;
+       this.selectedBranch = this.dacgm.branch;
+       this.selectedSubProcess =this.dacgm.subProcess;
         this.selectedDate = this.dacgm.date;
         this.selectedActivityStatus= this.dacgm.activityStatus.name;
         this.selectedIrregularity =this.dacgm.irregularity.name;

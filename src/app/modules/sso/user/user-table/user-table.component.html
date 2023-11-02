@@ -49,7 +49,7 @@
             <ng-container
               *ngFor="let item of (checkRole('ROLE_SUPER_ADMIN'))? filteredUser.modules : filteredUser.roles">
               <ng-container *ngIf="(this.checkRole('ROLE_ICMS_ADMIN') && ((item.name.indexOf('ROLE_ICMS_BRANCH') !==-1 ||
-                item.name.indexOf('ROLE_ICMS_BRANCH_MANAGER') !==-1 || item.name.indexOf('ROLE_ICMS_DISTRICT') !==-1 || item.name.indexOf('ROLE_ICMS_PROVISION') !==-1 ||
+                item.name.indexOf('ROLE_ICMS_BRANCH_MANAGER') !==-1 || item.name.indexOf('ROLE_ICMS_DISTRICT_IC') !==-1 || item.name.indexOf('ROLE_ICMS_PROVISION') !==-1 ||
                 item.name.indexOf('ROLE_ICMS_ADMIN') !==-1))) || (this.checkRole('ROLE_SASV_ADMIN') &&
                 (item.name.indexOf('ROLE_SASV_ADMIN') !==-1 || item.name.indexOf('ROLE_SASV_USER') !==-1)) ||
                 (this.checkRole('ROLE_CC_ADMIN') && (item.name.indexOf('ROLE_CC_ADMIN') !==-1 ||

@@ -15,7 +15,7 @@ import { CaseStatus } from '../../../../models/icms-models/ifr-models/case-statu
 import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
-import { Branch } from 'src/app/models/sso-models/branch';
+
 
 @Component({
   selector: 'app-accordions',
@@ -38,7 +38,10 @@ export class NewFraudComponent implements OnInit {
   selectedFraudType: FraudType;
   public suspectedFraudsterProfessions: SuspectedFraudsterProfession[] = [];
   selectedSuspectedFraudsterProfession: SuspectedFraudsterProfession;
-  selectedBranch: Branch;
+  public selectedBranch;
+  public selectedSubProcess;
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   fraudOccurrenceDate: Date;
   fraudDetectionDate: Date = new Date();
   update: boolean = false;
@@ -47,7 +50,7 @@ export class NewFraudComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   datePresented: string;
-  branchId: number = Number(localStorage.getItem('branchId'));
+  
 
   isOtherFraudCategorySelected: boolean = false;
   isClosedOrWrittenOffSelected: boolean = false;
@@ -129,7 +132,7 @@ export class NewFraudComponent implements OnInit {
     this.getSuspectedFraudesterProfessions();
     this.getCurrentDate();
     this.generateCaseId();
-    this.getOrganizationalUnit(this.branchId);
+    // this.getOrganizationalUnit(this.branchId);
 
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
@@ -139,6 +142,8 @@ export class NewFraudComponent implements OnInit {
       this.update = true;
       this.newDiv = false;
     }
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
   }
 
   checkRole(roleName: string): boolean {
@@ -150,6 +155,7 @@ export class NewFraudComponent implements OnInit {
     });
     return result; // return the result at the end of the function
   }
+  
 
   populateRoles(): void {
     let index = 0;
@@ -162,13 +168,14 @@ export class NewFraudComponent implements OnInit {
     }
   }
 
-  getOrganizationalUnit(branchId: number): void {
-    this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
-      (response: any) => {
-        this.selectedBranch = response;
-      }
-    );
-  }
+  // getOrganizationalUnit(branchId: number): void {
+  //   this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
+  //     (response: any) => {
+  //       this.selectedBranch = response;
+  //     }
+  //   );
+  // }
+  
 
   getCurrentDate(): void {
     this.timeService.getDate().subscribe(
@@ -306,6 +313,7 @@ export class NewFraudComponent implements OnInit {
     this.fraudService.updateFraud(updateFraud.value).subscribe(
       (response: IFR) => {
         this.getFrauds(this.branchId);
+       
         this.messageService.add({
           severity: 'success',
           summary: 'Success',

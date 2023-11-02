@@ -57,12 +57,15 @@ export class IFRProvisionComponent implements OnInit {
   public selectedProvisionHeld: string;
 
   public selectedFraud: IFR;
-  public selectedBranch: Branch;
+  public selectedBranch;
+  public selectedSubProcess;
 
   msgs: Message[] = [];
   value: string;
 
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
+
   preparedBy: string = localStorage.getItem('name');
   authorizedBy: string = "Not Authorized";
   daysAfterDetection: string;
@@ -79,15 +82,17 @@ export class IFRProvisionComponent implements OnInit {
     private router: Router,
     private fraudService: IFRService,
     private messageService: MessageService,
-    private organizationalUnitService: OrganizationalUnitService
+    // private organizationalUnitService: OrganizationalUnitService
   ) { }
 
   ngOnInit() {
     this.populateRoles();
-    this.getOrganizationalUnit(this.branchId);
+    // this.getOrganizationalUnit(this.branchId);
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
     this.getFraud(this.idY);
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
   }
 
   updateDaysAfterDetection() {
@@ -132,13 +137,14 @@ export class IFRProvisionComponent implements OnInit {
     }
   }
 
-  getOrganizationalUnit(branchId: number): void {
-    this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
-      (response: any) => {
-        this.selectedBranch = response;
-      }
-    );
-  }
+  // getOrganizationalUnit(branchId: number): void {
+  //   this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
+  //     (response: any) => {
+  //       this.selectedBranch = response;
+  //     }
+  //   );
+  // }
+  
 
   public getFraud(id: number): IFR {
     this.fraudService.getFraud(id).subscribe(

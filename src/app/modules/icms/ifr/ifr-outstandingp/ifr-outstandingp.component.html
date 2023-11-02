@@ -1,6 +1,6 @@
 
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0; margin-left: -120px;" [value]="msgs"></p-messages>
-<div class="card" style="width: 80vw; margin-left: -120px;">
+<div class="card" >
   <div class="spacer">
     <span style="font-size: larger; font-weight: bolder;">Incident/Fraud Reporting Table</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('fraudTable')"
@@ -81,8 +81,8 @@
 
     <ng-template pTemplate="body" let-fraudp>
       <tr [pSelectableRow]="fraudp">
-        <td>{{fraudp?.organizationalUnit?.subProcess?.name}}</td>
-        <td>{{fraudp?.organizationalUnit?.name}}</td>
+        <td>{{fraudp?.subProcess?.name}}</td>
+        <td>{{fraudp?.branch.name}}</td>
         <td>{{fraudp?.caseId}}</td>
         <td>{{fraudp?.suspectedFraudsterName}}</td>
         <td>{{fraudp?.suspectedFraudsterAddress}}</td>
@@ -128,7 +128,7 @@
         [ngClass]="{ 'red': calculateDaysSinceFraudDetection(fraudp?.fraudDetectionDate )>=0 }">
         {{absoluteValue(calculateDaysSinceFraudDetection(fraudp?.fraudDetectionDate))}}</td>
         <!-- <td *ngIf="fraudp.authorizedBy !== 'Not Authorized'">Authorized!</td> -->
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') ">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') ">
           <!-- && !(fraudp.authorizedBy !== 'Not Authorized') -->
           <button pButton (click)="updateFrauds(fraudp?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Update"></button>

@@ -92,7 +92,7 @@
 
           <div class="col-md-6">
             <a href="/#/ICMS/Fraud/closedFraud" class="custom-link3 text-danger">
-            <c-widget-stat-c [title]="'Total number of closed and written off cases during the quarter'" class="mb-4" color="danger" [value]="closedCaseDuringTheQuarter">
+            <c-widget-stat-c [title]="'Closed and written off cases during the quarter'" class="mb-4" color="danger" [value]="closedCaseDuringTheQuarter">
               <ng-template cTemplateId="widgetIconTemplate">
                 <svg cIcon height="36" name="cilChartPie"></svg>
               </ng-template>
@@ -156,7 +156,7 @@
     <div class="row">
       <div class="col-md-6">
         <c-row>
-          <c-col md="8" xl="10">
+          <c-col md="12" xl="10">
             <a href="/#/ICMS/DCQ/viewDCQ" class="custom-link4 text-info">
             <c-widget-stat-c [title]="'Total number of dishonoured cheques'" class="mb-4" color="info" [value]="totalNumberOfDishonouredCheque">
               <ng-template cTemplateId="widgetIconTemplate">
@@ -169,9 +169,9 @@
       </div>
       <div class="col-md-6">
         <c-row>
-          <c-col md="8" xl="10">
+          <c-col md="12" xl="10">
             <a href="/#/ICMS/DCQ/weekDCQ" class="custom-link2 text-success">
-            <c-widget-stat-c [title]="'Total number of dishonoured cheques three times in last week'" class="mb-4" color="success" [value]="ThreeTimesInLastWeek">
+            <c-widget-stat-c [title]="'Dishonoured cheques three times in last week'" class="mb-4" color="success" [value]="ThreeTimesInLastWeek">
               <ng-template cTemplateId="widgetIconTemplate">
                 <svg cIcon height="36" name="cilChartPie"></svg>
               </ng-template>

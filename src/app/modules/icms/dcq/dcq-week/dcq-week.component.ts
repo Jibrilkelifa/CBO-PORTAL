@@ -27,7 +27,7 @@ export class DCQWeekComponent {
     [
       { name: 'Date Presented', value: 'datePresented' },
       { name: 'Branch Name', value: 'branch.name' },
-      { name: 'District Name', value: 'branch.subProcess.name' },
+      { name: 'District Name', value: 'subProcess.name' },
       { name: 'Full Name of Drawer', value: 'fullNameOfDrawer' },
       { name: 'Account Number', value: 'accountNumber' },
       { name: 'TIN Number', value: 'tin' },
@@ -139,6 +139,7 @@ export class DCQWeekComponent {
   }
 
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   roles: string[] = [];
 
   constructor(private filterService: FilterService, private DCQService: DCQService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
@@ -201,7 +202,7 @@ export class DCQWeekComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
+    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
       this.DCQService.getDCQForBranch(this.branchId).subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
@@ -212,11 +213,11 @@ export class DCQWeekComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT") !== -1) {
-      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branchId => {
-        this.districtId = branchId?.subProcess?.id
-      });
-      this.DCQService.getDCQForDistrict(this.districtId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
+      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branchId => {
+      //   this.districtId = branchId?.subProcess?.id
+      // });
+      this.DCQService.getDCQForDistrict(this.subProcessId).subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
 

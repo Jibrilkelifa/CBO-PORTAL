@@ -1,3 +1,6 @@
+import { Branch } from "../../../models/sso-models/branch";
+import { SubProcess } from "../../../models/sso-models/sub-process";
+
 export interface CIPM {
   id: number;
   borrowerName: string,
@@ -11,15 +14,18 @@ export interface CIPM {
   collateralType: {
     id: number
   },
+  status: {
+    id: number
+  },
   otherCollateralType: string,
   insuranceCoverageType: {
     id: number
   },
   otherInsuranceCoverageType: string,
   insuredName: string,
+  isAuthorized:boolean,
   insuranceExpireDate: string,
-  branch: {
-    id: number
-  }
+  branch:Branch;
+  subProcess:SubProcess;
 }
 

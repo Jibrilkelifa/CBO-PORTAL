@@ -87,13 +87,13 @@
       <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
         <label for="alphabetic" class="block mb-2">Account Number</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
-          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="" />
       </div>
       
       <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
         <label for="alphabetic" class="block mb-2">Account Name</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountName"
-          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="" />
       </div>
       <div class="flex-auto" *ngIf="selectedCategory && selectedSubCategory">
         <label for="hex" class=" block mb-2"> Irregualrity </label>
@@ -120,7 +120,7 @@
       <div class="flex-auto"  *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
         <label for="alphabetic" class="block mb-2">Amount Involved</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="amountInvolved"
-          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="" />
       </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Responsible Person </label>
@@ -132,6 +132,11 @@
     <div class="flex-auto" [hidden]="true">
       <label for="alphabetic" class=" block mb-2"> Branch</label>
       <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+        [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> District</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
         [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
     </div>
     <div class="flex-auto" [hidden]="true">
@@ -210,6 +215,11 @@
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class=" block mb-2"> Branch</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+          [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> District</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>

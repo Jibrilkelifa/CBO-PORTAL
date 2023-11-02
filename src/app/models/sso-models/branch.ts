@@ -8,5 +8,5 @@ export interface Branch {
   mnemonic: string;
   location: Location;
   telephone: string;
-  subProcess: SubProcess;
+  
 }

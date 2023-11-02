@@ -1,5 +1,5 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
-<div class="card" style="width: 80vw; margin-left: -120px;">
+<div class="card" >
   <div class="spacer">
     <span style="font-size: larger; font-weight: bolder;">Dishounoured Cheques Table</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('DCQTable')"
@@ -51,7 +51,7 @@
       <tr>
         <!-- <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th> -->
         <th scope="col" pSortableColumn="datePresented" style="width:9%">Date Presented</th>
-        <th scope="col" pSortableColumn="branch.district.name" style="width:5%">District Name</th>
+        <th scope="col" pSortableColumn="subProcess.name" style="width:5%">District Name</th>
         <th scope="col" pSortableColumn="branch.name" style="width:8%">Branch Name</th>
         <th scope="col" pSortableColumn="fullNameOfDrawer" style="width:20%">Full Name of Drawer</th>
         <th scope="col" pSortableColumn="accountNumber" style="width:8%">Account Number<p-sortIcon></p-sortIcon></th>
@@ -76,7 +76,7 @@
     <ng-template pTemplate="body" let-DCQw>
       <tr [pSelectableRow]="DCQw">
         <td>{{DCQw?.datePresented}}</td>
-        <td>{{DCQw?.branch?.subProcess?.name}}</td>
+        <td>{{DCQw?.subProcess?.name}}</td>
         <td>{{DCQw?.branch?.name}}</td>
         <td>{{DCQw?.fullNameOfDrawer}}</td>
         <td>{{DCQw?.accountNumber}}</td>

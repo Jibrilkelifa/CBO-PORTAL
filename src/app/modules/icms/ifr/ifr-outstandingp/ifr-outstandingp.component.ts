@@ -242,7 +242,7 @@ export class FraudOutstandingpComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_BRANCH") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+    else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
       this.fraudService.getFraudForBranch(this.branchId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;
@@ -253,7 +253,7 @@ export class FraudOutstandingpComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_DISTRICT")) {
+    else if (roles.includes("ROLE_ICMS_DISTRICT_IC")) {
       this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch=> {
         this.districtId = branch?.subProcess?.id
       });

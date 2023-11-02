@@ -3,6 +3,8 @@ import { Branch } from "./branch";
 import { Shared } from "./shared";
 import { SharedWithCode } from "./shared-with-code";
 import { Team } from "./team";
+import { SubProcess } from "./sub-process";
+import { Process } from "./process";
 
 export interface Employee {
   id: number;
@@ -21,9 +23,6 @@ export interface Employee {
   branch : Branch;
   position : Shared;
   team : Team;
-  subProcess : SharedWithCode;
-  process : SharedWithCode;
-  supervisor:boolean;
-  subordinateIds :BigInt[];
-
+  subProcess : SubProcess;
+  process : Process;
 }

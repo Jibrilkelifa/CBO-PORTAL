@@ -71,7 +71,8 @@ export class FraudTableComponent {
       { name: 'Other Fraudster Profession', value: 'otherSuspectedFraudsterProfession' },
       { name: 'Other Information', value: 'otherComment' },
       { name: 'incaseOfClosedOrWrittenOff', value: 'incaseOfClosedOrWrittenOff' },
-      { name: 'Branch Name', value: 'branch.name' }
+      { name: 'Branch Name', value: 'branch.name' },
+      { name: 'District Name', value: 'subProcess.name' }
     ];
   selectedSearchParameter: any;
   filterTable(target: any, dataTable: any) {
@@ -157,6 +158,7 @@ export class FraudTableComponent {
 
 
   branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   roles: string[] = [];
 
   updateFrauds(id: number): void {
@@ -228,7 +230,7 @@ export class FraudTableComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_BRANCH") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+    else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
       this.fraudService.getFraudForBranch(this.branchId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;
@@ -239,11 +241,11 @@ export class FraudTableComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_DISTRICT")) {
-      this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-        this.districtId = branch?.subProcess?.id
-      });
-      this.fraudService.getFraudForDistrict(this.districtId).subscribe(
+    else if (roles.includes("ROLE_ICMS_DISTRICT_IC")) {
+      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
+      //   this.districtId = branch?.subProcess?.id
+      // });
+      this.fraudService.getFraudForDistrict(this.subProcessId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;
         },
