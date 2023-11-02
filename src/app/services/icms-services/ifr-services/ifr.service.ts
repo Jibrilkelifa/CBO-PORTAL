@@ -99,8 +99,8 @@ export class IFRService {
         authorizedBy: fraud.authorizedBy,
         fraudCause: fraud.fraudCause,
         fraudAmount: fraud.fraudAmount,
-        fraudCategory: {
-          id: fraud.categ
+        allCategory: {
+          id: fraud.allCategory.id
         },
         otherFraudCategory: fraud.otherFraudCategory,
         fraudType: {
