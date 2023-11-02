@@ -49,14 +49,16 @@ export class AuditUniverseComponent implements OnDestroy {
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'name', header: 'Name' },
+      { field: 'name', header: 'Audit Object' }, // Add this line
       { field: 'auditType', header: 'Auditable Type' },
       { field: 'status', header: 'Status' },
     ];
-
+    
     this.exportColumns = this.cols.map((col) => ({
       title: col.header,
       dataKey: col.field,
     }));
+
   }
 
   getAuditUniverses(): void {
@@ -160,21 +162,31 @@ export class AuditUniverseComponent implements OnDestroy {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.auditUniverse);
+        const data = this.auditUniverse.map((universe, index) => ({
+          id: index + 1,
+          Name: universe.name,
+          'Audit Object': universe.auditObject.name,
+          'Audit Type': universe.auditType,
+          status: universe.status,
+        }));
+        
+        (doc as any).autoTable(this.exportColumns, data);
         doc.save('Audit universe.pdf');
       });
     });
   }
+  
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const data = this.auditUniverse.map(universe => ({
-        id: universe.id,
-        name: universe.name,
-        auditType: universe.auditType,
-        status: universe.status
+      const data = this.auditUniverse.map((universe, index) => ({
+        Id: index + 1,
+        Name: universe.name,
+        'Audit Object': universe.auditObject.name || 'N/A',
+        'Audit Type': universe.auditType,
+        Status: universe.status,
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };

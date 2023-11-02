@@ -73,6 +73,7 @@
         </p-dropdown>
       </div>
       <p-button
+      *ngIf="!update"
         (click)="createAuditObject()"
         class="mt-4"
         label="Add audit object"

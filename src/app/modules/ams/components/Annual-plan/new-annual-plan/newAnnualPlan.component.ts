@@ -111,19 +111,22 @@ export class NewAnnualPlanComponent implements OnDestroy, AfterContentChecked {
   }
 
   updateAnnualPlan(updateDivForm: NgForm): void {
-    let annualPlan: AnnualPlanDTO = updateDivForm.value;
-    annualPlan = this.annualPlanInfo;
-    annualPlan.riskScores = this.savedRiskScores;
-
+    const updatedAnnualPlan: AnnualPlanDTO = {
+      ...this.annualPlanInfo,
+      ...updateDivForm.value,  
+      riskScores: this.savedRiskScores, 
+    };
+  
     this.subscriptions.push(
       this.annualPlanService
-        .updateAnnualPlan(annualPlan)
+        .updateAnnualPlan(updatedAnnualPlan)
         .subscribe((response: any) => {
           this.messageService.clear();
           this.ref.close(response);
         })
     );
   }
+  
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

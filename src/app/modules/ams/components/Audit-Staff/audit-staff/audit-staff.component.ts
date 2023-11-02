@@ -164,23 +164,20 @@ export class AuditStaffComponent implements OnDestroy {
   }
 
   exportCsv() {
-    const header = ['ID', 'Name', 'Audit Type', 'Status']; // Define the CSV header
-  
+    const header = ['ID', 'Name', 'Audit Type', 'Status'];
+
     const data = this.auditStaff.map((staff, index) => ({
       ID: index + 1,
       Name: staff.user.employee.fullName,
       'Audit Type': staff.auditType.name,
       Status: staff.status,
     }));
-  
-    // Create a CSV string
+
     const csvContent = this.convertArrayOfObjectsToCSV(data, header);
-  
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-  
-    FileSaver.saveAs(blob, 'AuditStaff.csv'); // Save the CSV file
+    FileSaver.saveAs(blob, 'AuditStaff.csv');
   }
-  
+
   convertArrayOfObjectsToCSV(data, header) {
     const csv = data.map((row) => {
       return header.map((fieldName) => {
@@ -188,30 +185,26 @@ export class AuditStaffComponent implements OnDestroy {
         return this.escapeCSV(value);
       }).join(',');
     });
-  
+
     return [header.join(','), ...csv].join('\n');
   }
-  
+
   escapeCSV(value) {
     if (typeof value === 'string') {
       return `"${value.replace(/"/g, '""')}"`;
     }
     return value;
   }
-  
-  
-
-
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const data = this.auditStaff.map(staff => ({
-        id: staff.id,
-        fullName: staff.user.employee.fullName,
-        name: staff.auditType.name,
-        status: staff.status
+      const data = this.auditStaff.map((staff, index) => ({
+        Id: index + 1,
+        'Employee Name': staff.user.employee.fullName,
+        Name: staff.auditType.name,
+        Status: staff.status
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };

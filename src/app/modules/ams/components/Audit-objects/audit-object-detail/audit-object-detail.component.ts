@@ -136,6 +136,72 @@ export class AuditObjectDetailComponent {
     });
   }
 
+  updateAuditableObject(id: number): void {
+    const auditableArea = this.auditableArea.find((area) => area.id === id);
+    const ref = this.dialogService.open(NewAuditableAreaComponent, {
+      header: 'Update auditable area',
+      width: '50%',
+      data: { auditableArea },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response) {
+        this.auditableArea = this.auditableArea.map((area) =>
+          area.id === response.id ? response : area
+        );
+        if (response.status) {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: response.message,
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: response.message,
+          });
+        }
+      }
+    });
+  }
+
+  updateChecklist(id: number): void {
+    const checklist = this.checklist.find((check) => check.id === id);
+    console.log("check", checklist);
+    const ref = this.dialogService.open(NewCheckListComponent, {
+      header: 'Update auditable area',
+      width: '50%',
+      data: { checklist },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response) {
+        this.checklist = this.checklist.map((check) =>
+          check.id === response.id ? response : check
+        );
+        if (response.status) {
+          this.getCheckLists();
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Success',
+            detail: response.message,
+          });
+        } else {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Failed',
+            detail: response.message,
+          });
+        }
+      }
+    });
+  }
+
+
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();

@@ -54,7 +54,6 @@ export class AnnualPlanComponent {
       { field: 'name', header: 'Name' },
       { field: 'description', header: 'Description' },
       { field: 'year', header: 'Year' },
-      { field: 'auditaUniverseName', header: 'Audit Universe' },
       { field: 'riskScore', header: 'Risk score' },
       { field: 'riskLevel', header: 'Risk Level' },
       { field: 'status', header: 'Status' },
@@ -221,7 +220,6 @@ export class AnnualPlanComponent {
         name: plan.name,
         description: plan.description,
         year: plan.year,
-        auditaUniverseName: plan.auditaUniverseName,
         riskScore: plan.riskScore,
         riskLevel: plan.riskLevel,
         status: plan.status

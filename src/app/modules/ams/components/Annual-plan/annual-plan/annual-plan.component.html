@@ -64,10 +64,10 @@
         <th pSortableColumn="description">
           Description <p-sortIcon field="description"></p-sortIcon>
         </th>
-        <th pSortableColumn="type">Year</th>
-        <th pSortableColumn="status">Risk scores</th>
-        <th pSortableColumn="status">Risk level</th>
-        <th pSortableColumn="status">Status</th>
+        <th>Year</th>
+        <th pSortableColumn="riskScore">Risk scores<p-sortIcon field="riskScore"></p-sortIcon></th>
+        <th pSortableColumn="riskLevel">Risk level<p-sortIcon field="riskLevel"></p-sortIcon></th>
+        <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
         <th scope="col">Actions</th>
       </tr>
       <tr>
@@ -94,16 +94,7 @@
             class="p-column-filter"
           />
         </th>
-        <th scope="col">
-          <input
-            pInputText
-            type="text"
-            (input)="dt1.filter($any($event.target)?.value, 'year', 'contains')"
-            [value]="$any(dt1.filters['year'])?.value"
-            placeholder="Search by year"
-            class="p-column-filter"
-          />
-        </th>
+        <th scope="col"></th>
         <th scope="col">
           <input
             pInputText

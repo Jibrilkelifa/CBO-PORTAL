@@ -52,7 +52,7 @@ export class AuditObjectComponent {
       { field: 'id', header: 'ID' },
       { field: 'name', header: 'Name' },
       { field: 'description', header: 'Description' },
-      { field: 'auditType', header: 'Auditable Type' },
+      { field: 'auditType', header: 'Audit Type' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({
@@ -166,11 +166,11 @@ export class AuditObjectComponent {
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const data = this.auditObjectDisplay.map(object => ({
-        id: object.id,
-        name: object.name,
-        description: object.description,
-        auditType: object.auditType,
+      const data = this.auditObjectDisplay.map((object,index) => ({
+        Id: index + 1,
+        Name: object.name,
+        Description: object.description,
+        AuditType: object.auditType,
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
