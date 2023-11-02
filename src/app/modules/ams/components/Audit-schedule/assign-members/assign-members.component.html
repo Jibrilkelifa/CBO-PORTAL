@@ -11,11 +11,11 @@
     <div class="flex" *ngFor="let row of rows; let i = index">
       <div class="col mb-1">
         <p-dropdown
-          [options]="employeeslist"
+          [options]="auditStafflist"
           name="user{{ i }}"
-          optionLabel="employee.fullName"
+          [(ngModel)]="row.auditStaffDTO"
+          optionLabel="user.employee.fullName"
           [filter]="true"
-          [(ngModel)]="row.user"
           filterBy="fullName"
           [showClear]="true"
           placeholder="Choose member"
@@ -28,9 +28,9 @@
 
       <div class="mb-1 mr-4">
         <p-dropdown
-          [options]="['Team Leader', 'Member']"
+          [options]="['Leader', 'Member']"
           name="teamType{{ i }}"
-          [(ngModel)]="row.teamType"
+          [(ngModel)]="row.teamRole"
           [showClear]="true"
           placeholder="Choose role"
           styleClass="p-password"

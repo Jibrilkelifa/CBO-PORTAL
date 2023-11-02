@@ -37,6 +37,10 @@ export class AuditScheduleComponent implements OnDestroy {
   exportColumns!: ExportColumn[];
   cols!: Column[];
 
+  leaderSearchTerm: string = '';
+  memberSearchTerm: string = '';
+
+
   public dropdownOptions = ['1', '2', '3', '4'];
   public selectedDropdown: string;
 
@@ -72,14 +76,17 @@ export class AuditScheduleComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditScheduleService.getAuditSchedules().subscribe(
         (response: any) => {
-          console.log("2222" , response);
-          this.auditSchedules = response.result.map(
-            (schedule: AuditScheduleDTO) => ({
+          this.auditSchedules = response.result.map((schedule: AuditScheduleDTO) => {
+            const leader = schedule.teamMembers.find(member => member.teamRole === 'Leader');
+            const members = schedule.teamMembers.filter(member => member.teamRole === 'Member');
+            return {
               ...schedule,
               startOn: this.datePipe.transform(schedule.startOn, 'MMMM d, y'),
               endOn: this.datePipe.transform(schedule.endOn, 'MMMM d, y'),
-            })
-          );
+              leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
+              memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
+            };
+          });
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -87,6 +94,7 @@ export class AuditScheduleComponent implements OnDestroy {
       )
     );
   }
+  
 
   getAnnualPlans(): void {
     this.subscriptions.push(
@@ -105,8 +113,6 @@ export class AuditScheduleComponent implements OnDestroy {
     const auditSchedule = this.auditSchedules.find(
       (schedule) => schedule.id === id
     );
-    console.log("1111" , auditSchedule);
-    
     const ref = this.dialogService.open(NewAuditScheduleComponent, {
       header: 'Update audit schedule',
       width: '50%',
@@ -116,21 +122,21 @@ export class AuditScheduleComponent implements OnDestroy {
     });
 
     ref.onClose.subscribe((response: any) => {
-        if (response.status) {
-          this.getAuditSchedules();
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: response.message,
-          });
-        } else {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Failed',
-            detail: response.message,
-          });
-        }
-      
+      if (response.status) {
+        this.getAuditSchedules();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+
     });
   }
 
@@ -161,6 +167,18 @@ export class AuditScheduleComponent implements OnDestroy {
         )
     );
   }
+  getLeaderName(auditSchedule: AuditScheduleDTO): string {
+    const leader = auditSchedule?.teamMembers.find(member => member.teamRole === 'Leader');
+    return leader?.auditStaffDTO?.user?.employee?.fullName || '';
+  }
+
+  getMemberNames(auditSchedule: AuditScheduleDTO): string {
+    const members = auditSchedule?.teamMembers
+      .filter(member => member.teamRole === 'Member')
+      .map(member => member.auditStaffDTO?.user?.employee?.fullName);
+    return members?.join(', ') || '';
+  }
+
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

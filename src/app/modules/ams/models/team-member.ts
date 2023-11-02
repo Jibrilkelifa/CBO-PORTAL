@@ -1,12 +1,11 @@
-import { UserDTO } from "./userDTO";
+import { AuditStaffDTO } from "./auditStaff";
 import { BaseModel } from "./base";
 
 export class TeamMemberDTO extends BaseModel {
+    status : string;
     auditScheduleId: number;
-    status: string;
-    user: UserDTO;
-    teamMemberStatus: string;
-    teamType: string;
+    auditStaffDTO: AuditStaffDTO;
+    teamRole: string;
     auditStatus: string;
     perdium: number;
 }

@@ -220,7 +220,7 @@ export class DefaultLayoutComponent {
                 this.navItems.push(navItemSupervisor);
               }
               break;
-            case "ROLE_CMS_ADMIN":
+            case "ROLE_AMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
               this.dashboardRoute = "default_dashboard"
               break;

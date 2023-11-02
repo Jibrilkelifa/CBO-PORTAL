@@ -86,6 +86,10 @@ navItemsAMSAdmin =  {
   iconComponent: { name: 'cil-drop' },
   children: [
     {
+      name: 'Audit Staff',
+      url: '/ams/audit-staff',
+    },
+    {
       name: 'Audit universe',
       url: '/ams/audit-universe',
     },
@@ -98,7 +102,7 @@ navItemsAMSAdmin =  {
       url: '/ams/annual-plan',
     },
     {
-      name: 'Schedule',
+      name: 'Audit Schedule',
       url: '/ams/audit-schedule',
     },
   ],

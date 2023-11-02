@@ -62,6 +62,8 @@ export class NewAuditScheduleComponent implements OnDestroy {
       };
       this.selectedDropdown = this.config.data.auditSchedule.quarter.toString();
       this.savedAssignmembers = this.config.data.auditSchedule.teamMembers;
+      console.log("pppp", this.savedAssignmembers);
+
       this.update = true;
       this.newDiv = false;
     }
@@ -91,11 +93,9 @@ export class NewAuditScheduleComponent implements OnDestroy {
   }
 
   updateAuditSchedule(updateDivForm: NgForm): void {
-    let auditSchedule: AuditScheduleDTO;
-    auditSchedule = updateDivForm.value;
-    auditSchedule = this.scheduleInfo;
+    let auditSchedule: AuditScheduleDTO = { ...this.scheduleInfo };
+    auditSchedule = { ...auditSchedule, ...updateDivForm.value };
     auditSchedule.teamMembers = this.savedAssignmembers;
-
     this.subscriptions.push(
       this.auditScheduleService
         .updateAuditSchedule(auditSchedule)
@@ -110,7 +110,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
     this.assignMembersDialogRef = this.dialogService.open(AssignMembersComponent, {
       header: 'Assign members and their roles',
       width: '60%',
-      data: { scheduleInfo: this.scheduleInfo, savedAssignmembers: this.savedAssignmembers},
+      data: { scheduleInfo: this.scheduleInfo, savedAssignmembers: this.savedAssignmembers },
     });
     this.assignMembersDialogRef.onClose.subscribe((teamMembers) => {
       if (teamMembers) {
