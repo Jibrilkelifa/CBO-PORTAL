@@ -21,7 +21,7 @@
   </div>
 </form>
 <div class="card">
-  <h5 class="table-title">Audit Schedule</h5>
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Schedule</h5>
   <p-table
     #dt1
     [value]="auditSchedules"
@@ -78,6 +78,8 @@
         </th>
         <th pSortableColumn="status">Status</th>
         <th pSortableColumn="status">Annual plan</th>
+        <th pSortableColumn="Leader">Leader</th>
+        <th pSortableColumn="Member">Member</th>
         <th scope="col">Actions</th>
       </tr>
       <tr>
@@ -134,6 +136,24 @@
             class="p-column-filter"
           />
         </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'leaderName', 'contains')"
+            placeholder="Search by leader name"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'memberNames', 'contains')"
+            placeholder="Search by member names"
+            class="p-column-filter"
+          />
+        </th>        
         <th scope="col"></th>
       </tr>
     </ng-template>
@@ -144,6 +164,8 @@
         <td>{{ auditSchedule?.endOn }}</td>
         <td>{{ auditSchedule?.status }}</td>
         <td>{{ auditSchedule?.annualPlan.name }}</td>
+        <td>{{ getLeaderName(auditSchedule) }}</td>
+        <td>{{ getMemberNames(auditSchedule) }}</td>
         <td>
           <button
             pButton

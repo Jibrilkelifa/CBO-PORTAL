@@ -4,16 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
-import { AssignMembersComponent } from './assign-members.component';
+import { NewAuditStaffComponent } from './newAuditStaff.component';
 
-describe('AssignMembersComponent', () => {
-  let component: AssignMembersComponent;
-  let fixture: ComponentFixture<AssignMembersComponent>;
+describe('NewAuditStaffComponent', () => {
+  let component: NewAuditStaffComponent;
+  let fixture: ComponentFixture<NewAuditStaffComponent>;
   let iconSetService: IconSetService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AssignMembersComponent],
+      declarations: [NewAuditStaffComponent],
       imports: [CardModule, GridModule, FormsModule, FormModule, ButtonModule, RouterTestingModule],
       providers: [IconSetService]
     })
@@ -23,7 +23,7 @@ describe('AssignMembersComponent', () => {
   beforeEach(() => {
     iconSetService = TestBed.inject(IconSetService);
 
-    fixture = TestBed.createComponent(AssignMembersComponent);
+    fixture = TestBed.createComponent(NewAuditStaffComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,9 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { DynamicDialogRef, DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
-import { Employee } from 'src/app/modules/sasv/models/employee';
-import { AuditScheduleService } from 'src/app/modules/ams/services/audit-schedule/audit-schedule.service';
 import { TeamMemberDTO } from 'src/app/modules/ams/models/team-member';
+import { AuditStaffDTO } from '../../../models/auditStaff';
+import { AuditStaffService } from '../../../services/audit-staff/audit-staff.service';
 
 @Component({
   selector: 'assign-members',
@@ -14,20 +14,24 @@ import { TeamMemberDTO } from 'src/app/modules/ams/models/team-member';
 export class AssignMembersComponent {
   savedAssignmembers: TeamMemberDTO[] = [];
   annualPlanInfo: any;
+  auditScheduleInfo: any;
 
   public teamInfo: TeamMemberDTO = new TeamMemberDTO();
-  public employeeslist: Employee[] = [];
+  public auditStafflist: AuditStaffDTO[] = [];
   private subscriptions: Subscription[] = [];
 
   @Output() onSave = new EventEmitter<TeamMemberDTO[]>();
   rows: TeamMemberDTO[] = [new TeamMemberDTO()];
 
   constructor(
-    private auditScheduleService: AuditScheduleService,
+    private auditStaffService: AuditStaffService,
     public ref: DynamicDialogRef,
     public config: DynamicDialogConfig,
   ) {
     this.annualPlanInfo = this.config.data?.annualPlanInfo;
+    this.auditScheduleInfo = this.config.data?.scheduleInfo;
+    console.log("kkkk", this.auditScheduleInfo);
+
     if (this.config.data?.savedAssignmembers) {
       this.rows = [...this.config.data.savedAssignmembers];
     } else {
@@ -36,7 +40,7 @@ export class AssignMembersComponent {
   }
 
   ngOnInit() {
-    this.getAuditUsers();
+    this.getActiveAuditStaffs();
   }
 
   trackByFn(index: any, item: any) {
@@ -45,24 +49,28 @@ export class AssignMembersComponent {
 
   addRow() {
     const lastRow = this.rows[this.rows.length - 1];
-    if (!lastRow || (lastRow.user && lastRow.teamType)) {
+    if (!lastRow || (lastRow.auditStaffDTO && lastRow.auditStaffDTO.user && lastRow.teamRole)) {
       this.rows.push(new TeamMemberDTO());
     }
   }
 
   deleteRow(index: number) {
-    this.rows.splice(index, 1);
+    if (index > -1 && index < this.rows.length) {
+      this.rows.splice(index, 1);
+    }
   }
 
   areAllRowsFilled(): boolean {
-    return this.rows.every(row => row.user && row.teamType);
+    return this.rows.every(row => row.auditStaffDTO && row.auditStaffDTO.user && row.teamRole);
   }
 
-  getAuditUsers(): void {
+
+
+  getActiveAuditStaffs(): void {
     this.subscriptions.push(
-      this.auditScheduleService.getAuditUsers().subscribe(
+      this.auditStaffService.getActiveAuditStaff().subscribe(
         (response: any) => {
-          this.employeeslist = response.result;
+          this.auditStafflist = response.result;
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -74,10 +82,14 @@ export class AssignMembersComponent {
   saveAssignedRolesAndMembers() {
     this.savedAssignmembers = [];
     for (let row of this.rows) {
-      if (row.user && row.teamType) {
+      if (row.auditStaffDTO.user && row.teamRole) {
+        row.auditScheduleId = this.auditScheduleInfo.id;
+        row.perdium = 1;
         this.savedAssignmembers.push(row);
       }
     }
     this.ref.close(this.savedAssignmembers);
   }
+  
+  
 }

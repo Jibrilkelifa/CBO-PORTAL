@@ -39,7 +39,7 @@ export class NewAuditObjectComponent implements OnDestroy {
   ngOnInit() {
     this.getAuditTypes();
     if (this.config.data?.auditObject) {
-      this.auditObjectInfo = this.config.data.auditObject;      
+      this.auditObjectInfo = this.config.data.auditObject;     
       this.update = true;
       this.newDiv = false;
     }
@@ -50,7 +50,7 @@ export class NewAuditObjectComponent implements OnDestroy {
       (response: any) => {
         this.auditTypes = response.result.map(
           (auditType: AuditType) => auditType.name
-        );
+        );        
       },
       (error: HttpErrorResponse) => {
         console.log(error);

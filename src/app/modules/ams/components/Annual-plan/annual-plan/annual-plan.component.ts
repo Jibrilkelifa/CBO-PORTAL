@@ -7,7 +7,7 @@ import { AnnualPlanDTO } from 'src/app/modules/ams/models/annualPlan';
 import { NewAnnualPlanComponent } from '../new-annual-plan/newAnnualPlan.component';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
-import { AutoGenerateAnnualPlanComponent } from 'src/app/modules/ams/components/Annual plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
+import { AutoGenerateAnnualPlanComponent } from 'src/app/modules/ams/components/Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 import { NewAuditScheduleComponent } from '../../Audit-schedule/new-audit-schedule/newAuditSchedule.component';
 
 interface Column {

@@ -18,7 +18,7 @@ export class TeamMemberService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://localhost:8099';
+    this.apiServiceUrl = 'http://10.1.125.58:8099';
   }
 
   constructor(private http: HttpClient) { }
@@ -65,7 +65,7 @@ export class TeamMemberService {
     );
   }
 
-  public updateTeamMember(teamMember: TeamMemberDTO): Observable<any> {
+  public updateTeamMember(teamMember: TeamMemberDTO[]): Observable<any> {
     this.init();
     return this.http.post(`${this.apiServiceUrl}/ams/teamMember/update`, teamMember, this.httpOptions)
   }

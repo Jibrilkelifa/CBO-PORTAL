@@ -4,6 +4,7 @@
     color: var(--cui-white);
   }
 }
+
 ::ng-deep .p-dialog .p-dialog-header {
   background: #3b82f6;
   color: white;
@@ -38,8 +39,4 @@ p-button {
   font-weight: bold;
   color: #333;
   margin: 15px;
-}
-
-.btns{
-  margin-right: 2px;
 }

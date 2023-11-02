@@ -47,7 +47,7 @@
         </p-dropdown>
       </div>
     </div>
-    <div class="col" >
+    <div class="col" *ngIf="update">
       <label for="integer" class="block mb-2">Assign members:</label>
       <p-button
         (click)="AssignMembers()"
