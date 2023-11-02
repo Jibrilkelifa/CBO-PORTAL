@@ -1,3 +1,4 @@
+import { SubProcess } from "../sub-process";
 import { Location } from "./location";
 
 export interface Branch {
@@ -7,4 +8,5 @@ export interface Branch {
   mnemonic: string;
   location: Location;
   telephone: string;
+  
 }

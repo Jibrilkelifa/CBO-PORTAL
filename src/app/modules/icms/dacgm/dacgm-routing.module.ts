@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewDACGMComponent } from './new-dacgm/new-dacgm.component';
 import { DACGMTableComponent } from './dacgm-table/dacgm-table.component';
+import{DACGMPlanComponent} from './dacgm-Plan/dacgm-action.component';
+
 
 
 const routes: Routes = [
@@ -23,6 +25,14 @@ const routes: Routes = [
           title: 'Add New Daily Activity Gap Data',
         },
       },
+      {
+        path: 'approveActionPlan',
+        component: DACGMPlanComponent,
+        data: {
+          title: 'approve Action Plan due date',
+        },
+      },
+  
       {
         path: 'viewDACGM',
         component: DACGMTableComponent,

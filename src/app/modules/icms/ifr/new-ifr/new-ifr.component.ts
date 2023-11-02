@@ -16,6 +16,7 @@ import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
 
+
 @Component({
   selector: 'app-accordions',
   templateUrl: './new-ifr.component.html',
@@ -37,7 +38,10 @@ export class NewFraudComponent implements OnInit {
   selectedFraudType: FraudType;
   public suspectedFraudsterProfessions: SuspectedFraudsterProfession[] = [];
   selectedSuspectedFraudsterProfession: SuspectedFraudsterProfession;
-  selectedOrganizationalUnit: any;
+  public selectedBranch;
+  public selectedSubProcess;
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   fraudOccurrenceDate: Date;
   fraudDetectionDate: Date = new Date();
   update: boolean = false;
@@ -46,9 +50,10 @@ export class NewFraudComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   datePresented: string;
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  
 
   isOtherFraudCategorySelected: boolean = false;
+  isClosedOrWrittenOffSelected: boolean = false;
   isOtherFraudTypeSelected: boolean = false;
   isOtherSuspectedFraudsterProfessionSelected: boolean = false;
   preparedBy: string = localStorage.getItem('name');
@@ -97,6 +102,9 @@ export class NewFraudComponent implements OnInit {
   onSuspectedFraudsterProfessionChange(event: any) {
     this.isOtherSuspectedFraudsterProfessionSelected = (event.value.name === 'Other');
   }
+  // onCaseStatusesChange(event: any) {
+  //   this.isClosedOrWrittenOffSelected = (event.value.name === 'Closed'||  event.value.name === 'Written off' );
+  // }
 
   constructor(
     private timeService: TimeService,
@@ -117,14 +125,14 @@ export class NewFraudComponent implements OnInit {
       this.selectedCaseStatus.id = 3;
       this.selectedCaseStatus.name = "Written Off";
     }
-    this.getFrauds(this.organizationalUnitId);
+    this.getFrauds(this.branchId);
     this.getCaseStatuses();
     this.getFraudCategories();
     this.getFraudTypes();
     this.getSuspectedFraudesterProfessions();
     this.getCurrentDate();
     this.generateCaseId();
-    this.getOrganizationalUnit(this.organizationalUnitId);
+    // this.getOrganizationalUnit(this.branchId);
 
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
@@ -134,6 +142,8 @@ export class NewFraudComponent implements OnInit {
       this.update = true;
       this.newDiv = false;
     }
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
   }
 
   checkRole(roleName: string): boolean {
@@ -145,6 +155,7 @@ export class NewFraudComponent implements OnInit {
     });
     return result; // return the result at the end of the function
   }
+  
 
   populateRoles(): void {
     let index = 0;
@@ -157,13 +168,14 @@ export class NewFraudComponent implements OnInit {
     }
   }
 
-  getOrganizationalUnit(organizationalUnitId: number): void {
-    this.organizationalUnitService.getOrganizationalUnit(organizationalUnitId).subscribe(
-      (response: any) => {
-        this.selectedOrganizationalUnit = response;
-      }
-    );
-  }
+  // getOrganizationalUnit(branchId: number): void {
+  //   this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
+  //     (response: any) => {
+  //       this.selectedBranch = response;
+  //     }
+  //   );
+  // }
+  
 
   getCurrentDate(): void {
     this.timeService.getDate().subscribe(
@@ -176,8 +188,8 @@ export class NewFraudComponent implements OnInit {
     );
   }
 
-  public getFrauds(organizationalUnitId: number): void {
-    this.fraudService.getFraudForBranch(organizationalUnitId).subscribe(
+  public getFrauds(branchId: number): void {
+    this.fraudService.getFraudForBranch(branchId).subscribe(
       (response: IFR[]) => {
         this.frauds = response;
 
@@ -284,7 +296,7 @@ export class NewFraudComponent implements OnInit {
                 });
                 setTimeout(() => {
                 }, 1000);
-                this.getFrauds(this.organizationalUnitId);
+                this.getFrauds(this.branchId);
                 window.location.reload();
               },
               (error: HttpErrorResponse) => {
@@ -300,14 +312,15 @@ export class NewFraudComponent implements OnInit {
   public updateFraud(updateFraud: NgForm): void {
     this.fraudService.updateFraud(updateFraud.value).subscribe(
       (response: IFR) => {
-        this.getFrauds(this.organizationalUnitId);
+        this.getFrauds(this.branchId);
+       
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: "Incident/Fraud updated Successfully!"
         });
         setTimeout(() => {
-          this.router.navigate(['ICMS/CIPM/viewCIPM']);
+          this.router.navigate(['ICMS/Fraud/viewFraud']);
         }, 1500);
       },
       (error: HttpErrorResponse) => {

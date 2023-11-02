@@ -20,6 +20,9 @@ export let navItemsECXAdmin: Object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
+export let navItemSupervisor: Object;
+
+
 
 navItemMenu = {
   name: 'Menu',
@@ -60,6 +63,23 @@ navItemsSuperAdmin = {
     }
   ]
 }
+
+navItemSupervisor = {
+  name: 'Supervisor',
+  url: '/',
+  iconComponent: { name: 'cil-settings' },
+  children: [
+        {
+          name: 'Add User',
+          url: '/user/addUser'
+        },
+        {
+          name: 'View Users',
+          url: '/user/viewUsers'
+        },
+      ]
+    }
+  
 navItemsAMSAdmin =  {
   name: 'AMS',
   url: '/ams',
@@ -232,6 +252,28 @@ navItemsICMSDistrict = {
         },
       ]
     },
+   
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'View Data',
+          url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
+        },
+      
+      ]
+    },
     {
       name: 'DACGM',
       url: '/ICMS/DACGM',
@@ -241,10 +283,9 @@ navItemsICMSDistrict = {
           url: '/ICMS/DACGM/viewDACGM',
         },
       ]
-    }
+    },
   ]
 }
-
 navItemsICMSBranchManager = {
   name: 'Internal Control',
   url: '/ICMS',

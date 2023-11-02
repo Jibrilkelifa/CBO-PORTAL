@@ -1,5 +1,5 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
-<div class="card" style="width: 80vw; margin-left: -120px;">
+<div class="card" >
   <div class="spacer">
     <span style="font-size: larger; font-weight: bolder;">Collateral Insurance Policy Monitoring Table</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('cipmTable')"
@@ -54,32 +54,31 @@
     </th>
   </tr>
 
-  <p-table #dt1 [value]="cipms" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
-    [(selection)]="selectedCIPM" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
-    id="cipmTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local1"
-    (sortFunction)="customSort($event)" [customSort]="true">
+  <p-table #dt1 [value]="cipms" [(selection)]="selectedCIPM" dataKey="id" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+    [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local1" (sortFunction)="customSort($event)"
+    [customSort]="true">
     <ng-template pTemplate="header">
       <tr>
-        <!-- <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th> -->
-        <th scope="col" pSortableColumn="branch.district.name" style="width:5%">District Name</th>
-        <th scope="col" pSortableColumn="branch.name" style="width:8%">Branch Name</th>
-        <th scope="col" pSortableColumn="borrowerName" style="width:7%">Borrower Name<p-sortIcon
-            field="borrowerName"></p-sortIcon></th>
-        <th scope="col" pSortableColumn="loanAccount" style="width:10%">Loan Account<p-sortIcon
-            field="loanAccount"></p-sortIcon></th>
-        <th scope="col" pSortableColumn="loanType" style="width:7%">Loan Type</th>
-        <th scope="col" pSortableColumn="collateralType.name" style="width:9%">Collateral Type</th>
-        <th scope="col" pSortableColumn="mortgagorName" style="width:7%">Mortgagor Name<p-sortIcon
-            field="mortgagorName"></p-sortIcon></th>
-        <th scope="col" pSortableColumn="insuranceCoverageType.name" style="width:20%">Insurance Policy Coverage
+        <!-- <th scope="col" pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th> -->
+        <th scope="col" pSortableColumn="subProcess.name">District Name</th>
+        <th scope="col" pSortableColumn="branch.name">Branch Name</th>
+        <th scope="col" pSortableColumn="borrowerName">Borrower Name<p-sortIcon field="borrowerName"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="loanAccount">Loan Account<p-sortIcon field="loanAccount"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="loanType">Loan Type</th>
+        <th scope="col" pSortableColumn="collateralType.name">Collateral Type</th>
+        <th scope="col" pSortableColumn="mortgagorName">Mortgagor Name<p-sortIcon field="mortgagorName"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="insuranceCoverageType.name">Insurance Policy Coverage
           Type</th>
-        <th scope="col" pSortableColumn="insuredName" style="width:8%">Insured Name</th>
-        <th scope="col" pSortableColumn="insuranceExpireDate" style="width:8%">Insurance Expiry
+        <th scope="col" pSortableColumn="insuredName">Insured Name</th>
+        <th scope="col" pSortableColumn="status.name" style="width:8%">Status</th>
+        <th scope="col" pSortableColumn="insuranceExpireDate">Insurance Expiry
           Date<p-sortIcon></p-sortIcon></th>
-        <th scope="col" pSortableColumn="daysLeftToExpire" style="width:8%">Days Left To Expire<p-sortIcon
+        <th scope="col" pSortableColumn="daysLeftToExpire">Days Left To Expire<p-sortIcon
             field="daysLeftToExpire"></p-sortIcon></th>
-        <th scope="col" pSortableColumn="Action" style="width:1%" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') || this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">Actions
+        <th scope="col" pSortableColumn="Action"
+          *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">Actions
         </th>
       </tr>
       <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
@@ -90,8 +89,8 @@
     <ng-template pTemplate="body" let-cipms>
       <tr [pSelectableRow]="cipms">
 
-        <td>{{cipms?.organizationalUnit?.subProcess?.name}}</td>
-        <td>{{cipms?.organizationalUnit?.name}}</td>
+        <td>{{cipms?.subProcess?.name}}</td>
+        <td>{{cipms?.branch?.name}}</td>
         <td>{{cipms?.borrowerName}}</td>
         <td>{{cipms?.loanAccount}}</td>
         <td>{{cipms?.loanType}}</td>
@@ -113,21 +112,22 @@
           </ng-template>
         </td>
         <td>{{cipms?.insuredName}}</td>
+        <td>{{cipms?.status?.name}}</td>
         <td>{{(cipms?.insuranceExpireDate)}}</td>
         <td
           [ngClass]="{ 'black': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,'red': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 0, 'yellow': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) > 0 && calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 30, 'green': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) >= 30 }">
           {{absoluteValue(calculateDaysLeftToExpire(cipms?.insuranceExpireDate))}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') && (cipms.authorizedBy === 'Not Authorized')">
-          <button pButton (click)="updateCIPMs(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Update"></button>
-        </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && (cipms.authorizedBy === 'Not Authorized')">
-          <button pButton (click)="authorizeCIPM(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Authorize"></button>
-        </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && (cipms.authorizedBy !== 'Not Authorized')">
-          Authorized!
-        </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">
+            <button pButton (click)="updateCIPMs(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Update"></button>
+          </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !cipms.isAuthorized ">
+            <button pButton (click)="authorizeCIPM(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Authorize"></button>
+          </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && cipms.isAuthorized">
+            Authorized!
+          </td>
       </tr>
     </ng-template>
 

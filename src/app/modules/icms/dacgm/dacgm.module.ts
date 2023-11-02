@@ -28,6 +28,7 @@ import {
 } from '@coreui/angular';
 
 import { NewDACGMComponent } from './new-dacgm/new-dacgm.component';
+import{DACGMPlanComponent}  from  './dacgm-Plan/dacgm-action.component'
 import { DACGMTableComponent } from './dacgm-table/dacgm-table.component';
 import { DACGMRoutingModule } from './dacgm-routing.module';
 import { IconModule } from '@coreui/icons-angular';
@@ -95,7 +96,9 @@ import { CalendarModule } from 'primeng/calendar';
   ],
   declarations: [
     NewDACGMComponent,
-    DACGMTableComponent
+    DACGMTableComponent,
+    DACGMPlanComponent,
+    
   ],
   providers: [ConfirmationService, MessageService]
 })

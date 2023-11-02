@@ -28,6 +28,7 @@ import {
 } from '@coreui/angular';
 import { NewDCQComponent } from '../dcq/new-dcq/new-dcq.component';
 import { DCQTableComponent } from './dcq-table/dcq-table.component';
+import { DCQWeekComponent } from './dcq-week/dcq-week.component';
 import { DCQRoutingModule } from './dcq-routing.module';
 import { IconModule } from '@coreui/icons-angular';
 
@@ -43,6 +44,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AnimateModule } from 'primeng/animate';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+
 
 
 // CoreUI Modules
@@ -93,7 +95,8 @@ import { CalendarModule } from 'primeng/calendar';
   ],
   declarations: [
     NewDCQComponent,
-    DCQTableComponent
+    DCQTableComponent,
+    DCQWeekComponent
   ],
   providers: [ConfirmationService, MessageService]
 })

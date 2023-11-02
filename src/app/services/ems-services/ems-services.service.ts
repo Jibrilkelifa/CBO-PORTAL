@@ -37,7 +37,7 @@ export class EMSService {
 
   getEmployeeById(id: number): Observable<any> {
     this.init();
-    return this.http.get<Employee>(`http://10.1.125.58:9082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
+    return this.http.get<Employee>(`http://10.1.125.58:8082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
 
   }
 }

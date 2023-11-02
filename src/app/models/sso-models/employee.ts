@@ -3,12 +3,14 @@ import { Branch } from "./branch";
 import { Shared } from "./shared";
 import { SharedWithCode } from "./shared-with-code";
 import { Team } from "./team";
+import { SubProcess } from "./sub-process";
+import { Process } from "./process";
 
 export interface Employee {
   id: number;
   employeeId : number;
   employeeSapUserName : string;
-  fullName : string;
+  employeeFullName : string;
   supervisorId : number;
   supervisorFullName : string;
   hrManagerId : number;
@@ -21,6 +23,6 @@ export interface Employee {
   branch : Branch;
   position : Shared;
   team : Team;
-  subProcess : SharedWithCode;
-  process : SharedWithCode;
+  subProcess : SubProcess;
+  process : Process;
 }

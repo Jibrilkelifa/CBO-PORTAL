@@ -10,7 +10,7 @@ import { CaseStatus } from '../../../../models/icms-models/ifr-models/case-statu
 import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
-// import { OrganizationalUnit } from 'src/app/models/sso-models/organizational-unit';
+import { Branch } from 'src/app/models/sso-models/branch';
 import { Router } from '@angular/router';
 
 @Component({
@@ -57,12 +57,15 @@ export class IFRProvisionComponent implements OnInit {
   public selectedProvisionHeld: string;
 
   public selectedFraud: IFR;
-  public selectedOrganizationalUnit: any;
+  public selectedBranch;
+  public selectedSubProcess;
 
   msgs: Message[] = [];
   value: string;
 
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
+
   preparedBy: string = localStorage.getItem('name');
   authorizedBy: string = "Not Authorized";
   daysAfterDetection: string;
@@ -79,15 +82,17 @@ export class IFRProvisionComponent implements OnInit {
     private router: Router,
     private fraudService: IFRService,
     private messageService: MessageService,
-    private organizationalUnitService: OrganizationalUnitService
+    // private organizationalUnitService: OrganizationalUnitService
   ) { }
 
   ngOnInit() {
     this.populateRoles();
-    this.getOrganizationalUnit(this.organizationalUnitId);
+    // this.getOrganizationalUnit(this.branchId);
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
     this.getFraud(this.idY);
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
   }
 
   updateDaysAfterDetection() {
@@ -132,13 +137,14 @@ export class IFRProvisionComponent implements OnInit {
     }
   }
 
-  getOrganizationalUnit(organizationalUnitId: number): void {
-    this.organizationalUnitService.getOrganizationalUnit(organizationalUnitId).subscribe(
-      (response: any) => {
-        this.selectedOrganizationalUnit = response;
-      }
-    );
-  }
+  // getOrganizationalUnit(branchId: number): void {
+  //   this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
+  //     (response: any) => {
+  //       this.selectedBranch = response;
+  //     }
+  //   );
+  // }
+  
 
   public getFraud(id: number): IFR {
     this.fraudService.getFraud(id).subscribe(
@@ -218,7 +224,7 @@ export class IFRProvisionComponent implements OnInit {
         setTimeout(() => {
         }, 1000);
         this.getFraud(this.idY);
-        this.router.navigate(['viewFraud']);
+        this.router.navigate(['ICMS/Fraud/viewFraud']);
       },
       (error: HttpErrorResponse) => {
 

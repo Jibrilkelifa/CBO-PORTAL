@@ -92,8 +92,13 @@
 
       </div>
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Organizational Unit </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
+        <label for="alphabetic" class=" block mb-2"> Branch </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+          [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> District </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>
@@ -199,8 +204,13 @@
         </p-dropdown>
       </div>
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Organizational Unit </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit" name="branch" [readonly]=true
+        <label for="alphabetic" class=" block mb-2"> Branch </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch" [readonly]=true
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> District </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess" [readonly]=true
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>

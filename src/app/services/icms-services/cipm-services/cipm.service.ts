@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CIPM } from '../../../models/icms-models/cipm-models/cipm';
 import { NgForm } from '@angular/forms';
+import { Branch } from 'src/app/modules/sasv/models/branch';
+import { brandSet } from '@coreui/icons';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,16 @@ export class CIPMService {
 
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/getAll`, this.httpOptions);
   }
+  public geExpiringWithIn30DaysCIPMs(): Observable<any> {
+    this.init();
+
+    return this.http.get<any>(`${this.apiServiceUrl}/CIPM/expiring-within-thirty-days-list`, this.httpOptions);
+  }
+  public getExpired(): Observable<any> {
+    this.init();
+
+    return this.http.get<any>(`${this.apiServiceUrl}/CIPM/ExpiredPolicies`, this.httpOptions);
+  }
   public getCIPM(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/find/${id}`, this.httpOptions)
@@ -39,8 +51,12 @@ export class CIPMService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/findBySubProcessId/${id}`, this.httpOptions)
   }
-  public addCIPM(cipm: NgForm): Observable<any> {
+  public addCIPM(cipm: CIPM): Observable<any> {
     this.init();
+    let branch = new Branch();
+  
+
+    console.log("cipmadd",cipm)
 
     return this.http.post<any>(`${this.apiServiceUrl}/CIPM/add`, cipm, this.httpOptions)
   }
@@ -56,6 +72,9 @@ export class CIPMService {
         collateralType: {
           id: cipm.collateralType.id
         },
+        status: {
+          id: cipm.status.id
+        },
         otherCollateralType: (cipm.otherCollateralType == undefined) ? "" : cipm.otherCollateralType,
         insuranceCoverageType: {
           id: cipm.insuranceCoverageType.id
@@ -63,8 +82,11 @@ export class CIPMService {
         otherInsuranceCoverageType: (cipm.otherInsuranceCoverageType == undefined) ? "" : cipm.otherInsuranceCoverageType,
         insuredName: cipm.insuredName,
         insuranceExpireDate: cipm.insuranceExpireDate,
-        organizationalUnit: {
-          id: cipm.organizationalUnit.id
+        branch: {
+          id: cipm.branch.id
+        },
+        subProcess: {
+          id: cipm.subProcess.id
         }
       }, this.httpOptions)
   }

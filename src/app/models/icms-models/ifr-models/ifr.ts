@@ -2,6 +2,8 @@ import { SuspectedFraudsterProfession } from './suspected-fraudster-profession'
 import { CaseStatus } from './case-status'
 import { AllCategory } from '../all-category'
 import { FraudType } from './fraud-type'
+import { Branch } from '../../sso-models/branch';
+import { SubProcess } from '../../sso-models/sub-process';
 // import { OrganizationalUnit } from '../../sso-models/branch';
 
 export interface IFR {
@@ -31,5 +33,8 @@ export interface IFR {
   suspectedFraudsterProfession: SuspectedFraudsterProfession,
   otherSuspectedFraudsterProfession: string,
   otherComment: string,
-  organizationalUnit: any,
+  branch: Branch,
+  isAuthorized:boolean,
+  inCaseOfClosedOrWrittenOff,
+  subProcess:SubProcess
 }

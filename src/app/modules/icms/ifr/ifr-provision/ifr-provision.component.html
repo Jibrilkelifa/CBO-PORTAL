@@ -159,14 +159,19 @@
       </div>
     </div>
     <div class="flex-auto" [hidden]="true">
-      <label for="alphabetic" class=" block mb-2"> Organizational Unit </label>
-      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit"
-        name="organizationalUnit" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+      <label for="alphabetic" class=" block mb-2"> Branch </label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch"
+        name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> District </label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
+        name="subProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
     </div>
     <input [hidden]="true" pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="authorizedBy"
       name="authorizedBy" [style]="{'width':'30vw','height':'45px'}" required />
     <div class="mb-5"></div>
-    <p-button label="Record Provision Calculation" type="submit" [disabled]="calculateProvisionForm.invalid"
+    <p-button label="Record Provision Calculation" type="submit" 
       class="createButton mb-5"></p-button>
   </form>
 </div>

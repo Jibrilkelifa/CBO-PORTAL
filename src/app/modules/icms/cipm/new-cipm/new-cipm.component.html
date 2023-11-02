@@ -56,6 +56,24 @@
         </p-dropdown>
       </div>
       <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Status </label>
+        <p-dropdown [options]="statuses" name="status" ngModel [(ngModel)]="selectedstatus"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select  Status"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true" >
+          <!-- (onChange)="onCaseStatusChange($event)" -->
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
+              <div>{{ selectedstatus.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selectedstatuse pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedstatuse.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto">
         <label for="hex" class=" block mb-2"> Insurance Policy Coverage Type </label>
         <p-dropdown [options]="IPCTs" name="insuranceCoverageType" ngModel [(ngModel)]="selectedIPCT"
           optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
@@ -74,8 +92,13 @@
         </p-dropdown>
       </div>
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Organizational Unit </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
+        <label for="alphabetic" class=" block mb-2"> Branch </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+          [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> District </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
       <input [hidden]="true" pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="authorizedBy"
@@ -155,11 +178,30 @@
           </ng-template>
         </p-dropdown>
       </div>
+     
       <div class="flex-auto" *ngIf="isOtherCollateralTypeSelected">
         <label for="alphabetic" class=" block mb-2"> Other Collateral Type </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="otherCollateralType"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
+    </div>
+    <div class="flex-auto">
+      <label for="hex" class=" block mb-2"> Status </label>
+      <p-dropdown [options]="statuses" name="status" ngModel [(ngModel)]="selectedstatus"
+        optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select  Status"
+        class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true" >
+        <!-- (onChange)="onCaseStatusChange($event)" -->
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
+            <div>{{ selectedstatus.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-selectedstatuse pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ selectedstatuse.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
     <div class="flex flex-wrap gap-3 mb-2">
       <div class="flex-auto">
@@ -194,15 +236,21 @@
       </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Insured Name </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="insuredName"
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="cipm.insuredName" name="insuredName"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Organization Unit </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedOrganizationalUnit" name="organizationalUnit"
+        <label for="alphabetic" class=" block mb-2">Branch</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+          [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2">District</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>
+    
 
     <p-button label="Update Collateral Insurance Policy Coverage" type="submit" [disabled]="updateCIPMForm.invalid"
       class="updateButton"></p-button>

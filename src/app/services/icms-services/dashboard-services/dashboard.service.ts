@@ -50,9 +50,9 @@ export class DashboardService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getOutstandingCasesDuringQuarter`, this.httpOptions);
   }
-  public getgetClosedCasesDuringQuarter(): Observable<any> {
+  public getClosedCasesDuringQuarter(): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getClosedCasesDuringQuarter`, this.httpOptions);
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getClosedAndWrittenOffCasesDuringQuarter`, this.httpOptions);
   }
   public getOutstandingCasesInPreviousQuarter(): Observable<any> {
     this.init();

@@ -1,0 +1,99 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div>
+  <form #approveActionPlanForm="ngForm" (ngSubmit)="approveActionPlan(approveActionPlanForm)" required>
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Case ID </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedCaseId" name="caseId"
+          [style]="{'width':'30vw','height':'45px'}" [readonly]="true">
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Date </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedDate" name="Date"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+<div class="flex flex-wrap gap-3 mb-2">
+      <!-- <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Account Number </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedAccountNumber" name="accountNumber"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Account Namne</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedAccountName" name="accountName"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div> -->
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <!-- <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> amount Involved</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedAmountInvolved" name="amountInvolved"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div> -->
+      <div class="flex-auto" *ngIf="isOtherIrregularitySelected">
+        <label for="alphabetic" class=" block mb-2"> Other Irregularity </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedOtherIrregularity" name="otherIrregularity"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Responsible person </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedResponsiblePerson" name="responsiblePerson"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Activity Status </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedActivityStatus" name="activityStatus"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Irregualrity </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedIrregularity" name="irregularity"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <!-- <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Action plan due date </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedActionPlanDueDate" name="actionPlanDueDate"
+        [style]="{'width':'30vw','height':'45px'}" required/>
+      </div> -->
+      <div class="flex-auto">
+        <label for="actionPlanDueDate" class="block mb-2"> Action plan due date </label>
+        <p-calendar id="fraudOccurrenceDate" ngModel [(ngModel)]="selectedActionPlanDueDate" name="actionPlanDueDate"
+          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" ></p-calendar>
+      </div>
+
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> Branch</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch"
+        name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> District</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
+        name="subProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+    </div>
+    <div class="mb-5"></div>
+    <p-button label="approve Action Plan" type="submit" [disabled]="approveActionPlanForm.invalid"
+      class="createButton mb-5"></p-button>
+    
+    
+    </form>
+
+</div>
