@@ -7,7 +7,7 @@ import { AuditObjectComponent } from './components/Audit-objects/audit-object/au
 import { AuditableAreaComponent } from './components/Auditable-area/auditable-area/auditable-area.component';
 import { CheckListComponent } from './components/Checklist/checklist/checkList.component';
 import { AuditScheduleComponent } from './components/Audit-schedule/audit-schedule/audit-schedule.component';
-import { AuditStaffComponent } from './components/Audit-staff/audit-staff/audit-staff.component';
+import { AuditStaffComponent } from './components/Audit-Staff/audit-staff/audit-staff.component';
 import { AuditObjectDetailComponent } from './components/Audit-objects/audit-object-detail/audit-object-detail.component';
 
 const routes: Routes = [
