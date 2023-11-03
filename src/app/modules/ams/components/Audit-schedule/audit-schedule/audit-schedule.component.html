@@ -165,7 +165,7 @@
         <td>{{ auditSchedule?.status }}</td>
         <td>{{ auditSchedule?.annualPlan.name }}</td>
         <td>{{ getLeaderName(auditSchedule) }}</td>
-        <td>{{ getMemberNames(auditSchedule) }}</td>
+        <div class="p-4" [innerHTML]="getMemberNames(auditSchedule).split('\n').join('<br>')"></div>
         <td>
           <button
             pButton

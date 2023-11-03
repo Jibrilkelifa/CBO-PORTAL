@@ -114,6 +114,10 @@ navItemsAMSAdmin =  {
           name: 'Audit type',
           url: '/ams/audit-type',
         },
+        {
+          name: 'Risk item',
+          url: '/ams/risk-item',
+        },
       ]
     },
   ],

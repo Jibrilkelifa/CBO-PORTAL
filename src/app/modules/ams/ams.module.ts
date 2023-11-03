@@ -55,6 +55,8 @@ import { AuditStaffComponent } from './components/Audit-staff/audit-staff/audit-
 import { NewAuditStaffComponent } from './components/Audit-staff/new-audit-staff/newAuditStaff.component';
 import { NewAuditTypeComponent } from './components/Audit-type/new-audit-type/newAuditType.component';
 import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
+import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRiskItem.component';
+import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +79,9 @@ import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-typ
     AuditStaffComponent,
     NewAuditStaffComponent,
     NewAuditTypeComponent,
-    AuditTypeComponent
+    AuditTypeComponent,
+    NewRiskItemComponent,
+    RiskItemComponent
     
   ],
   imports: [

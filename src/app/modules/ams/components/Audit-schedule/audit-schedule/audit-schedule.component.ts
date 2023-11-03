@@ -176,9 +176,8 @@ export class AuditScheduleComponent implements OnDestroy {
     const members = auditSchedule?.teamMembers
       .filter(member => member.teamRole === 'Member')
       .map(member => member.auditStaffDTO?.user?.employee?.fullName);
-    return members?.join(', ') || '';
-  }
-
+    return members?.join('\n') || '';
+  }  
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
