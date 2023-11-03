@@ -1,12 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { NewAuditStaffComponent } from '../new-audit-staff/newAuditStaff.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { AuditStaffDTO } from '../../../models/auditStaff';
-import { AuditStaffService } from '../../../services/audit-staff/audit-staff.service';
+import { NewAuditStaffComponent } from '../../Audit-staff/new-audit-staff/newAuditStaff.component';
+import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
+import { AuditType } from '../../../models/auditType';
+import { NewAuditTypeComponent } from '../new-audit-type/newAuditType.component';
+import { AuditableAreasDTO } from '../../../models/auditableAreas';
 
 interface ExportColumn {
   title: string;
@@ -20,12 +23,12 @@ interface Column {
 }
 
 @Component({
-  selector: 'audit-staff-table',
-  templateUrl: './audit-staff.component.html',
-  styleUrls: ['./audit-staff.component.scss'],
+  selector: 'audit-type-table',
+  templateUrl: './audit-type.component.html',
+  styleUrls: ['./audit-type.component.scss'],
 })
-export class AuditStaffComponent implements OnDestroy {
-  public auditStaff: AuditStaffDTO[] = [];
+export class AuditTypeComponent implements OnDestroy {
+  public auditTypes: AuditType[] = [];
 
   public staffInfo: AuditStaffDTO;
 
@@ -35,18 +38,17 @@ export class AuditStaffComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private auditStaffService: AuditStaffService,
+    private auditTypeService: AuditTypeService,
     private dialogService: DialogService,
     private messageService: MessageService
   ) { }
 
   ngOnInit() {
-    this.getAuditStaffs();
+    this.getAuditTypes();
     this.cols = [
       { field: 'id', header: 'ID' },
-      { field: 'fullName', header: 'Name' },
       { field: 'name', header: 'Auditable Type' },
-      { field: 'status', header: 'Status' },
+      { field: 'description', header: 'Description' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({
@@ -55,13 +57,11 @@ export class AuditStaffComponent implements OnDestroy {
     }));
   }
 
-  getAuditStaffs(): void {
+  getAuditTypes(): void {
     this.subscriptions.push(
-      this.auditStaffService.getAllAuditStaff().subscribe(
+      this.auditTypeService.getAuditTypes().subscribe(
         (response: any) => {
-          this.auditStaff = response.result;
-          console.log("ggg", this.auditStaff);
-
+          this.auditTypes = response.result;
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -70,9 +70,9 @@ export class AuditStaffComponent implements OnDestroy {
     );
   }
 
-  createNewAuditStaff(): void {
+  createNewAuditType(): void {
     const ref = this.dialogService.open(NewAuditStaffComponent, {
-      header: 'Create a new audit staff',
+      header: 'Create a new audit type',
       draggable: true,
       width: '55%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
@@ -81,7 +81,7 @@ export class AuditStaffComponent implements OnDestroy {
 
     ref.onClose.subscribe((response: any) => {
       if (response.status) {
-        this.getAuditStaffs();
+        this.getAuditTypes();
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -97,26 +97,26 @@ export class AuditStaffComponent implements OnDestroy {
     });
   }
 
-  updateAuditStaff(id: number): void {
-    const auditStaff = this.auditStaff.find(
-      (auditStaff) => auditStaff.id === id
+  updateAuditType(id: number): void {
+    const auditType = this.auditTypes.find(
+      (auditype) => auditype.id === id
     );
-    const ref = this.dialogService.open(NewAuditStaffComponent, {
-      header: 'Update audit staff',
+    const ref = this.dialogService.open(NewAuditTypeComponent, {
+      header: 'Update audit type',
       draggable: true,
       width: '55%',
-      data: { auditStaff },
+      data: { auditType },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
 
     ref.onClose.subscribe((response: any) => {
       if (response) {
-        this.auditStaff = this.auditStaff.map((auditStaff) =>
-          auditStaff.id === response.id ? response : auditStaff
+        this.auditTypes = this.auditTypes.map((auditType) =>
+          auditType.id === response.id ? response : auditType
         );
         if (response.status) {
-          this.getAuditStaffs();
+          this.getAuditTypes();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -133,6 +133,20 @@ export class AuditStaffComponent implements OnDestroy {
     });
   }
 
+  deleteAuditType(id?: number): void {
+    let auditableType = new AuditableAreasDTO();
+    auditableType.id = id as number;
+    this.subscriptions.push(
+      this.auditTypeService.deleteAuditType(auditableType).subscribe(
+        (response: any) => {
+          this.getAuditTypes()
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
@@ -143,68 +157,18 @@ export class AuditStaffComponent implements OnDestroy {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        const data = this.auditStaff.map((staff, index) => ({
-          ID: index + 1,
-          Name: staff.user.employee.fullName,
-          'Audit Type': staff.auditType.name,
-          Status: staff.status,
-        }));
-
-        const columns = [
-          { title: 'ID', dataKey: 'ID' },
-          { title: 'Name', dataKey: 'Name' },
-          { title: 'Audit Type', dataKey: 'Audit Type' },
-          { title: 'Status', dataKey: 'Status' },
-        ];
-
-        (doc as any).autoTable(columns, data);
-        doc.save('Audit staff.pdf');
+        (doc as any).autoTable(this.exportColumns, this.auditTypes);
+        doc.save('Audit object.pdf');
       });
     });
   }
 
-  exportCsv() {
-    const header = ['ID', 'Name', 'Audit Type', 'Status'];
-
-    const data = this.auditStaff.map((staff, index) => ({
-      ID: index + 1,
-      Name: staff.user.employee.fullName,
-      'Audit Type': staff.auditType.name,
-      Status: staff.status,
-    }));
-
-    const csvContent = this.convertArrayOfObjectsToCSV(data, header);
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-    FileSaver.saveAs(blob, 'AuditStaff.csv');
-  }
-
-  convertArrayOfObjectsToCSV(data, header) {
-    const csv = data.map((row) => {
-      return header.map((fieldName) => {
-        const value = row[fieldName];
-        return this.escapeCSV(value);
-      }).join(',');
-    });
-
-    return [header.join(','), ...csv].join('\n');
-  }
-
-  escapeCSV(value) {
-    if (typeof value === 'string') {
-      return `"${value.replace(/"/g, '""')}"`;
-    }
-    return value;
-  }
-
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const EXCEL_TYPE =
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const data = this.auditStaff.map((staff, index) => ({
+      const data = this.auditTypes.map((auditType,index) => ({
         Id: index + 1,
-        'Employee Name': staff.user.employee.fullName,
-        Name: staff.auditType.name,
-        Status: staff.status
+        Name: auditType.name,
+        Description: auditType.description,
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -212,11 +176,12 @@ export class AuditStaffComponent implements OnDestroy {
         bookType: 'xlsx',
         type: 'array',
       });
+      const EXCEL_TYPE =
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
       const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-      this.saveAsExcelFile(dataBlob, 'Audit Staff');
+      this.saveAsExcelFile(dataBlob, 'Audit Type');
     });
   }
-
 
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_EXTENSION = '.xlsx';

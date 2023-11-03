@@ -3,11 +3,12 @@ import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuditObjectService } from 'src/app/modules/ams/services/auditObject/auditObject.service';
-import { AuditPlanService } from 'src/app/modules/ams/services/audit-type/audit-type.service';
+import { AuditTypeService } from 'src/app/modules/ams/services/audit-type/audit-type.service';
 import { AuditObjectDTO } from 'src/app/modules/ams/models/auditObject';
 import { AuditType } from 'src/app/modules/ams/models/auditType';
-import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
+import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
 
 @Component({
   selector: 'newAuditObject',
@@ -30,9 +31,10 @@ export class NewAuditObjectComponent implements OnDestroy {
   constructor(
     private messageService: MessageService,
     private auditObjectService: AuditObjectService,
-    private auditTypeService: AuditPlanService,
+    private auditTypeService: AuditTypeService,
     private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig
+    private config: DynamicDialogConfig,
+    private dialogService: DialogService,
   ) { }
 
   ngOnInit() {
@@ -55,6 +57,33 @@ export class NewAuditObjectComponent implements OnDestroy {
         console.log(error);
       }
     );
+  }
+
+  createAuditType(): void {
+    const ref = this.dialogService.open(NewAuditTypeComponent, {
+      header: 'Create a new audit type',
+      draggable: true,
+      width: '45%',
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.getAuditTypes();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
 
   submitAuditObject(checklistForm: NgForm): void {

@@ -93,7 +93,7 @@ export class AuditUniverseComponent implements OnDestroy {
     const ref = this.dialogService.open(NewAuditUniverseComponent, {
       header: 'Create a new audit universe',
       draggable: true,
-      width: '50%',
+      width: '60%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -123,7 +123,7 @@ export class AuditUniverseComponent implements OnDestroy {
     const ref = this.dialogService.open(NewAuditUniverseComponent, {
       header: 'Update audit universe',
       draggable: true,
-      width: '50%',
+      width: '60%',
       data: { auditUniverse },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,

@@ -53,6 +53,8 @@ import { AutoGenerateAnnualPlanComponent } from './components/Annual-plan/auto-g
 import { AssignMembersComponent } from './components/Audit-schedule/assign-members/assign-members.component';
 import { AuditStaffComponent } from './components/Audit-staff/audit-staff/audit-staff.component';
 import { NewAuditStaffComponent } from './components/Audit-staff/new-audit-staff/newAuditStaff.component';
+import { NewAuditTypeComponent } from './components/Audit-type/new-audit-type/newAuditType.component';
+import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { NewAuditStaffComponent } from './components/Audit-staff/new-audit-staff
     AuditObjectDetailComponent,
     AssignMembersComponent,
     AuditStaffComponent,
-    NewAuditStaffComponent
+    NewAuditStaffComponent,
+    NewAuditTypeComponent,
+    AuditTypeComponent
     
   ],
   imports: [

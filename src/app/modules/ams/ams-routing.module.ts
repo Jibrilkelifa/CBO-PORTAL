@@ -9,6 +9,7 @@ import { CheckListComponent } from './components/Checklist/checklist/checkList.c
 import { AuditScheduleComponent } from './components/Audit-schedule/audit-schedule/audit-schedule.component';
 import { AuditStaffComponent } from './components/Audit-staff/audit-staff/audit-staff.component';
 import { AuditObjectDetailComponent } from './components/Audit-objects/audit-object-detail/audit-object-detail.component';
+import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 
 const routes: Routes = [
   {
@@ -88,6 +89,13 @@ const routes: Routes = [
         component: AuditStaffComponent,
         data: {
           title: 'Audit Staff',
+        },
+      },
+      {
+        path: 'audit-type',
+        component: AuditTypeComponent,
+        data: {
+          title: 'Audit Type',
         },
       },
     ],
