@@ -60,7 +60,7 @@
     "tslib": "^2.3.0",
     "webstomp-client": "^1.2.6",
     "xlsx": "^0.18.5",
-    "zone.js": "~0.12.0"
+    "zone.js": "^0.11.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.1.3",
