@@ -17,7 +17,6 @@ import { AuditScheduleComponent } from './components/Audit-schedule/audit-schedu
 import {CalendarModule} from 'primeng/calendar';
 import { TooltipModule } from 'primeng/tooltip';
 import { AmsRoutingModule } from './ams-routing.module';
-import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -46,7 +45,7 @@ import { MessagesModule } from 'primeng/messages';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ToastModule } from 'primeng/toast';
-
+import { ButtonModule } from 'primeng/button';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AutoGenerateAnnualPlanComponent } from './components/Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
@@ -59,7 +58,6 @@ import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRi
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
-import { QuillModule } from 'ngx-quill'; 
 
 @NgModule({
   declarations: [
