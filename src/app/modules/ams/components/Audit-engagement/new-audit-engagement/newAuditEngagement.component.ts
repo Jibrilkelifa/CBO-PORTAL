@@ -56,7 +56,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
   }
 
   addAuditEngagement(addDivForm: NgForm): void {
-    const auditEngagement: AuditEngagementDTO = addDivForm.value;
+    const auditEngagement: AuditEngagementDTO = { ...addDivForm.value, auditSchedule: this.auditScheduleInfo };
     this.subscriptions.push(
       this.auditEngagementService.addToEngagement(auditEngagement).subscribe(
         (response: any) => {
@@ -71,16 +71,15 @@ export class NewAuditEngagementComponent implements OnDestroy {
 
   updateAuditEngagement(updateDivForm: NgForm): void {
     let auditEngagement: AuditEngagementDTO = { ...this.auditEngagementInfo };
-    auditEngagement = { ...auditEngagement, ...updateDivForm.value };
+    auditEngagement = { ...auditEngagement, ...updateDivForm.value, auditSchedule: this.auditScheduleInfo };
     this.subscriptions.push(
-      this.auditEngagementService
-        .addToEngagement(auditEngagement)
-        .subscribe((response: any) => {
-          this.messageService.clear();
-          this.ref.close(response);
-        })
+      this.auditEngagementService.addToEngagement(auditEngagement).subscribe((response: any) => {
+        this.messageService.clear();
+        this.ref.close(response);
+      })
     );
   }
+
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
