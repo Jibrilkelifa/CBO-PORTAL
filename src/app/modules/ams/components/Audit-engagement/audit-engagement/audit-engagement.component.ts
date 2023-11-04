@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { NewAuditScheduleComponent } from '../new-audit-schedule/newAuditSchedule.component';
+import { NewAuditEngagementComponent } from '../new-audit-engagement/newAuditEngagement.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
@@ -11,7 +11,6 @@ import { AnnualPlanDTO } from 'src/app/modules/ams/models/annualPlan';
 import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
-import { NewAuditEngagementComponent } from '../../Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 
 interface ExportColumn {
   title: string;
@@ -25,11 +24,11 @@ interface Column {
 }
 
 @Component({
-  selector: 'audit-schedule-table',
-  templateUrl: './audit-schedule.component.html',
-  styleUrls: ['./audit-schedule.component.scss'],
+  selector: 'audit-engagement-table',
+  templateUrl: './audit-engagement.component.html',
+  styleUrls: ['./audit-engagement.component.scss'],
 })
-export class AuditScheduleComponent implements OnDestroy {
+export class AuditEngagementComponent implements OnDestroy {
   public annualPlans: AnnualPlanDTO[] = [];
   public auditSchedules: AuditScheduleDTO[] = [];
 
@@ -120,7 +119,7 @@ export class AuditScheduleComponent implements OnDestroy {
     const auditSchedule = this.auditSchedules.find(
       (schedule) => schedule.id === id
     );
-    const ref = this.dialogService.open(NewAuditScheduleComponent, {
+    const ref = this.dialogService.open(NewAuditEngagementComponent, {
       header: 'Update audit schedule',
       width: '50%',
       data: { auditSchedule },
@@ -184,33 +183,6 @@ export class AuditScheduleComponent implements OnDestroy {
       .filter(member => member.teamRole === 'Member')
       .map(member => member.auditStaffDTO?.user?.employee?.fullName);
     return members?.join('\n') || '';
-  }
-
-  addToEngagement(auditSchedule: AuditScheduleDTO): void {
-    const ref = this.dialogService.open(NewAuditEngagementComponent, {
-      header: 'Create a new engagement',
-      draggable: true,
-      width: '50%',
-      data: { auditSchedule },
-      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
-      baseZIndex: 10000,
-    });
-    ref.onClose.subscribe((response: any) => {
-      if (response.status) {
-        this.getAuditSchedules();
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: response.message,
-        });
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed',
-          detail: response.message,
-        });
-      }
-    });
   }
 
   ngOnDestroy() {

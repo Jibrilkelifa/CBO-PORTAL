@@ -37,7 +37,6 @@ export class RiskItemComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private auditTypeService: AuditTypeService,
     private riskItemService: RiskItemService,
     private dialogService: DialogService,
     private messageService: MessageService
@@ -47,7 +46,7 @@ export class RiskItemComponent implements OnDestroy {
     this.getRiskItems();
     this.cols = [
       { field: 'id', header: 'ID' },
-      { field: 'name', header: 'Auditable Type' },
+      { field: 'name', header: 'Risk Item' },
       { field: 'riskType', header: 'Risk type' },
     ];
 
@@ -139,8 +138,6 @@ export class RiskItemComponent implements OnDestroy {
     this.subscriptions.push(
       this.riskItemService.deleteRiskItem(riskType).subscribe(
         (response: any) => {
-          console.log("pppp",response);
-          
           this.getRiskItems()
         },
         (error: HttpErrorResponse) => {
@@ -159,8 +156,12 @@ export class RiskItemComponent implements OnDestroy {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.riskItems);
-        doc.save('Audit object.pdf');
+        const modifiedAnnualPlanDisplay = this.riskItems.map((risk, index) => ({
+          ...risk,
+          id: index + 1,
+        }));
+        (doc as any).autoTable(this.exportColumns,modifiedAnnualPlanDisplay);
+        doc.save('Risk Item.pdf');
       });
     });
   }
@@ -169,7 +170,7 @@ export class RiskItemComponent implements OnDestroy {
     import('xlsx').then((xlsx) => {
       const data = this.riskItems.map((auditType,index) => ({
         Id: index + 1,
-        Name: auditType.name,
+        'Risk Item': auditType.name,
         'Risk Type': auditType.riskType,
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
@@ -181,7 +182,7 @@ export class RiskItemComponent implements OnDestroy {
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
       const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-      this.saveAsExcelFile(dataBlob, 'Audit Type');
+      this.saveAsExcelFile(dataBlob, 'Risk Item');
     });
   }
 
@@ -189,7 +190,7 @@ export class RiskItemComponent implements OnDestroy {
     let EXCEL_EXTENSION = '.xlsx';
     FileSaver.saveAs(
       buffer,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+      fileName + EXCEL_EXTENSION
     );
   }
 }

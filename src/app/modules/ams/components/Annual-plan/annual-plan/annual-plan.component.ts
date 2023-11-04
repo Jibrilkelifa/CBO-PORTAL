@@ -45,7 +45,7 @@ export class AnnualPlanComponent {
     private dialogService: DialogService,
     private messageService: MessageService,
     private cd: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getAnnualPlans();
@@ -207,22 +207,30 @@ export class AnnualPlanComponent {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.annualPlanDisplay);
+  
+        const modifiedAnnualPlanDisplay = this.annualPlanDisplay.map((plan, index) => ({
+          ...plan,
+          id: index + 1,
+        }));
+  
+        (doc as any).autoTable(this.exportColumns, modifiedAnnualPlanDisplay);
         doc.save('Annual plan.pdf');
       });
     });
   }
+  
+  
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const data = this.annualPlanDisplay.map(plan => ({
-        id: plan.id,
-        name: plan.name,
-        description: plan.description,
-        year: plan.year,
-        riskScore: plan.riskScore,
-        riskLevel: plan.riskLevel,
-        status: plan.status
+      const data = this.annualPlanDisplay.map((plan, index) => ({
+        Id: index + 1,
+        Name: plan.name,
+        Description: plan.description,
+        Year: plan.year,
+        'Risk Score': plan.riskScore,
+        'Risk Level': plan.riskLevel,
+        Status: plan.status
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -232,11 +240,11 @@ export class AnnualPlanComponent {
       });
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const dataBlob = new Blob([excelBuffer], {type: EXCEL_TYPE});
+      const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
       this.saveAsExcelFile(dataBlob, 'Annual plan');
     });
   }
-  
+
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_EXTENSION = '.xlsx';
     FileSaver.saveAs(

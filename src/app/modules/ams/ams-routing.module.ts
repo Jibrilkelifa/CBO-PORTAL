@@ -11,6 +11,7 @@ import { AuditStaffComponent } from './components/Audit-staff/audit-staff/audit-
 import { AuditObjectDetailComponent } from './components/Audit-objects/audit-object-detail/audit-object-detail.component';
 import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
+import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,13 @@ const routes: Routes = [
         component: AuditScheduleComponent,
         data: {
           title: 'Audit Schedule',
+        },
+      },
+      {
+        path: 'audit-engagement',
+        component: AuditEngagementComponent,
+        data: {
+          title: 'Audit Engagement',
         },
       },
       {

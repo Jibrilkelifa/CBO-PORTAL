@@ -71,7 +71,7 @@ export class AuditTypeComponent implements OnDestroy {
   }
 
   createNewAuditType(): void {
-    const ref = this.dialogService.open(NewAuditStaffComponent, {
+    const ref = this.dialogService.open(NewAuditTypeComponent, {
       header: 'Create a new audit type',
       draggable: true,
       width: '55%',
@@ -158,7 +158,7 @@ export class AuditTypeComponent implements OnDestroy {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
         (doc as any).autoTable(this.exportColumns, this.auditTypes);
-        doc.save('Audit object.pdf');
+        doc.save('Audit type.pdf');
       });
     });
   }
@@ -187,7 +187,7 @@ export class AuditTypeComponent implements OnDestroy {
     let EXCEL_EXTENSION = '.xlsx';
     FileSaver.saveAs(
       buffer,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+      fileName + EXCEL_EXTENSION
     );
   }
 }

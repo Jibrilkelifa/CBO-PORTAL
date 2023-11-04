@@ -19,20 +19,20 @@ export class AuditEngagementService {
     this.apiServiceUrl = 'http://10.1.125.58:8099';
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  public getRiskItems(): Observable<any> {
+  public addToEngagement(engagement: AuditEngagementDTO): Observable<any> {
     this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/ams/riskItem/listAll`,
+    return this.http.post<any>(
+      `${this.apiServiceUrl}/ams/auditSchedule/addToEngagement`, engagement,
       this.httpOptions
     );
   }
 
-  public addAuditEngagement(engagement: AuditEngagementDTO): Observable<any> {
+  public getEngagementBySchedule(engagement: AuditEngagementDTO): Observable<any> {
     this.init();
     return this.http.post<any>(
-      `${this.apiServiceUrl}/ams/auditSchedule/addToEngagement`,engagement,
+      `${this.apiServiceUrl}/ams/auditSchedule/getEngagementBySchedule`, engagement,
       this.httpOptions
     );
   }

@@ -57,6 +57,9 @@ import { NewAuditTypeComponent } from './components/Audit-type/new-audit-type/ne
 import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRiskItem.component';
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
+import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
+import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
+import { QuillModule } from 'ngx-quill'; 
 
 @NgModule({
   declarations: [
@@ -81,7 +84,9 @@ import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.co
     NewAuditTypeComponent,
     AuditTypeComponent,
     NewRiskItemComponent,
-    RiskItemComponent
+    RiskItemComponent,
+    AuditEngagementComponent,
+    NewAuditEngagementComponent
     
   ],
   imports: [

@@ -94,6 +94,10 @@ navItemsAMSAdmin =  {
       url: '/ams/audit-schedule',
     },
     {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
       name: 'Setting',
       url: '/ams',
       iconComponent: { name: 'cil-settings' },
