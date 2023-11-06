@@ -5,12 +5,11 @@ import { NewAuditEngagementComponent } from '../new-audit-engagement/newAuditEng
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
-import { AuditScheduleService } from 'src/app/modules/ams/services/audit-schedule/audit-schedule.service';
-import { AnnualPlanService } from 'src/app/modules/ams/services/annual-plan/annual-plan.service';
 import { AnnualPlanDTO } from 'src/app/modules/ams/models/annualPlan';
-import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { AuditEngagementService } from '../../../services/audit-engagement/audit-engagement.service';
+import { AuditEngagementDTO } from '../../../models/audit-engagement';
 
 interface ExportColumn {
   title: string;
@@ -30,9 +29,12 @@ interface Column {
 })
 export class AuditEngagementComponent implements OnDestroy {
   public annualPlans: AnnualPlanDTO[] = [];
-  public auditSchedules: AuditScheduleDTO[] = [];
+  public auditEngagements: AuditEngagementDTO[] = [];
 
   public auditScheduleDisplay: any[] = [];
+
+  public selectedOption: string;
+  public dropdownOptions = [];
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -40,30 +42,25 @@ export class AuditEngagementComponent implements OnDestroy {
   leaderSearchTerm: string = '';
   memberSearchTerm: string = '';
 
-
-  public dropdownOptions = ['1', '2', '3', '4'];
   public selectedDropdown: string;
 
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private auditPlanService: AnnualPlanService,
-    private auditScheduleService: AuditScheduleService,
+    private auditEngagementService: AuditEngagementService,
     private dialogService: DialogService,
     private messageService: MessageService,
     private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
-    this.getAuditSchedules();
+    this.getAllEngagementOfCurrentYear();
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'startOn', header: 'Start on' },
       { field: 'endOn', header: 'End on' },
       { field: 'status', header: 'Status' },
       { field: 'annualPlanName', header: 'Annual plan' },
-      { field: 'leaderName', header: 'Leader' },
-      { field: 'memberNames', header: 'Team members' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({
@@ -72,23 +69,25 @@ export class AuditEngagementComponent implements OnDestroy {
     }));
   }
 
-  getAuditSchedules(): void {
+  getAllEngagementOfCurrentYear(): void {
     this.subscriptions.push(
-      this.auditScheduleService.getAuditSchedules().subscribe(
+      this.auditEngagementService.getAllEngagementOfCurrentYear().subscribe(
         (response: any) => {
-          this.auditSchedules = response.result.map((schedule: AuditScheduleDTO) => {
-            const leader = schedule.teamMembers.find(member => member.teamRole === 'Leader');
-            const members = schedule.teamMembers.filter(member => member.teamRole === 'Member');
+          console.log(response);
+
+          this.auditEngagements = response.result.map((auditEngagment: AuditEngagementDTO) => {
+            const leader = auditEngagment.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
+            const members = auditEngagment.auditSchedule.teamMembers.filter(member => member.teamRole === 'Member');
             return {
-              ...schedule,
-              startOn: this.datePipe.transform(schedule.startOn, 'MMMM d, y'),
-              endOn: this.datePipe.transform(schedule.endOn, 'MMMM d, y'),
+              ...auditEngagment,
+              startOn: this.datePipe.transform(auditEngagment.auditSchedule.startOn, 'MMMM d, y'),
+              endOn: this.datePipe.transform(auditEngagment.auditSchedule.endOn, 'MMMM d, y'),
               leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
               memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
             };
           });
 
-          this.auditScheduleDisplay = this.auditSchedules.map((obj: any) => ({
+          this.auditScheduleDisplay = this.auditEngagements.map((obj: any) => ({
             ...obj,
             annualPlanName: obj.annualPlan.name
               ? obj.annualPlan.name
@@ -102,21 +101,9 @@ export class AuditEngagementComponent implements OnDestroy {
     );
   }
 
-  getAnnualPlans(): void {
-    this.subscriptions.push(
-      this.auditPlanService.getAnnualPlans().subscribe(
-        (response: any) => {
-          this.annualPlans = response.result;
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
-    );
-  }
 
   updateAuditSchedule(id: number): void {
-    const auditSchedule = this.auditSchedules.find(
+    const auditSchedule = this.auditEngagements.find(
       (schedule) => schedule.id === id
     );
     const ref = this.dialogService.open(NewAuditEngagementComponent, {
@@ -129,7 +116,7 @@ export class AuditEngagementComponent implements OnDestroy {
 
     ref.onClose.subscribe((response: any) => {
       if (response.status) {
-        this.getAuditSchedules();
+        this.getAllEngagementOfCurrentYear();
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -146,25 +133,23 @@ export class AuditEngagementComponent implements OnDestroy {
     });
   }
 
-  submitAuditScheduleQuarter(addDivForm: NgForm): void {
-    const auditSchedule = new AuditScheduleDTO();
-    auditSchedule.quarter = addDivForm.value.selectedDropdown;
+  findAuditEngagementByStatus(addDivForm: NgForm): void {
     this.subscriptions.push(
-      this.auditScheduleService
-        .getAuditSchedulesByQuarter(auditSchedule)
+      this.auditEngagementService
+        .getEngagementByStatus(addDivForm.value.selectedDropdown)
         .subscribe(
           (response: any) => {
             if (response.result) {
-              this.auditSchedules = response.result.map(
-                (schedule: AuditScheduleDTO) => ({
+              this.auditEngagements = response.result.map(
+                (schedule: AuditEngagementDTO) => ({
                   ...schedule,
-                  startOn: this.datePipe.transform(schedule.startOn, 'MMMM d, y'),
-                  endOn: this.datePipe.transform(schedule.endOn, 'MMMM d, y'),
+                  startOn: this.datePipe.transform(schedule.auditSchedule.startOn, 'MMMM d, y'),
+                  endOn: this.datePipe.transform(schedule.auditSchedule.endOn, 'MMMM d, y'),
                 })
               );
             }
             else {
-              this.auditSchedules = [];
+              this.auditEngagements = [];
             }
           },
           (error: HttpErrorResponse) => {
@@ -173,13 +158,118 @@ export class AuditEngagementComponent implements OnDestroy {
         )
     );
   }
-  getLeaderName(auditSchedule: AuditScheduleDTO): string {
-    const leader = auditSchedule?.teamMembers.find(member => member.teamRole === 'Leader');
+
+  findAuditEngagementByYear(addDivForm: NgForm): void {
+    this.subscriptions.push(
+      this.auditEngagementService
+        .getEngagementByYear(addDivForm.value.selectedDropdown)
+        .subscribe(
+          (response: any) => {
+            if (response.result) {
+              this.auditEngagements = response.result.map(
+                (schedule: AuditEngagementDTO) => ({
+                  ...schedule,
+                  startOn: this.datePipe.transform(schedule.auditSchedule.startOn, 'MMMM d, y'),
+                  endOn: this.datePipe.transform(schedule.auditSchedule.endOn, 'MMMM d, y'),
+                })
+              );
+            }
+            else {
+              this.auditEngagements = [];
+            }
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        )
+    );
+  }
+
+  findAuditEngagementByQuarter(addDivForm: NgForm): void {
+    this.subscriptions.push(
+      this.auditEngagementService
+        .getEngagementByQuarter(addDivForm.value.selectedDropdown)
+        .subscribe(
+          (response: any) => {
+            if (response.result) {
+              this.auditEngagements = response.result.map(
+                (schedule: AuditEngagementDTO) => ({
+                  ...schedule,
+                  startOn: this.datePipe.transform(schedule.auditSchedule.startOn, 'MMMM d, y'),
+                  endOn: this.datePipe.transform(schedule.auditSchedule.endOn, 'MMMM d, y'),
+                })
+              );
+            }
+            else {
+              this.auditEngagements = [];
+            }
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        )
+    );
+  }
+
+  getYears(): string[] {
+    const startYear = 2024;
+    const endYear = 2050;
+    const years = Array.from({length: endYear - startYear + 1}, (_, i) => `${startYear + i}/${startYear + i + 1}`);
+    return years;
+  }
+  
+  onOptionChange(event) {
+    switch (event.value) {
+      case 'quarter':
+        this.dropdownOptions = ['1', '2', '3', '4'];
+        break;
+      case 'year':
+        this.dropdownOptions = this.getYears();
+        break;
+      case 'status':
+        this.dropdownOptions = ['Closed', 'Field work', 'Pree audit', 'Follow up']; 
+        break;
+    }
+  }
+  
+  
+
+  getPlaceholder(): string {
+    switch (this.selectedOption) {
+      case 'quarter':
+        return 'Select Quarter';
+      case 'year':
+        return 'Select Year';
+      case 'status':
+        return 'Select Status';
+      default:
+        return 'Select Value';
+    }
+  }
+  
+
+  findAuditEngagement(addDivForm: NgForm): void {
+    switch (this.selectedOption) {
+      case 'quarter':
+        this.findAuditEngagementByQuarter(addDivForm);
+        break;
+      case 'year':
+        this.findAuditEngagementByYear(addDivForm);
+        break;
+      case 'status':
+        this.findAuditEngagementByStatus(addDivForm);
+        break;
+    }
+  }
+  
+
+  getLeaderName(auditEngagement: AuditEngagementDTO): string {
+    const leader = auditEngagement?.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
     return leader?.auditStaffDTO?.user?.employee?.fullName || '';
   }
 
-  getMemberNames(auditSchedule: AuditScheduleDTO): string {
-    const members = auditSchedule?.teamMembers
+  getMemberNames(auditEngagement: AuditEngagementDTO): string {
+    const members = auditEngagement.auditSchedule?.teamMembers
       .filter(member => member.teamRole === 'Member')
       .map(member => member.auditStaffDTO?.user?.employee?.fullName);
     return members?.join('\n') || '';
@@ -238,5 +328,5 @@ export class AuditEngagementComponent implements OnDestroy {
       fileName + EXCEL_EXTENSION
     );
   }
-  
+
 }

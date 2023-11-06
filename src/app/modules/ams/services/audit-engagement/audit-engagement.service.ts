@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditEngagementDTO } from './../../models/audit-engagement';
 @Injectable({
@@ -21,6 +21,14 @@ export class AuditEngagementService {
 
   constructor(private http: HttpClient) { }
 
+  public getAllEngagementOfCurrentYear(): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditSchedule/listAllEngagement`,
+      this.httpOptions
+    );
+  }
+
   public addToEngagement(engagement: AuditEngagementDTO): Observable<any> {
     this.init();
     return this.http.post<any>(
@@ -36,6 +44,30 @@ export class AuditEngagementService {
       this.httpOptions
     );
   }
+
+  public getEngagementByStatus(status: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditSchedule/getByStatus/${status}`,
+    );
+  }
+
+  public getEngagementByQuarter(quarter: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditSchedule/getByQuarter/${quarter}`,
+      this.httpOptions
+    );
+  }
+
+  public getEngagementByYear(year: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditSchedule/getEngagementByYear`,
+      { params: new HttpParams().set('year', year), headers: this.httpOptions.headers }
+    );
+  }
+  
 
 }
 

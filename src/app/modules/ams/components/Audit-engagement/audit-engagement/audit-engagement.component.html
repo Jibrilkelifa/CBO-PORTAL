@@ -1,30 +1,48 @@
 <p-toast position="top-right"></p-toast>
-<form
-  #addDivForm="ngForm"
-  class="flex justify-end"
-  (ngSubmit)="submitAuditScheduleQuarter(addDivForm)"
->
+<form #addDivForm="ngForm" class="flex justify-end">
   <div class="col mb-4">
-    <label for="dropdown" class="mr-2"> Select quarter: </label>
+    <label for="dropdown" class="mr-2"> Choose Filter Type: </label>
     <p-dropdown
-      [options]="dropdownOptions"
-      name="selectedDropdown"
-      [(ngModel)]="selectedDropdown"
+      [options]="['quarter', 'year', 'status']"
+      name="selectedOption"
+      [(ngModel)]="selectedOption"
+      (onChange)="onOptionChange($event)"
       [showClear]="true"
-      placeholder="Choose level"
+      placeholder="Choose Filter"
       styleClass="p-password"
       [required]="true"
       [style]="{ width: '250px', height: '45px' }"
     >
     </p-dropdown>
-    <button pButton type="submit" class="p-button-sm" label="Find"></button>
+    <p-dropdown
+      class="ml-8"
+      *ngIf="selectedOption"
+      [options]="dropdownOptions"
+      name="selectedDropdown"
+      [(ngModel)]="selectedDropdown"
+      [showClear]="true"
+      placeholder="{{ getPlaceholder() }}"
+      styleClass="p-password"
+      [required]="true"
+      [style]="{ width: '250px', height: '45px' }"
+    >
+    </p-dropdown>
+
+    <button
+      pButton
+      type="submit"
+      class="p-button-sm h-12  pl-3 pr-3 whitespace-nowrap"
+      label="Find"
+      (click)="findAuditEngagement(addDivForm)"
+    ></button>
   </div>
 </form>
+
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Engagement</h5>
   <p-table
     #dt1
-    [value]="auditSchedules"
+    [value]="auditEngagements"
     [exportHeader]="'customExportHeader'"
     selectionMode="single"
     dataKey="id"
@@ -78,9 +96,6 @@
         </th>
         <th pSortableColumn="status">Status</th>
         <th pSortableColumn="status">Annual plan</th>
-        <th pSortableColumn="Leader">Leader</th>
-        <th pSortableColumn="Member">Member</th>
-        <th scope="col">Actions</th>
       </tr>
       <tr>
         <th scope="col"></th>
@@ -136,45 +151,15 @@
             class="p-column-filter"
           />
         </th>
-        <th scope="col">
-          <input
-            pInputText
-            type="text"
-            (input)="dt1.filter($any($event.target)?.value, 'leaderName', 'contains')"
-            placeholder="Search by leader name"
-            class="p-column-filter"
-          />
-        </th>
-        <th scope="col">
-          <input
-            pInputText
-            type="text"
-            (input)="dt1.filter($any($event.target)?.value, 'memberNames', 'contains')"
-            placeholder="Search by member names"
-            class="p-column-filter"
-          />
-        </th>        
-        <th scope="col"></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-auditSchedule let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="auditSchedule">
+    <ng-template pTemplate="body" let-auditEngagement let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="auditEngagement">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ auditSchedule?.startOn }}</td>
-        <td>{{ auditSchedule?.endOn }}</td>
-        <td>{{ auditSchedule?.status }}</td>
-        <td>{{ auditSchedule?.annualPlan.name }}</td>
-        <td>{{ getLeaderName(auditSchedule) }}</td>
-        <td><div class="p-4" [innerHTML]="getMemberNames(auditSchedule).split('\n').join('<br>')"></div></td>
-        <td class="flex gap-2">
-          <button
-            pButton
-            (click)="updateAuditSchedule(auditSchedule.id)"
-            [ngClass]="{ updateBlue: true }"
-            class="p-button-sm"
-            label="Update"
-          ></button>
-        </td>
+        <td>{{ auditEngagement.startOn }}</td>
+        <td>{{ auditEngagement.endOn }}</td>
+        <td>{{ auditEngagement.auditSchedule?.status }}</td>
+        <td>{{ auditEngagement.auditSchedule?.annualPlan.name }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">

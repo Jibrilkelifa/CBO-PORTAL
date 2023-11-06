@@ -62,8 +62,6 @@ export class NewAuditScheduleComponent implements OnDestroy {
       };
       this.selectedDropdown = this.config.data.auditSchedule.quarter.toString();
       this.savedAssignmembers = this.config.data.auditSchedule.teamMembers;
-      console.log("pppp", this.savedAssignmembers);
-
       this.update = true;
       this.newDiv = false;
     }
