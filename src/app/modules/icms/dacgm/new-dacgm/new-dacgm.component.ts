@@ -31,8 +31,10 @@ export class NewDACGMComponent implements OnInit {
   public selectedSubProcess;
   public selectedCategory: AllCategory;
   public selectedSubCategory: AllSubCategory;
+  public activityStatuses: ActivityStatus[] = [];
+  selectedActivityStatus: ActivityStatus;
   public selectedIrregularity: AllIrregularity;
-  public selectedActivityStatus: ActivityStatus;
+  // public selectedActivityStatus: ActivityStatus;
   public dacgmR: DACGM[] = [];
   public selectedDACGM: DACGM;
   
@@ -101,6 +103,7 @@ export class NewDACGMComponent implements OnInit {
 
   ngOnInit() {
     this.getDACGMCategories();
+    this.getActivityStatus();
     this.generateCaseId();
     this.getDACGMs(this.branchId);
     // alert(this.branchId);
@@ -117,14 +120,14 @@ export class NewDACGMComponent implements OnInit {
     // );
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
-    this.activityStatusService.getActivityStatus(1).subscribe(
-      (response: any) => {
-        this.selectedActivityStatus = response;
-      },
-      (error: HttpErrorResponse) => {
+    // this.activityStatusService.getActivityStatus(1).subscribe(
+    //   (response: any) => {
+    //     this.selectedActivityStatus = response;
+    //   },
+    //   (error: HttpErrorResponse) => {
 
-      }
-    );
+    //   }
+    // );
     
     if (this.idY) {
       this.getDACGM(this.idY);
@@ -151,6 +154,17 @@ export class NewDACGMComponent implements OnInit {
       }
     )
   }
+  public getActivityStatus(): void {
+    this.activityStatusService.getActivityStatuses().subscribe(
+      (response: ActivityStatus[]) => {
+        this.activityStatuses = response;
+      },
+      (error: HttpErrorResponse) => {
+
+      }
+    );
+  }
+
 
   
 

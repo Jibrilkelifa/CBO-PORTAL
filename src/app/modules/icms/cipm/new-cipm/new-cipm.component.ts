@@ -55,7 +55,7 @@ export class NewCIPMComponent implements OnInit {
     this.getCIPMs(this.branchId);
     this.getCollatoralTypes();
     this.getIPCTs();
-    this.getStatus()
+    this.getStatus();
     // alert(this.subProcessId);
     
     this.primengConfig.ripple = true;

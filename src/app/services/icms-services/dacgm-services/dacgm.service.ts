@@ -49,7 +49,34 @@ export class DACGMService {
   }
   public updateDACGM(dacgm: DACGM): Observable<any> {
     this.init();
-    return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/update`, dacgm, this.httpOptions)
+    return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/update`, 
+    {id: dacgm.id,
+    accountName: dacgm.accountName,
+    accountNumber: dacgm.accountNumber,
+    amountInvolved:dacgm.amountInvolved,
+    actionPlanDuedate:dacgm.actionPlanDueDate,
+    caseId:dacgm.caseId,
+    date:dacgm.date,
+    activityStatus: {
+      id: dacgm.activityStatus.id
+    },
+    // category: {
+    //   id: dacgm.category.id
+    // },
+    // subCategory: {
+    //   id: dacgm.subCayegory.id
+    // },
+    otherIrregularity: (dacgm.otherIrregularity == undefined) ? "" : dacgm.otherIrregularity,
+  
+   responsiblePerson:dacgm.responsiblePerson,
+    branch: {
+      id: dacgm.branch.id
+    },
+    subProcess: {
+      id: dacgm.subProcess.id
+    }
+  }, this.httpOptions)
+
   }
   // public approveDACGM(id: number): Observable<any> {
   //   this.init();

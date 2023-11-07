@@ -18,6 +18,7 @@ export class DACGMTableComponent {
   public dacgmR: DACGM[] = [];
   selectedDACGM: DACGM;
   deleteId: number = 0;
+  buttonClicked = false;
   msgs: Message[] = [];
   position: string;
   districtId: number;
