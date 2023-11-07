@@ -31,7 +31,7 @@
       </div>
       <div class="flex flex-row">
         <div class="mb-4 mr-2">
-        <label for="hex" class="block mb-2"> Audit type: </label>
+        <label for="hex" class="block mb-2"> Team: </label>
         <p-dropdown
           [disabled]="update"
           [required]="true"
@@ -41,7 +41,7 @@
           [(ngModel)]="auditStaffInfo.auditType"
           filterBy="name"
           [showClear]="true"
-          placeholder="Choose audit type"
+          placeholder="Choose team"
           styleClass="p-password"
           [style]="{ width: '300px', height: '45px' }"
         >

@@ -16,6 +16,10 @@
           id="startOn"
           [ngModel]="scheduleInfo.startOn"
           name="startOn"
+          [minDate]="startOn"
+          (ngModelChange)="startOn = $event"
+          [defaultDate]="startOn"
+          [maxDate]="endOn"
           [style]="{ width: '300px', height: '45px' }"
           [required]="true"
         ></p-calendar>
@@ -26,6 +30,9 @@
           id="endOn"
           [ngModel]="scheduleInfo.endOn"
           name="endOn"
+          [minDate]="startOn"
+          [defaultDate]="startOn"
+          [maxDate]="endOn"
           [style]="{ width: '300px', height: '45px' }"
           [required]="true"
         ></p-calendar>
@@ -56,7 +63,7 @@
         ></p-button>
       </div>
     </div>
-   
+
     <div style="margin-top: 12.5em"></div>
     <div class="buttonDiv">
       <p-button label="Cancel" (click)="closeDialog()"></p-button>

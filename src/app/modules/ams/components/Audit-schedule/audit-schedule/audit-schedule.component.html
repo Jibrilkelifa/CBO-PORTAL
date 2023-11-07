@@ -165,13 +165,13 @@
         <td>{{ auditSchedule?.status }}</td>
         <td>{{ auditSchedule?.annualPlan.name }}</td>
         <td>{{ getLeaderName(auditSchedule) }}</td>
-        <td><div class="p-2" [innerHTML]="getMemberNames(auditSchedule).split('\n').join('<br>')"></div></td>
+        <td><div [innerHTML]="getMemberNames(auditSchedule).split('\n').join('<br>')"></div></td>
         <td class="flex gap-2">
           <button
             pButton
             (click)="updateAuditSchedule(auditSchedule.id)"
             [ngClass]="{ updateBlue: true }"
-            class="p-button-sm h-10 p-2 whitespace-nowrap"
+            class="p-button-sm h-10 whitespace-nowrap"
             label="Update"
           ></button>
           <button
@@ -179,8 +179,8 @@
           *ngIf="auditSchedule?.status == 'Scheduled'"
           (click)="addToEngagement(auditSchedule)"
           [ngClass]="{ updateBlue: true }"
-          class="p-button-sm h-10 p-2 whitespace-nowrap"
-          label="Add to schedule"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Create engagement"
         ></button>
         </td>
       </tr>

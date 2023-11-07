@@ -7,6 +7,8 @@ import { NewAuditUniverseComponent } from '../new-audit-universe/newAuditUnivers
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
+import { AnnualPlanDTO } from '../../../models/annualPlan';
+import { AutoGenerateAnnualPlanComponent } from '../../Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 
 interface ExportColumn {
   title: string;
@@ -27,6 +29,8 @@ interface Column {
 export class AuditUniverseComponent implements OnDestroy {
   public auditUniverse: AuditUniverseDTO[] = [];
   public auditUniverseDisplay: any[] = [];
+
+  public annualPlans: AnnualPlanDTO[] = [];
 
   public universeInfo: AuditUniverseDTO;
   selectedUniverseInfo: AuditUniverseDTO;
@@ -78,6 +82,32 @@ export class AuditUniverseComponent implements OnDestroy {
         }
       )
     );
+  }
+
+  generateAnnualPlan(): void {
+    const ref = this.dialogService.open(AutoGenerateAnnualPlanComponent, {
+      header: 'Generate Annual Plan',
+      width: '50%',
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+        this.annualPlans = response.result;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
 
   approveAuditUniverse(id: number): void {

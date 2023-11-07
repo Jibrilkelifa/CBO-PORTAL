@@ -73,8 +73,6 @@ export class AuditEngagementComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditEngagementService.getAllEngagementOfCurrentYear().subscribe(
         (response: any) => {
-          console.log(response);
-
           this.auditEngagements = response.result.map((auditEngagment: AuditEngagementDTO) => {
             const leader = auditEngagment.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
             const members = auditEngagment.auditSchedule.teamMembers.filter(member => member.teamRole === 'Member');

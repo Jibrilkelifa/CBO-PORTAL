@@ -46,20 +46,14 @@
       <div class="col" *ngIf="update">
         <label for="status" class="block mb-2"> Status: </label>
         <p-dropdown
-          [options]="
-            annualPlanInfo.status === 'Pending'
-              ? ['Pending', 'Cancelled']
-              : annualPlanInfo.status === 'Scheduled'
-              ? ['Scheduled', 'Cancelled']
-              : ['Cancelled']
-          "
+          [options]="['Scheduled', 'Pending', 'Cancelled']"
           name="status"
           [ngModel]="annualPlanInfo.status"
           [showClear]="true"
           placeholder="Choose status"
           [required]="true"
           [style]="{ width: '300px', height: '45px' }"
-          [disabled]="annualPlanInfo.status === 'Cancelled'"
+          [disabled]="update"
         >
         </p-dropdown>
       </div>

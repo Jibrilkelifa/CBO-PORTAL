@@ -45,7 +45,10 @@ export class NewAuditEngagementComponent implements OnDestroy {
         endOn: this.datePipe.transform(this.config.data.auditSchedule.endOn, 'MM/dd/yyyy')
       };
     }
+    
+    this.auditEngagementInfo.refNum = (Math.floor(Math.random() * 9000) + 1000).toString();
   }
+  
 
   submitAuditSchedule(auditableAreaForm: NgForm): void {
     if (this.update) {

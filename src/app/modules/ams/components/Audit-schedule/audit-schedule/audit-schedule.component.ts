@@ -72,6 +72,7 @@ export class AuditScheduleComponent implements OnDestroy {
       dataKey: col.field,
     }));
   }
+  
 
   getAuditSchedules(): void {
     this.subscriptions.push(
@@ -156,13 +157,17 @@ export class AuditScheduleComponent implements OnDestroy {
         .subscribe(
           (response: any) => {
             if (response.result) {
-              this.auditSchedules = response.result.map(
-                (schedule: AuditScheduleDTO) => ({
+              this.auditSchedules = response.result.map((schedule: AuditScheduleDTO) => {
+                const leader = schedule.teamMembers.find(member => member.teamRole === 'Leader');
+                const members = schedule.teamMembers.filter(member => member.teamRole === 'Member');
+                return {
                   ...schedule,
                   startOn: this.datePipe.transform(schedule.startOn, 'MMMM d, y'),
                   endOn: this.datePipe.transform(schedule.endOn, 'MMMM d, y'),
-                })
-              );
+                  leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
+                  memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
+                };
+              });
             }
             else {
               this.auditSchedules = [];

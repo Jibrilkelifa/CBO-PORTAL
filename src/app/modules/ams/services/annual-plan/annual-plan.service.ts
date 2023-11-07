@@ -33,6 +33,14 @@ export class AnnualPlanService {
     );
   }
 
+  public getAnnualPlansByYear(annualPlan: AnnualPlanDTO): Observable<any> {
+    this.init();
+    return this.http.post<any>(
+      `${this.apiServiceUrl}/ams/annualPlan/findByYear`,annualPlan,
+      this.httpOptions
+    );
+  }
+
   public addAnnualPlan(annualPlan: AnnualPlanDTO): Observable<any> {
     this.init();
     return this.http.post(

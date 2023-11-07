@@ -34,6 +34,9 @@ export class NewAuditScheduleComponent implements OnDestroy {
   update: boolean = false;
   newDiv: boolean = true;
 
+  startOn: Date;
+  endOn: Date;
+
   annualPlan: AnnualPlanDTO;
   auditSchedule: AuditScheduleDTO;
 
@@ -52,7 +55,13 @@ export class NewAuditScheduleComponent implements OnDestroy {
     if (this.config.data?.annualPlan) {
       this.annualPlan = this.config.data.annualPlan;
       this.update = false;
-
+  
+      let year = this.annualPlan.year;
+      let startYear = parseInt(year.split("/")[0]);
+      let endYear = parseInt(year.split("/")[1]);
+  
+      this.startOn = new Date(startYear, 0, 1); // January 1 of startYear
+      this.endOn = new Date(endYear, 11, 31); // December 31 of endYear
     }
     if (this.config.data?.auditSchedule) {
       this.scheduleInfo = {
@@ -66,6 +75,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
       this.newDiv = false;
     }
   }
+  
 
   submitAuditSchedule(auditableAreaForm: NgForm): void {
     if (this.update) {
