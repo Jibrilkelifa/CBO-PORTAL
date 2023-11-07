@@ -5,7 +5,6 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { AuditStaffDTO } from '../../../models/auditStaff';
-import { NewAuditStaffComponent } from '../../Audit-staff/new-audit-staff/newAuditStaff.component';
 import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
 import { AuditType } from '../../../models/auditType';
 import { NewAuditTypeComponent } from '../new-audit-type/newAuditType.component';
@@ -72,7 +71,7 @@ export class AuditTypeComponent implements OnDestroy {
 
   createNewAuditType(): void {
     const ref = this.dialogService.open(NewAuditTypeComponent, {
-      header: 'Create a new audit type',
+      header: 'Create a new audit team',
       draggable: true,
       width: '55%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
@@ -102,7 +101,7 @@ export class AuditTypeComponent implements OnDestroy {
       (auditype) => auditype.id === id
     );
     const ref = this.dialogService.open(NewAuditTypeComponent, {
-      header: 'Update audit type',
+      header: 'Update audit team',
       draggable: true,
       width: '55%',
       data: { auditType },

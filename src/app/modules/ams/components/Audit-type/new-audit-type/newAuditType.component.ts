@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -31,7 +30,6 @@ export class NewAuditTypeComponent implements OnDestroy {
     private auditTypeService: AuditTypeService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
-    private dialogService: DialogService,
   ) { }
 
   ngOnInit() {

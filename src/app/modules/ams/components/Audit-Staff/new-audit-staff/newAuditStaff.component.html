@@ -88,13 +88,13 @@
       <p-button label="Cancel" (click)="closeDialog()"></p-button>
       <p-button
         *ngIf="!update"
-        label="Create audit staff"
+        label="Create auditor"
         [disabled]="auditStaffForm.invalid!"
         type="submit"
       ></p-button>
       <p-button
         *ngIf="update"
-        label="Update audit staff"
+        label="Update auditor"
         [disabled]="auditStaffForm.invalid!"
         type="submit"
       ></p-button>

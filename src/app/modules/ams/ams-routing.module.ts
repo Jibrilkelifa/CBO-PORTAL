@@ -97,14 +97,14 @@ const routes: Routes = [
         path: 'audit-staff',
         component: AuditStaffComponent,
         data: {
-          title: 'Audit Staff',
+          title: 'Auditors',
         },
       },
       {
         path: 'audit-type',
         component: AuditTypeComponent,
         data: {
-          title: 'Audit Type',
+          title: 'Audit Team',
         },
       },
       {

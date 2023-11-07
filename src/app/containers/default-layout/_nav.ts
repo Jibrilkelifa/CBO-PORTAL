@@ -103,7 +103,7 @@ navItemsAMSAdmin =  {
       iconComponent: { name: 'cil-settings' },
       children: [
         {
-          name: 'Add auditors',
+          name: 'Auditors',
           url: '/ams/audit-staff',
         },
         {
@@ -111,7 +111,7 @@ navItemsAMSAdmin =  {
           url: '/ams/audit-universe',
         },
         {
-          name: 'Audit Object',
+          name: 'Audit object',
           url: '/ams/audit-object',
         },
         {
