@@ -18,10 +18,13 @@ export class DACGMTableComponent {
   public dacgmR: DACGM[] = [];
   selectedDACGM: DACGM;
   deleteId: number = 0;
+  buttonClicked = false;
   msgs: Message[] = [];
   position: string;
   districtId: number;
   escalatedByManager: boolean = false;
+  escalatedMap: { [dacgmId: string]: boolean } = {};
+  actionTakenMap: { [dacgmId: string]: boolean } = {};
   searchParameter: any[] =
     [
       { name: 'District Name', value: 'subProcess.name' },

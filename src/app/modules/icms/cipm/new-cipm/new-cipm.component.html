@@ -55,7 +55,7 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <div class="flex-auto">
+      <div class="flex-auto"  [hidden]="true">
         <label for="hex" class=" block mb-2"> Status </label>
         <p-dropdown [options]="statuses" name="status" ngModel [(ngModel)]="selectedstatus"
           optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select  Status"
@@ -185,11 +185,12 @@
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
     </div>
-    <div class="flex-auto">
+    <div class="flex-auto" >
       <label for="hex" class=" block mb-2"> Status </label>
       <p-dropdown [options]="statuses" name="status" ngModel [(ngModel)]="selectedstatus"
         optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select  Status"
         class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true" >
+        (ngOnInit)="populateSelectedstatus(existingStatus)">
         <!-- (onChange)="onCaseStatusChange($event)" -->
         <ng-template pTemplate="selectedItem">
           <div class="flex align-items-center gap-2" *ngIf="selectedstatus">

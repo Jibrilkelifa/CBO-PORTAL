@@ -67,6 +67,8 @@
         <th scope="col" pSortableColumn="activityStatus.name" style="width:5%">Status</th>
         <th scope="col" pSortableColumn="actionPlanDueDate" style="width:10%">Action Plan Due Date<p-sortIcon></p-sortIcon></th>
         <th scope="col" pSortableColumn="" style="width:8%">Past Due</th>
+        <th scope="col" pSortableColumn="Action" style="width:1%" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">Actions
+        </th>
       </tr>
       <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
         [baseZIndex]="10000"></p-confirmDialog>
@@ -78,7 +80,7 @@
 
         <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">{{dacgm?.subProcess?.name}}</td>
         <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">{{dacgm?.branch?.name}}</td>
-        <td>{{dacgm?.date}}</td>
+        <td>{{dacgm?.date  | date:'MM/dd/yyyy'}}</td>
         <td>{{dacgm?.caseId}}</td>
         <td>{{dacgm?.irregularity?.allSubCategory?.allcategory?.name}}</td>
         <td>{{dacgm?.irregularity?.allSubCategory?.name}}</td>
@@ -94,23 +96,48 @@
         <td>{{dacgm?.responsiblePerson}}</td>
         <td>{{dacgm?.activityStatus.name}}</td>
         <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_ADMIN') ">
-          {{dacgm?.actionPlanDueDate}}
-        </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">
+          {{dacgm?.actionPlanDueDate | date:'MM/dd/yyyy'}}
+         </td>
+           <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">
           <div class="flex gap-2">
           <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
           class="p-button-sm w-24 h-10 p-2" label="Take action"></button>
-            <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Escalate"></button>
+             <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Escalate"></button> 
+          
 
             <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && dacgm.escalatedByManager===true" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             class="p-button-sm h-10 p-2 whitespace-nowrap"label="Take action"></button>
+
           </div>
-        </td>
-  
-        <td *ngIf="dacgm?.activityStatus.name === 'Open' && dacgm?.actionPlanDueDate !== null"
-          [ngClass]="{ 'black': calculatePastDue(dacgm?.actionPlanDueDate) == 0,'red': calculatePastDue(dacgm?.actionPlanDueDate) < 0, 'yellow': calculatePastDue(dacgm?.actionPlanDueDate) > 0 && calculatePastDue(dacgm?.actionPlanDueDate) < 30, 'green': calculatePastDue(dacgm?.actionPlanDueDate) >= 30 }">
-          {{absoluteValue(calculatePastDue(dacgm?.actionPlanDueDate))}}</td>
+        
+        </td>  
+    
+
+     <td [ngClass]="{
+        'red': dacgm?.activityStatus.name === 'Open' && calculatePastDue(dacgm?.actionPlanDueDate) <= 0,
+        'other-color': dacgm?.activityStatus.name === 'Open' && calculatePastDue(dacgm?.actionPlanDueDate) > 0,
+        'closed': dacgm?.activityStatus.name === 'Closed' && !dacgm?.actionPlanDueDate
+      }">
+        <ng-container *ngIf="dacgm?.activityStatus.name === 'Open' && dacgm?.actionPlanDueDate !== null; else closedStatus">
+          <ng-container *ngIf="calculatePastDue(dacgm?.actionPlanDueDate) <= 0; else otherText">
+            {{ absoluteValue(calculatePastDue(dacgm?.actionPlanDueDate)) }}
+          </ng-container>
+          <ng-template #otherText>
+            
+          </ng-template>
+        </ng-container>
+        <ng-template #closedStatus>
+          <span *ngIf="dacgm?.actionPlanDueDate" [ngClass]="{
+            'red': dacgm?.activityStatus.name === 'Closed'
+          }">
+            Closed!
+          </span>
+        </ng-template>
+      </td>
+         <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">
+          <button pButton (click)="updateDACGMs(dacgm.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Update"></button></td>
       </tr>
     </ng-template>
 
