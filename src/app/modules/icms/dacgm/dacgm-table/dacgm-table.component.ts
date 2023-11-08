@@ -23,6 +23,8 @@ export class DACGMTableComponent {
   position: string;
   districtId: number;
   escalatedByManager: boolean = false;
+  escalatedMap: { [dacgmId: string]: boolean } = {};
+  actionTakenMap: { [dacgmId: string]: boolean } = {};
   searchParameter: any[] =
     [
       { name: 'District Name', value: 'subProcess.name' },

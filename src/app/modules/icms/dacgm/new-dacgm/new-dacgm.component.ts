@@ -33,6 +33,7 @@ export class NewDACGMComponent implements OnInit {
   public selectedSubCategory: AllSubCategory;
   public activityStatuses: ActivityStatus[] = [];
   selectedActivityStatus: ActivityStatus;
+
   public selectedIrregularity: AllIrregularity;
   // public selectedActivityStatus: ActivityStatus;
   public dacgmR: DACGM[] = [];
@@ -158,11 +159,17 @@ export class NewDACGMComponent implements OnInit {
     this.activityStatusService.getActivityStatuses().subscribe(
       (response: ActivityStatus[]) => {
         this.activityStatuses = response;
+        // Set the initial selectedActivityStatus to "Open" when adding data
+        this.selectedActivityStatus = this.activityStatuses.find(status => status.name === "Open");
       },
       (error: HttpErrorResponse) => {
-
+        // Handle error
       }
     );
+  }
+  
+  public populateSelectedActivityStatus(existingActivityStatus: ActivityStatus): void {
+    this.selectedActivityStatus = existingActivityStatus;
   }
 
 
