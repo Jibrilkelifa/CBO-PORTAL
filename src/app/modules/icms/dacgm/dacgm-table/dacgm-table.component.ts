@@ -23,6 +23,7 @@ export class DACGMTableComponent {
   position: string;
   districtId: number;
   escalatedByManager: boolean = false;
+  actionTaken: boolean = false;
   escalatedMap: { [dacgmId: string]: boolean } = {};
   actionTakenMap: { [dacgmId: string]: boolean } = {};
   searchParameter: any[] =
@@ -198,20 +199,28 @@ export class DACGMTableComponent {
       (response: any) => {
         this.escalatedByManager = true;
         console.log('escalatedByManager:', this.escalatedByManager);
-this.messageService.add({
+        this.getDACGMs(this.roles);
+  
+        this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: "This Daily Activity Gap monitoring Escalated succesfully!"
+          detail: "This Daily Activity Gap monitoring Escalated successfully!"
         });
+  
         setTimeout(() => {
-        }, 1000);
+          // Clear the success message after 5 seconds
+          this.clearSuccessMessage();
+        }, 5000); // 5000 milliseconds = 5 seconds
       },
       (error: HttpErrorResponse) => {
-
         this.getDACGMs(this.roles);
       }
-      
     );
+  }
+  
+  clearSuccessMessage(): void {
+    // Clear the success message
+    this.messageService.clear();
   }
 
   deleteBox(id: number): void {

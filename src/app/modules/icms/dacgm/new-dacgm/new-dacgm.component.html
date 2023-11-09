@@ -127,7 +127,7 @@
       <div class="flex-auto"  *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
         <label for="alphabetic" class="block mb-2">Amount Involved</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="amountInvolved"
-          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="3" placeholder="" />
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="1" placeholder="" />
       </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Responsible Person </label>
