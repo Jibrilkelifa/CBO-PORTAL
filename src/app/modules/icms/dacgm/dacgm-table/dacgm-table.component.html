@@ -1,7 +1,7 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
 <div class="card" >
   <div class="spacer">
-    <span style="font-size: larger; font-weight: bolder;">Collateral Insurance Policy Monitoring Table</span>
+    <span style="font-size: larger; font-weight: bolder;">Daily activity control gap Monitoring</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('dacgmTable')"
       [ngClass]="{updateBlue: true}" style="height: max-content;" class="p-button-sm mt-3 mr-3"
       label="Download as Excel"><svg _ngcontent-yvw-c268="" cIcon="" name="cilCloudDownload" ng-reflect-content=""
@@ -95,23 +95,23 @@
         <td>{{dacgm?.amountInvolved}}</td>
         <td>{{dacgm?.responsiblePerson}}</td>
         <td>{{dacgm?.activityStatus.name}}</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_ADMIN') ">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_ADMIN')  ">
           {{dacgm?.actionPlanDueDate | date:'MM/dd/yyyy'}}
          </td>
-           <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">
+            <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">
           <div class="flex gap-2">
-          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
+          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')  && !dacgm.actionTaken   && !dacgm.escalatedByManager" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
           class="p-button-sm w-24 h-10 p-2" label="Take action"></button>
-             <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+             <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !dacgm.actionTaken && !dacgm.escalatedByManager" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Escalate"></button> 
           
 
-            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && dacgm.escalatedByManager===true" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && dacgm.escalatedByManager && !dacgm.actionTaken" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             class="p-button-sm h-10 p-2 whitespace-nowrap"label="Take action"></button>
 
           </div>
         
-        </td>  
+        </td> 
     
 
      <td [ngClass]="{
