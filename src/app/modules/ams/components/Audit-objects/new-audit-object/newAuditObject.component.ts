@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuditObjectService } from 'src/app/modules/ams/services/auditObject/auditObject.service';
@@ -19,8 +19,6 @@ import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditT
 export class NewAuditObjectComponent implements OnDestroy {
   public auditTypes: AuditType[] = [];
   public auditType: AuditType;
-
-  public auditObjectR: AuditObjectDTO[] = [];
   public auditObjectInfo: AuditObjectDTO = new AuditObjectDTO();
 
   private subscriptions: Subscription[] = [];
@@ -40,23 +38,24 @@ export class NewAuditObjectComponent implements OnDestroy {
   ngOnInit() {
     this.getAuditTypes();
     if (this.config.data?.auditObject) {
-      this.auditObjectInfo = this.config.data.auditObject;   
+      this.auditObjectInfo = this.config.data.auditObject;
       this.update = true;
       this.newDiv = false;
     }
   }
 
   getAuditTypes(): void {
-    this.auditTypeService.getAuditTypes().subscribe(
-      (response: any) => {        
-        this.auditTypes = response.result.map(
-          (auditType: AuditType) => auditType.name
-        );        
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
+    this.subscriptions.push(
+      this.auditTypeService.getAuditTypes().subscribe(
+        (response: any) => {
+          this.auditTypes = response.result.map(
+            (auditType: AuditType) => auditType.name
+          );
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      ));
   }
 
   createAuditType(): void {
@@ -95,12 +94,12 @@ export class NewAuditObjectComponent implements OnDestroy {
   }
 
   addAuditObject(addDivForm: NgForm): void {
-    this.auditObjectService
+    this.subscriptions.push(this.auditObjectService
       .addAuditObject(addDivForm.value)
       .subscribe((response: any) => {
         this.messageService.clear();
         this.ref.close(response);
-      });
+      }));
   }
 
   updateAuditObjects(addDivForm: NgForm): void {

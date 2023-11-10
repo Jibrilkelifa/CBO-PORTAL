@@ -39,15 +39,14 @@ export class NewRiskItemComponent implements OnDestroy {
     this.getAuditTypes();
     if (this.config.data?.riskItem) {
       this.riskItemInfo = this.config.data.riskItem;
-      console.log("ooo", this.riskItemInfo);
-      
       this.update = true;
       this.newDiv = false;
     }
   }
 
   getAuditTypes(): void {
-    this.auditTypeService.getAuditTypes().subscribe(
+    this.subscriptions.push(
+      this.auditTypeService.getAuditTypes().subscribe(
       (response: any) => {
         this.auditTypes = response.result.map(
           (auditType: AuditType) => auditType.name
@@ -56,7 +55,7 @@ export class NewRiskItemComponent implements OnDestroy {
       (error: HttpErrorResponse) => {
         console.log(error);
       }
-    );
+    ));
   }
 
   submitRiskItem(auditUniverseForm: NgForm): void {

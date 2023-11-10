@@ -201,7 +201,6 @@ export class AuditObjectDetailComponent {
 
   updateChecklist(id: number): void {
     const checklist = this.checklist.find((check) => check.id === id);
-    console.log("check", checklist);
     const ref = this.dialogService.open(NewCheckListComponent, {
       header: 'Update checklist',
       width: '50%',
@@ -231,7 +230,6 @@ export class AuditObjectDetailComponent {
       }
     });
   }
-
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

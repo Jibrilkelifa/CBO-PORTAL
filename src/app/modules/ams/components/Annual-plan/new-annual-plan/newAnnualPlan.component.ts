@@ -19,7 +19,6 @@ import { RistScoreDTO } from 'src/app/modules/ams/models/RiskScoreDTO';
   providers: [MessageService, ConfirmationService, DialogService],
 })
 export class NewAnnualPlanComponent implements OnDestroy, AfterContentChecked {
-  public annualPlanR: AnnualPlanDTO[] = [];
   public annualPlanInfo: AnnualPlanDTO = new AnnualPlanDTO();
   selectedAnnualPlanInfo: AnnualPlanDTO;
 

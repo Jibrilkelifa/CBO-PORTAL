@@ -54,27 +54,29 @@ export class NewAuditUniverseComponent implements OnDestroy {
   }
 
   getAuditTypes(): void {
-    this.auditTypeService.getAuditTypes().subscribe(
-      (response: any) => {
-        this.auditTypes = response.result.map(
-          (auditType: AuditType) => auditType.name
-        );
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
+    this.subscriptions.push(
+      this.auditTypeService.getAuditTypes().subscribe(
+        (response: any) => {
+          this.auditTypes = response.result.map(
+            (auditType: AuditType) => auditType.name
+          );
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      ));
   }
 
   getAuditObjects(): void {
-    this.auditObjectService.getAuditObjects().subscribe(
+    this.subscriptions.push(
+      this.auditObjectService.getAuditObjects().subscribe(
       (response: any) => {
         this.auditObjects = response.result;
       },
       (error: HttpErrorResponse) => {
         console.log(error);
       }
-    );
+    ));
   }
 
   createAuditObject(): void {

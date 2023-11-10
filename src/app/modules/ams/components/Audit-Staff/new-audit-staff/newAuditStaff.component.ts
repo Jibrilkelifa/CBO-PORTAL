@@ -53,25 +53,29 @@ export class NewAuditStaffComponent implements OnDestroy {
   }
 
   getAuditTypes(): void {
-    this.auditTypeService.getAuditTypes().subscribe(
-      (response: any) => {
-        this.auditTypes = response.result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
+    this.subscriptions.push(
+      this.auditTypeService.
+        getAuditTypes().subscribe(
+          (response: any) => {
+            this.auditTypes = response.result;
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        ));
   }
 
   getAMSUsers(): void {
-    this.amsUsersService.getAMSUsers().subscribe(
-      (response: any) => {
-        this.AMSUsers = response.result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
+    this.subscriptions.push(
+      this.amsUsersService.
+        getAMSUsers().subscribe(
+          (response: any) => {
+            this.AMSUsers = response.result;
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        ));
   }
 
 
@@ -95,7 +99,7 @@ export class NewAuditStaffComponent implements OnDestroy {
   }
 
   updateAMSStaff(addDivForm: NgForm): void {
-    let auditStaff: AuditStaffDTO = {...this.auditStaffInfo, ...addDivForm.value};
+    let auditStaff: AuditStaffDTO = { ...this.auditStaffInfo, ...addDivForm.value };
     this.subscriptions.push(
       this.auditStaffService
         .updateAuditStaff(auditStaff)
@@ -105,7 +109,7 @@ export class NewAuditStaffComponent implements OnDestroy {
         })
     );
   }
-  
+
   createAuditType(): void {
     const ref = this.dialogService.open(NewAuditTypeComponent, {
       header: 'Create a new audit type',

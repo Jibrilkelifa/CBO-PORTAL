@@ -49,7 +49,6 @@ export class NewAuditEngagementComponent implements OnDestroy {
     this.auditEngagementInfo.refNum = (Math.floor(Math.random() * 9000) + 1000).toString();
   }
   
-
   submitAuditSchedule(auditableAreaForm: NgForm): void {
     if (this.update) {
       this.updateAuditEngagement(auditableAreaForm);
@@ -82,7 +81,6 @@ export class NewAuditEngagementComponent implements OnDestroy {
       })
     );
   }
-
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

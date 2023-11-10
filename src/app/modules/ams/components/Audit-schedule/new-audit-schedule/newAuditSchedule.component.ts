@@ -60,8 +60,8 @@ export class NewAuditScheduleComponent implements OnDestroy {
       let startYear = parseInt(year.split("/")[0]);
       let endYear = parseInt(year.split("/")[1]);
   
-      this.startOn = new Date(startYear, 0, 1); // January 1 of startYear
-      this.endOn = new Date(endYear, 11, 31); // December 31 of endYear
+      this.startOn = new Date(startYear, 0, 1); 
+      this.endOn = new Date(endYear, 11, 31); 
     }
     if (this.config.data?.auditSchedule) {
       this.scheduleInfo = {

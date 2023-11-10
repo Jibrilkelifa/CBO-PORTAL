@@ -50,14 +50,14 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AutoGenerateAnnualPlanComponent } from './components/Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 import { AssignMembersComponent } from './components/Audit-schedule/assign-members/assign-members.component';
-import { AuditStaffComponent } from './components/Audit-staff/audit-staff/audit-staff.component';
-import { NewAuditStaffComponent } from './components/Audit-staff/new-audit-staff/newAuditStaff.component';
+import { AuditStaffComponent } from './components/Audit-Staff/audit-staff/audit-staff.component';
+import { NewAuditStaffComponent } from './components/Audit-Staff/new-audit-staff/newAuditStaff.component';
 import { NewAuditTypeComponent } from './components/Audit-type/new-audit-type/newAuditType.component';
 import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRiskItem.component';
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
-import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
+import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 
 @NgModule({
   declarations: [

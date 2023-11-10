@@ -5,7 +5,6 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { AuditStaffDTO } from '../../../models/auditStaff';
-import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
 import { NewRiskItemComponent } from '../new-risk-item/newRiskItem.component';
 import { RiskItemService } from '../../../services/risk-item/risk-item.service';
 import { RiskItemDTO } from '../../../models/riskItemDTO';

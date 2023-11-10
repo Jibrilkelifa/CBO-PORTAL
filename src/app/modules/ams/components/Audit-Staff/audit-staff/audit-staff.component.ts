@@ -60,8 +60,6 @@ export class AuditStaffComponent implements OnDestroy {
       this.auditStaffService.getAllAuditStaff().subscribe(
         (response: any) => {
           this.auditStaff = response.result;
-          console.log("ggg", this.auditStaff);
-
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -158,7 +156,7 @@ export class AuditStaffComponent implements OnDestroy {
         ];
 
         (doc as any).autoTable(columns, data);
-        doc.save('Audit staff.pdf');
+        doc.save('Auditors.pdf');
       });
     });
   }
