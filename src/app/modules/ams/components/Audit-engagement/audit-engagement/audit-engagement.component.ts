@@ -31,7 +31,7 @@ export class AuditEngagementComponent implements OnDestroy {
   public annualPlans: AnnualPlanDTO[] = [];
   public auditEngagements: AuditEngagementDTO[] = [];
 
-  public auditScheduleDisplay: any[] = [];
+  public auditEngagementDisplay: any[] = [];
 
   public selectedOption: string;
   public dropdownOptions = [];
@@ -72,23 +72,24 @@ export class AuditEngagementComponent implements OnDestroy {
   getAllEngagementOfCurrentYear(): void {
     this.subscriptions.push(
       this.auditEngagementService.getAllEngagementOfCurrentYear().subscribe(
-        (response: any) => {
-          this.auditEngagements = response.result.map((auditEngagment: AuditEngagementDTO) => {
-            const leader = auditEngagment.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
-            const members = auditEngagment.auditSchedule.teamMembers.filter(member => member.teamRole === 'Member');
+        (response: any) => {          
+          this.auditEngagements = response.result.map((auditEngagement: AuditEngagementDTO) => {
+            const leader = auditEngagement.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
+            const members = auditEngagement.auditSchedule.teamMembers.filter(member => member.teamRole === 'Member');
             return {
-              ...auditEngagment,
-              startOn: this.datePipe.transform(auditEngagment.auditSchedule.startOn, 'MMMM d, y'),
-              endOn: this.datePipe.transform(auditEngagment.auditSchedule.endOn, 'MMMM d, y'),
+              ...auditEngagement,
+              startOn: this.datePipe.transform(auditEngagement.auditSchedule.startOn, 'MMMM d, y'),
+              endOn: this.datePipe.transform(auditEngagement.auditSchedule.endOn, 'MMMM d, y'),
               leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
+              status:auditEngagement.auditSchedule.status,
               memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
             };
           });
 
-          this.auditScheduleDisplay = this.auditEngagements.map((obj: any) => ({
+          this.auditEngagementDisplay = this.auditEngagements.map((obj: any) => ({
             ...obj,
-            annualPlanName: obj.annualPlan.name
-              ? obj.annualPlan.name
+            annualPlanName: obj.auditSchedule.annualPlan.name
+              ? obj.auditSchedule.annualPlan.name
               : null,
           }));
         },
@@ -98,7 +99,6 @@ export class AuditEngagementComponent implements OnDestroy {
       )
     );
   }
-
 
   updateAuditSchedule(id: number): void {
     const auditSchedule = this.auditEngagements.find(
@@ -212,10 +212,10 @@ export class AuditEngagementComponent implements OnDestroy {
   getYears(): string[] {
     const startYear = 2024;
     const endYear = 2050;
-    const years = Array.from({length: endYear - startYear + 1}, (_, i) => `${startYear + i}/${startYear + i + 1}`);
+    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => `${startYear + i}/${startYear + i + 1}`);
     return years;
   }
-  
+
   onOptionChange(event) {
     switch (event.value) {
       case 'quarter':
@@ -225,12 +225,10 @@ export class AuditEngagementComponent implements OnDestroy {
         this.dropdownOptions = this.getYears();
         break;
       case 'status':
-        this.dropdownOptions = ['Closed', 'Field work', 'Pree audit', 'Follow up']; 
+        this.dropdownOptions = ['Closed', 'Field work', 'Pree audit', 'Follow up'];
         break;
     }
   }
-  
-  
 
   getPlaceholder(): string {
     switch (this.selectedOption) {
@@ -244,7 +242,7 @@ export class AuditEngagementComponent implements OnDestroy {
         return 'Select Value';
     }
   }
-  
+
 
   findAuditEngagement(addDivForm: NgForm): void {
     switch (this.selectedOption) {
@@ -259,7 +257,7 @@ export class AuditEngagementComponent implements OnDestroy {
         break;
     }
   }
-  
+
 
   getLeaderName(auditEngagement: AuditEngagementDTO): string {
     const leader = auditEngagement?.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
@@ -283,26 +281,24 @@ export class AuditEngagementComponent implements OnDestroy {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        const modifiedAuditScheduleDisplay = this.auditScheduleDisplay.map((schedule, index) => ({
-          ...schedule,
+        const modifiedAuditEngagementDisplay = this.auditEngagementDisplay.map((engagement, index) => ({
+          ...engagement,
           id: index + 1,
         }));
-        (doc as any).autoTable(this.exportColumns, modifiedAuditScheduleDisplay);
-        doc.save('Audit Schedule.pdf');
+        (doc as any).autoTable(this.exportColumns, modifiedAuditEngagementDisplay);
+        doc.save('Audit Engagement.pdf');
       });
     });
   }
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const data = this.auditScheduleDisplay.map((schedule, index) => ({
+      const data = this.auditEngagementDisplay.map((engagement, index) => ({
         id: index + 1,
-        'Start on': schedule.startOn,
-        'End on': schedule.endOn,
-        Status: schedule.status,
-        'Annual plan': schedule.annualPlan.name,
-        'Leader': schedule.leaderName,
-        'Members': schedule.memberNames,
+        'Start on': engagement.auditSchedule.startOn,
+        'End on': engagement.auditSchedule.endOn,
+        Status: engagement.auditSchedule.status,
+        'Annual plan': engagement.auditSchedule.annualPlan.name,
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -310,8 +306,42 @@ export class AuditEngagementComponent implements OnDestroy {
         bookType: 'xlsx',
         type: 'array',
       });
-      this.saveAsExcelFile(excelBuffer, 'Audit Schedule');
+      this.saveAsExcelFile(excelBuffer, 'Audit Engagement');
     });
+  }
+
+  exportCsv() {
+    const header = ['Id', 'Start on', 'End on', 'Status', 'Annual plan'];
+
+    const data = this.auditEngagementDisplay.map((engagement, index) => ({
+      Id: index + 1,
+      'Start on': engagement.auditSchedule.startOn,
+      'End on': engagement.auditSchedule.endOn,
+      Status: engagement.auditSchedule.status,
+      'Annual plan': engagement.auditSchedule.annualPlan.name,
+    }));
+
+    const csvContent = this.convertArrayOfObjectsToCSV(data, header);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+    FileSaver.saveAs(blob, 'Audit engagement.csv');
+  }
+
+  convertArrayOfObjectsToCSV(data, header) {
+    const csv = data.map((row) => {
+      return header.map((fieldName) => {
+        const value = row[fieldName];
+        return this.escapeCSV(value);
+      }).join(',');
+    });
+
+    return [header.join(','), ...csv].join('\n');
+  }
+
+  escapeCSV(value) {
+    if (typeof value === 'string') {
+      return `"${value.replace(/"/g, '""')}"`;
+    }
+    return value;
   }
 
   saveAsExcelFile(buffer: any, fileName: string): void {

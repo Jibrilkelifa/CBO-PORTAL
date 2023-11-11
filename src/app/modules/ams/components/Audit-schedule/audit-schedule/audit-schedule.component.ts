@@ -72,7 +72,7 @@ export class AuditScheduleComponent implements OnDestroy {
       dataKey: col.field,
     }));
   }
-  
+
 
   getAuditSchedules(): void {
     this.subscriptions.push(
@@ -169,9 +169,6 @@ export class AuditScheduleComponent implements OnDestroy {
                 };
               });
             }
-            else {
-              this.auditSchedules = [];
-            }
           },
           (error: HttpErrorResponse) => {
             console.log(error);
@@ -259,6 +256,41 @@ export class AuditScheduleComponent implements OnDestroy {
     });
   }
 
+  exportCsv() {
+    const header = ['Id', 'Start on', 'End on', 'Status', 'Annual plan', 'Leader', 'Members'];
+
+    const data = this.auditScheduleDisplay.map((staff, index) => ({
+      Id: index + 1,
+      'Start on': staff.startOn,
+      'End on': staff.endOn,
+      Status: staff.status,
+      'Annual plan': staff.annualPlan.name,
+      'Leader': staff.leaderName,
+      'Members': staff.memberNames,
+    }));
+
+    const csvContent = this.convertArrayOfObjectsToCSV(data, header);
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
+    FileSaver.saveAs(blob, 'Audit schedule.csv');
+  }
+
+  convertArrayOfObjectsToCSV(data, header) {
+    const csv = data.map((row) => {
+      return header.map((fieldName) => {
+        const value = row[fieldName];
+        return this.escapeCSV(value);
+      }).join(',');
+    });
+
+    return [header.join(','), ...csv].join('\n');
+  }
+
+  escapeCSV(value) {
+    if (typeof value === 'string') {
+      return `"${value.replace(/"/g, '""')}"`;
+    }
+    return value;
+  }
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_TYPE =
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -271,5 +303,5 @@ export class AuditScheduleComponent implements OnDestroy {
       fileName + EXCEL_EXTENSION
     );
   }
-  
+
 }
