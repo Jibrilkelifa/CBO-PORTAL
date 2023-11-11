@@ -8,6 +8,7 @@ import { RiskItemService } from '../../../services/risk-item/risk-item.service';
 import { RiskItemDTO } from '../../../models/riskItemDTO';
 import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
 
 @Component({
   selector: 'newRiskItem',
@@ -92,10 +93,10 @@ export class NewRiskItemComponent implements OnDestroy {
   }
 
   createAuditType(): void {
-    const ref = this.dialogService.open(NewRiskItemComponent, {
+    const ref = this.dialogService.open(NewAuditTypeComponent, {
       header: 'Create a new audit type',
       draggable: true,
-      width: '55%',
+      width: '45%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });

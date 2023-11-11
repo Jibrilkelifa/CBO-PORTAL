@@ -1,8 +1,8 @@
 <div>
   <form #addDivForm="ngForm" (ngSubmit)="submitRiskItem(addDivForm)">
     <div style="margin-top: 2em"></div>
-    <div class="flex">
-      <div class="col mb-4 mr-2">
+    <div class="flex flex-row">
+      <div class="col mb-4">
         <label for="integer" class="block mb-2"> Name: </label>
         <input
           pInputText
@@ -16,8 +16,8 @@
         />
       </div>
       <div class="flex flex-row">
-        <div class="mb-4 mr-2">
-          <label for="hex" class="block mb-2">Risk type: </label>
+        <div class="col mb-4">
+          <label for="hex" class="block mb-2">Audit type: </label>
           <p-dropdown
             [required]="true"
             [options]="auditTypes"
@@ -45,7 +45,7 @@
         <p-button
           *ngIf="!update"
           (click)="createAuditType()"
-          class="mt-4"
+          class="mt-5"
           icon="pi pi-plus"
         ></p-button>
       </div>
@@ -63,7 +63,7 @@
       ></p-button>
       <p-button
         *ngIf="update"
-        label="Update audit type"
+        label="Update risk item"
         [disabled]="addDivForm.invalid!"
         type="submit"
       ></p-button>

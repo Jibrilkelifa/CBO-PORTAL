@@ -124,8 +124,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.router.navigate(['login']);
   }
 
-
-
   public downloadPDF() {
     const pages = document.querySelectorAll('.page');
     const pdf = new jsPDF('p', 'mm', 'a4');

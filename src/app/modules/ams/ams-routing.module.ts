@@ -17,7 +17,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Authority',
+      title: 'AMS',
     },
     children: [
       {
