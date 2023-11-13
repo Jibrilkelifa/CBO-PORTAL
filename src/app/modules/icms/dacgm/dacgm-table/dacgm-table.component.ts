@@ -18,13 +18,18 @@ export class DACGMTableComponent {
   public dacgmR: DACGM[] = [];
   selectedDACGM: DACGM;
   deleteId: number = 0;
+  buttonClicked = false;
   msgs: Message[] = [];
   position: string;
   districtId: number;
+  escalatedByManager: boolean = false;
+  actionTaken: boolean = false;
+  escalatedMap: { [dacgmId: string]: boolean } = {};
+  actionTakenMap: { [dacgmId: string]: boolean } = {};
   searchParameter: any[] =
     [
-      { name: 'District Name', value: 'organizationalUnit.subProcess.name' },
-      { name: 'Branch Name', value: 'organizationalUnit.name' },
+      { name: 'District Name', value: 'subProcess.name' },
+      { name: 'Branch Name', value: 'branch.name' },
       { name: 'Date', value: 'date' },
       { name: 'Case ID', value: 'caseId' },
       { name: 'Category', value: 'irregularity.subCategory.category.name' },
@@ -170,7 +175,8 @@ export class DACGMTableComponent {
     return Math.abs(number);
   }
 
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   constructor(private filterService: FilterService, private dacgmService: DACGMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
@@ -180,20 +186,41 @@ export class DACGMTableComponent {
     this.router.navigate(['updateDACGM', id]);
   }
 
-  approveDACGM(id: number): void {
-    this.dacgmService.approveDACGM(id).subscribe(
-      (response: any) => {
-        this.getDACGMs(this.roles);
-      }
-    );
-  }
+  // approveDACGM(id: number): void {
+  //   this.dacgmService.approveDACGM(id).subscribe(
+  //     (response: any) => {
+  //       this.getDACGMs(this.roles);
+  //     }
+  //   );
+  // }
 
   escalateDACGM(id: number): void {
     this.dacgmService.escalateDACGM(id).subscribe(
       (response: any) => {
+        this.escalatedByManager = true;
+        console.log('escalatedByManager:', this.escalatedByManager);
+        this.getDACGMs(this.roles);
+  
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: "This Daily Activity Gap monitoring Escalated successfully!"
+        });
+  
+        setTimeout(() => {
+          // Clear the success message after 5 seconds
+          this.clearSuccessMessage();
+        }, 5000); // 5000 milliseconds = 5 seconds
+      },
+      (error: HttpErrorResponse) => {
         this.getDACGMs(this.roles);
       }
     );
+  }
+  
+  clearSuccessMessage(): void {
+    // Clear the success message
+    this.messageService.clear();
   }
 
   deleteBox(id: number): void {
@@ -244,8 +271,8 @@ export class DACGMTableComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.dacgmService.getDACGMForBranch(this.organizationalUnitId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
+      this.dacgmService.getDACGMForBranch(this.branchId).subscribe(
         (response: DACGM[]) => {
           this.dacgms = response;
         },
@@ -254,12 +281,12 @@ export class DACGMTableComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT") !== -1) {
-      this.organizationalUnitService.getOrganizationalUnit(this.organizationalUnitId).subscribe(branch => {
-        console.log("organizationalUnitId = " + this.organizationalUnitId)
-        this.districtId = branch?.subProcess?.id
-        console.log("district = " + this.districtId)
-        this.dacgmService.getDACGMForDistrict(this.districtId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
+      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
+      //   console.log("branchId = " + this.branchId)
+      //   this.districtId = branch?.subProcess?.id
+      //   console.log("district = " + this.districtId)
+        this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
           (response: DACGM[]) => {
             this.dacgms = response;
           },
@@ -267,7 +294,7 @@ export class DACGMTableComponent {
 
           }
         );
-      });
+      
 
     }
   }
@@ -290,6 +317,13 @@ export class DACGMTableComponent {
       }
     );
   }
+  approveActionPlan(id: number): void {
+    this.router.navigate(['ICMS/DACGM/approveActionPlan', id]);
+  }
+
+
+
+// Function to handle the escalate action
 
   public getDACGM(id: number): DACGM[] {
     this.dacgmService.getDACGM(id).subscribe(

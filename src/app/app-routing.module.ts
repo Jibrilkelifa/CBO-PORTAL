@@ -9,6 +9,8 @@ import { NewDCQComponent } from './modules/icms/dcq/new-dcq/new-dcq.component';
 import { NewFraudComponent } from './modules/icms/ifr/new-ifr/new-ifr.component';
 import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history.component';
 import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
+import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
+import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
 
 const routes: Routes = [
   {
@@ -34,6 +36,12 @@ const routes: Routes = [
       },
       {
         path: 'updateDACGM/:id', component: NewDACGMComponent, data: { title: 'DACGM / Update DACGM' }
+      },
+      {
+        path: 'ICMS/Fraud/calculateProvision/:id',  component: IFRProvisionComponent, data: {title: 'Fraud /  plan'}
+      },
+      {
+        path: 'ICMS/DACGM/approveActionPlan/:id',  component: DACGMPlanComponent, data: {title: 'Fraud /  escalated'}
       },
       {
         path: 'updateDCQ/:id', component: NewDCQComponent, data: { title: 'Dishonoured Cheque / Update Dishonoured Cheque' }

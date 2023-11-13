@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
         this.chartOptions = {
           series: Object.values(data),
           chart: {
-            width: 500,
+            width: 380,
             type: 'pie'
           },
           labels: Object.keys(data),
@@ -100,7 +100,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getOutstandingCasesDuringQuarter().subscribe((data) => {
       this.outstandingCaseDuringTheQuarter = data.toString();
     });
-    this.dashboardService.getgetClosedCasesDuringQuarter().subscribe((data) => {
+    this.dashboardService.getClosedCasesDuringQuarter().subscribe((data) => {
       this.closedCaseDuringTheQuarter = data.toString();
       console.log(this.closedCaseDuringTheQuarter)
     });
@@ -140,13 +140,11 @@ export class DashboardComponent implements OnInit {
             display: true
           }
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 1
-            }
-          }
+        maintainAspectRatio: false,
+        elements: {
+          line: {
+            tension: 0.4
+          },
         }
       };
     });

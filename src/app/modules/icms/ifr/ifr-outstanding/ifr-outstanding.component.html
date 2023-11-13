@@ -1,0 +1,168 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0; margin-left: -120px;" [value]="msgs"></p-messages>
+<div class="card" >
+  <div class="spacer">
+    <span style="font-size: larger; font-weight: bolder;">Incident/Fraud Reporting Table</span>
+    <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('fraudTable')"
+      [ngClass]="{updateBlue: true}" style="height: max-content;" class="p-button-sm mt-3 mr-3"
+      label="Download as Excel"><svg _ngcontent-yvw-c268="" cIcon="" name="cilCloudDownload" ng-reflect-content=""
+        style="margin-right: 10px; color:white" ng-reflect-name="cilCloudDownload" viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" class="icon">
+        <polygon fill="var(--ci-primary-color, currentColor)"
+          points="272 434.744 272 209.176 240 209.176 240 434.744 188.118 382.862 165.49 405.489 256 496 346.51 405.489 323.882 382.862 272 434.744"
+          class="ci-primary"></polygon>
+        <path fill="var(--ci-primary-color, currentColor)"
+          d="M400,161.176c0-79.4-64.6-144-144-144s-144,64.6-144,144a96,96,0,0,0,0,192h80v-32H112a64,64,0,0,1,0-128h32v-32a112,112,0,0,1,224,0v32h32a64,64,0,0,1,0,128H320v32h80a96,96,0,0,0,0-192Z"
+          class="ci-primary"></path>
+      </svg> </button>
+  </div>
+  <tr>
+    <th id="" colspan="13">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <label for="" style="height: 45px; margin-top: 15px; margin-left: 20px;margin-right: 5px;">Search by:</label>
+        <div class="flex-auto" style="margin-right: 20px;">
+          <p-dropdown [options]="searchParameter" name="selectedSearchParameter" ngModel
+            [(ngModel)]="selectedSearchParameter" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+            placeholder="Select Search Parameter" class="w-full" styleClass="p-password"
+            [style]="{'width':'380px','height':'45px'}" [required]="true">
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedSearchParameter">
+                <div>{{ selectedSearchParameter.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-selectedSearchParametere pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{selectedSearchParametere.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <input *ngIf="selectedSearchParameter" style="height: 45px; width: 380px" pInputText type="text"
+          (input)="filterTable($event.target, dt4)" placeholder="Search {{selectedSearchParameter.name}}"
+          class="p-column-filter">
+      </div>
+    </th>
+  </tr>
+  <p-table #dt4 [value]="fraudo" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
+    [(selection)]="selectedFraud" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
+    id="fraudTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local4">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" pSortableColumn="branch.subProcess.name" style="width:8%">District Name</th>
+        <th scope="col" pSortableColumn="brancht.name" style="width:8%">Branch Name</th>
+        <th scope="col" pSortableColumn="caseId" style="width:8%">Case ID</th>
+        <th scope="col" pSortableColumn="suspectedFraudsterName" style="width:8%">Fraudster Name</th>
+        <th scope="col" pSortableColumn="suspectedFraudsterAddress" style="width:8%">Fraudster Address</th>
+        <th scope="col" pSortableColumn="fraudType.name" style="width:7%">Fraud Type</th>
+        <th scope="col" pSortableColumn="fraudCause" style="width:9%">Fraud Cause</th>
+        <th scope="col" pSortableColumn="suspectedFraudsterProfession.name" style="width:8%">Fraudster Profession</th>
+        <th scope="col" pSortableColumn="fraudAmount" style="width:20%">Fraud Amount</th>
+        <th scope="col" pSortableColumn="fraudOccurrenceDate" style="width:10%">Fraud Occurance Date</th>
+        <th scope="col" pSortableColumn="fraudDetectionDate" style="width:7%">Fraud Detection Date</th>
+        <th scope="col" pSortableColumn="reasonForDelay" style="width:8%">Reason for Delayed Detection</th>
+        <th scope="col" pSortableColumn="fraudOccurrencePlace" style="width:8%">Fraud Occurance Place</th>
+        <th scope="col" pSortableColumn="fraudCommittingTechnique" style="width:8%">Fraud Commting Technique</th>
+        <th scope="col" pSortableColumn="fraudCategory.name" style="width:8%">Fraud Category</th>
+        <th scope="col" pSortableColumn="actionTaken" style="width:8%">Action Taken</th>
+        <th scope="col" pSortableColumn="amountRecovered" style="width:8%">Amount Recovered</th>
+        <th scope="col" pSortableColumn="provisionHeld" style="width:8%">Provision Held</th>
+        <th scope="col" pSortableColumn="reasonForFailedFraudAttempt" style="width:8%">Reason for Failed Attempt</th>
+        <th scope="col" pSortableColumn="otherComment" style="width:8%">Other Information</th>
+        <th scope="col" pSortableColumn="caseStatus.name" style="width:5%">Case Status</th>
+        <th scope="col" pSortableColumn="daysSinceFraudDetection" style="width:8%">Days since fraud detection<p-sortIcon
+          field="daysSinceFraudDetection"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="Action" style="width:1%" [attr.colspan]="roles.includes('ROLE_ICMS_PROVISION') ? 2 : 1">Actions</th>
+      </tr>
+      <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
+        [baseZIndex]="10000"></p-confirmDialog>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-fraudo>
+      <tr [pSelectableRow]="fraudo">
+        <td>{{fraudo?.subProcess?.name}}</td>
+        <td>{{fraudo?.branch?.name}}</td>
+        <td>{{fraudo?.caseId}}</td>
+        <td>{{fraudo?.suspectedFraudsterName}}</td>
+        <td>{{fraudo?.suspectedFraudsterAddress}}</td>
+        <td>
+          <ng-container *ngIf="fraudo?.fraudType?.name !== 'Other'; else otherFTBlock">
+            {{fraudo?.fraudType?.name}}
+          </ng-container>
+          <ng-template #otherFTBlock>
+            {{fraudo?.otherFraudType}}
+          </ng-template>
+        </td>
+        <td>{{(fraudo?.fraudoause)}}</td>
+        <td>
+          <ng-container *ngIf="fraudo?.suspectedFraudsterProfession?.name !== 'Other'; else otherSFPBlock">
+            {{fraudo?.suspectedFraudsterProfession?.name}}
+          </ng-container>
+          <ng-template #otherSFPBlock>
+            {{fraudo?.otherSuspectedFraudsterProfession}}
+          </ng-template>
+        </td>
+        <td>{{formatAmount(fraudo?.fraudAmount)}}</td>
+        <td>{{fraudo?.fraudOccurrenceDate}}</td>
+        <td>{{fraudo?.fraudDetectionDate}}</td>
+        <td>{{fraudo?.reasonForDelay}}</td>
+        <td>{{fraudo?.fraudOccurrencePlace}}</td>
+        <td>{{fraudo?.fraudCommittingTechnique}}</td>
+        <td>
+          <ng-container *ngIf="fraudo?.allCategory?.name !== 'Other'; else otherFCBlock">
+            {{fraudo?.allCategory?.name}}
+          </ng-container>
+          <ng-template #otherFCBlock>
+            {{fraudo?.otherFraudCategory}}
+          </ng-template>
+        </td>
+        <td>{{fraudo?.actionTaken}}</td>
+
+        <td>{{formatAmount(fraudo?.amountRecovered)}}</td>
+        <td>{{fraudo?.provisionHeld? formatAmount(fraudo?.provisionHeld) : 'Not Yet Calculated'}}</td>
+        <td>{{fraudo?.reasonForFailedFraudAttempt}}</td>
+        <td>{{fraudo?.otherComment}}</td>
+        <td>{{fraudo?.caseStatus?.name}}</td>
+        <td
+        [ngClass]="{ 'red': calculateDaysSinceFraudDetection(fraudo?.fraudDetectionDate )>=0 }">
+        {{absoluteValue(calculateDaysSinceFraudDetection(fraudo?.fraudDetectionDate))}}</td>
+        <!-- <td *ngIf="fraudo.authorizedBy !== 'Not Authorized'">Authorized!</td> -->
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') ">
+          <!-- && !(fraudo.authorizedBy !== 'Not Authorized') -->
+          <button pButton (click)="updateFrauds(fraudo?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Update"></button>
+        </td>
+        <td *ngIf="roles.includes('ROLE_ICMS_PROVISION')">
+          <ng-container *ngIf="!(fraudo.authorizedBy !== 'Not Authorized')">
+            <span>Not Authorized!</span>
+          </ng-container>
+          <ng-container *ngIf="(fraudo.authorizedBy !== 'Not Authorized') && fraudo.caseStatus.name === 'Written Off'">
+            <span>Written Off</span>
+          </ng-container>
+          <ng-container *ngIf="(fraudo.authorizedBy !== 'Not Authorized') && fraudo.caseStatus.name !== 'Written Off' && fraudo.provisionHeld === null">
+            <button pButton
+              (click)="calculateProvision(fraudo?.id)"
+              [ngClass]="{updateBlue: true}"
+              class="p-button-sm mb-3 increase-height"
+              label="Calculate Provision">
+            </button>
+          </ng-container>
+        </td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !(fraudo.authorizedBy !== 'Not Authorized')">
+          <button pButton (click)="authorizeFrauds(fraudo?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Authorize"></button>
+        </td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">
+          <button pButton (click)="openInModal(fraudo?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Detail"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="22">Not found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

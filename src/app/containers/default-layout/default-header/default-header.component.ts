@@ -16,6 +16,7 @@ import { EMSService } from 'src/app/services/ems-services/ems-services.service';
   styleUrls: ['./default-header.component.scss']
 })
 export class DefaultHeaderComponent extends HeaderComponent {
+
   [x: string]: any;
   user: string;
   imageData: any;
@@ -44,7 +45,77 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
     this.getDefaultAvatar();
     this.user = localStorage.getItem('name');
-    console.log(this.emsService.getEmployeeById(parseInt( localStorage.getItem('userId'))).toPromise()); 
+
+    const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
+
+    for (let i = 0; i <= totalModules; i++) {
+      let moduleStatus = localStorage.getItem("module_" + i) === "true"
+      if (moduleStatus) {
+        switch (localStorage.getItem("role_" + i)) {
+          case "ROLE_SUPER_ADMIN":
+            console.log("ROLE_SUPER_ADMIN");
+            break;
+          case "ROLE_EMS_ADMIN":
+            console.log("ROLE_EMS_ADMIN");
+            break;
+          case "ROLE_EMS_USER":
+            console.log("ROLE_EMS_USER");
+            break;
+          case "ROLE_CC_ADMIN":
+            console.log("ROLE_CC_ADMIN");
+            break;
+          case "ROLE_CC_USER":
+            console.log("ROLE_CC_USER");
+            break;
+          case "ROLE_CC_USER_DELIQUENT":
+            console.log("ROLE_CC_USER_DELIQUENT");
+            break;
+          case "ROLE_ICMS_ADMIN":
+            console.log("ROLE_ICMS_ADMIN");
+            break;
+          case "ROLE_ICMS_DISTRICT_IC":
+            console.log("ROLE_ICMS_DISTRICT_IC");
+            break;
+          case "ROLE_ICMS_BRANCH_IC":
+            console.log("ROLE_ICMS_BRANCH_IC");
+            break;
+          case "ROLE_ICMS_PROVISION":
+            console.log("ROLE_ICMS_PROVISION");
+            break;
+          case "ROLE_ICMS_BRANCH_MANAGER":
+            console.log("vROLE_ICMS_BRANCH_MANAGER");
+            break;
+          case "ROLE_SASV_ADMIN":
+            console.log("ROLE_SASV_ADMIN");
+            break;
+          case "ROLE_SASV_USER":
+            console.log("ROLE_SASV_USER");
+            break;
+          case "ROLE_MEMO_ADMIN":
+            console.log("ROLE_MEMO_ADMIN");
+            break;
+          case "ROLE_MEMO_USER":
+            console.log("ROLE_MEMO_USER");
+            break;
+          case "ROLE_ECX_ADMIN":
+            console.log("ROLE_ECX_ADMIN");
+            break;
+          case "ROLE_ECX_USER":
+            console.log("ROLE_ECX_USER");
+            break;
+          case "ROLE_CMS_ADMIN":
+            console.log("ROLE_CMS_ADMIN");
+            break;
+          case "ROLE_CMS_USER":
+            console.log("ROLE_CMS_USER");
+            break;
+          case "ROLE_CMS_ADMIN":
+            console.log("ROLE_CMS_ADMIN");
+            break;
+        }
+      }
+    }
+
   
   }
 

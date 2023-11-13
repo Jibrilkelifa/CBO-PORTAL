@@ -9,6 +9,7 @@ import { EMSService } from '../services/ems-services/ems-services.service';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -16,10 +17,10 @@ export class AuthService {
 
   // API path
 
-  ssoBathPath = 'http://localhost:9081';
-  // ssoBathPath = 'http://10.1.125.58:9081';
-  emsBasePath = 'http://10.1.125.58:8082';
-  // emsBasePath = 'http://10.1.125.58:9082';
+  // ssoBathPath = 'http://localhost:8081';
+  ssoBathPath = 'http://10.1.125.58:9081';
+  // emsBasePath = 'http://10.1.11.48:9082';
+  emsBasePath = 'http://10.1.125.58:9082';
 
 
   constructor(
@@ -85,8 +86,9 @@ export class AuthService {
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
-    localStorage.setItem('supervisor',employee?.supervisor);
-    localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
+    localStorage.setItem('branch', JSON.stringify(employee?.branch));
+    localStorage.setItem('subProcess', JSON.stringify(employee?.subProcess));
+    localStorage.setItem('district', JSON.stringify(employee?.subProcess));
     localStorage.setItem('userId', resp?.user?.id.toString());
     localStorage.setItem('resp', JSON.stringify(resp))
     // localStorage.setItem('email', resp?.user?.employee?.companyEmail);
@@ -113,8 +115,11 @@ export class AuthService {
         localStorage.setItem('url_' + (resp?.user?.roles[i - 3].module.id), resp?.user?.roles[i - 3].module.url);
       }
     }
+       localStorage.setItem('subProcessId',employee?.subProcess.id.toString());
+       localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+    // localStorage.setItem('sub_process_Id',  employee?.subProcess.id.toString());
    
-    // localStorage.setItem('organizationalUnitId', resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
+    //  localStorage.setItem('branchId',  resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
 
     const role = resp?.user?.roles[0]?.name;
 

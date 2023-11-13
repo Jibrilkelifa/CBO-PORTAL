@@ -21,7 +21,8 @@ export class FraudNBETableComponent {
   counter: number = 0;
   flag: boolean = false;
   fraudSummariesFlagId: number = 0;
-  organizationalUnitId: number = Number(localStorage.getItem('organizationalUnitId'));
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   fraudCategories: any[] = [
     { id: 1, name: 'Cash' },
@@ -115,7 +116,7 @@ export class FraudNBETableComponent {
                     amount: amount4,
                   },
                   totalAmountRecovered: this.parseAmount(this.frauds[i].amountRecovered),
-                  provisionForOutstandingCases: 0,
+                  provisionForOutstandingCases: this.parseAmount(this.frauds[i].provisionHeld),
                   amountRecoveredInCurrentQuarter: result2 ? this.parseAmount(this.frauds[i].amountRecovered) : 0,
                   writtenOffInCurrentQuarter: {
                     count: count5,
@@ -204,6 +205,10 @@ export class FraudNBETableComponent {
   }
 
   parseAmount(formattedAmount: string): number {
+    if (formattedAmount === null) {
+      console.error('formattedAmount is null');
+      return 0; // or any other appropriate value
+    }
     // Remove commas from the formatted amount
     const amountWithoutCommas = formattedAmount.replace(/,/g, '');
 

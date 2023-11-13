@@ -28,6 +28,11 @@ export class DCQService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/DCQ/getAll`, this.httpOptions)
   }
+  public getWeekDCQ(): Observable<any> {
+    this.init();
+
+    return this.http.get<any>(`${this.apiServiceUrl}/DCQ/three-times-in-last-week-list`, this.httpOptions);
+  }
   public getDCQ(id: number): Observable<any>{
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/DCQ/find/${id}`, this.httpOptions)

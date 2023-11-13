@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { AuditUniverseComponent } from './components/Audit Universe/audit-universe/audit-universe.component';
-import { AnnualPlanComponent } from './components/Annual plan/annual-plan/annual-plan.component';
-import { NewAnnualPlanComponent } from './components/Annual plan/new-annual-plan/newAnnualPlan.component';
+import { AuditUniverseComponent } from './components/Audit-universe/audit-universe/audit-universe.component';
+import { AnnualPlanComponent } from './components/Annual-plan/annual-plan/annual-plan.component';
+import { NewAnnualPlanComponent } from './components/Annual-plan/new-annual-plan/newAnnualPlan.component';
 import { AuditObjectComponent } from './components/Audit-objects/audit-object/audit-object.component';
 import { AuditObjectDetailComponent } from './components/Audit-objects/audit-object-detail/audit-object-detail.component';
 import { NewAuditObjectComponent } from './components/Audit-objects/new-audit-object/newAuditObject.component';
-import { RiskScoreComponent } from './components/Annual plan/risk-score/risk-score.component';
-import { NewAuditUniverseComponent } from './components/Audit Universe/new-audit-universe/newAuditUniverse.component';
+import { RiskScoreComponent } from './components/Annual-plan/risk-score/risk-score.component';
+import { NewAuditUniverseComponent } from './components/Audit-universe/new-audit-universe/newAuditUniverse.component';
 import { AuditableAreaComponent } from './components/Auditable-area/auditable-area/auditable-area.component';
 import { NewAuditableAreaComponent } from './components/Auditable-area/new-auditable-area/newAuditableArea.component';
 import { NewCheckListComponent } from './components/Checklist/new-checklist/newChecklist.component';
@@ -49,8 +49,10 @@ import { ToastModule } from 'primeng/toast';
 
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { AutoGenerateAnnualPlanComponent } from './components/Annual plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
+import { AutoGenerateAnnualPlanComponent } from './components/Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 import { AssignMembersComponent } from './components/Audit-schedule/assign-members/assign-members.component';
+import { AuditStaffComponent } from './components/Audit-Staff/audit-staff/audit-staff.component';
+import { NewAuditStaffComponent } from './components/Audit-Staff/new-audit-staff/newAuditStaff.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +71,9 @@ import { AssignMembersComponent } from './components/Audit-schedule/assign-membe
     AuditScheduleComponent,
     AutoGenerateAnnualPlanComponent,
     AuditObjectDetailComponent,
-    AssignMembersComponent
+    AssignMembersComponent,
+    AuditStaffComponent,
+    NewAuditStaffComponent
     
   ],
   imports: [

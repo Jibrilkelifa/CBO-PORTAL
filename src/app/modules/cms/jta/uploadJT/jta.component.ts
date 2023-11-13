@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { JTAService } from '../../../../services/cms-services/jta-services.service';
 import { Message } from 'primeng/api';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload',
@@ -10,6 +11,12 @@ import { Message } from 'primeng/api';
 export class JTAComponent {
   selectedFile: File | null = null;
   cobSummaryDetail: string = ""
+//'content-type': 'multipart/form-data',
+  
+    httpHeaders = new HttpHeaders({
+      
+      'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+    })
 
   constructor(private jtaService: JTAService) { }
 
@@ -43,5 +50,7 @@ export class JTAComponent {
       this.messages = [{ severity: 'success', summary: 'File Uploaded', detail: "File uploaded successfully!", life: this.closeTimeout}];
     }
   }
+
+ 
 }
 

@@ -11,7 +11,23 @@
   background-color: #f8f8f8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
+.custom-link1 {
+  color: #007bff;
+}
+.custom-link2 {
+  color:  #28a745; 
+}
+.custom-link3{
+  color: #dc3545; 
+}
+.custom-link4 {
+  color:#17a2b8; 
 
+}
+.custom-link5 {
+  color: #ffc107; 
+
+}
 .title {
   font-size: 24px;
   margin-bottom: 10px;
@@ -96,12 +112,16 @@ li:last-child {
 }
 
 #chart {
-  max-width: 900px;
+  max-width: 580px;
   margin: 75px auto;
   padding: 0;
 }
 
-
+.custom-chart {
+  width: 400px; /* Adjust the width as needed */
+  height: 300px; /* Adjust the height as needed */
+  text-align: left;
+}
 .section--cases {
   background-color: transparent;
 }
@@ -110,16 +130,9 @@ li:last-child {
   background-color: transparent;
 }
 
-.custom-chart{
-  font-size: larger;
+.custom-chart {
+  background-color: transparent;
 }
-
-
 .custom-chart .apexcharts-canvas {
   background-color: transparent !important;
-}
-
-.pieInfo {
-  text-align: center;
-  margin-top: 30px;
 }

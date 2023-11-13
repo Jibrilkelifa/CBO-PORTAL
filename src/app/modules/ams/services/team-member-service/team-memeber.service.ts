@@ -65,7 +65,7 @@ export class TeamMemberService {
     );
   }
 
-  public updateTeamMember(teamMember: TeamMemberDTO): Observable<any> {
+  public updateTeamMember(teamMember: TeamMemberDTO[]): Observable<any> {
     this.init();
     return this.http.post(`${this.apiServiceUrl}/ams/teamMember/update`, teamMember, this.httpOptions)
   }

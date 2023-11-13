@@ -1,5 +1,5 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0; margin-left: -120px;" [value]="msgs"></p-messages>
-<div class="card" style="width: 80vw; margin-left: -120px;">
+<div class="card">
   <div class="spacer">
     <span style="font-size: larger; font-weight: bolder;">Incident/Fraud Reporting Table</span>
     <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('fraudTable')"
@@ -48,8 +48,8 @@
     [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local4">
     <ng-template pTemplate="header">
       <tr>
-        <th scope="col" pSortableColumn="organizationalUnit.subProcess.name" style="width:8%">District Name</th>
-        <th scope="col" pSortableColumn="organizationalUnit.name" style="width:8%">Branch Name</th>
+        <th scope="col" pSortableColumn="subProcess.name" style="width:8%">District Name</th>
+        <th scope="col" pSortableColumn="branch.name" style="width:8%">Branch Name</th>
         <th scope="col" pSortableColumn="caseId" style="width:8%">Case ID</th>
         <th scope="col" pSortableColumn="suspectedFraudsterName" style="width:8%">Fraudster Name</th>
         <th scope="col" pSortableColumn="suspectedFraudsterAddress" style="width:8%">Fraudster Address</th>
@@ -69,6 +69,8 @@
         <th scope="col" pSortableColumn="reasonForFailedFraudAttempt" style="width:8%">Reason for Failed Attempt</th>
         <th scope="col" pSortableColumn="otherComment" style="width:8%">Other Information</th>
         <th scope="col" pSortableColumn="caseStatus.name" style="width:5%">Case Status</th>
+        <th scope="col" pSortableColumn="daysSinceFraudDetection" style="width:8%">Days since fraud detection<p-sortIcon
+          field="daysSinceFraudDetection"></p-sortIcon></th>
         <th scope="col" pSortableColumn="Action" style="width:1%" [attr.colspan]="roles.includes('ROLE_ICMS_PROVISION') ? 2 : 1">Actions</th>
       </tr>
       <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
@@ -78,8 +80,8 @@
 
     <ng-template pTemplate="body" let-frauds>
       <tr [pSelectableRow]="frauds">
-        <td>{{frauds?.organizationalUnit?.subProcess?.name}}</td>
-        <td>{{frauds?.organizationalUnit?.name}}</td>
+        <td>{{frauds?.subProcess?.name}}</td>
+        <td>{{frauds?.branch?.name}}</td>
         <td>{{frauds?.caseId}}</td>
         <td>{{frauds?.suspectedFraudsterName}}</td>
         <td>{{frauds?.suspectedFraudsterAddress}}</td>
@@ -121,8 +123,12 @@
         <td>{{frauds?.reasonForFailedFraudAttempt}}</td>
         <td>{{frauds?.otherComment}}</td>
         <td>{{frauds?.caseStatus?.name}}</td>
-        <td *ngIf="frauds.authorizedBy !== 'Not Authorized'">Authorized!</td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH') && !(frauds.authorizedBy !== 'Not Authorized')">
+        <td
+        [ngClass]="{ 'red': calculateDaysSinceFraudDetection(frauds?.fraudDetectionDate )>=0 }">
+        {{absoluteValue(calculateDaysSinceFraudDetection(frauds?.fraudDetectionDate))}}</td>
+        <!-- <td *ngIf="frauds.authorizedBy !== 'Not Authorized'">Authorized!</td> -->
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') ">
+          <!-- && !(frauds.authorizedBy !== 'Not Authorized') -->
           <button pButton (click)="updateFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Update"></button>
         </td>
@@ -142,9 +148,12 @@
             </button>
           </ng-container>
         </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !(frauds.authorizedBy !== 'Not Authorized')">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !frauds.isAuthorized ">
           <button pButton (click)="authorizeFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Authorize"></button>
+        </td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && frauds.isAuthorized">
+          Authorized!
         </td>
         <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">
           <button pButton (click)="openInModal(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"

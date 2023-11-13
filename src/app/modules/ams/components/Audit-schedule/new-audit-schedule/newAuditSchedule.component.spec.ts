@@ -4,7 +4,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { ButtonModule, CardModule, FormModule, GridModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
-import { iconSubset } from '../../../../icons/icon-subset';
 import { NewAuditScheduleComponent } from './newAuditSchedule.component';
 
 describe('NewAuditScheduleComponent', () => {
@@ -23,7 +22,6 @@ describe('NewAuditScheduleComponent', () => {
 
   beforeEach(() => {
     iconSetService = TestBed.inject(IconSetService);
-    iconSetService.icons = { ...iconSubset };
 
     fixture = TestBed.createComponent(NewAuditScheduleComponent);
     component = fixture.componentInstance;

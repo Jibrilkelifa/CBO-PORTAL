@@ -21,6 +21,11 @@ export class DACGMService {
   }
 
   constructor(private http: HttpClient) { }
+  public getSize(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/DACGM/getSize`, this.httpOptions)
+  }
+  
 
   public getDACGMs(): Observable<any> {
     this.init();
@@ -42,20 +47,58 @@ export class DACGMService {
     this.init();
     return this.http.post<any>(`${this.apiServiceUrl}/DACGM/add`, dacgm, this.httpOptions)
   }
-  public updateDACGM(dacgm: DACGM): Observable<any> {
+  // public updateDACGM(dacgm: DACGM): Observable<any> {
+  //   this.init();
+  //   return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/update`, 
+  //   {id: dacgm.id,
+  //   accountName: dacgm.accountName,
+  //   accountNumber: dacgm.accountNumber,
+  //   amountInvolved:dacgm.amountInvolved,
+  //   actionPlanDuedate:dacgm.actionPlanDueDate,
+  //   caseId:dacgm.caseId,
+  //   date:dacgm.date,
+  //   activityStatus: {
+  //     id: dacgm.activityStatus.id
+  //   },
+  //   // category: {
+  //   //   id: dacgm.category.id
+  //   // },
+  //   // subCategory: {
+  //   //   id: dacgm.subCayegory.id
+  //   // },
+  //   otherIrregularity: (dacgm.otherIrregularity == undefined) ? "" : dacgm.otherIrregularity,
+  
+  //  responsiblePerson:dacgm.responsiblePerson,
+  //   branch: {
+  //     id: dacgm.branch.id
+  //   },
+  //   subProcess: {
+  //     id: dacgm.subProcess.id
+  //   }
+  // }, this.httpOptions)
+
+  // }
+  // public approveDACGM(id: number): Observable<any> {
+  //   this.init();
+  //   return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/approve/${id}`, this.httpOptions)
+  // }
+  public updateDACGM(dacgm: DACGM): Observable<any>{
     this.init();
-    return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/update`, dacgm, this.httpOptions)
-  }
-  public approveDACGM(id: number): Observable<any> {
-    this.init();
-    return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/approve/${id}`, this.httpOptions)
+    return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/update`,dacgm , this.httpOptions)
   }
   public escalateDACGM(id: number): Observable<any> {
     this.init();
-    return this.http.put<DACGM>(`${this.apiServiceUrl}/DACGM/escalate/${id}`, this.httpOptions)
+    return this.http.patch<DACGM>(`${this.apiServiceUrl}/DACGM/escalate/${id}`, {}, this.httpOptions);
   }
   public deleteDACGM(dacgmId: number): Observable<any> {
     this.init();
     return this.http.delete<void>(`${this.apiServiceUrl}/DACGM/delete/${dacgmId}`, this.httpOptions)
+  }
+  public approveActionPlanDate(id: number, actionPlanDueDate: string): Observable<any> {
+    this.init();
+    const body = {
+      actionPlanDueDate: actionPlanDueDate
+    };
+    return  this.http.patch<any>(`${this.apiServiceUrl}/DACGM/approveActionPlan/${id}`, body, this.httpOptions)
   }
 }

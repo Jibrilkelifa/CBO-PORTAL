@@ -18,7 +18,7 @@ export class AccountRelationService {
       })
     };
 
-    this.apiServiceUrl = 'http://10.1.11.143:8087';//localStorage.getItem('url_7');
+    this.apiServiceUrl = 'http://10.1.125.58:8087';//localStorage.getItem('url_7');
   }
 
   constructor(private http: HttpClient){}

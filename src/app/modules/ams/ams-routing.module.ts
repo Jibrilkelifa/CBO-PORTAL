@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuditUniverseComponent } from './components/Audit Universe/audit-universe/audit-universe.component';
-import { AnnualPlanComponent } from './components/Annual plan/annual-plan/annual-plan.component';
+import { AuditUniverseComponent } from './components/Audit-universe/audit-universe/audit-universe.component';
+import { AnnualPlanComponent } from './components/Annual-plan/annual-plan/annual-plan.component';
 import { AuditObjectComponent } from './components/Audit-objects/audit-object/audit-object.component';
 import { AuditableAreaComponent } from './components/Auditable-area/auditable-area/auditable-area.component';
 import { CheckListComponent } from './components/Checklist/checklist/checkList.component';
 import { AuditScheduleComponent } from './components/Audit-schedule/audit-schedule/audit-schedule.component';
+import { AuditStaffComponent } from './components/Audit-Staff/audit-staff/audit-staff.component';
 import { AuditObjectDetailComponent } from './components/Audit-objects/audit-object-detail/audit-object-detail.component';
 
 const routes: Routes = [
@@ -80,6 +81,13 @@ const routes: Routes = [
         component: AuditScheduleComponent,
         data: {
           title: 'Audit Schedule',
+        },
+      },
+      {
+        path: 'audit-staff',
+        component: AuditStaffComponent,
+        data: {
+          title: 'Audit Staff',
         },
       },
     ],
