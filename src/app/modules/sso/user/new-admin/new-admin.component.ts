@@ -122,15 +122,17 @@ export class NewAdminComponent implements OnInit {
 
 
   populateEmployeeData() {
+ 
     this.selectedTab1 = false;
     this.selectedTab2 = true;
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
     this.selectedFullName = this.selectedEmployee.employeeFullName;
     this.selectedJobTitle = this.selectedEmployee.job.title;
     this.selectedGender = this.selectedEmployee.gender;
-    this.selectedOrganizationalUnit = this.selectedEmployee.branch == null ? this.selectedEmployee.team.externalName : this.selectedEmployee.branch.name;
+    // this.selectedOrganizationalUnit = this.selectedEmployee.branch == null ? this.selectedEmployee.team.externalName : this.selectedEmployee.branch.name;
     this.selectedSubProcess = this.selectedEmployee.subProcess.name;
     this.selectedProcess = this.selectedEmployee.process.name;
+
     this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
   }
 
