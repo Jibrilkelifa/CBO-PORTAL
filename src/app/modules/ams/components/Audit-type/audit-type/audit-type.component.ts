@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { AuditStaffDTO } from '../../../models/auditStaff';
+import { NewAuditStaffComponent } from '../../Audit-Staff/new-audit-staff/newAuditStaff.component';
 import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
 import { AuditType } from '../../../models/auditType';
 import { NewAuditTypeComponent } from '../new-audit-type/newAuditType.component';
