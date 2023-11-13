@@ -16,7 +16,7 @@
         />
       </div>
       <div class="flex flex-row">
-        <div class="mb-4 mr-2">
+        <div class="col mb-4 mr-2">
           <label for="hex" class="block mb-2"> Audit type: </label>
           <p-dropdown
             [required]="true"
@@ -45,14 +45,14 @@
         <p-button
           *ngIf="!update"
           (click)="createAuditType()"
-          class="mt-4"
+          class="mt-5"
           icon="pi pi-plus"
         ></p-button>
       </div>
     </div>
 
-    <div class="flex">
-      <div class="mb-4 mr-2">
+    <div class="flex flex-row">
+      <div class="mb-4">
         <label for="hex" class="block mb-2"> Audit object: </label>
         <p-dropdown
           [options]="auditObjects"

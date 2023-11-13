@@ -30,7 +30,7 @@
         </p-dropdown>
       </div>
       <div class="flex flex-row">
-        <div class="mb-4 mr-2">
+        <div class="col mb-4 mr-2">
         <label for="hex" class="block mb-2"> Team: </label>
         <p-dropdown
           [disabled]="update"
@@ -60,14 +60,14 @@
       <p-button
         *ngIf="!update"
         (click)="createAuditType()"
-        class="mt-4"
+        class="mt-5"
         icon="pi pi-plus"
       ></p-button>
     </div>
   </div>
 
     <div class="flex flex-row">
-      <div *ngIf="update">
+      <div *ngIf="update" class="col">
         <label for="status" class="block mb-2"> Status: </label>
         <p-dropdown
           [options]="['Active', 'InActive']"
