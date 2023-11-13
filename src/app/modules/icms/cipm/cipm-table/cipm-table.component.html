@@ -114,9 +114,19 @@
         <td>{{cipms?.insuredName}}</td>
         <td>{{cipms?.status?.name}}</td>
         <td>{{(cipms?.insuranceExpireDate)}}</td>
-        <td
-          [ngClass]="{ 'black': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,'red': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 0, 'yellow': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) > 0 && calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 30, 'green': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) >= 30 }">
-          {{absoluteValue(calculateDaysLeftToExpire(cipms?.insuranceExpireDate))}}</td>
+        <td [ngClass]="{
+          'black': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,
+          'red': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 0 || cipms?.status?.name === 'Closed',
+          'yellow': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) > 0 && calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 30 && cipms?.status?.name !== 'Closed',
+          'green': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) >= 30 && cipms?.status?.name !== 'Closed'
+        }">
+          <ng-container *ngIf="cipms?.status?.name === 'Closed'; else notClosed">
+            <span class="red slim">Closed!</span>
+          </ng-container>
+          <ng-template #notClosed>
+            {{ absoluteValue(calculateDaysLeftToExpire(cipms?.insuranceExpireDate)) }}
+          </ng-template>
+        </td>
           <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">
             <button pButton (click)="updateCIPMs(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
               label="Update"></button>

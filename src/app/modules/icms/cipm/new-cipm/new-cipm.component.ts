@@ -55,7 +55,7 @@ export class NewCIPMComponent implements OnInit {
     this.getCIPMs(this.branchId);
     this.getCollatoralTypes();
     this.getIPCTs();
-    this.getStatus()
+    this.getStatus();
     // alert(this.subProcessId);
     
     this.primengConfig.ripple = true;
@@ -120,16 +120,34 @@ export class NewCIPMComponent implements OnInit {
       }
     );
   }
-  public getStatus(): void {
-    this.statusService.getStatuses().subscribe(
-      (response: Status[]) => {
-        this.statuses = response;
-      },
-      (error: HttpErrorResponse) => {
+  // public getStatus(): void {
+  //   this.statusService.getStatuses().subscribe(
+  //     (response: Status[]) => {
+  //       this.statuses = response;
+  //     },
+  //     (error: HttpErrorResponse) => {
 
-      }
-    );
-  }
+  //     }
+  //   );
+  // }
+  // public selectedActivityStatus: ActivityStatus; // Declare the selectedActivityStatus property
+
+public getStatus(): void {
+  this.statusService.getStatuses().subscribe(
+    (response: Status[]) => {
+      this.statuses = response;
+      // Set the initial selectedActivityStatus to "Open" when adding data
+      this.selectedstatus = this.statuses.find(status => status.name === "Active");
+    },
+    (error: HttpErrorResponse) => {
+      // Handle error
+    }
+  );
+}
+
+public populateSelectedStatus(existingStatus: Status): void {
+  this.selectedstatus = existingStatus;
+}
 
   public getCIPM(id: number): CIPM {
     this.cipmService.getCIPM(id).subscribe(

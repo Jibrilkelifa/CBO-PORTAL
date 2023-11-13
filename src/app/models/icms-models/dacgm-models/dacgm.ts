@@ -17,5 +17,6 @@ export interface DACGM {
   otherIrregularity: string,
   branch: Branch,
   subProcess: SubProcess,
-  escalatedByManager:boolean
+  escalatedByManager:boolean,
+  actionTaken:boolean
 }

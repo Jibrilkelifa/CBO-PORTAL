@@ -207,7 +207,7 @@ export class DefaultLayoutComponent {
             case "ROLE_CMS_ADMIN":
               this.navItems.push(navItemsCMSAdmin);
               this.dashboardRoute = "cms_dashboard"
-              if(localStorage.getItem("supervisor") !== "true"){
+              if(localStorage.getItem("supervisor") === "true"){
                 // if(true){
                 this.navItems.push(navItemSupervisor);
               }
@@ -215,7 +215,7 @@ export class DefaultLayoutComponent {
             case "ROLE_CMS_USER":
               this.navItems.push(navItemsCMSUser);
               this.dashboardRoute = "default_dashboard"
-              if(localStorage.getItem("supervisor") !== "true"){
+              if(localStorage.getItem("supervisor") === "true"){
                 // if(true){
                 this.navItems.push(navItemSupervisor);
               }
