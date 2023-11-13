@@ -129,11 +129,13 @@ export class NewAdminComponent implements OnInit {
     this.selectedFullName = this.selectedEmployee.employeeFullName;
     this.selectedJobTitle = this.selectedEmployee.job.title;
     this.selectedGender = this.selectedEmployee.gender;
-    // this.selectedOrganizationalUnit = this.selectedEmployee.branch == null ? this.selectedEmployee.team.externalName : this.selectedEmployee.branch.name;
+    
     this.selectedSubProcess = this.selectedEmployee.subProcess.name;
     this.selectedProcess = this.selectedEmployee.process.name;
 
     this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
+    this.selectedOrganizationalUnit = this.selectedEmployee.branch?.name ?? this.selectedEmployee.team?.externalName ?? "Elite";
+
   }
 
   getEmployeeData(event: any) {
