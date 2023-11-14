@@ -67,7 +67,6 @@ navItemsSuperAdmin = {
 navItemSupervisor = {
   name: 'Supervisor',
   url: '/',
-  iconComponent: { name: 'cil-settings' },
   children: [
         {
           name: 'Add User',
@@ -358,22 +357,12 @@ navItemsICMSProvision = {
 navItemsCCAdmin = {
   name: 'Compliance Check',
   url: '/CC',
-  iconComponent: { name: 'cil-shield-alt' },
   children: [
     {
-      name: 'User',
-      url: '/CC/user',
-      children: [
-        {
-          name: 'New',
-          url: '/CC/user/addUser',
-        },
-        {
-          name: 'Table',
-          url: '/CC/user/viewUsers',
-        },
-      ]
+      name: 'Search',
+      url: '/CC/viewSanction'
     },
+
     {
       name: 'Uploads',
       url: '/CC/upload',
@@ -400,10 +389,7 @@ navItemsCCAdmin = {
       name: 'Weekly Check',
       url: '/CC/weeklyCheck'
     },
-    {
-      name: 'Search',
-      url: '/CC/viewSanction'
-    },
+ 
 
   ]
 }
@@ -411,7 +397,6 @@ navItemsCCAdmin = {
 navItemsCCUser = {
   name: 'Compliance Check',
   url: '/CC',
-  iconComponent: { name: 'cil-shield-alt' },
   children: [
 
     {
@@ -424,7 +409,6 @@ navItemsCCUser = {
 navItemsCCUserDeliquent = {
   name: 'Compliance Check',
   url: '/CC',
-  iconComponent: { name: 'cil-shield-alt' },
   children: [
 
     {
