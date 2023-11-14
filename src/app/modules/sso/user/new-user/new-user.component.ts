@@ -249,6 +249,7 @@ export class NewUserComponent implements OnInit{
       this.previousTerm = "";
     }
     if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+  
       this.employeeService.getEmployeesByName(searchTerm).subscribe(
         (response: any) => {
           this.searchedEmployees = response;
