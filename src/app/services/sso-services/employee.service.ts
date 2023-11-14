@@ -37,6 +37,7 @@ export class EmployeeService {
 
   public getEmployeeByName(searchTerm: string): Observable<any>{
     this.init();
+   
     return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getEmployeeByName/${searchTerm}`, this.httpOptions)
   }
   

@@ -111,7 +111,7 @@ export class AuthService {
     for (let i = 1; i <= resp?.user.roles.length + 2; i++) {
       if (i == 1) {
         localStorage.setItem('url_1', this.ssoBathPath);
-      } else if (i == 2 && this.checkIfUserIsAdmin(resp?.user)) {
+      } else if (i == 2 ) {
         localStorage.setItem('url_2', this.emsBasePath);
       }
       else if (i >= 3) {
