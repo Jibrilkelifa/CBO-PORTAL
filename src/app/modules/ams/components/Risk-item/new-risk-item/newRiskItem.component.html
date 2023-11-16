@@ -1,0 +1,72 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitRiskItem(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div class="flex flex-row">
+      <div class="col mb-4">
+        <label for="integer" class="block mb-2"> Name: </label>
+        <input
+          pInputText
+          id="integer"
+          pKeyFilter="int"
+          [ngModel]="riskItemInfo.name"
+          name="name"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+      <div class="flex flex-row">
+        <div class="col mb-4">
+          <label for="hex" class="block mb-2">Audit type: </label>
+          <p-dropdown
+            [required]="true"
+            [options]="auditTypes"
+            name="riskType"
+            [filter]="true"
+            [(ngModel)]="riskItemInfo.riskType"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Choose audit type"
+            styleClass="p-password"
+            [style]="{ width: '300px', height: '45px' }"
+          >
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="riskItemInfo?.riskType">
+                <div>{{ riskItemInfo.riskType }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-riskType pTemplate="item">
+              <div>
+                <div>{{ riskType }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <p-button
+          *ngIf="!update"
+          (click)="createAuditType()"
+          class="mt-5"
+          icon="pi pi-plus"
+        ></p-button>
+      </div>
+    </div>
+    
+
+    <div style="margin-top: 10em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        *ngIf="!update"
+        label="Create risk item"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        label="Update risk item"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>

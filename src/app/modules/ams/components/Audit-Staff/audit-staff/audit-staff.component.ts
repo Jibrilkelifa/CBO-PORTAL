@@ -60,8 +60,6 @@ export class AuditStaffComponent implements OnDestroy {
       this.auditStaffService.getAllAuditStaff().subscribe(
         (response: any) => {
           this.auditStaff = response.result;
-          console.log("ggg", this.auditStaff);
-
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -72,9 +70,9 @@ export class AuditStaffComponent implements OnDestroy {
 
   createNewAuditStaff(): void {
     const ref = this.dialogService.open(NewAuditStaffComponent, {
-      header: 'Create a new audit staff',
+      header: 'Create a new auditor',
       draggable: true,
-      width: '50%',
+      width: '55%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -102,9 +100,9 @@ export class AuditStaffComponent implements OnDestroy {
       (auditStaff) => auditStaff.id === id
     );
     const ref = this.dialogService.open(NewAuditStaffComponent, {
-      header: 'Update audit staff',
+      header: 'Update auditor',
       draggable: true,
-      width: '50%',
+      width: '55%',
       data: { auditStaff },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
@@ -158,7 +156,7 @@ export class AuditStaffComponent implements OnDestroy {
         ];
 
         (doc as any).autoTable(columns, data);
-        doc.save('Audit staff.pdf');
+        doc.save('Auditors.pdf');
       });
     });
   }
@@ -175,7 +173,7 @@ export class AuditStaffComponent implements OnDestroy {
 
     const csvContent = this.convertArrayOfObjectsToCSV(data, header);
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-    FileSaver.saveAs(blob, 'AuditStaff.csv');
+    FileSaver.saveAs(blob, 'Auditors.csv');
   }
 
   convertArrayOfObjectsToCSV(data, header) {
@@ -213,7 +211,7 @@ export class AuditStaffComponent implements OnDestroy {
         type: 'array',
       });
       const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-      this.saveAsExcelFile(dataBlob, 'Audit Staff');
+      this.saveAsExcelFile(dataBlob, 'Auditors');
     });
   }
 

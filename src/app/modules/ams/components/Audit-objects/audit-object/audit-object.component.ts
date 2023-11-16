@@ -28,9 +28,6 @@ interface Column {
 export class AuditObjectComponent {
   public auditObject: AuditObjectDTO[] = [];
 
-  public auditObjectDisplay: any[] = [];
-
-  public auditObjectR: AuditObjectDTO[] = [];
   public auditObjectInfo: AuditObjectDTO;
   selectedAuditObjectInfo: AuditObjectDTO;
 
@@ -66,12 +63,6 @@ export class AuditObjectComponent {
       this.auditObjectService.getAuditObjects().subscribe(
         (response: any) => {
           this.auditObject = response.result;
-          this.auditObjectDisplay = this.auditObject.map((obj: any) => ({
-            ...obj,
-            auditaUniverseName: obj.auditUniverse
-              ? obj.auditUniverse.name
-              : null,
-          }));
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -84,7 +75,7 @@ export class AuditObjectComponent {
     const ref = this.dialogService.open(NewAuditObjectComponent, {
       header: 'Create a new audit object',
       draggable: true,
-      width: '50%',
+      width: '55%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -111,7 +102,7 @@ export class AuditObjectComponent {
     const auditObject = this.auditObject.find((auditObj) => auditObj.id === id);
     const ref = this.dialogService.open(NewAuditObjectComponent, {
       header: 'Update audit object',
-      width: '50%',
+      width: '55%',
       data: { auditObject },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
@@ -158,7 +149,11 @@ export class AuditObjectComponent {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.auditObjectDisplay);
+        const modifiedAuditObjectDisplay = this.auditObject.map((auditObject, index) => ({
+          ...auditObject,
+          id: index + 1, 
+        }));
+        (doc as any).autoTable(this.exportColumns, modifiedAuditObjectDisplay);
         doc.save('Audit object.pdf');
       });
     });
@@ -166,8 +161,8 @@ export class AuditObjectComponent {
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const data = this.auditObjectDisplay.map((object,index) => ({
-        Id: index + 1,
+      const data = this.auditObject.map((object,index) => ({
+        id: index + 1,
         Name: object.name,
         Description: object.description,
         AuditType: object.auditType,
@@ -189,7 +184,7 @@ export class AuditObjectComponent {
     let EXCEL_EXTENSION = '.xlsx';
     FileSaver.saveAs(
       buffer,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+      fileName + EXCEL_EXTENSION
     );
   }
 }

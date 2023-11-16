@@ -85,18 +85,6 @@ navItemsAMSAdmin =  {
   iconComponent: { name: 'cil-drop' },
   children: [
     {
-      name: 'Audit Staff',
-      url: '/ams/audit-staff',
-    },
-    {
-      name: 'Audit universe',
-      url: '/ams/audit-universe',
-    },
-    {
-      name: 'Audit Object',
-      url: '/ams/audit-object',
-    },
-    {
       name: 'Annual Plan',
       url: '/ams/annual-plan',
     },
@@ -104,7 +92,43 @@ navItemsAMSAdmin =  {
       name: 'Audit Schedule',
       url: '/ams/audit-schedule',
     },
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Setting',
+      url: '/ams',
+      iconComponent: { name: 'cil-settings' },
+      children: [
+        {
+          name: 'Auditors',
+          url: '/ams/audit-staff',
+        },
+        {
+          name: 'Audit universe',
+          url: '/ams/audit-universe',
+        },
+        {
+          name: 'Audit object',
+          url: '/ams/audit-object',
+        },
+        {
+          name: 'Audit team',
+          url: '/ams/audit-type',
+        },
+        {
+          name: 'Risk item',
+          url: '/ams/risk-item',
+        },
+      ]
+    },
   ],
+  
 },
 
 navItemsICMSAdmin = {
