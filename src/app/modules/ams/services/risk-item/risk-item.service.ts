@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { RiskItemDTO } from '../../models/riskItemDTO';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,7 +24,31 @@ export class RiskItemService {
   public getRiskItems(): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/ams/risk/listRiskItem`,
+      `${this.apiServiceUrl}/ams/riskItem/listAll`,
+      this.httpOptions
+    );
+  }
+
+  public addRiskItem(riskItem: RiskItemDTO): Observable<any> {
+    this.init();
+    return this.http.post<any>(
+      `${this.apiServiceUrl}/ams/riskItem/register`,riskItem,
+      this.httpOptions
+    );
+  }
+
+  public updateRiskItem(riskItem: RiskItemDTO): Observable<any> {
+    this.init();
+    return this.http.post<any>(
+      `${this.apiServiceUrl}/ams/riskItem/update`,riskItem,
+      this.httpOptions
+    );
+  }
+
+  public deleteRiskItem(riskItem: RiskItemDTO): Observable<any> {
+    this.init();
+    return this.http.post<any>(
+      `${this.apiServiceUrl}/ams/riskItem/delete`,riskItem,
       this.httpOptions
     );
   }

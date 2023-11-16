@@ -57,4 +57,9 @@ export class AuditableAreasService {
     this.init();
     return this.http.post(`${this.apiServiceUrl}/ams/auditableArea/update`, auditableAreas, this.httpOptions)
   }
+
+  public deleteAuditableAreas(auditableAreas: AuditableAreasDTO): Observable<any>{
+    this.init();
+    return this.http.post(`${this.apiServiceUrl}/ams/auditableArea/delete`, auditableAreas, this.httpOptions)
+  }
 }

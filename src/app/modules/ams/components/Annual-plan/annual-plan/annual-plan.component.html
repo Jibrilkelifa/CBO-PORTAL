@@ -1,10 +1,25 @@
 <p-toast position="top-right"></p-toast>
-<div class="flex justify-end">
-  <p-button
-    label="Generate annual plan"
-    (click)="generateAnnualPlan()"
-  ></p-button>
-</div>
+<form
+  #addDivForm="ngForm"
+  class="flex justify-end"
+  (ngSubmit)="submitAuditPlanYear(addDivForm)"
+>
+  <div class="col mb-4">
+    <label for="dropdown" class="mr-2"> Select year: </label>
+    <p-dropdown
+      [options]="dropdownOptions"
+      name="selectedDropdown"
+      [(ngModel)]="selectedDropdown"
+      [showClear]="true"
+      placeholder="Choose year"
+      styleClass="p-password"
+      [required]="true"
+      [style]="{ width: '250px', height: '45px' }"
+    >
+    </p-dropdown>
+    <button pButton type="submit" class="p-button-sm" label="Find"></button>
+  </div>
+</form>
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Annual Plan</h5>
   <p-table
@@ -64,7 +79,6 @@
         <th pSortableColumn="description">
           Description <p-sortIcon field="description"></p-sortIcon>
         </th>
-        <th>Year</th>
         <th pSortableColumn="riskScore">Risk scores<p-sortIcon field="riskScore"></p-sortIcon></th>
         <th pSortableColumn="riskLevel">Risk level<p-sortIcon field="riskLevel"></p-sortIcon></th>
         <th pSortableColumn="status">Status<p-sortIcon field="status"></p-sortIcon></th>
@@ -94,7 +108,6 @@
             class="p-column-filter"
           />
         </th>
-        <th scope="col"></th>
         <th scope="col">
           <input
             pInputText
@@ -139,7 +152,6 @@
         <td>{{ rowIndex + 1 }}</td>
         <td>{{ annualPlan?.name }}</td>
         <td>{{ annualPlan?.description }}</td>
-        <td>{{ annualPlan?.year }}</td>
         <td>{{ annualPlan?.riskScore }}</td>
         <td>{{ annualPlan?.riskLevel }}</td>
         <td>{{ annualPlan?.status }}</td>
@@ -147,6 +159,7 @@
           <div class="flex gap-2">
             <button
               pButton
+              *ngIf="annualPlan?.status == 'Pending'"
               (click)="updateAnnualPlan(annualPlan.id)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
@@ -160,6 +173,7 @@
               class="p-button-sm h-10 p-2 whitespace-nowrap"
               label="Add to schedule"
             ></button>
+            <p *ngIf="annualPlan?.status != 'Pending'">No actions</p>
           </div>
         </td>
       </tr>

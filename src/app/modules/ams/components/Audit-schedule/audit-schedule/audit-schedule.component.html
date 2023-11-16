@@ -11,7 +11,7 @@
       name="selectedDropdown"
       [(ngModel)]="selectedDropdown"
       [showClear]="true"
-      placeholder="Choose level"
+      placeholder="Choose quarter"
       styleClass="p-password"
       [required]="true"
       [style]="{ width: '250px', height: '45px' }"
@@ -40,7 +40,7 @@
           pButton
           pRipple
           icon="pi pi-file"
-          (click)="dt1.exportCSV()"
+          (click)="exportCsv()"
           class="m-2"
           pTooltip="CSV"
           tooltipPosition="bottom"
@@ -70,14 +70,18 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="name">
-          Start on<p-sortIcon field="name"></p-sortIcon>
+        <th pSortableColumn="startOn">
+          Start on<p-sortIcon field="startOn"></p-sortIcon>
         </th>
-        <th pSortableColumn="description">
-          End on <p-sortIcon field="description"></p-sortIcon>
+        <th pSortableColumn="endOn">
+          End on <p-sortIcon field="endOn"></p-sortIcon>
         </th>
-        <th pSortableColumn="status">Status</th>
-        <th pSortableColumn="status">Annual plan</th>
+        <th pSortableColumn="status">
+          Status <p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th pSortableColumn="annualPlan.name">
+          Annual plan<p-sortIcon field="annualPlan.name"></p-sortIcon>
+        </th>
         <th pSortableColumn="Leader">Leader</th>
         <th pSortableColumn="Member">Member</th>
         <th scope="col">Actions</th>
@@ -140,7 +144,9 @@
           <input
             pInputText
             type="text"
-            (input)="dt1.filter($any($event.target)?.value, 'leaderName', 'contains')"
+            (input)="
+              dt1.filter($any($event.target)?.value, 'leaderName', 'contains')
+            "
             placeholder="Search by leader name"
             class="p-column-filter"
           />
@@ -149,11 +155,13 @@
           <input
             pInputText
             type="text"
-            (input)="dt1.filter($any($event.target)?.value, 'memberNames', 'contains')"
+            (input)="
+              dt1.filter($any($event.target)?.value, 'memberNames', 'contains')
+            "
             placeholder="Search by member names"
             class="p-column-filter"
           />
-        </th>        
+        </th>
         <th scope="col"></th>
       </tr>
     </ng-template>
@@ -165,14 +173,26 @@
         <td>{{ auditSchedule?.status }}</td>
         <td>{{ auditSchedule?.annualPlan.name }}</td>
         <td>{{ getLeaderName(auditSchedule) }}</td>
-        <td>{{ getMemberNames(auditSchedule) }}</td>
         <td>
+          <div
+            [innerHTML]="getMemberNames(auditSchedule).split('\n').join('<br>')"
+          ></div>
+        </td>
+        <td class="flex gap-2">
           <button
             pButton
             (click)="updateAuditSchedule(auditSchedule.id)"
             [ngClass]="{ updateBlue: true }"
-            class="p-button-sm"
+            class="p-button-sm h-10 whitespace-nowrap"
             label="Update"
+          ></button>
+          <button
+            pButton
+            *ngIf="auditSchedule?.status == 'Scheduled'"
+            (click)="addToEngagement(auditSchedule)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Create engagement"
           ></button>
         </td>
       </tr>

@@ -16,6 +16,10 @@
           id="startOn"
           [ngModel]="scheduleInfo.startOn"
           name="startOn"
+          [minDate]="startOn"
+          (ngModelChange)="startOn = $event"
+          [defaultDate]="startOn"
+          [maxDate]="endOn"
           [style]="{ width: '300px', height: '45px' }"
           [required]="true"
         ></p-calendar>
@@ -26,6 +30,9 @@
           id="endOn"
           [ngModel]="scheduleInfo.endOn"
           name="endOn"
+          [minDate]="startOn"
+          [defaultDate]="startOn"
+          [maxDate]="endOn"
           [style]="{ width: '300px', height: '45px' }"
           [required]="true"
         ></p-calendar>
@@ -46,16 +53,17 @@
         >
         </p-dropdown>
       </div>
+      <div class="col" *ngIf="update">
+        <label for="integer" class="block mb-2">Assign members:</label>
+        <p-button
+          (click)="AssignMembers()"
+          class="m-12"
+          icon="pi pi-info-circle"
+          label="Assign members"
+        ></p-button>
+      </div>
     </div>
-    <div class="col" *ngIf="update">
-      <label for="integer" class="block mb-2">Assign members:</label>
-      <p-button
-        (click)="AssignMembers()"
-        class="m-12"
-        icon="pi pi-info-circle"
-        label="Assign members"
-      ></p-button>
-    </div>
+
     <div style="margin-top: 12.5em"></div>
     <div class="buttonDiv">
       <p-button label="Cancel" (click)="closeDialog()"></p-button>

@@ -1,45 +1,73 @@
 <div>
   <form #auditStaffForm="ngForm" (ngSubmit)="submitAuditStaff(auditStaffForm)">
-    <div style="margin-top: 2em;"></div>
-    <div class="row">
+    <div style="margin-top: 2em"></div>
+    <div class="flex">
       <div class="col mb-4">
         <label for="hex" class="block mb-2"> Select user: </label>
-        <p-dropdown [disabled]="update" [required]="true" [options]="AMSUsers" name="user" [filter]="true"
-          [(ngModel)]="auditStaffInfo.user" filterBy="name" [showClear]="true" placeholder="Choose user"
-          styleClass="p-password" [style]="{'width':'300px','height':'45px'}">
+        <p-dropdown
+          [disabled]="update"
+          [required]="true"
+          [options]="AMSUsers"
+          name="user"
+          [filter]="true"
+          [(ngModel)]="auditStaffInfo.user"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Choose user"
+          styleClass="p-password"
+          [style]="{ width: '300px', height: '45px' }"
+        >
           <ng-template pTemplate="selectedItem">
             <div *ngIf="auditStaffInfo?.user">
-              <div>{{auditStaffInfo.user.employee.fullName}}</div>
+              <div>{{ auditStaffInfo.user.employee.fullName }}</div>
             </div>
           </ng-template>
           <ng-template let-user pTemplate="item">
             <div>
-              <div>{{user?.employee?.fullName}}</div>
+              <div>{{ user?.employee?.fullName }}</div>
             </div>
           </ng-template>
         </p-dropdown>
-      </div> 
-      <div class="col mb-4">
-        <label for="hex" class="block mb-2"> Audit type: </label>
-        <p-dropdown [disabled]="update" [required]="true" [options]="auditTypes" name="auditType" [filter]="true"
-          [(ngModel)]="auditStaffInfo.auditType" filterBy="name" [showClear]="true" placeholder="Choose audit type"
-          styleClass="p-password" [style]="{'width':'300px','height':'45px'}">
+      </div>
+      <div class="flex flex-row">
+        <div class="col mb-4 mr-2">
+        <label for="hex" class="block mb-2"> Team: </label>
+        <p-dropdown
+          [disabled]="update"
+          [required]="true"
+          [options]="auditTypes"
+          name="auditType"
+          [filter]="true"
+          [(ngModel)]="auditStaffInfo.auditType"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Choose team"
+          styleClass="p-password"
+          [style]="{ width: '300px', height: '45px' }"
+        >
           <ng-template pTemplate="selectedItem">
             <div *ngIf="auditStaffInfo?.auditType">
-              <div>{{auditStaffInfo?.auditType?.name}}</div>
+              <div>{{ auditStaffInfo?.auditType?.name }}</div>
             </div>
           </ng-template>
           <ng-template let-auditType pTemplate="item">
             <div>
-              <div>{{auditType?.name}}</div>
+              <div>{{ auditType?.name }}</div>
             </div>
           </ng-template>
         </p-dropdown>
-      </div> 
+      </div>
+      <p-button
+        *ngIf="!update"
+        (click)="createAuditType()"
+        class="mt-5"
+        icon="pi pi-plus"
+      ></p-button>
     </div>
+  </div>
 
     <div class="flex flex-row">
-      <div *ngIf="update">
+      <div *ngIf="update" class="col">
         <label for="status" class="block mb-2"> Status: </label>
         <p-dropdown
           [options]="['Active', 'InActive']"
@@ -55,11 +83,21 @@
       </div>
     </div>
 
-    <div style="margin-top: 10em;"></div>
+    <div style="margin-top: 13em"></div>
     <div class="buttonDiv">
       <p-button label="Cancel" (click)="closeDialog()"></p-button>
-      <p-button *ngIf="!update" label="Create audit staff" [disabled]="auditStaffForm.invalid!" type="submit"></p-button>
-      <p-button *ngIf="update" label="Update audit staff" [disabled]="auditStaffForm.invalid!" type="submit"></p-button>
+      <p-button
+        *ngIf="!update"
+        label="Create auditor"
+        [disabled]="auditStaffForm.invalid!"
+        type="submit"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        label="Update auditor"
+        [disabled]="auditStaffForm.invalid!"
+        type="submit"
+      ></p-button>
     </div>
   </form>
 </div>

@@ -1,0 +1,101 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitAuditSchedule(addDivForm)">
+    <div style="margin-top: 2em"></div>
+
+    <div class="flex justify-around">
+      <div class="w-3/5 mb-4">
+        <h5 class="mb-2">
+          <span class="font-bold text-lg text-blue-600">Audit Name: </span>
+          <span class="text-black text-base">{{ auditScheduleInfo?.annualPlan?.name }}</span>
+        </h5>
+        <h5 class="mb-2">
+          <span class="font-bold text-lg text-blue-600">Start Date: </span>
+          <span class="text-black text-base">{{ auditScheduleInfo?.startOn }}</span>
+        </h5>
+        <h5 class="mb-2">
+          <span class="font-bold text-lg text-blue-600">End Date: </span>
+          <span class="text-black text-base">{{ auditScheduleInfo?.endOn }}</span>
+        </h5>
+      </div>
+    
+      <div class="w-1/5 mb-4">
+        <label for="endOn" class="block mb-2"> Date: </label>
+        <p-calendar
+          id="endOn"
+          [ngModel]="auditEngagementInfo.date"
+          name="endOn"
+          [style]="{ width: '120px', height: '45px' }"
+          [required]="true"
+        ></p-calendar>
+      </div>
+      <div class="w-1/5 mb-2">
+        <label for="integer" class="block mb-2"> Ref no: </label>
+        <input
+          pInputText
+          id="integer"
+          pKeyFilter="int"
+          [ngModel]="auditEngagementInfo.refNum"
+          name="name"
+          [style]="{ width: '120px', height: '45px' }"
+          required
+          minlength="3"
+          disabled
+        />
+      </div>
+      
+    </div>
+
+    <div class="flex justify-around">
+      <div class=" mb-4">
+        <h6 class="font-bold text-lg underline text-blue-600">Assigned auditors</h6>
+        <ng-container *ngFor="let teamMember of auditScheduleInfo?.teamMembers; let i = index">
+          <div>
+            {{ i + 1 }}. {{ teamMember.auditStaffDTO?.user?.employee?.fullName }}
+          </div>
+        </ng-container>
+      </div>
+      <div class=" mb-4">
+        <h6 class="font-bold text-lg underline text-blue-600">Role</h6>
+        <ng-container *ngFor="let teamMember of auditScheduleInfo?.teamMembers;">
+          <div>
+           {{ teamMember.teamRole }}
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    
+
+    <div class="flex">
+      <div class="col mb-4">
+        <label for="integer" class="block mb-2"> Message: </label>
+        <textarea
+          pInputText
+          id="integer"
+          pKeyFilter="int"
+          [ngModel]="auditEngagementInfo.message"
+          name="description"
+          style="width: 94%; height: 150px; resize: none"
+          required
+          minlength="3"
+        ></textarea>
+      </div>
+    </div>
+
+    <div style="margin-top: 1em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        *ngIf="!update"
+        label="Create engagement"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        label="Update engagement"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>
