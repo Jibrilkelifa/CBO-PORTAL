@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="flex">
       <div class="col">
         <label for="integer" class="block mb-2">Risk Scores:</label>
         <p-button
@@ -43,18 +43,19 @@
           label="Choose"
         ></p-button>
       </div>
-      <div *ngIf="update" class="col mb-4">
-        <label for="integer" class="block mb-2">Status:</label>
-        <input
-          pInputText
-          id="integer"
-          pKeyFilter="int"
-          [ngModel]="annualPlanInfo.status"
+      <div class="col" *ngIf="update">
+        <label for="status" class="block mb-2"> Status: </label>
+        <p-dropdown
+          [options]="['Scheduled', 'Pending', 'Cancelled']"
           name="status"
+          [ngModel]="annualPlanInfo.status"
+          [showClear]="true"
+          placeholder="Choose status"
+          [required]="true"
           [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        />
+          [disabled]="update"
+        >
+        </p-dropdown>
       </div>
     </div>
 

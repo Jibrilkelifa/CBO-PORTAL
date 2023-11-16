@@ -36,8 +36,6 @@ export class AutoGenerateAnnualPlanComponent {
     this.subscriptions.push(
       this.annualPlanService.generateAnnualPlan(annualPlan).subscribe(
         (response: any) => {
-          console.log("ffffffffff", response);
-          
           this.ref?.close(response);
         },
         (error: HttpErrorResponse) => {

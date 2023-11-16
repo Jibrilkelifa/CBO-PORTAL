@@ -9,7 +9,8 @@ import { AuditType } from 'src/app/modules/ams/models/auditType';
 import { AuditStaffDTO } from '../../../models/auditStaff';
 import { UserDTO } from '../../../models/userDTO';
 import { AMSUsersService } from '../../../services/ams-users/ams-users.service';
-import { AuditPlanService } from '../../../services/audit-type/audit-type.service';
+import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
+import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
 
 @Component({
   selector: 'newAuditStaff',
@@ -35,7 +36,7 @@ export class NewAuditStaffComponent implements OnDestroy {
     private messageService: MessageService,
     private auditStaffService: AuditStaffService,
     private amsUsersService: AMSUsersService,
-    private auditTypeService: AuditPlanService,
+    private auditTypeService: AuditTypeService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private dialogService: DialogService,
@@ -52,25 +53,29 @@ export class NewAuditStaffComponent implements OnDestroy {
   }
 
   getAuditTypes(): void {
-    this.auditTypeService.getAuditTypes().subscribe(
-      (response: any) => {
-        this.auditTypes = response.result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
+    this.subscriptions.push(
+      this.auditTypeService.
+        getAuditTypes().subscribe(
+          (response: any) => {
+            this.auditTypes = response.result;
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        ));
   }
 
   getAMSUsers(): void {
-    this.amsUsersService.getAMSUsers().subscribe(
-      (response: any) => {
-        this.AMSUsers = response.result;
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    );
+    this.subscriptions.push(
+      this.amsUsersService.
+        getAMSUsers().subscribe(
+          (response: any) => {
+            this.AMSUsers = response.result;
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        ));
   }
 
 
@@ -94,7 +99,7 @@ export class NewAuditStaffComponent implements OnDestroy {
   }
 
   updateAMSStaff(addDivForm: NgForm): void {
-    let auditStaff: AuditStaffDTO = {...this.auditStaffInfo, ...addDivForm.value};
+    let auditStaff: AuditStaffDTO = { ...this.auditStaffInfo, ...addDivForm.value };
     this.subscriptions.push(
       this.auditStaffService
         .updateAuditStaff(auditStaff)
@@ -104,7 +109,33 @@ export class NewAuditStaffComponent implements OnDestroy {
         })
     );
   }
-  
+
+  createAuditType(): void {
+    const ref = this.dialogService.open(NewAuditTypeComponent, {
+      header: 'Create a new audit type',
+      draggable: true,
+      width: '45%',
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.getAuditTypes();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
+  }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

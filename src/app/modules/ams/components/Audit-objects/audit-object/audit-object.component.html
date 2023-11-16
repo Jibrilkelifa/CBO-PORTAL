@@ -46,7 +46,7 @@
                 <td>{{auditObject?.name}}</td>
                 <td>{{auditObject?.description}}</td>
                 <td>{{auditObject?.auditType}}</td>
-                <td class="flex justify-around">
+                <td class="flex gap-2">
                     <button pButton (click)="updateAuditObject(auditObject.id)" [ngClass]="{updateBlue: true}"
                         class="btns p-button-sm" label="Update"></button>
                     <button pButton (click)="detailAuditObject(auditObject)" [ngClass]="{updateBlue: true}"

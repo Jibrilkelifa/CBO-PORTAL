@@ -58,6 +58,11 @@ export class CheckListService {
     this.init();
     return this.http.post(`${this.apiServiceUrl}/ams/checkListItem/update`, checkList, this.httpOptions)
   }
+
+  public deleteCheckList(checkList: CkeckListItemDTO): Observable<any>{
+    this.init();
+    return this.http.post(`${this.apiServiceUrl}/ams/checkListItem/delete`, checkList, this.httpOptions)
+  }
 }
 
 

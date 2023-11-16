@@ -1,7 +1,7 @@
 <div>
   <form #addDivForm="ngForm" (ngSubmit)="submitAuditObject(addDivForm)">
     <div style="margin-top: 2em"></div>
-    <div class="row">
+    <div class="flex">
       <div class="col mb-4">
         <label for="integer" class="block mb-2"> Name: </label>
         <input
@@ -15,7 +15,8 @@
           minlength="10"
         />
       </div>
-      <div class="col mb-4">
+      <div class="col flex flex-row">
+        <div class="mb-4 mr-2">
         <label for="hex" class="block mb-2"> Audit type: </label>
         <p-dropdown
           [required]="true"
@@ -41,9 +42,16 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <p-button
+        *ngIf="!update"
+        (click)="createAuditType()"
+        class="mt-4"
+        icon="pi pi-plus"
+      ></p-button>
     </div>
+  </div>
     <div class="row">
-      <div class="col mb-4">
+      <div class="col mb-4 m-2">
         <label for="integer" class="block mb-2"> Description: </label>
         <textarea
           pInputText

@@ -59,6 +59,21 @@ export class AuditObjectDetailComponent {
     );
   }
 
+  getCheckLists(id?: number): void {
+    let auditableArea = new AuditableAreasDTO();
+    auditableArea.id = id as number;
+    this.subscriptions.push(
+      this.checkListService.getChecklistsById(auditableArea).subscribe(
+        (response: any) => {
+          this.checklist = response.result;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+
   onAuditableAreaSelect($event) {
     if ($event.data) {
       const auditableArea: AuditableAreasDTO =
@@ -68,13 +83,28 @@ export class AuditObjectDetailComponent {
     }
   }
 
-  getCheckLists(id?: number): void {
+  deleteAuditableArea(id?: number): void {
     let auditableArea = new AuditableAreasDTO();
     auditableArea.id = id as number;
     this.subscriptions.push(
-      this.checkListService.getChecklistsById(auditableArea).subscribe(
+      this.auditableAreaService.deleteAuditableAreas(auditableArea).subscribe(
         (response: any) => {
-          this.checklist = response.result;
+          this.getAuditableAreas(this.auditObject.id)
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+
+  deleteCheckList(id?: number): void {
+    let checkList = new CkeckListItemDTO();
+    checkList.id = id as number;
+    this.subscriptions.push(
+      this.checkListService.deleteCheckList(checkList).subscribe(
+        (response: any) => {
+          this.getCheckLists(this.selectedArea.id);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -136,7 +166,7 @@ export class AuditObjectDetailComponent {
     });
   }
 
-  updateAuditableObject(id: number): void {
+  updateAuditableArea(id: number): void {
     const auditableArea = this.auditableArea.find((area) => area.id === id);
     const ref = this.dialogService.open(NewAuditableAreaComponent, {
       header: 'Update auditable area',
@@ -148,6 +178,7 @@ export class AuditObjectDetailComponent {
 
     ref.onClose.subscribe((response: any) => {
       if (response) {
+        this.getAuditableAreas(this.auditObject.id)
         this.auditableArea = this.auditableArea.map((area) =>
           area.id === response.id ? response : area
         );
@@ -170,9 +201,8 @@ export class AuditObjectDetailComponent {
 
   updateChecklist(id: number): void {
     const checklist = this.checklist.find((check) => check.id === id);
-    console.log("check", checklist);
     const ref = this.dialogService.open(NewCheckListComponent, {
-      header: 'Update auditable area',
+      header: 'Update checklist',
       width: '50%',
       data: { checklist },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
@@ -184,7 +214,7 @@ export class AuditObjectDetailComponent {
           check.id === response.id ? response : check
         );
         if (response.status) {
-          this.getCheckLists();
+          this.getCheckLists(this.selectedArea.id);
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -200,7 +230,6 @@ export class AuditObjectDetailComponent {
       }
     });
   }
-
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
