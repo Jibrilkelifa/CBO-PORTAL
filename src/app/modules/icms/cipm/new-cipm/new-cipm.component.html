@@ -147,7 +147,7 @@
 <div *ngIf="update">
   <form #updateCIPMForm="ngForm" (ngSubmit)="updateCIPM(updateCIPMForm)">
     <input type="hidden" name="id" ngModel [(ngModel)]="idY">
-   
+    <div class="flex flex-wrap gap-3 mb-2">
     <div class="flex-auto" >
       <label for="hex" class=" block mb-2"> Status </label>
       <p-dropdown [options]="statuses" name="status" ngModel [(ngModel)]="selectedstatus"
@@ -167,7 +167,7 @@
         </ng-template>
       </p-dropdown>
     </div>
-   
+  
 
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Insurance Expiry Date </label>
@@ -175,7 +175,7 @@
           [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"></p-calendar>
       </div>
     
-
+    </div>
       <div style="margin-bottom: 20px;"></div>
 
     <p-button label="Update Collateral Insurance Policy Coverage" type="submit" [disabled]="updateCIPMForm.invalid"
