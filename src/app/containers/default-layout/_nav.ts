@@ -67,7 +67,6 @@ navItemsSuperAdmin = {
 navItemSupervisor = {
   name: 'Supervisor',
   url: '/',
-  iconComponent: { name: 'cil-settings' },
   children: [
         {
           name: 'Add User',
@@ -86,18 +85,6 @@ navItemsAMSAdmin =  {
   iconComponent: { name: 'cil-drop' },
   children: [
     {
-      name: 'Audit Staff',
-      url: '/ams/audit-staff',
-    },
-    {
-      name: 'Audit universe',
-      url: '/ams/audit-universe',
-    },
-    {
-      name: 'Audit Object',
-      url: '/ams/audit-object',
-    },
-    {
       name: 'Annual Plan',
       url: '/ams/annual-plan',
     },
@@ -105,7 +92,43 @@ navItemsAMSAdmin =  {
       name: 'Audit Schedule',
       url: '/ams/audit-schedule',
     },
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Setting',
+      url: '/ams',
+      iconComponent: { name: 'cil-settings' },
+      children: [
+        {
+          name: 'Auditors',
+          url: '/ams/audit-staff',
+        },
+        {
+          name: 'Audit universe',
+          url: '/ams/audit-universe',
+        },
+        {
+          name: 'Audit object',
+          url: '/ams/audit-object',
+        },
+        {
+          name: 'Audit team',
+          url: '/ams/audit-type',
+        },
+        {
+          name: 'Risk item',
+          url: '/ams/risk-item',
+        },
+      ]
+    },
   ],
+  
 },
 
 navItemsICMSAdmin = {
@@ -358,22 +381,12 @@ navItemsICMSProvision = {
 navItemsCCAdmin = {
   name: 'Compliance Check',
   url: '/CC',
-  iconComponent: { name: 'cil-shield-alt' },
   children: [
     {
-      name: 'User',
-      url: '/CC/user',
-      children: [
-        {
-          name: 'New',
-          url: '/CC/user/addUser',
-        },
-        {
-          name: 'Table',
-          url: '/CC/user/viewUsers',
-        },
-      ]
+      name: 'Search',
+      url: '/CC/viewSanction'
     },
+
     {
       name: 'Uploads',
       url: '/CC/upload',
@@ -400,10 +413,7 @@ navItemsCCAdmin = {
       name: 'Weekly Check',
       url: '/CC/weeklyCheck'
     },
-    {
-      name: 'Search',
-      url: '/CC/viewSanction'
-    },
+ 
 
   ]
 }
@@ -411,7 +421,6 @@ navItemsCCAdmin = {
 navItemsCCUser = {
   name: 'Compliance Check',
   url: '/CC',
-  iconComponent: { name: 'cil-shield-alt' },
   children: [
 
     {
@@ -424,7 +433,6 @@ navItemsCCUser = {
 navItemsCCUserDeliquent = {
   name: 'Compliance Check',
   url: '/CC',
-  iconComponent: { name: 'cil-shield-alt' },
   children: [
 
     {

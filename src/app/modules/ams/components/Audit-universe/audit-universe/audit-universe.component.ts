@@ -7,6 +7,8 @@ import { NewAuditUniverseComponent } from '../new-audit-universe/newAuditUnivers
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
+import { AnnualPlanDTO } from '../../../models/annualPlan';
+import { AutoGenerateAnnualPlanComponent } from '../../Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 
 interface ExportColumn {
   title: string;
@@ -27,6 +29,8 @@ interface Column {
 export class AuditUniverseComponent implements OnDestroy {
   public auditUniverse: AuditUniverseDTO[] = [];
   public auditUniverseDisplay: any[] = [];
+
+  public annualPlans: AnnualPlanDTO[] = [];
 
   public universeInfo: AuditUniverseDTO;
   selectedUniverseInfo: AuditUniverseDTO;
@@ -49,11 +53,11 @@ export class AuditUniverseComponent implements OnDestroy {
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'name', header: 'Name' },
-      { field: 'name', header: 'Audit Object' }, // Add this line
+      { field: 'auditObjectName', header: 'Audit Object' },
       { field: 'auditType', header: 'Auditable Type' },
       { field: 'status', header: 'Status' },
     ];
-    
+
     this.exportColumns = this.cols.map((col) => ({
       title: col.header,
       dataKey: col.field,
@@ -66,12 +70,44 @@ export class AuditUniverseComponent implements OnDestroy {
       this.auditUniverseService.getAuditUniverse().subscribe(
         (response: any) => {
           this.auditUniverse = response.result;
+          this.auditUniverseDisplay = this.auditUniverse.map((obj: any) => ({
+            ...obj,
+            auditObjectName: obj.auditObject
+              ? obj.auditObject.name
+              : null,
+          }));
         },
         (error: HttpErrorResponse) => {
           console.log(error);
         }
       )
     );
+  }
+
+  generateAnnualPlan(): void {
+    const ref = this.dialogService.open(AutoGenerateAnnualPlanComponent, {
+      header: 'Generate Annual Plan',
+      width: '50%',
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+        this.annualPlans = response.result;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
 
   approveAuditUniverse(id: number): void {
@@ -91,9 +127,9 @@ export class AuditUniverseComponent implements OnDestroy {
 
   createNewAuditUniverse(): void {
     const ref = this.dialogService.open(NewAuditUniverseComponent, {
-      header: 'Create a new audit universe',
+      header: 'Create audit universe',
       draggable: true,
-      width: '50%',
+      width: '60%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -123,7 +159,7 @@ export class AuditUniverseComponent implements OnDestroy {
     const ref = this.dialogService.open(NewAuditUniverseComponent, {
       header: 'Update audit universe',
       draggable: true,
-      width: '50%',
+      width: '60%',
       data: { auditUniverse },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
@@ -162,31 +198,25 @@ export class AuditUniverseComponent implements OnDestroy {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        const data = this.auditUniverse.map((universe, index) => ({
+        const modifiedAuditUniverseDisplay = this.auditUniverseDisplay.map((universe, index) => ({
+          ...universe,
           id: index + 1,
-          Name: universe.name,
-          'Audit Object': universe.auditObject.name,
-          'Audit Type': universe.auditType,
-          status: universe.status,
         }));
-        
-        (doc as any).autoTable(this.exportColumns, data);
+
+        (doc as any).autoTable(this.exportColumns, modifiedAuditUniverseDisplay);
         doc.save('Audit universe.pdf');
       });
     });
   }
-  
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const EXCEL_TYPE =
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
       const data = this.auditUniverse.map((universe, index) => ({
-        Id: index + 1,
-        Name: universe.name,
-        'Audit Object': universe.auditObject.name || 'N/A',
-        'Audit Type': universe.auditType,
-        Status: universe.status,
+        id: index + 1,
+        'Audit universe': universe.name,
+        'Audit Object': universe.auditObject?.name,
+        'Audit type': universe.auditType,
+        Status: universe.status
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -194,16 +224,20 @@ export class AuditUniverseComponent implements OnDestroy {
         bookType: 'xlsx',
         type: 'array',
       });
+      const EXCEL_TYPE =
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+
       const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
       this.saveAsExcelFile(dataBlob, 'Audit universe');
     });
   }
 
+
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_EXTENSION = '.xlsx';
     FileSaver.saveAs(
       buffer,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+      fileName + EXCEL_EXTENSION
     );
   }
 }

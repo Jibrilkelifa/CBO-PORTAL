@@ -88,8 +88,9 @@ export class NewUserComponent implements OnInit{
   moduleName : string = localStorage.getItem("moduleName");
   subordinates = JSON.parse(localStorage.getItem("subordinates"));
 
+
   ngOnInit() {
-    
+
     this.populateRoles();
     this.getModules();
     this.getRoles();
@@ -142,8 +143,7 @@ export class NewUserComponent implements OnInit{
         (response: any) => {
           this.searchedEmployees = response;
           this.selectedEmployee = this.searchedEmployees[0];
-          console.log(this.subordinates);
-          console.log(this.selectedEmployee.employeeId);
+       
       
          
             this.populateEmployeeData();
@@ -249,6 +249,7 @@ export class NewUserComponent implements OnInit{
       this.previousTerm = "";
     }
     if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+  
       this.employeeService.getEmployeesByName(searchTerm).subscribe(
         (response: any) => {
           this.searchedEmployees = response;
@@ -265,11 +266,12 @@ export class NewUserComponent implements OnInit{
     this.previousTerm = searchTerm;
   }
   check(){
-    console.log(this.subordinates);
-    console.log(this.selectedEmployee.employeeId);
-    console.log();
+
+  
     if(this.subordinates.includes(this.selectedEmployee.employeeId)){
       this.populateEmployeeData();
+    } else {
+      alert("You must be supervisor of a user you are trying to create");
     }
     
 
@@ -349,7 +351,7 @@ export class NewUserComponent implements OnInit{
       return this.userService.addUser(formData).toPromise();
     }).then((response: any) => {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is created.' });
-      // setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
+      setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
     }).catch((errors: HttpErrorResponse) => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });
     });

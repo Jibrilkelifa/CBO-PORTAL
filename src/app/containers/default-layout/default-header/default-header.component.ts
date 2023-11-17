@@ -21,6 +21,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   user: string;
   imageData: any;
   defaultAvatarPath: string;
+  cc:boolean;
 
   @Input() sidebarId: string = "sidebar";
 
@@ -62,13 +63,13 @@ export class DefaultHeaderComponent extends HeaderComponent {
             console.log("ROLE_EMS_USER");
             break;
           case "ROLE_CC_ADMIN":
-            console.log("ROLE_CC_ADMIN");
-            break;
+             this.cc = true;
+             break;
           case "ROLE_CC_USER":
-            console.log("ROLE_CC_USER");
-            break;
+            this.cc = true;
+             break;
           case "ROLE_CC_USER_DELIQUENT":
-            console.log("ROLE_CC_USER_DELIQUENT");
+            this.cc = true;
             break;
           case "ROLE_ICMS_ADMIN":
             console.log("ROLE_ICMS_ADMIN");
@@ -83,7 +84,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
             console.log("ROLE_ICMS_PROVISION");
             break;
           case "ROLE_ICMS_BRANCH_MANAGER":
-            console.log("vROLE_ICMS_BRANCH_MANAGER");
+            console.log("ROLE_ICMS_BRANCH_MANAGER");
             break;
           case "ROLE_SASV_ADMIN":
             console.log("ROLE_SASV_ADMIN");
@@ -123,8 +124,6 @@ export class DefaultHeaderComponent extends HeaderComponent {
     localStorage.clear();
     this.router.navigate(['login']);
   }
-
-
 
   public downloadPDF() {
     const pages = document.querySelectorAll('.page');

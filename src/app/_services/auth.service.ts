@@ -86,6 +86,9 @@ export class AuthService {
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
+    localStorage.setItem('supervisor', employee?.supervisor);
+    localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
+
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
     localStorage.setItem('subProcess', JSON.stringify(employee?.subProcess));
     localStorage.setItem('district', JSON.stringify(employee?.subProcess));
@@ -108,13 +111,14 @@ export class AuthService {
     for (let i = 1; i <= resp?.user.roles.length + 2; i++) {
       if (i == 1) {
         localStorage.setItem('url_1', this.ssoBathPath);
-      } else if (i == 2 && this.checkIfUserIsAdmin(resp?.user)) {
+      } else if (i == 2 ) {
         localStorage.setItem('url_2', this.emsBasePath);
       }
       else if (i >= 3) {
         localStorage.setItem('url_' + (resp?.user?.roles[i - 3].module.id), resp?.user?.roles[i - 3].module.url);
       }
     }
+    
        localStorage.setItem('subProcessId',employee?.subProcess.id.toString());
        localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
     // localStorage.setItem('sub_process_Id',  employee?.subProcess.id.toString());

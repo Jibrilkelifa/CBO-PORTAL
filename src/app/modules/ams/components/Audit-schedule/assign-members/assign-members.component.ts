@@ -64,8 +64,6 @@ export class AssignMembersComponent {
     return this.rows.every(row => row.auditStaffDTO && row.auditStaffDTO.user && row.teamRole);
   }
 
-
-
   getActiveAuditStaffs(): void {
     this.subscriptions.push(
       this.auditStaffService.getActiveAuditStaff().subscribe(

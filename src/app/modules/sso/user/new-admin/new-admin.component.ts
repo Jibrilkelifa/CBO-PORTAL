@@ -122,16 +122,20 @@ export class NewAdminComponent implements OnInit {
 
 
   populateEmployeeData() {
+ 
     this.selectedTab1 = false;
     this.selectedTab2 = true;
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
     this.selectedFullName = this.selectedEmployee.employeeFullName;
     this.selectedJobTitle = this.selectedEmployee.job.title;
     this.selectedGender = this.selectedEmployee.gender;
-    this.selectedOrganizationalUnit = this.selectedEmployee.branch == null ? this.selectedEmployee.team.externalName : this.selectedEmployee.branch.name;
+    
     this.selectedSubProcess = this.selectedEmployee.subProcess.name;
     this.selectedProcess = this.selectedEmployee.process.name;
+
     this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
+    this.selectedOrganizationalUnit = this.selectedEmployee.branch?.name ?? this.selectedEmployee.team?.externalName ?? "Elite";
+
   }
 
   getEmployeeData(event: any) {
@@ -307,7 +311,7 @@ export class NewAdminComponent implements OnInit {
       return this.userService.addUser(formData).toPromise();
     }).then((response: any) => {
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is created.' });
-      // setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
+      setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
     }).catch((errors: HttpErrorResponse) => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });
     });
