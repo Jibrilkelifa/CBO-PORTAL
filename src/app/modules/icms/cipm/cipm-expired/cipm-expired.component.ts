@@ -35,6 +35,8 @@ export class CIPMExpiredComponent {
       { name: 'Other Collateral Type', value: 'otherCollateralType' },
       { name: 'Insurance Policy Coverage Type', value: 'insuranceCoverageType.name' },
       { name: 'Other Insurance Policy Coverage Type', value: 'otherInsuranceCoverageType' },
+      { name: 'Collateral Estimation Value', value: 'collateralEstimationValue' },
+      { name: 'sum Insured', value: 'sumInsured' },
       { name: 'Insured Name', value: 'insuredName' },
       { name: 'Status', value: 'status.name' },
       { name: 'Insurance Expiry Date', value: 'insuranceExpireDate' },

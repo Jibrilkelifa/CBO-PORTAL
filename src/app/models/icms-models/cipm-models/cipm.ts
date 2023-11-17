@@ -6,6 +6,8 @@ export interface CIPM {
   borrowerName: string,
   mortgagorName: string,
   loanAccount: string,
+  sumInsured: string;
+  collateralEstimationValue:string;
   loanType: string,
   preparedBy: string,
   preparationTimeStamp: string,
