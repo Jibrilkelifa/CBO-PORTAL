@@ -16,3 +16,12 @@
   height: 20px;
   /* adjust the height */
 }
+.button-error-container {
+  display: flex;
+  align-items: center;
+}
+
+.error-message {
+  color: red;
+  margin-left: 10px;
+}

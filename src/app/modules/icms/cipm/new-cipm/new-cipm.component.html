@@ -27,6 +27,18 @@
       </div>
     </div>
     <div class="flex flex-wrap gap-3 mb-2">
+     <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Collateral Estimation Value</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="collateralEstimationValue"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="1" required  />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Sum Insured</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="sumInsured"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="1" required  />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Loan Type </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="loanType"
@@ -239,6 +251,16 @@
         <label for="alphabetic" class=" block mb-2"> Insured Name </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="cipm.insuredName" name="insuredName"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Collateral Estimation Value </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="cipm.collateralEstimationValue" name="collateralEstimationValue"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="1" required />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Sum Insured  </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="cipm.sumInsured" name="sumInsured"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="1" required  />
       </div>
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class=" block mb-2">Branch</label>
