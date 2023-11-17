@@ -69,6 +69,8 @@ export class CIPMService {
         mortgagorName: cipm.mortgagorName,
         loanAccount: cipm.loanAccount,
         loanType: cipm.loanType,
+        sumInsured: cipm.sumInsured,
+        collateralEstimationValue:cipm.collateralEstimationValue,
         collateralType: {
           id: cipm.collateralType.id
         },

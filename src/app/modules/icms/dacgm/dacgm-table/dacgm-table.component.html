@@ -100,13 +100,13 @@
          </td>
             <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') || this.roles.includes('ROLE_ICMS_DISTRICT_IC')">
           <div class="flex gap-2">
-          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')  && !dacgm.actionTaken   && !dacgm.escalatedByManager" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
+          <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')  && !dacgm.actionTaken && dacgm.activityStatus.name === 'Open'   && !dacgm.escalatedByManager" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" 
           class="p-button-sm w-24 h-10 p-2" label="Take action"></button>
-             <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !dacgm.actionTaken && !dacgm.escalatedByManager" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+             <button  class="p-button-sm h-10 p-2 whitespace-nowrap" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')   && dacgm.activityStatus.name === 'Open' && !dacgm.actionTaken  && !dacgm.escalatedByManager" pButton (click)="escalateDACGM(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Escalate"></button> 
           
 
-            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && dacgm.escalatedByManager && !dacgm.actionTaken" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            <button  *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && dacgm.escalatedByManager && dacgm.activityStatus.name === 'Open'  && !dacgm.actionTaken" pButton (click)="approveActionPlan(dacgm?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             class="p-button-sm h-10 p-2 whitespace-nowrap"label="Take action"></button>
 
           </div>

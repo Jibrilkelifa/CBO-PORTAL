@@ -25,6 +25,8 @@ import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr
 })
 
 export class NewFraudComponent implements OnInit {
+  recoveredAmountError: string;
+  isButtonDisabled: boolean;
   public frauds: IFR[] = [];
   public fraud: IFR;
   public rolesStr: string[] = [];
@@ -50,6 +52,7 @@ export class NewFraudComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   datePresented: string;
+
   
 
   isOtherFraudCategorySelected: boolean = false;
@@ -187,6 +190,9 @@ export class NewFraudComponent implements OnInit {
       }
     );
   }
+  public populateSelectedCaseStatus(existingCaseStatus: CaseStatus): void {
+    this.selectedCaseStatus = existingCaseStatus;
+  }
 
   public getFrauds(branchId: number): void {
     this.fraudService.getFraudForBranch(branchId).subscribe(
@@ -262,13 +268,28 @@ export class NewFraudComponent implements OnInit {
   }
 
   public addFraud(addFraudForm: NgForm): void {
+    const recoveredAmount = addFraudForm.value.amountRecovered;
+  const actualAmount = addFraudForm.value.fraudAmount;
+  if (recoveredAmount > actualAmount) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Recovered amount cannot be greater than  actual amount.'
+    });
+  
+    setTimeout(() => {
+      this.messageService.clear(); 
+    }, 5000); 
+  
+    return;
+  }
     this.timeService.getDate().subscribe(
       (response: any) => {
-        const dateParts = response.time.split('/'); // split the date string by '/'
+        const dateParts = response.time.split('/'); // 
         const year = dateParts[2];
         const month = dateParts[0].padStart(2, "0");
         const day = dateParts[1].padStart(2, "0");
-        const datePresented = `${month}/${day}/${year}`; // format datePresented as a string in MM/DD/YYYY format
+        const datePresented = `${month}/${day}/${year}`; 
         this.fraudService.getSize().subscribe(
           (response: any) => {
             if (response == 0) {
@@ -310,8 +331,24 @@ export class NewFraudComponent implements OnInit {
   }
 
   public updateFraud(updateFraud: NgForm): void {
+    const recoveredAmount: number = parseFloat(updateFraud.value.amountRecovered);
+    const actualAmount: number = parseFloat(this.fraud.fraudAmount);
+  if (recoveredAmount > actualAmount) {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Error',
+      detail: 'Recovered amount cannot be greater than actual amount.'
+    });
+  
+    setTimeout(() => {
+      this.messageService.clear(); 
+    }, 5000); 
+  
+    return;
+  }
     this.fraudService.updateFraud(updateFraud.value).subscribe(
-      (response: IFR) => {
+      (response: IFR) =>
+       {
         this.getFrauds(this.branchId);
        
         this.messageService.add({
