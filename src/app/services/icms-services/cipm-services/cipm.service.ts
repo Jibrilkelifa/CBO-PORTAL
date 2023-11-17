@@ -60,37 +60,9 @@ export class CIPMService {
 
     return this.http.post<any>(`${this.apiServiceUrl}/CIPM/add`, cipm, this.httpOptions)
   }
-  public updateCIPM(cipm: CIPM): Observable<any> {
+  public updateCIPM(cipm: CIPM): Observable<any>{
     this.init();
-    return this.http.put<CIPM>(`${this.apiServiceUrl}/CIPM/update`,
-      {
-        id: cipm.id,
-        borrowerName: cipm.borrowerName,
-        mortgagorName: cipm.mortgagorName,
-        loanAccount: cipm.loanAccount,
-        loanType: cipm.loanType,
-        sumInsured: cipm.sumInsured,
-        collateralEstimationValue:cipm.collateralEstimationValue,
-        collateralType: {
-          id: cipm.collateralType.id
-        },
-        status: {
-          id: cipm.status.id
-        },
-        otherCollateralType: (cipm.otherCollateralType == undefined) ? "" : cipm.otherCollateralType,
-        insuranceCoverageType: {
-          id: cipm.insuranceCoverageType.id
-        },
-        otherInsuranceCoverageType: (cipm.otherInsuranceCoverageType == undefined) ? "" : cipm.otherInsuranceCoverageType,
-        insuredName: cipm.insuredName,
-        insuranceExpireDate: cipm.insuranceExpireDate,
-        branch: {
-          id: cipm.branch.id
-        },
-        subProcess: {
-          id: cipm.subProcess.id
-        }
-      }, this.httpOptions)
+    return this.http.put<CIPM>(`${this.apiServiceUrl}/CIPM/update`, cipm, this.httpOptions)
   }
 
   public authorizeCIPM(id: number): Observable<any> {
