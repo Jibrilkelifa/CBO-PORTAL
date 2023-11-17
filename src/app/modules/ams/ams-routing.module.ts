@@ -12,6 +12,7 @@ import { AuditObjectDetailComponent } from './components/Audit-objects/audit-obj
 import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
+import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
 
 const routes: Routes = [
   {
@@ -91,6 +92,13 @@ const routes: Routes = [
         component: AuditEngagementComponent,
         data: {
           title: 'Audit Engagement',
+        },
+      },
+      {
+        path: 'audit-program',
+        component: AuditProgramComponent,
+        data: {
+          title: 'Audit Program',
         },
       },
       {

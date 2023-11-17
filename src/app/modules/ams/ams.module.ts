@@ -58,7 +58,7 @@ import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRi
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
 import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
-
+import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
 @NgModule({
   declarations: [
     AuditUniverseComponent,
@@ -84,7 +84,8 @@ import { NewAuditEngagementComponent } from './components/Audit-engagement/new-a
     NewRiskItemComponent,
     RiskItemComponent,
     AuditEngagementComponent,
-    NewAuditEngagementComponent
+    NewAuditEngagementComponent,
+    AuditProgramComponent
     
   ],
   imports: [
