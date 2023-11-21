@@ -88,7 +88,6 @@ export class AuthService {
     localStorage.setItem('id', employee?.id);
     localStorage.setItem('supervisor', employee?.supervisor);
     localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
-
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
     localStorage.setItem('subProcess', JSON.stringify(employee?.subProcess));
     localStorage.setItem('district', JSON.stringify(employee?.subProcess));
@@ -120,7 +119,14 @@ export class AuthService {
     }
     
        localStorage.setItem('subProcessId',employee?.subProcess.id.toString());
-       localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+      //  localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+       let branchId = 'default';
+if (employee?.branch != null) {
+    branchId = employee.branch.id.toString();
+} else if (employee?.team != null) {
+    branchId = employee.team.id.toString();
+}
+localStorage.setItem('branchId', branchId);
     // localStorage.setItem('sub_process_Id',  employee?.subProcess.id.toString());
    
     //  localStorage.setItem('branchId',  resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
