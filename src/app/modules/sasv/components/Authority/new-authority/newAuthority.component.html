@@ -1,0 +1,204 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitAuthority(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div class="flex justify-between flex-row flex-wrap">
+      <div class="m-4">
+        <label for="hex" class="block mb-2"> Employee: </label>
+        <div class="w-60">
+          <p-autoComplete
+            name="employee"
+            [(ngModel)]="authorityInfo.employee"
+            [suggestions]="employeeslist"
+            (completeMethod)="onSearch($event)"
+            field="employeeFullName"
+            placeholder="Choose employee"
+            [required]="true"
+            [inputStyle]="{ width: '300px', height: '45px' }"
+            [disabled]="update"
+            >
+          </p-autoComplete>
+        </div>
+      </div>
+      <div class="m-4" *ngIf="!update">
+        <label for="dropdown" class="block mb-2"> Select authority level: </label>
+        <p-dropdown
+          [options]="dropdownOptions"
+          name="selectedDropdown"
+          [(ngModel)]="selectedDropdown"
+          [showClear]="true"
+          placeholder="Choose level"
+          styleClass="p-password"
+          [required]="true"
+          [disabled]="update"
+          [style]="{ width: '250px', height: '45px' }"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="flex justify-between flex-row flex-wrap">
+      <div class="m-4" *ngIf="selectedDropdown === 'Process'">
+        <label for="hex" class="block mb-2"> Process: </label>
+        <p-dropdown
+          [options]="processList"
+          name="process"
+          optionLabel="name"
+          [filter]="true"
+          [(ngModel)]="authorityInfo.process"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Choose process"
+          styleClass="p-password"
+          [required]="true"
+          [disabled]="update"
+          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
+        >
+          <ng-template let-process pTemplate="item">
+            <div
+              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              pTooltip="{{ process.name }}"
+              tooltipPosition="top"
+            >
+              <div>{{ process.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="m-4" *ngIf="selectedDropdown === 'Sub Process'">
+        <label for="hex" class="block mb-2"> Sub process: </label>
+        <p-dropdown
+          [options]="subProcessList"
+          name="subProcess"
+          optionLabel="name"
+          [filter]="true"
+          [(ngModel)]="authorityInfo.subProcess"
+          filterBy="fullName"
+          [showClear]="true"
+          placeholder="Choose sub process"
+          styleClass="p-password"
+          [required]="true"
+          [disabled]="update"
+          [style]="{ width: '250px', height: '45px' }"
+        >
+          <ng-template let-subProcess pTemplate="item">
+            <div>
+              <div>{{ subProcess.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="m-4" *ngIf="selectedDropdown === 'District'">
+        <label for="hex" class="block mb-2"> District: </label>
+        <p-dropdown
+          [options]="districtList"
+          name="district"
+          optionLabel="name"
+          [filter]="true"
+          [(ngModel)]="authorityInfo.district"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Choose district"
+          styleClass="p-password"
+          [required]="true"
+          [disabled]="update"
+          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
+        >
+          <ng-template let-district pTemplate="item">
+            <div
+              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              pTooltip="{{ district.name }}"
+              tooltipPosition="right"
+            >
+              <div>{{ district.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="m-4" *ngIf="selectedDropdown === 'Branch'">
+        <label for="hex" class="block mb-2"> Branch: </label>
+        <p-dropdown
+          [options]="branchList"
+          name="branch"
+          optionLabel="name"
+          [filter]="true"
+          [(ngModel)]="authorityInfo.branch"
+          filterBy="name"
+          [showClear]="true"
+          [disabled]="update"
+          placeholder="Choose branch"
+          styleClass="p-password"
+          [required]="true"
+          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
+        >
+          <ng-template let-branch pTemplate="item">
+            <div
+              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              pTooltip="{{ branch.name }}"
+              tooltipPosition="right"
+            >
+              <div>{{ branch.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="m-4" *ngIf="selectedDropdown === 'Team'">
+        <label for="hex" class="block mb-2"> Team: </label>
+        <p-dropdown
+          [options]="teamList"
+          name="teamId"
+          optionLabel="externalName"
+          [filter]="true"
+          [(ngModel)]="authorityInfo.team"
+          filterBy="externalName"
+          [showClear]="true"
+          placeholder="Choose team"
+          styleClass="p-password"
+          [required]="true"
+          class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap"
+        >
+          <ng-template let-team pTemplate="item">
+            <div
+              class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+              pTooltip="{{ team.externalName }}"
+              tooltipPosition="right"
+            >
+              <div>{{ team.externalName }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div *ngIf="update" class="m-4">
+        <label for="dropdown" class="block mb-2"> Status: </label>
+        <p-dropdown
+          [options]="['Active', 'Inactive']"
+          name="status"
+          [(ngModel)]="authorityInfo.status"
+          [showClear]="true"
+          placeholder="Choose status"
+          styleClass="p-password"
+          [required]="true"
+          [style]="{ width: '250px', height: '45px' }"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+   
+
+    <div style="margin-top: 13em"></div>
+    <div class="flex justify-between">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        type="submit"
+        *ngIf="!update"
+        [disabled]="!addDivForm.valid"
+        label="Create authority"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        type="submit"
+        [disabled]="!addDivForm.valid"
+        label="Update authority"
+      ></p-button>
+    </div>
+  </form>
+</div>

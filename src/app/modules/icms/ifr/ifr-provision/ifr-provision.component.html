@@ -1,0 +1,177 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div>
+  <form #calculateProvisionForm="ngForm" (ngSubmit)="calculateProvision(calculateProvisionForm)" required>
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Case ID </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedCaseId" name="caseId"
+          [style]="{'width':'30vw','height':'45px'}" [readonly]="true">
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Reason For the Delay to Detect (If Any) </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedReasonForTheDelay" name="reasonForDelay"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Name of the Suspected Fraudster </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedSuspectedFraudsterName" name="suspectedFraudsterName"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Place and Area of Operation where the fraud has occurred </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudOccurrencePlace" name="fraudOccurrencePlace"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Complete Address of the Suspected Fraudster </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedSuspectedFraudsterAddress" name="suspectedFraudsterAddress"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div>
+      <div class="flex-auto" *ngIf="isOtherFraudCategorySelected">
+        <label for="alphabetic" class=" block mb-2"> Other Fraud Category </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedOtherFraudCategory" name="otherFraudCategory"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Technique And/Or Technology Used to Commit the Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudCommittingTechnique" name="fraudCommittingTechnique"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto" *ngIf="isOtherFraudTypeSelected">
+        <label for="alphabetic" class=" block mb-2"> Other Fraud Type </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel  [(ngModel)]="selectedOtherFraudType"  name="otherFraudType"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Type of the Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudType" name="fraudType"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true"/>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Action Taken or Proposed to Be Taken to Avoid Such Incidents
+        </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedActionTaken" name="actionTaken"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Cause of the Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudCause" name="fraudCause"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Amount Recovered (If Any) </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedAmountRecovered" name="amountRecovered"
+          [style]="{'width':'30vw','height':'45px'}" required pattern="^\d{1,3}(,?\d{3})*(\.\d{2})?$"
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Status Or Profession of The Suspected Fraudster </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedSuspectedFraudsterProfession" name="suspectedFraudsterProfession"
+        [style]="{'width':'30vw','height':'45px'}" required
+        [readonly]="true"/>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> In Case of Attempted Fraud, State Reason for The Failure Of The Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedReasonForFailedFraudAttempt" name="reasonForFailedFraudAttempt"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Actual or Estimated Amount of Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudAmount" name="fraudAmount"
+          [style]="{'width':'30vw','height':'45px'}" required pattern="^\d{1,3}(,?\d{3})*(\.\d{2})?$"
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Any Other Relevant Information </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedOtherComment" name="otherComment"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="fraudOccurrenceDate" class="block mb-2"> Date of Occurrence of Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudOccurrenceDate" name="fraudOccurrenceDate"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Case Status </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedCaseStatus" name="caseStatus"
+        [style]="{'width':'30vw','height':'45px'}" required
+        [readonly]="true" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="fraudDetectionDate" class="block mb-2"> Date of Detection of Fraud</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudDetectionDate" name="fraudDetectionDate"
+        [style]="{'width':'30vw','height':'45px'}" required
+        [readonly]="true" />
+      </div>
+      <div class="flex-auto" *ngIf="isOtherSuspectedFraudsterProfessionSelected">
+        <label for="alphabetic" class=" block mb-2"> Other Suspected Fraudster Profession </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel  [(ngModel)]="selectedOtherSuspectedFraudsterProfession" name="otherSuspectedFraudsterProfession"
+          [style]="{'width':'30vw','height':'45px'}" required
+          [readonly]="true" />
+      </div>
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Category of the Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="selectedFraudCategory" name="allCategory"
+        [style]="{'width':'30vw','height':'45px'}" required
+        [readonly]="true" />
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Days After Detection of Fraud </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" name="daysAfterDetection" [(ngModel)]="daysAfterDetection" (ngModelChange)="updateDaysAfterDetection()" [readonly]="true" [style]="{'width':'30vw','height':'45px'}"  required />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Provision Held </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" name="provisionHeld" ngModel [(ngModel)]="selectedProvisionHeld" required pattern="^\d{1,3}(,?\d{3})*(\.\d{2})?$"
+          [style]="{'width':'30vw','height':'45px'}" required />
+      </div>
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> Branch </label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch"
+        name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> District </label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
+        name="subProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required  />
+    </div>
+    <input [hidden]="true" pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="authorizedBy"
+      name="authorizedBy" [style]="{'width':'30vw','height':'45px'}" required />
+    <div class="mb-5"></div>
+    <p-button label="Record Provision Calculation" type="submit" 
+      class="createButton mb-5"></p-button>
+  </form>
+</div>

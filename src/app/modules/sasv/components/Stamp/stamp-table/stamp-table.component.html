@@ -1,0 +1,111 @@
+<p-toast position="top-right"></p-toast>
+<div class="flex justify-between">
+  <div class="flex">
+    <span class="p-input-icon-left ml-auto">
+      <input
+        pInputText
+        type="text"
+        (input)="dt1.filterGlobal($any($event.target)?.value, 'contains')"
+        placeholder="Search here"
+      />
+    </span>
+  </div>
+  <p-button label="Create stamp" (click)="createSignature()"></p-button>
+</div>
+
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 p-3">Stamp table</h5>
+  <p-table
+    #dt1
+    [value]="stampList"
+    selectionMode="single"
+    dataKey="id"
+    [rows]="5"
+    [globalFilterFields]="[
+      'process.name',
+      'subProcess.name',
+      'district.name',
+      'branch.name',
+      'team.externalName'
+    ]"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="subProcess.name">
+          <div class="flex items-center">
+            Process
+            <p-sortIcon field="process.name"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="subProcess.name">
+          <div class="flex items-center">
+            Sub process
+            <p-sortIcon field="subProcess.name"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="district.name">
+          <div class="flex items-center">
+            District
+            <p-sortIcon field="district.name"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="team.externalName">
+          <div class="flex items-center">
+            Team
+            <p-sortIcon field="team.externalName"></p-sortIcon>
+          </div>
+        </th>
+        <th pSortableColumn="branch.name">
+          <div class="flex items-center">
+            Branch
+            <p-sortIcon field="branch.name"></p-sortIcon>
+          </div>
+        </th>
+        <th scope="col">Actions</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-stampList let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="stampList">
+        <td>{{ rowIndex + 1 }}</td>
+        <td pTooltip="{{ stampList?.process?.name }}" tooltipPosition="bottom">
+          {{ stampList?.process?.name }}
+        </td>
+        <td
+          pTooltip="{{ stampList?.subProcess?.name }}"
+          tooltipPosition="bottom"
+        >
+          {{ stampList?.subProcess?.name }}
+        </td>
+        <td pTooltip="{{ stampList?.district?.name }}" tooltipPosition="bottom">
+          {{ stampList?.district?.name }}
+        </td>
+        <td
+          pTooltip="{{ stampList?.team?.externalName }}"
+          tooltipPosition="bottom"
+        >
+          {{ stampList?.team?.externalName }}
+        </td>
+        <td pTooltip="{{ stampList?.branch?.name }}" tooltipPosition="bottom">
+          {{ stampList?.branch?.name }}
+        </td>
+        <td>
+          <button
+            pButton
+            (click)="show(stampList.id)"
+            class="p-button-sm w-20 h-10 p-2"
+            label="Show"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

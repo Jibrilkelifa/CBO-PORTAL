@@ -1,0 +1,37 @@
+@import "variables";
+
+$enable-ltr: true;
+$enable-rtl: true;
+
+@import "@coreui/coreui/scss/coreui";
+
+@import "@coreui/chartjs/scss/coreui-chartjs";
+
+
+//@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+@import "layout";
+
+// Some temp fixes
+@import "fixes";
+
+// Prism.js
+@import "examples";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.small-button .p-button {
+    font-size: 8px;
+    padding: 1px 1px;
+}
+
+.indent-1 {
+  text-indent: 1em;
+}
+
+.indent-2 {
+  text-indent: 2em;
+}
+

@@ -1,0 +1,183 @@
+<div class="row">
+  <c-row>
+    <c-col md="12" xl="12">
+      <c-widget-stat-c [title]="'Collateral Insurance Policy Monitoring'" class="mb-4" color="secondary" [value]="">
+        <ng-template cTemplateId="widgetIconTemplate">
+          <svg cIcon height="36" name="cilChartPie"></svg>
+        </ng-template>
+      </c-widget-stat-c>
+    </c-col>
+  </c-row>
+</div>
+  <div class="d-flex justify-content-between">
+    <div>
+      <div class="mb-3">Expired Policies Per District</div>
+      <c-chart type="bar" [data]="data" [options]="options" width="950"></c-chart>
+    </div>
+    <div class="ml-3 m-4">
+      <div class="m-4">
+        <c-row>
+          <c-col md="12" xl="12">
+            <a href="/#/ICMS/CIPM/viewCIPM" class="custom-link1 text-primary">
+            <c-widget-stat-c [title]="'Total Number of Policies'" class="mb-4" color="primary"
+              [value]="totalNumberOfPolicies">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+          </a>
+          </c-col>
+        </c-row>
+        <c-row>
+          <c-col md="12" xl="12">
+            <c-widget-stat-c [title]="'Total Amount Covered'" class="mb-4" color="success" value="Birr 123.00">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+          </c-col>
+        </c-row>
+      </div>
+      <div class="m-4">
+        <c-row>
+          <c-col md="12" xl="12">
+            <a href="/#/ICMS/CIPM/expiringWithIn30Days" class="custom-link5 text-warning">
+            <c-widget-stat-c [title]="'Expiring Within Thirty Days'" class="mb-4" color="warning"
+              [value]="expiringWithinThirtydays">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </c-col>
+        </c-row>
+        <c-row>
+          <c-col md="12" xl="12">
+            <a href="/#/ICMS/CIPM/expired"  class="custom-link3 text-danger">
+            <c-widget-stat-c [title]="'Number of Expired Policies'" class="mb-4" color="danger"
+              [value]="numberOfExpiredPolicies">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </c-col>
+        </c-row>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <c-widget-stat-c [title]="'Incident/Fraud Report'" class="mb-4" color="secondary" [value]="">
+        <ng-template cTemplateId="widgetIconTemplate">
+          <svg cIcon height="36" name="cilChartPie"></svg>
+        </ng-template>
+      </c-widget-stat-c>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="section--cases">
+        <div class="row">
+          <div class="col-md-6">
+            <a href="/#/ICMS/Fraud/outstandingFraud" class="custom-link2 text-success">
+            <c-widget-stat-c [title]="'Total number of outstanding cases during the quarter'" class="mb-4" color="success" [value]="outstandingCaseDuringTheQuarter">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </div>
+
+          <div class="col-md-6">
+            <a href="/#/ICMS/Fraud/closedFraud" class="custom-link3 text-danger">
+            <c-widget-stat-c [title]="'Closed and written off cases during the quarter'" class="mb-4" color="danger" [value]="closedCaseDuringTheQuarter">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+          </a>
+          </div>
+
+          <div class="col-md-6"> 
+            <a href="/#/ICMS/Fraud/outstandingpFraud" class="custom-link4 text-info">
+            <c-widget-stat-c [title]="'Total number of outstanding cases in previous quarter'" class="mb-4" color="info" [value]="OutstandingCasesInPreviousQuarter">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </div>
+
+          <div class="col-md-6">
+            <a href="/#/ICMS/Fraud/newFraud" class="custom-link1 text-primary">
+            <c-widget-stat-c [title]="'Total number of new cases during the quarter'" class="mb-4" color="primary" [value]="NewCasesDuringQuarter">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </div>
+
+          <div class="col-md-6">
+            <c-widget-stat-c [title]="'Total number of outstanding case amount during the quarter'" class="mb-4" color="warning" [value]="'Birr ' + OutstandingCaseAmountDuringTheQuarter">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="mb-3">Total fraud cases in the last one week: {{ lastWeekCaseCount }}</div>
+      <div class="custom-chart">
+        <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [labels]="chartOptions.labels"
+          [responsive]="chartOptions.responsive"></apx-chart>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div colspan="2">
+      <c-row>
+        <c-col md="12" xl="12">
+          
+          <c-widget-stat-c [title]="'Dishonoured Cheques'" class="mb-4" color="secondary" [value]="">
+            <ng-template cTemplateId="widgetIconTemplate">
+              <svg cIcon height="36" name="cilChartPie"></svg>
+            </ng-template>
+          </c-widget-stat-c>
+          
+        </c-col>
+      </c-row>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <c-row>
+          <c-col md="12" xl="10">
+            <a href="/#/ICMS/DCQ/viewDCQ" class="custom-link4 text-info">
+            <c-widget-stat-c [title]="'Total number of dishonoured cheques'" class="mb-4" color="info" [value]="totalNumberOfDishonouredCheque">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </c-col>
+        </c-row>
+      </div>
+      <div class="col-md-6">
+        <c-row>
+          <c-col md="12" xl="10">
+            <a href="/#/ICMS/DCQ/weekDCQ" class="custom-link2 text-success">
+            <c-widget-stat-c [title]="'Dishonoured cheques three times in last week'" class="mb-4" color="success" [value]="ThreeTimesInLastWeek">
+              <ng-template cTemplateId="widgetIconTemplate">
+                <svg cIcon height="36" name="cilChartPie"></svg>
+              </ng-template>
+            </c-widget-stat-c>
+            </a>
+          </c-col>
+        </c-row>
+      </div>
+    </div>

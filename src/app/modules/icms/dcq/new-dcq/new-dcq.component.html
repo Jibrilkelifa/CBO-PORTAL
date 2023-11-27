@@ -1,0 +1,221 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div *ngIf="newDiv">
+  <form #addDCQForm="ngForm" (ngSubmit)="addDCQ(addDCQForm)" required>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Date Presented (MM/DD/YYYY) </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="datePresented" name="datePresented"
+          [readonly]="true" [style]="{'width':'30vw','height':'45px'}">
+      </div>
+      <div class="flex-auto">
+        <label for="amountInBirr" class="block mb-2">Amount In Birr</label>
+        <input pInputText id="amountInBirr" ngModel name="amountInBirr" [style]="{'width':'30vw','height':'45px'}"
+          required pattern="^\d{1,3}(,?\d{3})*(\.\d{2})?$" />
+      </div>
+
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Full Name of Drawer </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="fullNameOfDrawer"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Cheque Number </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="chequeNumber" name="chequeNumber"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+
+
+
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="accno" class=" block mb-2"> Account Number </label>
+        <input pInputText id="accountNumber" type="text" [(ngModel)]="accountNumber" name="accountNumber"
+          [style]="{'width':'30vw','height':'45px'}" required (ngModelChange)="searchFrequency(accountNumber)"
+          oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 13);" pattern="\d{13}" />
+      </div>
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Cheque Type </label>
+        <p-dropdown [options]="chequeTypes" name="chequeType" ngModel [(ngModel)]="selecteDCQType"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Cheque Type"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selecteDCQType">
+              <div>{{ selecteDCQType.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selecteDCQTypee pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{selecteDCQTypee.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> TIN Number</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="tin"
+          [style]="{'width':'30vw','height':'45px'}" required oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" pattern="\d{10}" />
+      </div>
+
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Name of Beneficiery </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="nameOfBeneficiary"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Drawer Address </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="drawerAddress"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Frequency </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="frequency" name="frequency"
+          [readonly]="true" [style]="{'width':'30vw','height':'45px'}" />
+      </div>
+    </div>
+
+    <div class="flex flex-wrap gap-3 mb-5">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Action Taken </label>
+        <!-- Input field for displaying the name property -->
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="frequency < 3 ? actionsTaken[frequency - 1].name : alreadyClosed"
+          name="actionTakenName" [style]="{'width':'64vw','height':'45px'}" required readonly />
+
+        <!-- Hidden input field for sending the entire object -->
+        <input type="hidden" [(ngModel)]="actionsTaken[frequency - 1]" name="actionTaken" />
+
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> Branch </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+          [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> District </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
+          [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+
+    <p-button label="Record Dishonoured Cheque" type="submit" [disabled]="addDCQForm.invalid || frequency > 3"
+      class="createButton"></p-button>
+  </form>
+</div>
+
+
+
+<div *ngIf="update">
+  <form #updateDCQForm="ngForm" (ngSubmit)="updateDCQ(updateDCQForm)">
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Date Presented (MM/DD/YYYY) </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.datePresented"
+          name="datePresented" [readonly]="true" [style]="{'width':'30vw','height':'45px'}">
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Frequency </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.frequency" name="frequency"
+          [readonly]="true" [style]="{'width':'30vw','height':'45px'}" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Full Name of Drawer </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.fullNameOfDrawer"
+          name="fullNameOfDrawer" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Drawer Address </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.drawerAddress"
+          name="drawerAddress" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> TIN Number</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.tin" name="tin"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Account Number </label>
+        <input pInputText pKeyFilter="alphanum" id="accountNumber" [(ngModel)]="DCQ.accountNumber"
+          name="accountNumber" [style]="{'width':'30vw','height':'45px'}" required minlength="3"
+          (ngModelChange)="searchFrequency(accountNumber)" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Name of Beneficiery </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.nameOfBeneficiary"
+          name="nameOfBeneficiary" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Amount In Birr </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.amountInBirr"
+          name="amountInBirr" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Cheque Type </label>
+        <p-dropdown [options]="chequeTypes" name="chequeType" ngModel [(ngModel)]="selecteDCQType"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Cheque Type"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selecteDCQType">
+              <div>{{ selecteDCQType.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selecteDCQTypee pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{selecteDCQTypee.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Cheque Number </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.chequeNumber"
+          name="chequeNumber" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-5">
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Action Taken </label>
+        <p-dropdown [options]="actionsTaken" name="actionTaken" ngModel [(ngModel)]="selectedActionTaken"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+          placeholder="Select Insurance Policy Coverage Type" class="w-full" styleClass="p-password"
+          [style]="{'width':'30vw','height':'45px'}" [required]="true">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedActionTaken">
+              <div>{{ selectedActionTaken.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selectedActionTakene pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{selectedActionTakene.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> Branch </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch" [readonly]=true
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class=" block mb-2"> District </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess" [readonly]=true
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+
+    <p-button label="Update Dishonoured Cheque" type="submit" [disabled]="updateDCQForm.invalid"
+      class="updateButton"></p-button>
+  </form>
+</div>

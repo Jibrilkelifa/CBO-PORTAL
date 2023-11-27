@@ -1,0 +1,59 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="card">
+  <h5>Module Table</h5>
+  <p-table #dt1 [value]="modules" selectionMode="single" [tableStyle]="{'min-width': '50rem'}" dataKey="id"
+    [(selection)]="selectedCustomer1" styleClass="p-datatable-customers" [showCurrentPageReport]="true" sortField="id"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+    [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" pSortableColumn="id" style="width:8%">ID<p-sortIcon [field]="'id'"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="code" style="width:15%">Code <p-sortIcon field="code"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="name" style="width:30%">Name <p-sortIcon field="name"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="url" style="width:20%">URL <p-sortIcon field="url"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="status" style="width:20%">Status <p-sortIcon field="status"></p-sortIcon></th>
+        <th scope="col" style="width:15%">Actions</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"> <input pInputText type="text"
+          (input)="dt1.filter($any($event.target)?.value, 'code', 'contains')"
+          [value]="$any(dt1.filters['code'])?.value" placeholder="Search by Module Code" class="p-column-filter"></th>
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+            [value]="$any(dt1.filters['name'])?.value" placeholder="Search by Module Name" class="p-column-filter"></th>
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'url', 'contains')"
+            [value]="$any(dt1.filters['url'])?.value" placeholder="Search by URL" class="p-column-filter"></th>
+
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt1.filter($any($event.target)?.value, 'status', 'contains')"
+            [value]="$any(dt1.filters['status'])?.value" placeholder="Search by Status" class="p-column-filter"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+
+      <p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position"
+        [baseZIndex]="10000"></p-confirmDialog>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-modules let-i="rowIndex">
+      <tr [pSelectableRow]="modules">
+        <td>{{modules.id}}</td>
+        <td>{{modules.code}}</td>
+        <td>{{modules?.name}}</td>
+        <td>{{modules?.url}}</td>
+        <td [ngClass]="{'green': modules?.status, 'red': !modules?.status}">{{checkStatus(i)}}</td>
+        <td>
+          <button pButton (click)="updateModules(modules.id)" [ngClass]="{updateBlue: true}" class="p-button-sm"
+            label="Update"></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,85 @@
+<button pButton (click)="downloadPDF()" [ngClass]="{updateBlue: true}"
+  style="height: max-content;" class="p-button-sm mt-3 mr-3"
+  label="Download as PDF"
+  [disabled]="authorizedBy === 'Not Authorized'"
+>
+  <svg _ngcontent-yvw-c268="" cIcon="" name="cilCloudDownload"
+    ng-reflect-content="" style="margin-right: 10px; color:white" ng-reflect-name="cilCloudDownload"
+    viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" class="icon">
+    <polygon fill="var(--ci-primary-color, currentColor)"
+      points="272 434.744 272 209.176 240 209.176 240 434.744 188.118 382.862 165.49 405.489 256 496 346.51 405.489 323.882 382.862 272 434.744"
+      class="ci-primary"></polygon>
+    <path fill="var(--ci-primary-color, currentColor)"
+      d="M400,161.176c0-79.4-64.6-144-144-144s-144,64.6-144,144a96,96,0,0,0,0,192h80v-32H112a64,64,0,0,1,0-128h32v-32a112,112,0,0,1,224,0v32h32a64,64,0,0,1,0,128H320v32h80a96,96,0,0,0,0-192Z"
+      class="ci-primary"></path>
+  </svg>
+</button>
+
+<div id="pdf-content" class="card" style="width: 65vw;">
+  <div class="spacer">
+    <div class="center-text">
+      <span class="underline" style="font-size: larger; font-weight: bolder;"><span cTextColor="white">______________________________________</span>Actual or Attempted Fraud Cases Reporting</span>
+    </div>
+  </div>
+  <span>Name of Branch/HO Organ/Bank: <span class="underline">{{caseName}}</span></span>
+  <span>Date: <span class="underline">{{date}}</span></span><br>
+  <p-table #dt3 [value]="items" selectionMode="single" [tableStyle]="{  'min-width': '20rem',
+  'max-width': '100%',
+  'font-size': '16px',
+  'padding': '10px',
+  'border-collapse': 'collapse',
+  'border': '1px solid black'}"
+    dataKey="id" styleClass="p-datatable-sfcts" [showCurrentPageReport]="true" id="singleFraudCaseTable"
+    stateStorage="local" stateKey="statedemo-local3">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" style="background-color: #abb4b4;">No.</th>
+        <th scope="col" style="background-color: #abb4b4;">Items</th>
+        <th scope="col" style="background-color: #abb4b4;">Description</th>
+        <th scope="col" style="background-color: #abb4b4;">Remark</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-fraudItem>
+      <tr [pSelectableRow]="fraudItem">
+        <td>{{fraudItem?.id}}</td>
+        <td>{{fraudItem?.name}}</td>
+        <td>{{fraudItem?.description}}</td>
+        <td>{{fraudItem?.remark}}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">Not found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <br>
+  <br>
+  <div class="flex">
+    <div class="footer-end block">
+      <div>
+        <h6>Prepared By: {{preparedBy}}</h6>
+      </div>
+      <div class="mt-5">
+        <h6>Signature: <img [src]="preparerImageData" alt="Signature Not Found" style="width: 100px; height: 50px;"> </h6>
+      </div>
+      <div class="mt-5">
+        <h6>Date:  {{preparedDate}}</h6>
+      </div>
+    </div>
+    <div class="footer-end block">
+      <div>
+        <h6>Approved By: {{authorizedBy}}</h6>
+      </div>
+      <div class="mt-5">
+        <h6>Signature: <img [src]="authorizerImageData" alt="Signature Not Found" style="width: 100px; height: 50px;"> </h6>
+      </div>
+      <div class="mt-5">
+        <h6>Date: {{authorizedDate}} </h6>
+      </div>
+    </div>
+  </div>
+  <br><br>
+</div>

@@ -1,0 +1,57 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="addSignature(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div class="flex justify-between">
+      <div class="m-4">
+        <label for="hex" class="block mb-2"> Employee: </label>
+        <div class="w-60">
+          <p-autoComplete
+            name="employeeId"
+            [(ngModel)]="signatureInfo.employeeId"
+            [suggestions]="employeeslist"
+            (completeMethod)="onSearch($event)"
+            field="employeeFullName"
+            placeholder="Choose employee"
+            [required]="true"
+            [inputStyle]="{'width':'20vw'}"          >
+          </p-autoComplete>
+        </div>
+      </div>
+      <div>
+        <div class="photo-container md:w-1/2 m-4">
+          <div class="photo-preview">
+            <img
+              *ngIf="imageURL; else noImage"
+              [src]="imageURL"
+              alt="Photo to display to public"
+            />
+            <ng-template #noImage>
+              <p>Signature image</p>
+            </ng-template>
+          </div>
+          <div class="form-group">
+            <input
+              type="file"
+              class="form-control"
+              id="signature"
+              name="signature"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              [required]="true"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 10em"></div>
+    <div class="flex justify-between">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        type="submit"
+        [disabled]="!addDivForm.valid || !imageURL"
+        label="Create signature"
+      ></p-button>
+    </div>
+  </form>
+</div>

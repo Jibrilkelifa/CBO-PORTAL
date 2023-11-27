@@ -1,0 +1,11 @@
+:host .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+#chart {
+  max-width: 600px;
+  margin: 35px auto;
+}

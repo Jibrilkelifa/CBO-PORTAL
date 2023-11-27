@@ -1,0 +1,51 @@
+:host .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+#chart {
+  max-width: 600px;
+  margin: 35px auto;
+}
+
+.graph-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00adef;
+}
+
+.week-picker-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.week-picker-container label {
+  margin-right: 0.5rem;
+  font-style: italic;
+}
+
+.week-picker-container input[type="week"] {
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.week-picker-container .apply-button {
+  padding: 0.25rem 0.5rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.week-picker-container .apply-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+

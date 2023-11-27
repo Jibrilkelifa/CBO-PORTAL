@@ -1,0 +1,25 @@
+:host ::ng-deep .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+button {
+  margin: 0 0.5em;
+  height: 2em;
+}
+
+input {
+  height: 2em;
+}
+
+h5 {
+  padding: 0.5em;
+}
+
+.popmsg {
+  position: relative;
+  top: auto;
+  width: 25%;
+}

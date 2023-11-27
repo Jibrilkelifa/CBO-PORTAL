@@ -1,0 +1,86 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitAuditObject(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div class="flex">
+      <div class="col mb-4">
+        <label for="integer" class="block mb-2"> Name: </label>
+        <input
+          pInputText
+          id="integer"
+          pKeyFilter="int"
+          [ngModel]="auditObjectInfo.name"
+          name="name"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="10"
+        />
+      </div>
+      <div class="col flex flex-row">
+        <div class="mb-4 mr-2">
+        <label for="hex" class="block mb-2"> Audit type: </label>
+        <p-dropdown
+          [required]="true"
+          [options]="auditTypes"
+          name="auditType"
+          [filter]="true"
+          [(ngModel)]="auditObjectInfo.auditType"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Choose audit type"
+          styleClass="p-password"
+          [style]="{ width: '300px', height: '45px' }"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="auditObjectInfo?.auditType">
+              <div>{{ auditObjectInfo.auditType }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-auditType pTemplate="item">
+            <div>
+              <div>{{ auditType }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <p-button
+        *ngIf="!update"
+        (click)="createAuditType()"
+        class="mt-4"
+        icon="pi pi-plus"
+      ></p-button>
+    </div>
+  </div>
+    <div class="row">
+      <div class="col mb-4 m-2">
+        <label for="integer" class="block mb-2"> Description: </label>
+        <textarea
+          pInputText
+          id="integer"
+          pKeyFilter="int"
+          [ngModel]="auditObjectInfo.description"
+          name="description"
+          style="width: 94%; height: 150px; resize: none"
+          required
+          minlength="3"
+        ></textarea>
+      </div>
+      <div></div>
+    </div>
+    <div style="margin-top: 10em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        *ngIf="!update"
+        label="Create audit object"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        label="Update audit object"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>

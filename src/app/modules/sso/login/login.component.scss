@@ -1,0 +1,80 @@
+.login-container {
+  background-color: white;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 100vh;
+}
+
+.bigLogo {
+  width: 60vw;
+}
+
+#login-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  width: 27em;
+  height: 34em;
+  margin: 0 20px;
+  box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  background: #fff;
+  border: 2px #00adef solid;
+  opacity: 65%;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.cooplogo img {
+  height: 6em;
+}
+
+input {
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid #00adef;
+}
+
+label {
+  color: #00adef;
+}
+
+#float-input {
+  width: 18em;
+  height: 2em;
+}
+
+.p-float-label {
+  margin-bottom: 5em;
+}
+
+#float-input:focus {
+  outline: 0px;
+}
+
+button {
+  background-color: #00adef;
+  border: none;
+  border-radius: 0;
+}
+
+img {
+  width: 100%;
+  margin: 0 20px;
+}
+
+@media (max-width: 1250px) {
+  .bigLogo {
+    display: none;
+    background-image: url("/src/assets/BG4.png");
+  }
+
+}

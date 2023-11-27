@@ -1,0 +1,61 @@
+<div class="mcontainer">
+  <div class="secondItem">
+    <form #dataToBeSent="ngForm" name="dawholegadaymform" (ngSubmit)="addMemo(dataToBeSent)">
+      <div class="inputs">
+        <div class="group">
+          <p-calendar [showIcon]="true" [style]="{'min-width':'500px', 'margin':'10px'}" id="curdateid" class="curdate"
+            placeholder="Date" name="curdate" [minDate]="dateTime" [(ngModel)]="date" ngModel
+            [required]="true"></p-calendar>
+          <br>
+          <div class="flex-auto">
+            <p-dropdown [style]="{'min-width':'500px', 'margin':'10px' , 'height': '45px'}" [options]="subprocesslist"
+              id="divisions" class="divisions" name="toTo" ngModel [(ngModel)]="selectedSubprocess" optionLabel="name"
+              placeholder="Select Division" [required]="true">
+              <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedSubprocess">
+                  <div>{{selectedSubprocess.name}}</div>
+                </div>
+              </ng-template>
+              <ng-template let-subprocess pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                  <div>{{subprocess.name}}</div>
+                </div>
+              </ng-template>
+            </p-dropdown>
+          </div>
+          
+          <div class="div">
+            <p-multiSelect [style]="{'width':'500px', 'margin':'10px 10px 0 10px'}" [options]="subprocesslist"
+              [(ngModel)]="nvalues" placeholder="Cc" optionLabel="name" name="ncarbonCopy" type="text" ngModel
+              [required]="true">
+              <ng-template pTemplate="selectedItem">
+                <div class="flex align-items-center gap-2" *ngIf="selectedSubprocess">
+                  <div>{{selectedSubprocess.name}}</div>
+                </div>
+              </ng-template>
+              <ng-template let-subprocess pTemplate="item">
+                <div class="flex align-items-center gap-2">
+                  <div>{{subprocess.name}}</div>
+                </div>
+              </ng-template>
+            </p-multiSelect>
+          </div>
+          <br>
+        </div>
+        <div class="group">
+          <input [style]="{'width':'500px','margin':'10px'}" type="text" placeholder="Subject" pInputText
+            class="subject" name="subject" ngModel [required]="true" />
+          <br>
+          <p-dropdown [style]="{'min-width':'500px', 'margin':'10px'}" [options]="tempArray" id="templates"
+            optionLabel="name" placeholder="Select Template" class="template" name="template" [filter]="true"
+            (onChange)="addTemp($event.value.value)" ngModel [required]="true"></p-dropdown>
+        </div>
+      </div>
+      <div class="mbody">
+        <ckeditor class="ckeditor" [editor]="Editor" name="body" [(ngModel)]="ckeditorContent" ngModel
+          [required]="true"></ckeditor>
+        <p-button label="Submit" type="submit" [style]="{'margin-top':'10px'}"></p-button>
+      </div>
+    </form>
+  </div>
+</div>

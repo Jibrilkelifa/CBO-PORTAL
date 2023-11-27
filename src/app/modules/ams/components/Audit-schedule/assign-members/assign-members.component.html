@@ -1,0 +1,64 @@
+<form #addDivForm="ngForm">
+  <div class="flex flex-col justify-around flex-wrap m-8">
+    <div class="flex flex-row justify-between w-full">
+      <div class="column risk-item">
+        <h6 class="font-bold text-lg underline text-blue-600">Assigned auditors</h6>
+      </div>
+      <div class="column">
+        <h6 class="font-bold text-lg underline text-blue-600">Role</h6>
+      </div>
+    </div>
+    <div class="flex" *ngFor="let row of rows; let i = index">
+      <div class="col mb-1">
+        <p-dropdown
+          [options]="auditStafflist"
+          name="user{{ i }}"
+          [(ngModel)]="row.auditStaffDTO"
+          optionLabel="user.employee.fullName"
+          [filter]="true"
+          filterBy="fullName"
+          [showClear]="true"
+          placeholder="Choose member"
+          styleClass="p-password"
+          [required]="true"
+          [style]="{ width: '250px', height: '45px' }"
+        >
+        </p-dropdown>
+      </div>
+
+      <div class="mb-1 mr-4">
+        <p-dropdown
+          [options]="['Leader', 'Member']"
+          name="teamType{{ i }}"
+          [(ngModel)]="row.teamRole"
+          [showClear]="true"
+          placeholder="Choose role"
+          styleClass="p-password"
+          [required]="true"
+          [style]="{ width: '250px', height: '45px' }"
+        >
+        </p-dropdown>
+      </div>
+
+      <div class="mb-1">
+        <p-button icon="pi pi-trash" (click)="deleteRow(i)"></p-button>
+      </div>
+    </div>
+
+    <p-button
+      icon="pi pi-plus"
+      (click)="addRow()"
+      [disabled]="!areAllRowsFilled()"
+    ></p-button>
+  </div>
+  <div style="margin-top: 10em"></div>
+  <div class="save-button">
+    <p-button
+      label="Save"
+      class="save-button"
+      (click)="saveAssignedRolesAndMembers()"
+      type="button"
+      [disabled]="!addDivForm.valid"
+    ></p-button>
+  </div>
+</form>

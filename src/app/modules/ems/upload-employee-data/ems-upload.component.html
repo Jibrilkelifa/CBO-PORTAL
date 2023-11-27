@@ -1,0 +1,14 @@
+<p-messages [value]="messages" [closable]="true"
+  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
+<div>
+  <h4>Upload Employee Data</h4>
+  <p-fileUpload #fileUpload name="file" [url]="ems_employee_url" accept=".xlsx" (onBeforeUpload)="onBeforeUpload()"
+    (onError)="onUploadError($event)" (onUpload)="onUpload()"></p-fileUpload>
+  <div class="spinner-container" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Please Wait</p>
+  </div>
+  <div *ngIf="!loading">
+    <p [innerHTML]="cobSummaryDetail"></p>
+  </div>
+</div>

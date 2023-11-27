@@ -1,0 +1,28 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitaccountRelation(addDivForm)">
+    <div style="margin-top: 2em;"></div>
+    <div class="row">
+      <div class="col mb-4">
+        <label for="integer" class="block mb-2"> ECX Account: </label>
+        <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="accountRelationInfo.ecxAccount" name="ecxAccount"
+          [style]="{'width':'300px','height':'45px'}" required minlength="10" />
+      </div>
+      <div class="col mb-4">
+        <label for="integer" class=" block mb-2"> Balance Account: </label>
+        <input pInputText id="integer" pKeyFilter="int" [ngModel]="accountRelationInfo.balanceAccount" name="balanceAccount"
+          [style]="{'width':'300px','height':'45px'}" required minlength="13" />
+      </div>
+      <div class="col mb-4">
+        <label for="integer" class=" block mb-2"> ALT Account: </label>
+        <input pInputText id="integer" pKeyFilter="int" [ngModel]="accountRelationInfo.altAccount" name="altAccount"
+          [style]="{'width':'300px','height':'45px'}" required minlength="10" />
+      </div>
+    </div>
+    <div style="margin-top: 15em;"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button *ngIf="!update" label="Create Relation" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+      <p-button *ngIf="update" label="Update Relation" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+    </div>
+  </form>
+</div>

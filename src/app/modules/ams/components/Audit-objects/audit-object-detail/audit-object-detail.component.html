@@ -1,0 +1,127 @@
+<div class="p-4 bg-white rounded-lg shadow-lg mb-8">
+  <h5 class="mb-4 text-xl font-bold text-blue-600">
+    Audit object: <strong class="text-black">{{ auditObject.name }}</strong>
+  </h5>
+  <h5 class="text-xl text-blue-600">
+    <strong>Description: </strong>
+    <span class="text-black">{{ auditObject.description }}</span>
+  </h5>
+</div>
+
+<div class="flex flex-row justify-between">
+  <div class="w-1/2 p-2">
+    <div class="flex justify-end">
+      <p-button
+        label="Create a new auditable area"
+        (click)="createNewAuditableArea()"
+      ></p-button>
+    </div>
+    <div class="card">
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Auditable area</h5>
+      <p-table
+        #dt1
+        [value]="auditableArea"
+        (onRowSelect)="onAuditableAreaSelect($event)"
+        [exportHeader]="'customExportHeader'"
+        selectionMode="single"
+        dataKey="id"
+        [tableStyle]="{ 'min-width': 'auto' }"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 15, 20]"
+        [paginator]="true"
+        stateStorage="session"
+        stateKey="statedemo-session"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">
+              Title<p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="description">
+              Description <p-sortIcon field="description"></p-sortIcon>
+            </th>
+            <th>Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-auditableArea let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="auditableArea">
+            <td>{{ auditableArea?.name }}</td>
+            <td>{{ auditableArea?.description }}</td>
+            <td class="flex gap-2">
+              <button
+                pButton
+                (click)="updateAuditableArea(auditableArea.id)"
+                [ngClass]="{ updateBlue: true }"
+                class="p-button-sm"
+                label="Update"
+              ></button>
+              <button
+              pButton
+              (click)="deleteAuditableArea(auditableArea.id)"
+              class="p-button-sm"
+              label="Delete"
+            ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <div class="w-1/2 p-2">
+    <div class="flex justify-end">
+      <p-button
+        label="Create a new checklist"
+        (click)="createNewChecklist()"
+      ></p-button>
+    </div>
+    <div class="card">
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">CheckList</h5>
+      <p-table
+        #dt1
+        [value]="checklist"
+        [exportHeader]="'customExportHeader'"
+        selectionMode="single"
+        dataKey="id"
+        [tableStyle]="{ 'min-width': 'auto' }"
+        [rows]="5"
+        [rowsPerPageOptions]="[5, 10, 15, 20]"
+        [paginator]="true"
+        stateStorage="session"
+        stateKey="statedemo-session"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="name">
+              Title<p-sortIcon field="name"></p-sortIcon>
+            </th>
+            <th pSortableColumn="description">
+              Description <p-sortIcon field="description"></p-sortIcon>
+            </th>
+            <th scope="col">Actions</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-checklist let-rowIndex="rowIndex">
+          <tr [pSelectableRow]="checklist">
+            <td>{{ checklist?.name }}</td>
+            <td>{{ checklist?.description }}</td>
+            <td class="flex gap-2">
+              <button
+                pButton
+                (click)="updateChecklist(checklist.id)"
+                class="p-button-sm"
+                label="Update"
+              ></button>
+              <button
+              pButton
+              (click)="deleteCheckList(checklist.id)"
+              class="p-button-sm"
+              label="Delete"
+            ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>

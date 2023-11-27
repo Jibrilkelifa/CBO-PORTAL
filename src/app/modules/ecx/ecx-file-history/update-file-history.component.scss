@@ -1,0 +1,46 @@
+:host ::ng-deep .accordion-custom {
+    .accordion-button {
+      background-color: var(--cui-dark);
+      color: var(--cui-white);
+    }
+  }
+
+  button{
+    margin: 0 0.5em;
+    height: 2em;
+  }
+
+  input{
+    height: 2em;
+  }
+
+  h5{
+    padding: 0.5em;
+  }
+
+.black {color: black; font-weight: bolder;}
+.red { color: red; font-weight: bolder; }
+.yellow { color: rgb(187, 187, 39); font-weight: bolder; }
+.green { color: green; font-weight: bolder; }
+.header {
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+}
+.status{
+  display:block;
+  margin-right: 5%;
+  align-items:flex-start;
+}
+#failed{
+  display:list-item;
+  margin-right: 20px;
+  text-decoration-line: underline;
+  margin-bottom: 0px;
+}
+#success{
+  display:list-item;
+  margin-right: 5px;
+  text-decoration-line: underline;
+  margin-bottom: 0px;
+}

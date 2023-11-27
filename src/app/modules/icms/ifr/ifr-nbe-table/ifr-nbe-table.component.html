@@ -1,0 +1,117 @@
+<div class="card">
+  <div class="spacer">
+    <span style="font-size: larger; font-weight: bolder;">Incident/Fraud Reporting Table to National Bank of
+      Ethiopia</span>
+    <button pButton (click)="downloadExcel('fraudNBETable')" [ngClass]="{updateBlue: true}" style="height: max-content;"
+      class="p-button-sm mt-3 mr-3" label="Download as Excel"><svg _ngcontent-yvw-c268="" cIcon=""
+        name="cilCloudDownload" ng-reflect-content="" style="margin-right: 10px; color:white"
+        ng-reflect-name="cilCloudDownload" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"
+        pointer-events="none" role="img" class="icon">
+        <polygon fill="var(--ci-primary-color, currentColor)"
+          points="272 434.744 272 209.176 240 209.176 240 434.744 188.118 382.862 165.49 405.489 256 496 346.51 405.489 323.882 382.862 272 434.744"
+          class="ci-primary"></polygon>
+        <path fill="var(--ci-primary-color, currentColor)"
+          d="M400,161.176c0-79.4-64.6-144-144-144s-144,64.6-144,144a96,96,0,0,0,0,192h80v-32H112a64,64,0,0,1,0-128h32v-32a112,112,0,0,1,224,0v32h32a64,64,0,0,1,0,128H320v32h80a96,96,0,0,0,0-192Z"
+          class="ci-primary"></path>
+      </svg> </button>
+  </div>
+  <p-table #dt3 [value]="fraudSummaries" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
+    [(selection)]="selectedFraudSummary" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
+    id="fraudNBETable" stateStorage="local" stateKey="statedemo-local3">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Category of Fraud</th>
+        <th scope="col">Type of Fraud</th>
+        <th scope="col" colspan="2">Outstanding Case As Of Previous Quarter</th>
+        <th scope="col" colspan="2">New Case During Current Quarter</th>
+        <th scope="col" colspan="2">Closed Cases During Current Quarter</th>
+        <th scope="col" colspan="2">Outstanding Case As Of Current Quarter</th>
+        <th scope="col">Total Amount Recovered</th>
+        <th scope="col">Provision For Outstanding Cases</th>
+        <th scope="col">Amount Recovered In Current Quarter</th>
+        <th scope="col" colspan="2">Written Off In Current Quarter</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">No.</th>
+        <th scope="col">Amount</th>
+        <th scope="col">No.</th>
+        <th scope="col">Amount</th>
+        <th scope="col">No.</th>
+        <th scope="col">Amount</th>
+        <th scope="col">No.</th>
+        <th scope="col">Amount</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col">No.</th>
+        <th scope="col">Amount</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-fraudSummary>
+      <tr [pSelectableRow]="fraudSummary">
+        <td>{{fraudSummary?.id}}</td>
+        <td>
+          <ng-container *ngIf="fraudCategories[fraudSummary?.categoryId - 1].name !== 'Other'; else otherFCBlock">
+            {{fraudCategories[fraudSummary?.categoryId - 1].name}}
+          </ng-container>
+          <ng-template #otherFCBlock>
+            {{fraudSummary?.otherFraudCategory}}
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="fraudTypes[fraudSummary?.fraudTypeId - 1].name !== 'Other'; else otherFTBlock">
+            {{fraudTypes[fraudSummary?.fraudTypeId - 1].name}}
+          </ng-container>
+          <ng-template #otherFTBlock>
+            {{fraudSummary?.otherFraudType}}
+          </ng-template>
+        </td>
+
+        <td>{{fraudSummary?.outstandingCaseAsOfPreviousQuarter?.count}}</td>
+        <td>{{formatAmount(fraudSummary?.outstandingCaseAsOfPreviousQuarter?.amount+"")}}</td>
+
+        <td>{{fraudSummary?.newCaseDuringCurrentQuarter?.count}}</td>
+        <td>{{formatAmount(fraudSummary?.newCaseDuringCurrentQuarter?.amount+"")}}</td>
+
+        <td>{{fraudSummary?.closedCasesDuringCurrentQuarter?.count}}</td>
+        <td>{{formatAmount(fraudSummary?.closedCasesDuringCurrentQuarter?.amount+"")}}</td>
+
+        <td>{{fraudSummary?.outstandingCaseAsOfCurrentQuarter?.count}}</td>
+        <td>{{formatAmount(fraudSummary?.outstandingCaseAsOfCurrentQuarter?.amount+"")}}</td>
+
+        <td>{{formatAmount(fraudSummary?.totalAmountRecovered+"")}}</td>
+        <td>{{formatAmount(fraudSummary?.provisionForOutstandingCases+"")}}</td>
+        <td>{{formatAmount(fraudSummary?.amountRecoveredInCurrentQuarter+"")}}</td>
+
+        <td>
+          <ng-container *ngIf="fraudSummary?.writtenOffInCurrentQuarter?.count; else otherCWOBlock">
+            {{fraudSummary?.writtenOffInCurrentQuarter?.count}}
+          </ng-container>
+          <ng-template #otherCWOBlock>
+            {{0}}
+          </ng-template>
+        </td>
+        <td>
+          <ng-container *ngIf="fraudSummary.writtenOffInCurrentQuarter.amount; else otherAWOBlock">
+            {{formatAmount(fraudSummary?.writtenOffInCurrentQuarter?.amount+"")}}
+          </ng-container>
+          <ng-template #otherAWOBlock>
+            {{formatAmount(0+"")}}
+          </ng-template>
+        </td>
+
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="16">Not found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

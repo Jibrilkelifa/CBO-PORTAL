@@ -1,0 +1,37 @@
+<app-cobHistory class="mb-4"></app-cobHistory>
+<c-row class="mt-4">
+  <c-col >
+    <c-card class="mb-4">
+      <c-card-header class="graph-header">
+        Weekly elapsed times
+      </c-card-header>
+      <c-card-body>
+        <div class="chart-container">
+          <div id="chart">
+            <div class="week-picker-container">
+              <label for="week-picker">Select a week:</label>
+              <input type="week" id="week-picker" [(ngModel)]="selectedWeekString" (change)="onWeekChange($event)" />
+              <button class="apply-button" (click)="onApply()">Apply</button>
+            </div>
+            <apx-chart [series]="chartOptions.series!" [chart]="chartOptions.chart!" [yaxis]="chartOptions.yaxis!"
+              [xaxis]="chartOptions.xaxis!" [labels]="chartOptions.labels!" [stroke]="chartOptions.stroke!"
+              [title]="chartOptions.title!" [dataLabels]="chartOptions.dataLabels" [fill]="chartOptions.fill!"
+              [tooltip]="chartOptions.tooltip!"></apx-chart>
+          </div>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+  <c-col >
+    <c-card class="mb-4">
+      <c-card-header class="graph-header">
+        Stages elapsed time for the selected Day
+      </c-card-header>
+      <c-card-body>
+        <app-line [stageDate]="stageDate"></app-line>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+</c-row>
+<app-unusualBarChart [selectedDate]="selectedDateValue"></app-unusualBarChart>

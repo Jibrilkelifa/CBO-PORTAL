@@ -1,0 +1,28 @@
+:host {
+  #exampleColorInput {
+    min-width: 2.5rem;
+  }
+  .color-box {
+    min-width: 2rem;
+    min-height: 2rem;
+  }
+}
+
+.block {
+  display: block;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row{
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,138 @@
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.section {
+  border: 1px solid #ccc;
+  padding: 20px;
+  width: calc(50% - 10px);
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+.custom-link1 {
+  color: #007bff;
+}
+.custom-link2 {
+  color:  #28a745; 
+}
+.custom-link3{
+  color: #dc3545; 
+}
+.custom-link4 {
+  color:#17a2b8; 
+
+}
+.custom-link5 {
+  color: #ffc107; 
+
+}
+.title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+  color: #555;
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+.section {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 4px;
+}
+
+.section--policies {
+  background-color: #f8f8f8;
+}
+
+.section--cheques {
+  background-color: #f2f2f2;
+}
+
+.section--cases {
+  background-color: #e8e8e8;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.title--policies {
+  color: #007ad9;
+}
+
+.title--cheques {
+  color: #ff9800;
+}
+
+.title--cases {
+  color: #4caf50;
+}
+
+.section--chart {
+  text-align: center;
+}
+
+/* Styling for Case Information section */
+.section--cases {
+  background-color: #fff;
+}
+
+.section--cases .title {
+  color: #f0ad4e;
+}
+
+.section--cases li:first-child {
+  color: #f0ad4e;
+}
+
+.p-card {
+  padding: 1rem;
+}
+
+@media screen and (max-width: 767px) {
+  .p-card {
+    margin-bottom: 1rem;
+  }
+}
+
+#chart {
+  max-width: 580px;
+  margin: 75px auto;
+  padding: 0;
+}
+
+.custom-chart {
+  width: 400px; /* Adjust the width as needed */
+  height: 300px; /* Adjust the height as needed */
+  text-align: left;
+}
+.section--cases {
+  background-color: transparent;
+}
+
+.section--chart {
+  background-color: transparent;
+}
+
+.custom-chart {
+  background-color: transparent;
+}
+.custom-chart .apexcharts-canvas {
+  background-color: transparent !important;
+}

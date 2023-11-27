@@ -1,0 +1,83 @@
+<div class="mcontainer">
+  <div class="contentcontainer">
+    <div id="content" #content>
+
+      <div class="header">
+        <img src="/assets/logo.svg" alt="">
+        <div class="title">
+          <h1>Baankii Hojii Gamtaa Oromiyaa</h1>
+          <h2>የኦሮሚያ ኅብረት ሥራ ባንክ</h2>
+        </div>
+
+
+      </div>
+      <h1 class="memo">INTER OFFICE MEMORANDUM</h1>
+      <hr>
+      <div class="infos">
+        <table style="width:100%">
+          <tr>
+            <td>DATE:</td>
+            <td>{{curdate | date: 'dd/MM/YYYY' }}</td>
+          </tr>
+          <tr>
+            <td>TO:</td>
+            <td> {{to}}</td>
+          </tr>
+          <tr>
+            <td>Cc:</td>
+            <td> {{cc}}</td>
+          </tr>
+          <tr>
+            <td>FROM:</td>
+            <td> {{from}}</td>
+          </tr>
+          <tr>
+            <td>SUBJECT:</td>
+            <td> {{subject}}</td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <hr>
+
+
+      <div class="body" [innerHTML]="body">
+
+      </div>
+      <div class="last">
+        <div class="closing">
+          Regards
+          <img style="width: 200px; "
+          class="w-24 h-24 "
+          [src]="dbSignImage"
+          alt="signatureImage"
+        />
+          <!-- <img [src]="signatureImageUrl" alt=""> -->
+        </div>
+        <div class="ref">
+          Reference No: {{refno}}
+        </div>
+
+      </div>
+      <div class="ending">
+        <div class="theline"></div>
+        <div>
+          <p> <em>Committed to Breakthrough!</em> </p>
+        </div>
+        <div class="theline"></div>
+      </div>
+
+
+    </div>
+
+  </div>
+  <div class="buttons">
+
+    <p-button (click)="downloadPDF()" label="Print" 
+      [style]="{'width':'500px','margin':'10px', 'background-color': '#00AEEF'}"></p-button>
+
+      <!-- type="submit" -->
+  </div>
+
+
+</div>

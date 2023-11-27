@@ -1,0 +1,57 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #1a73e8;
+}
+
+h2 {
+  color: #1a73e8;
+  margin-top: 30px;
+}
+
+h3 {
+  color: #1a73e8;
+  margin-top: 20px;
+}
+
+p {
+  line-height: 1.5;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.class>li:before {
+  content: "✔ ";
+  color: #1a73e8;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #1a73e8;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.manual {
+  padding: 40px;
+  margin: 0px;
+  background-color: rgb(241, 239, 239);
+}
+
+p,
+ul {
+  text-align: justify;
+  width: 90%;
+  margin: 10px;
+}
+
+.hidden {
+  display: none;
+}

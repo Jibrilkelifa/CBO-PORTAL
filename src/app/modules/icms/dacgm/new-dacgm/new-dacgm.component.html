@@ -1,0 +1,208 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div *ngIf="newDiv">
+  <form #addDACGMForm="ngForm" (ngSubmit)="addDACGM(addDACGMForm)" required>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <!-- <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Date </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="date"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div> -->
+      <div class="flex-auto">
+        <label for="date" class="block mb-2"> Date  </label>
+        <p-calendar id="fraudOccurrenceDate" ngModel name="date"
+          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" [required]="true" ></p-calendar>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Case ID </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="caseId" name="caseId"
+          [style]="{'width':'30vw','height':'45px'}" [readonly]="true">
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="loanacc" class=" block mb-2"> Category </label>
+        <p-dropdown [options]="categories" name="category" ngModel [(ngModel)]="selectedCategory"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Category"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
+          (onChange)="onCategoryChange($event)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedCategory">
+              <div>{{ selectedCategory.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-category pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{category.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <!-- <div class="flex-auto" *ngIf="selectedCategory">
+        <label for="alphabetic" class=" block mb-2"> Sub Category </label>
+        <p-dropdown [options]="subCategories" name="subCategory" ngModel [(ngModel)]="selectedSubCategory"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Sub Category"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
+          (onChange)="onSubCategoryChange($event)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedSubCategory">
+              <div>{{ selectedSubCategory.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-subCategory pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{subCategory.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class="block mb-2">Account Number</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class="block mb-2">Account Name</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountName"
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
+      </div> -->
+      <div class="flex-auto" *ngIf="selectedCategory">
+        <label for="alphabetic" class="block mb-2">Sub Category</label>
+        <p-dropdown [options]="subCategories" name="subCategory" [(ngModel)]="selectedSubCategory" optionLabel="name"
+          [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Sub Category" class="w-full"
+          styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
+          (onChange)="onSubCategoryChange($event)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedSubCategory">
+              <div>{{ selectedSubCategory.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-subCategory pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{subCategory.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      
+      <!-- <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="alphabetic" class="block mb-2">Account Number</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
+          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="" />
+      </div> -->
+      <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="accountNumber" class="block mb-2">Account Number</label>
+        <input pInputText id="accountNumber" ngModel name="accountNumber"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^(\d{13}|PL\d{5}|ETB\d{13})$" />
+
+        </div>
+      
+      
+      <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="alphabetic" class="block mb-2">Account Name</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountName"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[A-Za-z\s]+$" minlength="3" placeholder="" />
+      </div>
+      <div class="flex-auto" *ngIf="selectedCategory && selectedSubCategory">
+        <label for="hex" class=" block mb-2"> Irregualrity </label>
+        <p-dropdown [options]="irregularities" name="irregularity" ngModel [(ngModel)]="selectedIrregularity"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Irregularity Type"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true" (onChange)="onIrregularityChange($event)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedIrregularity">
+              <div>{{ selectedIrregularity.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-irregularity pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{irregularity.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="isOtherIrregularitySelected">
+        <label for="alphabetic" class=" block mb-2"> Other Irregularity</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="otherIrregularity"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3"/>
+      </div>
+      <div class="flex-auto"  *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
+        <label for="alphabetic" class="block mb-2">Amount Involved</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="amountInvolved"
+          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9]+(\.[0-9]+)?$" minlength="1" placeholder="" />
+      </div>
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Responsible Person </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="responsiblePerson"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> Branch</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
+        [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+    </div>
+    <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> District</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
+        [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+    </div>
+    <div class="flex-auto"  [hidden]="true" >
+      <label for="hex" class="block mb-2">Activity status</label>
+      <p-dropdown [options]="activityStatuses" name="activityStatus" ngModel [(ngModel)]="selectedActivityStatus"
+        optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select activity Status"
+        class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="selectedActivityStatus">
+            <div>{{ selectedActivityStatus.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-selectedActivityStatuse pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ selectedActivityStatuse.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="flex flex-wrap gap-3 mt-4">
+      <p-button label="Create Daily Activity Gap" type="submit" [disabled]="addDACGMForm.invalid"
+        class="createButton"></p-button>
+    </div>
+
+  </form>
+</div>
+
+
+
+
+<div *ngIf="update">
+  <form #updateDACGMForm="ngForm" (ngSubmit)="updateDACGM(updateDACGMForm)">
+        <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+        
+        <div class="flex-auto">
+          <label for="hex" class="block mb-2">Activity Status</label>
+          <p-dropdown [options]="activityStatuses" name="activitystatus" ngModel [(ngModel)]="selectedActivityStatus" name="activityStatus"
+            optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Activity Status"
+            class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
+            (ngOnInit)="populateSelectedActivityStatus(existingActivityStatus)">
+            <!-- (onChange)="onStatusChange($event)"> -->
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedActivityStatus">
+                <div>{{ selectedActivityStatus.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-activityStatuse pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{activityStatuse.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        
+        <!-- Add space here -->
+        <div style="margin-bottom: 20px;"></div>
+        
+        <p-button label="Update Daily Activity Monitoring" type="submit" [disabled]="updateDACGMForm.invalid"
+          class="updateButton"></p-button>
+        </form>
+        </div>

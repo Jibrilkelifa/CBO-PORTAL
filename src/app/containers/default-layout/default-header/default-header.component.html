@@ -1,0 +1,193 @@
+<ng-container>
+  <c-container [fluid]="true">
+    <button
+      toggle="visible"
+      cHeaderToggler
+      [cSidebarToggle]="sidebarId"
+      class="ps-1"
+    >
+      <svg cIcon name="cilMenu" size="lg"></svg>
+    </button>
+
+    <c-header-nav class="d-none d-lg-flex me-auto">
+      <c-nav-item>
+        <a cNavLink routerLink="/cc_dashboard" routerLinkActive="active">
+          Home
+        </a>
+      </c-nav-item>
+    </c-header-nav>
+    <c-header-nav class="ms-3">
+      <ng-container *ngTemplateOutlet="userManual"></ng-container>
+      <ng-container *ngTemplateOutlet="userDropdown"></ng-container>
+    </c-header-nav>
+  </c-container>
+  <c-header-divider></c-header-divider>
+  <c-container [fluid]="true">
+    <c-breadcrumb-router class="ms-2"></c-breadcrumb-router>
+  </c-container>
+</ng-container>
+
+<ng-template #userDropdown>
+  <c-dropdown alignment="end" variant="nav-item">
+    <button class="card flex flex-row" [caret]="false" cDropdownToggle>
+      <div>
+        <img
+          [src]="imageData"
+          alt="Profile Image"
+          style="width: 40px; height: 40px; margin-right: 10px"
+        />
+      </div>
+      <div>
+        <span>Welcome, {{ user }} </span>
+      </div>
+    </button>
+    <ul cDropdownMenu class="pt-0 pr-4 w-auto">
+      <li>
+        <a type="submit" cDropdownItem value="Logout" (click)="logout()"
+          >Logout</a
+        >
+      </li>
+    </ul>
+  </c-dropdown>
+</ng-template>
+
+<ng-template #userManual>
+  <button
+    pButton
+    type="button"
+    icon="pi pi-book"
+    label="User Manuals"
+    styleClass="p-button-secondary"
+    [style]="{ 'margin-right': '10px', padding: '10px' }"
+    (click)="openDialog({ position: { top: '10px' } })"
+   *ngIf="cc"
+  ></button>
+
+  <p-dialog
+    header="User Manuals"
+    [(visible)]="display"
+    [style]="{
+      width: '80vw',
+      top: '30px',
+      left: '9%',
+      height: '80vh',
+      overflow: 'scroll'
+    }"
+  >
+    <!--
+    <p-accordion>
+      <p-accordionTab *ngFor="let role of roles" [header]="role.module.name"> -->
+    <!-- <div class="manual" id="manual" [class.hidden]="role.module.name !== 'Sanction List'">
+          <ng-container *ngIf="role.module.name === 'Sanction List'">
+            <div class="page" id="page1"> -->
+    <!-- Add the content of the Compliance Check user manual here -->
+    <h2>Introduction</h2>
+    <p>
+      The Compliance Check system is a powerful tool that helps users ensure
+      compliance with local and international sanctions regulations and also
+      enable users to see if a customer is under special list. Before opening an
+      account for a new customer, users can use the system to search multiple
+      lists and verify that the customer is not subject to any restrictions or
+      if he/she need special attention.
+    </p>
+    <p>
+      One of the key features of the Compliance Check system is its ability to
+      perform fuzzy searches. This means that even if a user enters a name with
+      a slightly different spelling, the system will still be able to find
+      potential matches and display them along with a score indicating the level
+      of similarity. This makes it easy for users to find the information they
+      need, even if they are not sure of the exact spelling of a name.
+    </p>
+    <p>
+      Overall, the Compliance Check system is an essential tool for ensuring
+      compliance and reducing risk when opening new accounts.
+    </p>
+
+    <h2>Features</h2>
+    <p>
+      The Compliance Check system offers a range of powerful features to help
+      users ensure compliance with local and international sanctions regulations
+      and other lists. Some of the key features of the system include:
+    </p>
+    <ul>
+      <li>
+        <strong>Multiple Lists:</strong> The system can search multiple local
+        and international lists, including UN individuals and entities, EU
+        sanction list, UK sanction list, OFAC list, and local lists such as NBE
+        delinquent list, NBE block list, FIS block list, media adversary list,
+        HPR, and politically exposed people.
+      </li>
+      <li>
+        <strong>Fuzzyd Search:</strong> The system can perform fuzzy searches to
+        find potential matches even if the user enters a name with a slightly
+        different spelling. The results are displayed along with a score
+        indicating the level of similarity.
+      </li>
+      <li>
+        <strong>Search by Name:</strong> Users can search for individuals or
+        entities by name to quickly and easily verify their compliance status.
+      </li>
+      <li>
+        <strong>Score by Percentage:</strong> The system displays a score by
+        percentage to indicate the level of similarity between the search query
+        and the results. This makes it easy for users to assess the relevance of
+        the results and make informed decisions.
+      </li>
+    </ul>
+    <p>
+      Overall, the Compliance Check system offers a range of powerful features
+      to help users ensure compliance and reduce risk when opening new accounts.
+    </p>
+    <!-- </div> -->
+    <div class="page" id="page2">
+      <h2>Get Started</h2>
+      <p>
+        When you log in you see dashboard. if you are allowed to use compliance
+        search module you should be able to see compliance check in side bar as
+        you see in the picture. inside it click on search to start using the
+        system
+      </p>
+      <img
+        width="90%"
+        src="../../../../assets/images/complance dashboard.png"
+        alt=""
+      />
+      <p>
+        when you start using the system for the first time the system takes some
+        time to load all the data. wait patiently and you can start searching
+        while it loads but make sure that you don't close the tab while it loads
+      </p>
+      <img
+        width="90%"
+        src="../../../../assets/images/compliance first time.png"
+        alt=""
+      />
+    </div>
+    <div class="page" id="page3">
+      <h2>To search for a user you type the name in search bar.</h2>
+      <img
+        width="90%"
+        src="../../../../assets/images/compliance search1.png"
+        alt=""
+      />
+    </div>
+    <button
+      pButton
+      type="button"
+      icon="pi pi-pdf"
+      label="Download"
+      styleClass="p-button-secondary"
+      [style]="{ 'margin-top': '20px', padding: '10px' }"
+      (click)="downloadPDF()"
+    ></button>
+    <!--
+
+          </ng-container>
+
+        </div> -->
+    <!--
+      </p-accordionTab>
+
+    </p-accordion> -->
+  </p-dialog>
+</ng-template>

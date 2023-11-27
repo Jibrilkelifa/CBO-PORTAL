@@ -1,0 +1,46 @@
+<div *ngIf="newMod">
+  <form #addModForm="ngForm" (ngSubmit)="addModule(addModForm)">
+    <div class="flex flex-wrap gap-2 mb-2">
+      <div class="flex-auto">
+        <label for="mname" class=" block mb-2"> Module Name: </label>
+        <input pInputText id="mname" pKeyFilter="int" ngModel name="name" [style]="{'width':'30vw','height':'45px'}"
+          required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="modurl" class=" block mb-2"> URL: </label>
+        <input pInputText id="modurl" pKeyFilter="int" ngModel name="url" [style]="{'width':'30vw','height':'45px'}"
+          required minlength="3" />
+      </div>
+    </div>
+    <div>
+
+      <input [(ngModel)]="newItem" name="newItem" placeholder="Enter new item">
+      <button (click)="addItem()">Add Item</button>
+      <input type="checkbox" [(ngModel)]="isAdmin" name="isAdmin"> Is Admin
+      <p-listbox [options]="items" [(ngModel)]="selectedItem" name="selectedItem"></p-listbox>
+
+    </div>
+    <p-button label="Create Module" [disabled]="addModForm.invalid" type="submit"></p-button>
+  </form>
+
+</div>
+
+<div *ngIf="update">
+  <form #updateModForm="ngForm" (ngSubmit)="updateModule(updateModForm)">
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+
+    <div class="flex flex-wrap gap-2 mb-2">
+      <div class="flex-auto">
+        <label for="mname" class=" block mb-2"> Module Name: </label>
+        <input pInputText id="mname" pKeyFilter="int" ngModel [(ngModel)]="module.name" name="name"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="integer" class=" block mb-2"> URL: </label>
+        <input pInputText id="integer" pKeyFilter="int" ngModel [(ngModel)]="module.url" name="url"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <p-button label="Update Module" [disabled]="updateModForm.invalid" type="submit"></p-button>
+  </form>
+</div>

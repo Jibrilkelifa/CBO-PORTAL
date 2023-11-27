@@ -1,0 +1,28 @@
+<div *ngIf="newDiv">
+  <form #addCTForm="ngForm" (ngSubmit)="addCT(addCTForm)" required>
+    <div class="flex flex-wrap gap-3 mb-5">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Collateral Type Name </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="name"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <p-button label="Create Collatoral Type" type="submit" [disabled]="addCTForm.invalid"
+      class="createButton"></p-button>
+  </form>
+</div>
+
+<div *ngIf="update">
+  <form #updateCTForm="ngForm" (ngSubmit)="updateCT(updateCTForm)">
+    <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+    <div class="flex flex-wrap gap-3 mb-5">
+      <div class="flex-auto">
+        <label for="alphabetic" class=" block mb-2"> Collateral Type Name </label>
+        <input pInputText id="alphabetic" pKeyFilter="alpha" ngModel [(ngModel)]="ct.name" name="name"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+    </div>
+    <p-button label="Update Collateral Type" type="submit" [disabled]="updateCTForm.invalid"
+      class="updateButton"></p-button>
+  </form>
+</div>

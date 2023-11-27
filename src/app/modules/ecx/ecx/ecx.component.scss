@@ -1,0 +1,14 @@
+:host ::ng-deep .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+::ng-deep .p-datepicker table td {
+  padding: 0.2rem; /* use as per your requirement */
+}
+
+::ng-deep .p-datepicker table td > span {
+  width: 20px; /* adjust the width */
+  height: 20px; /* adjust the height */
+}

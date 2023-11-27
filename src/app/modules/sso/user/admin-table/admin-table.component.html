@@ -1,0 +1,67 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="card">
+  <h5>User Table</h5>
+  <p-table #dt0 [value]="filteredUsers" dataKey="id" selectionMode="single" [tableStyle]="{'min-width': '50rem'}"
+    [(selection)]="selectedCustomer1" styleClass="p-datatable-customers" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+    [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local0" *ngIf="filteredUsers.length !== 0">
+    <ng-template pTemplate="header">
+      <tr>
+        <th scope="col" pSortableColumn="no" style="width:8%">No.<p-sortIcon field="id"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="username" style="width:15%">UserName<p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="filteredUsers.employee.fullname" style="width:25%">Employee Fullname<p-sortIcon
+            field="filteredUsers.employee.fullname"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="filteredUsers.active" style="width:10%">State<p-sortIcon
+            field="filteredUsers.active"></p-sortIcon></th>
+        <th scope="col" style="width:30%">Modules<p-sortIcon
+            *field="(checkRole('ROLE_SUPER_ADMIN'))? filteredUsers.modules : filteredUsers.roles"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="Action" style="width:10%">Actions</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt0.filter($any($event.target)?.value, 'username', 'contains')"
+            [value]="$any(dt0.filters['username'])?.value" placeholder="Search by UserName" class="p-column-filter">
+        </th>
+        <th scope="col"> <input pInputText type="text"
+            (input)="dt0.filter($any($event.target)?.value, 'employee.givenName', 'contains')"
+            [value]="$any(dt0.filters['employee.givenName'])?.value" placeholder="Search by Employee"
+            class="p-column-filter"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+      <p-confirmDialog [style]="{width: '50vw'}" key="positionDialog" [position]="position"
+        [baseZIndex]="10000"></p-confirmDialog>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-filteredUser let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="filteredUser">
+        <td>{{rowIndex + 1}}</td>
+        <td>{{filteredUser?.username}}</td>
+        <td>{{filteredUser?.employee?.fullName}}</td>
+        <td [ngStyle]="{color: filteredUser.active == true ? 'Green' : 'Red'}">{{ filteredUser.active ? 'Active' :
+          'Inactive'}}</td>
+        <td>
+          <ul>
+            <ng-container *ngFor="let item of filterModulesFromRole(filteredUser)">
+              <li>{{item.name}}</li>
+            </ng-container>
+          </ul>
+        </td>
+        <td>
+          <button pButton (click)="confirmPosition('center', filteredUser.id)" class="p-button-sm"
+            label="Delete"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">Not found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

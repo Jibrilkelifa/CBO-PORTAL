@@ -1,0 +1,150 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="card" >
+  <div class="spacer">
+    <span style="font-size: larger; font-weight: bolder;">Collateral Insurance Policy Monitoring Table</span>
+    <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('cipmTable')"
+      [ngClass]="{updateBlue: true}" style="height: max-content;" class="p-button-sm mt-3 mr-3"
+      label="Download as Excel"><svg _ngcontent-yvw-c268="" cIcon="" name="cilCloudDownload" ng-reflect-content=""
+        style="margin-right: 10px; color:white" ng-reflect-name="cilCloudDownload" viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" class="icon">
+        <polygon fill="var(--ci-primary-color, currentColor)"
+          points="272 434.744 272 209.176 240 209.176 240 434.744 188.118 382.862 165.49 405.489 256 496 346.51 405.489 323.882 382.862 272 434.744"
+          class="ci-primary"></polygon>
+        <path fill="var(--ci-primary-color, currentColor)"
+          d="M400,161.176c0-79.4-64.6-144-144-144s-144,64.6-144,144a96,96,0,0,0,0,192h80v-32H112a64,64,0,0,1,0-128h32v-32a112,112,0,0,1,224,0v32h32a64,64,0,0,1,0,128H320v32h80a96,96,0,0,0,0-192Z"
+          class="ci-primary"></path>
+      </svg> </button>
+  </div>
+  <tr>
+    <th id="" colspan="13">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <label for="" style="height: 45px; margin-top: 15px; margin-left: 20px;margin-right: 5px;">Search by:</label>
+        <div class="flex-auto" style="margin-right: 20px;">
+          <p-dropdown [options]="searchParameter" name="selectedSearchParameter" ngModel
+            [(ngModel)]="selectedSearchParameter" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+            placeholder="Select Search Parameter" class="w-full" styleClass="p-password"
+            [style]="{'width':'380px','height':'45px'}" [required]="true">
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedSearchParameter">
+                <div>{{ selectedSearchParameter.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-selectedSearchParametere pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{selectedSearchParametere.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <input *ngIf="selectedSearchParameter" style="height: 45px; width: 380px" pInputText type="text"
+          (input)="filterTable($event.target, dt1)" placeholder="Search {{selectedSearchParameter.name}}"
+          class="p-column-filter">
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span style="height: 45px; margin-top: 15px; margin-left: 20px;margin-right: 5px;">Filter by Insurance Expiry
+          Date:</span>
+        <div class="flex-auto">
+          <p-calendar style="margin-right: 20px;" [(ngModel)]="minDate" [showIcon]="true"
+            placeholder="Select Start Date" (onSelect)="filterByDate(dt1)"
+            (ngModelChange)="filterByDate(dt1)"></p-calendar>
+          <p-calendar [(ngModel)]="maxDate" [showIcon]="true" placeholder="Select End Date"
+            (onSelect)="filterByDate(dt1)" (ngModelChange)="filterByDate(dt1)"></p-calendar>
+        </div>
+      </div>
+    </th>
+  </tr>
+
+  <p-table #dt1 [value]="cipms" [(selection)]="selectedCIPM" dataKey="id" [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+    [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local1" (sortFunction)="customSort($event)"
+    [customSort]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th scope="col" pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th> -->
+        <th scope="col" pSortableColumn="subProcess.name">District Name</th>
+        <th scope="col" pSortableColumn="branch.name">Branch Name</th>
+        <th scope="col" pSortableColumn="borrowerName">Borrower Name<p-sortIcon field="borrowerName"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="loanAccount">Loan Account<p-sortIcon field="loanAccount"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="loanType">Loan Type</th>
+        <th scope="col" pSortableColumn="collateralType.name">Collateral Type</th>
+        <th scope="col" pSortableColumn="mortgagorName">Mortgagor Name<p-sortIcon field="mortgagorName"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="insuranceCoverageType.name">Insurance Policy Coverage
+          Type</th>
+        <th scope="col" pSortableColumn="insuredName">Insured Name</th>
+        <th scope="col" pSortableColumn="status.name" style="width:8%">Status</th>
+        <th scope="col" pSortableColumn="insuranceExpireDate">Insurance Expiry
+          Date<p-sortIcon></p-sortIcon></th>
+        <th scope="col" pSortableColumn="daysLeftToExpire">Days Left To Expire<p-sortIcon
+            field="daysLeftToExpire"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="Action"
+          *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') || this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">Actions
+        </th>
+      </tr>
+      <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
+        [baseZIndex]="10000"></p-confirmDialog>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-cipms>
+      <tr [pSelectableRow]="cipms">
+
+        <td>{{cipms?.subProcess?.name}}</td>
+        <td>{{cipms?.branch?.name}}</td>
+        <td>{{cipms?.borrowerName}}</td>
+        <td>{{cipms?.loanAccount}}</td>
+        <td>{{cipms?.loanType}}</td>
+        <td>
+          <ng-container *ngIf="cipms?.collateralType?.name !== 'Other'; else otherCTBlock">
+            {{cipms?.collateralType?.name}}
+          </ng-container>
+          <ng-template #otherCTBlock>
+            {{cipms?.otherCollateralType}}
+          </ng-template>
+        </td>
+        <td>{{cipms?.mortgagorName}}</td>
+        <td>
+          <ng-container *ngIf="cipms?.insuranceCoverageType?.name !== 'Other'; else otherIPCTBlock">
+            {{cipms?.insuranceCoverageType?.name}}
+          </ng-container>
+          <ng-template #otherIPCTBlock>
+            {{cipms?.otherInsuranceCoverageType}}
+          </ng-template>
+        </td>
+        <td>{{cipms?.insuredName}}</td>
+        <td>{{cipms?.status?.name}}</td>
+        <td>{{(cipms?.insuranceExpireDate)}}</td>
+        <td [ngClass]="{
+          'black': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,
+          'red': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 0 || cipms?.status?.name === 'Closed',
+          'yellow': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) > 0 && calculateDaysLeftToExpire(cipms?.insuranceExpireDate) < 30 && cipms?.status?.name !== 'Closed',
+          'green': calculateDaysLeftToExpire(cipms?.insuranceExpireDate) >= 30 && cipms?.status?.name !== 'Closed'
+        }">
+          <ng-container *ngIf="cipms?.status?.name === 'Closed'; else notClosed">
+            <span class="red slim">Closed!</span>
+          </ng-container>
+          <ng-template #notClosed>
+            {{ absoluteValue(calculateDaysLeftToExpire(cipms?.insuranceExpireDate)) }}
+          </ng-template>
+        </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">
+            <button pButton (click)="updateCIPMs(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Update"></button>
+          </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !cipms.isAuthorized ">
+            <button pButton (click)="authorizeCIPM(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Authorize"></button>
+          </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && cipms.isAuthorized">
+            Authorized!
+          </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="12">Not found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

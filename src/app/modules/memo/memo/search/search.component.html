@@ -1,0 +1,14 @@
+<div class="sec1 form-group">
+  <form #memodata="ngForm" (ngSubmit)="getMemosById(memodata.value.refnof)">
+    <input required class="refnof" type="text" name="refnof" placeholder="Type Reference Number to Search" ngModel>
+    <p-button label="Print" type="submit"></p-button>
+
+  </form>
+  <div class="disp" *ngIf="memo !=undefined">
+
+    <p style="padding: 10px; margin: 10px;" id="disp" (click)="gotoletter()" [innerHTML]="memo.body"> <br> </p>
+  </div>
+  <div class="disp1">
+
+  </div>
+</div>

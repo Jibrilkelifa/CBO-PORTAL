@@ -1,0 +1,49 @@
+<div class="card">
+  <div class="header">
+    <h5>Module Table</h5>
+    <div class="status"> 
+      <p class="green" id="success">
+        <i class="pi pi-check" style="margin-right: 0.5rem;">
+        </i>Success: {{success}}</p> 
+        <p class="red" id="failed">
+          <i class="pi pi-times" style="margin-right: 0.5rem;">
+          </i>Failed: {{failed}}</p> 
+    </div>
+  </div>
+  <p-table #dt1 [value]="updateHistory" selectionMode="single" [tableStyle]="{'min-width': '50rem'}" dataKey="id" [(selection)]="selectedCustomer1"
+   styleClass="p-datatable-customers" [showCurrentPageReport]="true" sortField="id"
+   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
+      [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local">
+      <ng-template pTemplate="header">
+          <tr>
+              <th scope="col" pSortableColumn="accountNumber" style="width:30%">Account Number <p-sortIcon field="account"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="" style="width:30%">Message</th>
+              <th scope="col" pSortableColumn="successFlg" style="width:20%">Status <p-sortIcon field="successFlg"></p-sortIcon></th>
+              <th scope="col" pSortableColumn="" style="width:40%">Updated On</th>
+          </tr>
+          <tr>
+            <th scope="col"> <input pInputText type="text" (input)="dt1.filter($any($event.target)?.value, 'accountNumber', 'contains')"
+                [value]="$any(dt1.filters['accountNumber'])?.value" placeholder="Search by Account" class="p-column-filter"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-updateHistory>
+          <tr [pSelectableRow]="updateHistory" >
+            <td>{{updateHistory.accountNumber}}</td>
+            <td>{{updateHistory?.message}}</td>
+            <td [ngClass]="{'green': updateHistory?.successFlg == 'Y', 'red': updateHistory?.successFlg == 'N'}">{{updateHistory?.successFlg == 'Y' ? 'Succeed' : 'Failed'}}</td>
+            <td>{{updateHistory?.updatedTime}}</td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+          <tr>
+              <td colspan="4">No found.</td>
+          </tr>
+      </ng-template>
+  </p-table>
+</div>
+
+
+

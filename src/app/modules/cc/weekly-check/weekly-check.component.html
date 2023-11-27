@@ -1,0 +1,28 @@
+<h2>Upload Excel File </h2>
+<h5>Select Excel file that contain list of customer_names that opened account this week</h5>
+
+<p-messages [value]="messages"></p-messages>
+<p-fileUpload #fileUpload name="files" [url]="upload_url" accept=".xlsx"
+  (onBeforeUpload)="onBeforeUpload()" (onError)="onUploadError()" (onUpload)="onUpload()"></p-fileUpload>
+
+<div class="spinner-container" *ngIf="loading">
+  <p-progressSpinner></p-progressSpinner>
+  <p>Please Wait</p>
+</div>
+
+<p-table *ngIf="all_intersections != null && all_intersections.length != 0" [value]="all_intersections"
+  [paginator]="true" [rows]="9 " [showCurrentPageReport]="true" [tableStyle]="{ 'width': '100%' }"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[5, 25, 50]">
+  <ng-template pTemplate="header">
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Customer Name</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-data let-i="rowIndex">
+    <tr>
+      <td>{{data?.id }}</td>
+      <td>{{data?.customerName }}</td>
+    </tr>
+  </ng-template>
+</p-table>

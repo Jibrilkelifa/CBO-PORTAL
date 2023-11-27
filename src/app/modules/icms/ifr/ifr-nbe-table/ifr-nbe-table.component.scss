@@ -1,0 +1,59 @@
+:host ::ng-deep .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+button {
+  margin: 0 0.5em;
+  height: 2em;
+}
+
+input {
+  height: 2em;
+}
+
+span,
+button {
+  margin: 0.5em;
+}
+
+.spacer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.spacer span {
+  padding: 1em;
+}
+
+.popmsg {
+  position: relative;
+  top: auto;
+  width: 25%;
+}
+
+.auto-table table {
+  table-layout: auto !important;
+}
+
+.black {
+  color: black;
+  font-weight: bolder;
+}
+
+.red {
+  color: red;
+  font-weight: bolder;
+}
+
+.yellow {
+  color: rgb(187, 187, 39);
+  font-weight: bolder;
+}
+
+.green {
+  color: green;
+  font-weight: bolder;
+}

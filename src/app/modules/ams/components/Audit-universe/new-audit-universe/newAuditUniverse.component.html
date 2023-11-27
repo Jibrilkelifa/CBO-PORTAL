@@ -1,0 +1,108 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitAuditableArea(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div class="flex">
+      <div class="col mb-4">
+        <label for="integer" class="block mb-2"> Name: </label>
+        <input
+          pInputText
+          id="integer"
+          pKeyFilter="int"
+          [ngModel]="universeInfo.name"
+          name="name"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+      <div class="flex flex-row">
+        <div class="col mb-4 mr-2">
+          <label for="hex" class="block mb-2"> Audit type: </label>
+          <p-dropdown
+            [required]="true"
+            [options]="auditTypes"
+            name="auditType"
+            [filter]="true"
+            [(ngModel)]="universeInfo.auditType"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Choose audit type"
+            styleClass="p-password"
+            [style]="{ width: '300px', height: '45px' }"
+          >
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="universeInfo?.auditType">
+                <div>{{ universeInfo.auditType }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-auditType pTemplate="item">
+              <div>
+                <div>{{ auditType }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <p-button
+          *ngIf="!update"
+          (click)="createAuditType()"
+          class="mt-5"
+          icon="pi pi-plus"
+        ></p-button>
+      </div>
+    </div>
+
+    <div class="flex flex-row">
+      <div class="mb-4">
+        <label for="hex" class="block mb-2"> Audit object: </label>
+        <p-dropdown
+          [options]="auditObjects"
+          name="auditObject"
+          optionLabel="name"
+          [filter]="true"
+          [(ngModel)]="universeInfo.auditObject"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Choose audit object"
+          styleClass="p-password"
+          [required]="true"
+          [style]="{ width: '300px', height: '45px' }"
+          [disabled]="update"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="universeInfo?.auditObject">
+              <div>{{ universeInfo.auditObject.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-auditObject pTemplate="item">
+            <div>
+              <div>{{ auditObject.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <p-button
+        *ngIf="!update"
+        (click)="createAuditObject()"
+        class="mt-4"
+        icon="pi pi-plus"
+      ></p-button>
+    </div>
+
+    <div style="margin-top: 10em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        *ngIf="!update"
+        label="Create audit universe"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        label="Update audit universe"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>

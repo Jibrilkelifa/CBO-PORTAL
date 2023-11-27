@@ -1,0 +1,103 @@
+<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="card">
+  <div class="spacer">
+    <span style="font-size: larger; font-weight: bolder;">Dishounoured Cheques Table</span>
+    <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" pButton (click)="downloadExcel('DCQTable')"
+      [ngClass]="{updateBlue: true}" style="height: max-content;" class="p-button-sm mt-3 mr-3"
+      label="Download as Excel"><svg _ngcontent-yvw-c268="" cIcon="" name="cilCloudDownload" ng-reflect-content=""
+        style="margin-right: 10px; color:white" ng-reflect-name="cilCloudDownload" viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" class="icon">
+        <polygon fill="var(--ci-primary-color, currentColor)"
+          points="272 434.744 272 209.176 240 209.176 240 434.744 188.118 382.862 165.49 405.489 256 496 346.51 405.489 323.882 382.862 272 434.744"
+          class="ci-primary"></polygon>
+        <path fill="var(--ci-primary-color, currentColor)"
+          d="M400,161.176c0-79.4-64.6-144-144-144s-144,64.6-144,144a96,96,0,0,0,0,192h80v-32H112a64,64,0,0,1,0-128h32v-32a112,112,0,0,1,224,0v32h32a64,64,0,0,1,0,128H320v32h80a96,96,0,0,0,0-192Z"
+          class="ci-primary"></path>
+      </svg> </button>
+  </div>
+  <tr>
+    <th id="" colspan="13">
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <label for="" style="height: 45px; margin-top: 15px; margin-left: 20px;margin-right: 5px;">Search by:</label>
+        <div class="flex-auto" style="margin-right: 20px;">
+          <p-dropdown [options]="searchParameter" name="selectedSearchParameter" ngModel
+            [(ngModel)]="selectedSearchParameter" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
+            placeholder="Select Search Parameter" class="w-full" styleClass="p-password"
+            [style]="{'width':'380px','height':'45px'}" [required]="true">
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedSearchParameter">
+                <div>{{ selectedSearchParameter.name }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-selectedSearchParametere pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{selectedSearchParametere.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <input *ngIf="selectedSearchParameter" style="height: 45px; width: 380px" pInputText type="text"
+          (input)="filterTable($event.target, dt2)" placeholder="Search {{selectedSearchParameter.name}}"
+          class="p-column-filter">
+      </div>
+    </th>
+  </tr>
+  <p-table #dt2 [value]="DCQs" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
+    [(selection)]="selectedDCQ" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
+    id="DCQTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local2"
+    [customSort]="true">
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th> -->
+        <th scope="col" pSortableColumn="datePresented" style="width:9%">Date Presented</th>
+        <th scope="col" pSortableColumn="subProcess.name" style="width:5%">District Name</th>
+        <th scope="col" pSortableColumn="branch.name" style="width:8%">Branch Name</th>
+        <th scope="col" pSortableColumn="fullNameOfDrawer" style="width:20%">Full Name of Drawer</th>
+        <th scope="col" pSortableColumn="accountNumber" style="width:8%">Account Number<p-sortIcon></p-sortIcon></th>
+        <th scope="col" pSortableColumn="tin" style="width:8%">TIN Number<p-sortIcon field="tin"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="drawerAddress" style="width:7%">Drawer Address<p-sortIcon
+            field="amountInBirr"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="amountInBirr" style="width:7%">Amount in Birr<p-sortIcon
+            field="chequeNumber"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="chequeNumber" style="width:10%">Cheque Number<p-sortIcon
+            field="chequeType"></p-sortIcon></th>
+        <th scope="col" pSortableColumn="chequeType" style="width:7%">Cheque Type</th>
+        <th scope="col" pSortableColumn="nameOfBeneficiary" style="width:8%">Name of Beneficiary</th>
+        <th scope="col" pSortableColumn="frequency" style="width:8%">Frequency</th>
+        <th scope="col" pSortableColumn="Action" style="width:1%" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">Actions
+        </th>
+      </tr>
+      <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
+        [baseZIndex]="10000"></p-confirmDialog>
+
+    </ng-template>
+
+    <ng-template pTemplate="body" let-DCQs>
+      <tr [pSelectableRow]="DCQs">
+        <td>{{DCQs?.datePresented}}</td>
+        <td>{{DCQs?.subProcess?.name}}</td>
+        <td>{{DCQs?.branch?.name}}</td>
+        <td>{{DCQs?.fullNameOfDrawer}}</td>
+        <td>{{DCQs?.accountNumber}}</td>
+        <td>{{DCQs?.tin}}</td>
+        <td>{{DCQs?.drawerAddress}}</td>
+        <td>{{formatAmount(DCQs?.amountInBirr)}}</td>
+        <td>{{DCQs?.chequeNumber}}</td>
+        <td>{{DCQs?.chequeType?.name}}</td>
+        <td>{{DCQs?.nameOfBeneficiary}}</td>
+        <td>{{DCQs?.frequency}}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">
+          <button pButton (click)="updateDCQs(DCQs?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+            label="Update"></button>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="14">Not found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

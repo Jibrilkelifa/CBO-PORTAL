@@ -1,0 +1,63 @@
+<p-toast position="top-right"></p-toast>
+<div class="flex justify-end"><p-button label="Create a new audit object" (click)="createAuditObject()"></p-button></div>
+<div class="card">
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Object</h5>
+    <p-table #dt1 [columns]="cols" [value]="auditObject" [exportHeader]="'customExportHeader'" selectionMode="single" dataKey="id"
+        [tableStyle]="{'min-width': '50rem'}" [rows]="5" [rowsPerPageOptions]="[5,10,15,20]" [paginator]="true"
+        stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button type="button" pButton pRipple icon="pi pi-file" (click)="dt1.exportCSV()" class="m-2"
+                    pTooltip="CSV" tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                    class="p-button-success m-2" pTooltip="XLS" tooltipPosition="bottom"></button>
+                <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                    class="p-button-warning m-2" pTooltip="PDF" tooltipPosition="bottom"></button>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">ID </th>
+                <th pSortableColumn="name">Name<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="auditType">Audit type<p-sortIcon field="auditType"></p-sortIcon></th>
+                <th scope="col">Actions</th>
+            </tr>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                        [value]="$any(dt1.filters['name'])?.value" placeholder="Search by Name" class="p-column-filter">
+                </th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'description', 'contains')"
+                        [value]="$any(dt1.filters['description'])?.value" placeholder="Search by Description"
+                        class="p-column-filter"></th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'auditType', 'contains')"
+                        [value]="$any(dt1.filters['type'])?.value" placeholder="Search by Type" class="p-column-filter">
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-auditObject let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="auditObject">
+                <td>{{rowIndex + 1}}</td>
+                <td>{{auditObject?.name}}</td>
+                <td>{{auditObject?.description}}</td>
+                <td>{{auditObject?.auditType}}</td>
+                <td class="flex gap-2">
+                    <button pButton (click)="updateAuditObject(auditObject.id)" [ngClass]="{updateBlue: true}"
+                        class="btns p-button-sm" label="Update"></button>
+                    <button pButton (click)="detailAuditObject(auditObject)" [ngClass]="{updateBlue: true}"
+                        class="p-button-sm" label="Detail"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
