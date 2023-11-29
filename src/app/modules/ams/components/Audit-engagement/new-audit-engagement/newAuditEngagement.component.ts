@@ -75,7 +75,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
     let auditEngagement: AuditEngagementDTO = { ...this.auditEngagementInfo };
     auditEngagement = { ...auditEngagement, ...updateDivForm.value, auditSchedule: this.auditScheduleInfo };
     this.subscriptions.push(
-      this.auditEngagementService.addToEngagement(auditEngagement).subscribe((response: any) => {
+        this.auditEngagementService.addToEngagement(auditEngagement).subscribe((response: any) => {
         this.messageService.clear();
         this.ref.close(response);
       })

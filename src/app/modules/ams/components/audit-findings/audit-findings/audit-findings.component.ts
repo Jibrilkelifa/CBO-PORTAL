@@ -4,7 +4,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AuditProgramService } from 'src/app/modules/ams/services/auidit-program/audit-program.service';
 import { AuditProgramDTO } from 'src/app/modules/ams/models/audit program';
-import { NewAuditProgramComponent } from '../new-audit-program/new-audit-program.component';
+import { NewAuditFindingsComponent } from '../new-audit-findings/new-audit-findings.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
@@ -22,11 +22,11 @@ interface Column {
 }
 
 @Component({
-  selector: 'app-audit-program',
-  templateUrl: './audit-program.component.html',
-  styleUrls: ['./audit-program.component.scss']
+  selector: 'app-audit-findings',
+  templateUrl: './audit-findings.component.html',
+  styleUrls: ['./audit-findings.component.scss']
 })
-export class AuditProgramComponent  implements OnDestroy {
+export class AuditFindingsComponent  implements OnDestroy {
   public auditProgram: AuditProgramDTO[] = [];
   public auditProgramDisplay: any[] = [];
 
@@ -81,7 +81,7 @@ export class AuditProgramComponent  implements OnDestroy {
 
 
   createNewAuditProgram(): void {
-    const ref = this.dialogService.open(NewAuditProgramComponent, {
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
       header: 'Create a new audit program',
       draggable: true,
       width: '50%',
@@ -111,7 +111,7 @@ export class AuditProgramComponent  implements OnDestroy {
     const auditProgram = this.auditProgram.find(
       (program) => program.id === id
     );
-    const ref = this.dialogService.open(NewAuditProgramComponent, {
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
       header: 'Update audit universe',
       draggable: true,
       width: '50%',

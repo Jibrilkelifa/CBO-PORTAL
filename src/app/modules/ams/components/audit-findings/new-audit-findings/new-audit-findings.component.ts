@@ -13,12 +13,12 @@ import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditT
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
 
 @Component({
-  selector: 'newAuditUniverse',
-  templateUrl: './new-audit-program.component.html',
-  styleUrls: ['./new-audit-program.component.scss'],
+  selector: 'app-new-audit-findings',
+  templateUrl: './new-audit-findings.component.html',
+  styleUrls: ['./new-audit-findings.component.scss'],
   providers: [MessageService, ConfirmationService],
 })
-export class NewAuditProgramComponent implements OnDestroy {
+export class NewAuditFindingsComponent implements OnDestroy {
   public auditSchedules: AuditScheduleDTO[] = [];
   
   statusOptions: any;
@@ -51,7 +51,6 @@ export class NewAuditProgramComponent implements OnDestroy {
       // this.update = true;
       this.newDiv = false;
     }
- 
 
   }
 
@@ -79,7 +78,7 @@ export class NewAuditProgramComponent implements OnDestroy {
     // if (this.update) {
       // this.updateAuditPrograms(auditProgramForm);
     // } else {
-      this.addAuditProgram(auditProgramForm);
+      // this.addAuditProgram(auditProgramForm);
     // }
   }
   
@@ -94,21 +93,20 @@ export class NewAuditProgramComponent implements OnDestroy {
   //       })
   //   );
   // }
-  addAuditProgram(addDivForm: NgForm): void {
-    const auditProgram: AuditProgramDTO = { ...addDivForm.value, auditSchedule: this.scheduleInfo };
-    console.log(auditProgram);
-    this.subscriptions.push(
-      this.auditProgramService.addAuditProgram(auditProgram).subscribe(
-        (response: any) => {
-          this.ref.close(response);
-     
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
-    );
-  }
+  // addAuditProgram(addDivForm: NgForm): void {
+  //   const auditProgram: AuditProgramDTO = { ...addDivForm.value, auditSchedule: this.scheduleInfo };
+  //   console.log(auditProgram);
+  //   this.subscriptions.push(
+  //     this.auditProgramService.addAuditProgram(auditProgram).subscribe(
+  //       (response: any) => {
+  //         this.ref.close(response);
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         console.log(error);
+  //       }
+  //     )
+  //   );
+  // }
 
   // updateAuditPrograms(addDivForm: NgForm): void {
   //   let auditProgram: AuditProgramDTO = addDivForm.value;

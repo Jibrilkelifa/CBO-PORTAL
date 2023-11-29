@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewAuditEngagementComponent } from '../new-audit-engagement/newAuditEngagement.component';
+import { NewAuditProgramComponent } from '../../audit-program/new-audit-program/new-audit-program.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
@@ -10,6 +11,8 @@ import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { AuditEngagementService } from '../../../services/audit-engagement/audit-engagement.service';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { AuditProgramDTO } from '../../../models/audit program';
+import { AuditScheduleDTO } from '../../../models/auditSchedule';
 
 interface ExportColumn {
   title: string;
@@ -128,6 +131,33 @@ export class AuditEngagementComponent implements OnDestroy {
         });
       }
 
+    });
+  }
+  addToProgram(auditSchedule: AuditScheduleDTO): void {
+    console.log(auditSchedule);
+    const ref = this.dialogService.open(NewAuditProgramComponent, {
+      header: 'Create a new program',
+      draggable: true,
+      width: '50%',
+      data: { auditSchedule },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.getAllEngagementOfCurrentYear();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
     });
   }
 

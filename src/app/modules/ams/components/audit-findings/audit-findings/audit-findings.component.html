@@ -102,12 +102,12 @@
         <td>
           <div class="flex gap-2">
             <button
-            pButton
-            (click)="updateAuditProgram(auditProgram)"
-            [ngClass]="{ updateBlue: true }"
-            class="p-button-sm h-10 whitespace-nowrap"
-            label="Add Finding"
-          ></button>
+              pButton
+              (click)="updateAuditProgram(auditProgram.id)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-20 h-10 p-2"
+              label="Detail"
+            ></button>
      
           </div>
         </td>
