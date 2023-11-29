@@ -9,7 +9,7 @@
       </div> -->
       <div class="flex-auto">
         <label for="date" class="block mb-2"> Date  </label>
-        <p-calendar id="fraudOccurrenceDate" ngModel name="date"
+        <p-calendar id="Date" ngModel name="date"
           [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" [required]="true" ></p-calendar>
       </div>
       <div class="flex-auto">
@@ -177,32 +177,32 @@
 
 <div *ngIf="update">
   <form #updateDACGMForm="ngForm" (ngSubmit)="updateDACGM(updateDACGMForm)">
-        <input type="hidden" name="id" ngModel [(ngModel)]="idY">
-        
-        <div class="flex-auto">
-          <label for="hex" class="block mb-2">Activity Status</label>
-          <p-dropdown [options]="activityStatuses" name="activitystatus" ngModel [(ngModel)]="selectedActivityStatus" name="activityStatus"
-            optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Activity Status"
-            class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
-            (ngOnInit)="populateSelectedActivityStatus(existingActivityStatus)">
-            <!-- (onChange)="onStatusChange($event)"> -->
-            <ng-template pTemplate="selectedItem">
-              <div class="flex align-items-center gap-2" *ngIf="selectedActivityStatus">
-                <div>{{ selectedActivityStatus.name }}</div>
-              </div>
-            </ng-template>
-            <ng-template let-activityStatuse pTemplate="item">
-              <div class="flex align-items-center gap-2">
-                <div>{{activityStatuse.name }}</div>
-              </div>
-            </ng-template>
-          </p-dropdown>
-        </div>
-        
-        <!-- Add space here -->
-        <div style="margin-bottom: 20px;"></div>
-        
-        <p-button label="Update Daily Activity Monitoring" type="submit" [disabled]="updateDACGMForm.invalid"
-          class="updateButton"></p-button>
-        </form>
+            <input type="hidden" name="id" ngModel [(ngModel)]="idY">
+            
+            <div class="flex-auto">
+              <label for="hex" class="block mb-2">Activity Status</label>
+              <p-dropdown [options]="activityStatuses" name="activitystatus" ngModel [(ngModel)]="selectedActivityStatus" name="activityStatus"
+                optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Activity Status"
+                class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
+                (ngOnInit)="populateSelectedActivityStatus(existingActivityStatus)">
+                <!-- (onChange)="onStatusChange($event)"> -->
+                <ng-template pTemplate="selectedItem">
+                  <div class="flex align-items-center gap-2" *ngIf="selectedActivityStatus">
+                    <div>{{ selectedActivityStatus.name }}</div>
+                  </div>
+                </ng-template>
+                <ng-template let-activityStatuse pTemplate="item">
+                  <div class="flex align-items-center gap-2">
+                    <div>{{activityStatuse.name }}</div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+            
+            <!-- Add space here -->
+            <div style="margin-bottom: 20px;"></div>
+            
+            <p-button label="Update Daily Activity Monitoring" type="submit" [disabled]="updateDACGMForm.invalid"
+              class="updateButton"></p-button>
+            </form>
         </div>

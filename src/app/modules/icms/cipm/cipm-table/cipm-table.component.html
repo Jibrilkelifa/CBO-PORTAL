@@ -71,6 +71,8 @@
         </th>
         <th scope="col" pSortableColumn="insuranceCoverageType.name">Insurance Policy Coverage
           Type</th>
+          <th scope="col" pSortableColumn="insuredName">Collateral Estimation Value</th>
+          <th scope="col" pSortableColumn="insuredName">Sum Insured </th>
         <th scope="col" pSortableColumn="insuredName">Insured Name</th>
         <th scope="col" pSortableColumn="status.name" style="width:8%">Status</th>
         <th scope="col" pSortableColumn="insuranceExpireDate">Insurance Expiry
@@ -111,6 +113,8 @@
             {{cipms?.otherInsuranceCoverageType}}
           </ng-template>
         </td>
+        <td>{{cipms?.collateralEstimationValue}}</td>
+        <td>{{cipms?.sumInsured}}</td>
         <td>{{cipms?.insuredName}}</td>
         <td>{{cipms?.status?.name}}</td>
         <td>{{(cipms?.insuranceExpireDate)}}</td>
@@ -131,12 +135,15 @@
             <button pButton (click)="updateCIPMs(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
               label="Update"></button>
           </td>
-          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !cipms.isAuthorized ">
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !cipms.isAuthorized && cipms.status.name === 'Active' ">
             <button pButton (click)="authorizeCIPM(cipms?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
               label="Authorize"></button>
           </td>
-          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && cipms.isAuthorized">
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && cipms.isAuthorized && cipms.status.name === 'Active'">
             Authorized!
+          </td>
+          <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && cipms.status.name === 'Closed'" class="closed-cell">
+            <span class="closed-text">Closed!</span>
           </td>
       </tr>
     </ng-template>

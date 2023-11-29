@@ -74,6 +74,8 @@
             field="mortgagorName"></p-sortIcon></th>
         <th scope="col" pSortableColumn="insuranceCoverageType.name" style="width:20%">Insurance Policy Coverage
           Type</th>
+          <th scope="col" pSortableColumn="insuredName">Collateral estimation value</th>
+          <th scope="col" pSortableColumn="insuredName">Sum Insured </th>
         <th scope="col" pSortableColumn="insuredName" style="width:8%">Insured Name</th>
         <th scope="col" pSortableColumn="status.name" style="width:8%">Status</th>
         <th scope="col" pSortableColumn="insuranceExpireDate" style="width:8%">Insurance Expiry
@@ -91,7 +93,7 @@
     <ng-template pTemplate="body" let-cipmee>
       <tr [pSelectableRow]="cipmee">
 
-        <td>{{cipmee?.branch?.subProcess?.name}}</td>
+        <td>{{cipmee?.subProcess?.name}}</td>
         <td>{{cipmee?.branch?.name}}</td>
         <td>{{cipmee?.borrowerName}}</td>
         <td>{{cipmee?.loanAccount}}</td>
@@ -113,6 +115,8 @@
             {{cipmee?.otherInsuranceCoverageType}}
           </ng-template>
         </td>
+        <td>{{cipmee?.collateralEstimationValue}}</td>
+        <td>{{cipmee?.sumInsured}}</td>
         <td>{{cipmee?.insuredName}}</td>
         <td>{{cipmee?.status?.name}}</td>
         <td>{{(cipmee?.insuranceExpireDate)}}</td>

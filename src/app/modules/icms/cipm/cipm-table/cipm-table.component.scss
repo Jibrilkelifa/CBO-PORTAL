@@ -12,6 +12,13 @@ button {
 .slim {
   font-weight: normal !important;
 }
+.left-align {
+  text-align: left;
+}
+.closed-text:before {
+    /* Add a non-breaking space before the text */
+}
+
 
 input {
   height: 2em;

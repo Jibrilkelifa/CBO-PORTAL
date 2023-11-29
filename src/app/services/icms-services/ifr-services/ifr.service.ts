@@ -80,55 +80,9 @@ export class IFRService {
     };
     return  this.http.patch<any>(`${this.apiServiceUrl}/incidentFraudReport/calculateProvision/${id}`, body, this.httpOptions)
   }
-
-  public updateFraud(fraud: any): Observable<any> {
+  public updateFraud(fraud: IFR): Observable<any>{
     this.init();
-
-    return this.http.put<IFR>(`${this.apiServiceUrl}/incidentFraudReport/update`,
-     
-    {
-       
-        id: fraud.id,
-        caseId: fraud.caseId,
-        // provisionHeld: fraud.provisionHeld,
-        caseStatus: {
-          id: fraud.caseStatus.id
-        },
-        inCaseOfClosedOrWrittenOff: (fraud.inCaseOfClosedOrWrittenOff == undefined) ? "" : fraud.inCaseOfClosedOrWrittenOff,
-        preparedBy: fraud.preparedBy,
-        authorizedBy: fraud.authorizedBy,
-        fraudCause: fraud.fraudCause,
-        fraudAmount: fraud.fraudAmount,
-        allCategory: {
-          id: fraud.allCategory.id
-        },
-        otherFraudCategory: fraud.otherFraudCategory,
-        fraudType: {
-          id: fraud.fraudType.id
-        },
-        otherFraudType: fraud.otherFraudType,
-        fraudOccurrenceDate: fraud.fraudOccurrenceDate,
-        fraudDetectionDate: fraud.fraudDetectionDate,
-        fraudOccurrencePlace: fraud.fraudOccurrencePlace,
-        fraudCommittingTechnique: fraud.fraudCommittingTechnique,
-        reasonForDelay: fraud.reasonForDelay,
-        reasonForFailedFraudAttempt: fraud.reasonForFailedFraudAttempt,
-        amountRecovered: fraud.amountRecovered,
-        actionTaken: fraud.actionTaken,
-        suspectedFraudsterAddress: fraud.suspectedFraudsterAddress,
-        suspectedFraudsterName: fraud.suspectedFraudsterName,
-        suspectedFraudsterProfession: {
-          id: fraud.suspectedFraudsterProfession.id
-        },
-        otherSuspectedFraudsterProfession: fraud.otherSuspectedFraudsterProfession,
-        otherComment: fraud.otherComment,
-        branch: {
-          id: fraud.branch.id
-        },
-        subProcess: {
-          id: fraud.subProcess.id
-        },
-      }, this.httpOptions)
+    return this.http.put<IFR>(`${this.apiServiceUrl}/incidentFraudReport/update`, fraud, this.httpOptions)
   }
   public deleteFraud(fraudId: number): Observable<any> {
     this.init();

@@ -103,8 +103,8 @@
           </ng-template>
         </td>
         <td>{{formatAmount(frauds?.fraudAmount)}}</td>
-        <td>{{frauds?.fraudOccurrenceDate}}</td>
-        <td>{{frauds?.fraudDetectionDate}}</td>
+        <td>{{frauds?.fraudOccurrenceDate| date:'MM/dd/yyyy'}}</td>
+        <td>{{frauds?.fraudDetectionDate| date:'MM/dd/yyyy'}}</td>
         <td>{{frauds?.reasonForDelay}}</td>
         <td>{{frauds?.fraudOccurrencePlace}}</td>
         <td>{{frauds?.fraudCommittingTechnique}}</td>
@@ -139,7 +139,10 @@
           <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name === 'Written Off'">
             <span>Written Off</span>
           </ng-container>
-          <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name !== 'Written Off' && frauds.provisionHeld === null">
+          <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name === 'Closed'">
+            <span>Closed!</span>
+          </ng-container>
+          <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name !== 'Written Off' && frauds.caseStatus.name !== 'Closed'">
             <button pButton
               (click)="calculateProvision(frauds?.id)"
               [ngClass]="{updateBlue: true}"
