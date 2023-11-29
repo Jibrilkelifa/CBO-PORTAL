@@ -13,6 +13,7 @@ import { AuditEngagementService } from '../../../services/audit-engagement/audit
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
 import { AuditProgramDTO } from '../../../models/audit program';
 import { AuditScheduleDTO } from '../../../models/auditSchedule';
+import { Router } from '@angular/router';
 
 interface ExportColumn {
   title: string;
@@ -53,7 +54,8 @@ export class AuditEngagementComponent implements OnDestroy {
     private auditEngagementService: AuditEngagementService,
     private dialogService: DialogService,
     private messageService: MessageService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -161,6 +163,11 @@ export class AuditEngagementComponent implements OnDestroy {
     });
   }
 
+  goToDetails(auditEngagement: AuditEngagementDTO): void {
+    this.auditEngagementService.selectedAuditEngagement = auditEngagement;
+    this.router.navigate(['ams/audit-engagement-details']);
+  }
+  
   findAuditEngagementByStatus(addDivForm: NgForm): void {
     this.subscriptions.push(
       this.auditEngagementService

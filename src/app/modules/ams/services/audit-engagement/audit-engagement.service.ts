@@ -8,6 +8,7 @@ import { AuditEngagementDTO } from './../../models/audit-engagement';
 export class AuditEngagementService {
   private httpOptions: any;
   private apiServiceUrl: any;
+  public selectedAuditEngagement: AuditEngagementDTO;
 
   private init() {
     this.httpOptions = {

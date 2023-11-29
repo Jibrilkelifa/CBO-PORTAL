@@ -168,6 +168,13 @@
         <td>{{ auditEngagement.auditSchedule?.status }}</td>
         <td>{{ auditEngagement.auditSchedule?.annualPlan.name }}</td>
         <td class="flex gap-2">
+          <button
+          pButton
+          (click)="goToDetails(auditEngagement)"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Details"
+        ></button>
 
           <button
             pButton

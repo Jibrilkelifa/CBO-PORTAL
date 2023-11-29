@@ -57,6 +57,7 @@ import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-typ
 import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRiskItem.component';
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
+import { AuditEngagementDetailComponent } from './components/Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
 import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
 import { NewAuditProgramComponent } from './components/audit-program/new-audit-program/new-audit-program.component';
@@ -87,6 +88,7 @@ import { NewAuditFindingsComponent } from './components/audit-findings/new-audit
     NewRiskItemComponent,
     RiskItemComponent,
     AuditEngagementComponent,
+    AuditEngagementDetailComponent,
     NewAuditEngagementComponent,
     AuditProgramComponent,
     NewAuditProgramComponent,

@@ -93,7 +93,6 @@ export class NewAuditFindingsComponent implements OnDestroy {
   //       })
   //   );
   // }
-<<<<<<< HEAD
   // addAuditProgram(addDivForm: NgForm): void {
   //   const auditProgram: AuditProgramDTO = { ...addDivForm.value, auditSchedule: this.scheduleInfo };
   //   console.log(auditProgram);
@@ -108,22 +107,6 @@ export class NewAuditFindingsComponent implements OnDestroy {
   //     )
   //   );
   // }
-=======
-  addAuditProgram(addDivForm: NgForm): void {
-    const auditProgram: AuditProgramDTO = { ...addDivForm.value, auditSchedule: this.scheduleInfo };
-    console.log(auditProgram);
-    this.subscriptions.push(
-      this.auditProgramService.addAuditProgram(auditProgram).subscribe(
-        (response: any) => {
-          this.ref.close(response);
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
-    );
-  }
->>>>>>> 369ee81ae22b6b009fd10267e8e4cb6400ec47cf
 
   // updateAuditPrograms(addDivForm: NgForm): void {
   //   let auditProgram: AuditProgramDTO = addDivForm.value;
