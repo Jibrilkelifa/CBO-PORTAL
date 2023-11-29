@@ -93,7 +93,11 @@
     <ng-template pTemplate="body" let-cipmee>
       <tr [pSelectableRow]="cipmee">
 
+<<<<<<< HEAD
         <td>{{cipmee?.subProcess?.name}}</td>
+=======
+        <td>{{cipmee?.branch?.subProcess?.name}}</td>
+>>>>>>> 369ee81ae22b6b009fd10267e8e4cb6400ec47cf
         <td>{{cipmee?.branch?.name}}</td>
         <td>{{cipmee?.borrowerName}}</td>
         <td>{{cipmee?.loanAccount}}</td>
@@ -115,8 +119,11 @@
             {{cipmee?.otherInsuranceCoverageType}}
           </ng-template>
         </td>
+<<<<<<< HEAD
         <td>{{cipmee?.collateralEstimationValue}}</td>
         <td>{{cipmee?.sumInsured}}</td>
+=======
+>>>>>>> 369ee81ae22b6b009fd10267e8e4cb6400ec47cf
         <td>{{cipmee?.insuredName}}</td>
         <td>{{cipmee?.status?.name}}</td>
         <td>{{(cipmee?.insuranceExpireDate)}}</td>

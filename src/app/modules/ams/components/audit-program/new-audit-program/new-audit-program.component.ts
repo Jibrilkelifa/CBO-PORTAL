@@ -51,7 +51,10 @@ export class NewAuditProgramComponent implements OnDestroy {
       // this.update = true;
       this.newDiv = false;
     }
+<<<<<<< HEAD
  
+=======
+>>>>>>> 369ee81ae22b6b009fd10267e8e4cb6400ec47cf
 
   }
 
