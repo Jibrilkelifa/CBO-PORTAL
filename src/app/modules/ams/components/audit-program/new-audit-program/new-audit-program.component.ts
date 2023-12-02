@@ -24,7 +24,7 @@ export class NewAuditProgramComponent implements OnDestroy {
   statusOptions: any;
 
   public programInfo: AuditProgramDTO = new AuditProgramDTO();
-  public scheduleInfo: AuditScheduleDTO = new AuditScheduleDTO();
+  public engagementInfo: AuditScheduleDTO = new AuditScheduleDTO();
   
   selectedProgramInfo: AuditProgramDTO;
   public selectedAuditType: any;
@@ -46,8 +46,8 @@ export class NewAuditProgramComponent implements OnDestroy {
 
   ngOnInit() {
     this.getAuditSchedule();
-    if (this.config.data?.auditSchedule) {
-      this.scheduleInfo = this.config.data.auditSchedule;
+    if (this.config.data?.auditEngagement) {
+      this.engagementInfo = this.config.data.auditEngagement;
       // this.update = true;
       this.newDiv = false;
     }
@@ -95,7 +95,7 @@ export class NewAuditProgramComponent implements OnDestroy {
   //   );
   // }
   addAuditProgram(addDivForm: NgForm): void {
-    const auditProgram: AuditProgramDTO = { ...addDivForm.value, auditSchedule: this.scheduleInfo };
+    const auditProgram: AuditProgramDTO = { ...addDivForm.value, engagementDTO: this.engagementInfo };
     console.log(auditProgram);
     this.subscriptions.push(
       this.auditProgramService.addAuditProgram(auditProgram).subscribe(

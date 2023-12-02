@@ -1,3 +1,4 @@
+import { AuditEngagementDTO } from "./audit-engagement";
 import { AuditScheduleDTO } from "./auditSchedule";
 import { AuditType } from "./auditType";
 import { BaseModel } from "./base";
@@ -12,6 +13,6 @@ export class AuditProgramDTO extends BaseModel {
     scopeDescription : string;
     auditObject : AuditScheduleDTO;
     overAllTime: Date;
-    auditSchedule: AuditScheduleDTO;
+    engagementDTO: AuditEngagementDTO;
 
 }

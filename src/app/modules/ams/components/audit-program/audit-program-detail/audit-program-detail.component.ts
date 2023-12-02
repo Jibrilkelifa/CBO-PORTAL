@@ -1,8 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
-import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { NewAuditEngagementComponent } from '../new-audit-engagement/newAuditEngagement.component';
-import { NewAuditProgramComponent } from '../../audit-program/new-audit-program/new-audit-program.component';
+import { DialogService } from 'primeng/dynamicdialog';
+import { NewAuditProgramComponent } from '../new-audit-program/new-audit-program.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
@@ -27,15 +26,14 @@ interface Column {
 }
 
 @Component({
-  selector: 'audit-engagement-detail-table',
-  templateUrl: './audit-engagement-detail.component.html',
-  styleUrls: ['./audit-engagement-detail.component.scss'],
+  selector: 'audit-program-detail-table',
+  templateUrl: './audit-program-detail.component.html',
+  styleUrls: ['./audit-program-detail.component.scss'],
 })
-export class AuditEngagementDetailComponent implements OnDestroy {
+export class AuditProgramDetailComponent implements OnDestroy {
   public annualPlans: AnnualPlanDTO[] = [];
   public auditEngagements: AuditEngagementDTO[] = [];
-  public auditPrograms: AuditEngagementDTO[] = [];
-
+  public auditPrograms: AuditProgramDTO[] = [];
 
   public auditEngagementDisplay: any[] = [];
 
@@ -52,90 +50,52 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-
   constructor(
     private auditEngagementService: AuditEngagementService,
     private auditProgramService: AuditProgramService,
     private dialogService: DialogService,
     private messageService: MessageService,
-    private datePipe: DatePipe,
-    private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig,
-
-  
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
-    
-    this.cols = [
-      { field: 'id', header: 'ID' },
-      { field: 'startOn', header: 'Start on' },
-      { field: 'endOn', header: 'End on' },
-      { field: 'status', header: 'Status' },
-      { field: 'annualPlanName', header: 'Annual plan' },
-    ];
-
-    this.exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
-
-    if (this.config.data?.auditEngagement) {
-      this.auditEngagements[0]  = this.config.data.auditEngagement;
-  
-    }
-
-
-    
-
-    this.getAuditPrograms();
-   
+    this.auditEngagements[0] = this.auditEngagementService.selectedAuditEngagement;
+    this.auditPrograms[0] = this.auditProgramService.selectedAuditProgram;
+    console.log(this.auditPrograms[0]);
   }
 
 
 
-  getAuditPrograms(): void {
-    this.subscriptions.push(
-      this.auditProgramService.getAuditPrograms().subscribe(
-        (response: any) => {
-          this.auditPrograms = response.result;
-          console.log(this.auditPrograms);
-      
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
-    );
-  }
+  // updateAuditSchedule(id: number): void {
+  //   const auditSchedule = this.auditEngagements.find(
+  //     (schedule) => schedule.id === id
+  //   );
+  //   const ref = this.dialogService.open(NewAuditEngagementComponent, {
+  //     header: 'Update audit schedule',
+  //     width: '50%',
+  //     data: { auditSchedule },
+  //     contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+  //     baseZIndex: 10000,
+  //   });
 
-  addToProgram(auditEngagement: AuditEngagementDTO): void {
+  //   ref.onClose.subscribe((response: any) => {
+  //     if (response.status) {
+  //       this.getAllEngagementOfCurrentYear();
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'Success',
+  //         detail: response.message,
+  //       });
+  //     } else {
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'Failed',
+  //         detail: response.message,
+  //       });
+  //     }
 
-    const ref = this.dialogService.open(NewAuditProgramComponent, {
-      header: 'Create a new program',
-      draggable: true,
-      width: '50%',
-      data: { auditEngagement },
-      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
-      baseZIndex: 10000,
-    });
-    ref.onClose.subscribe((response: any) => {
-      if (response.status) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: response.message,
-        });
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed',
-          detail: response.message,
-        });
-      }
-    });
-  }
-
+  //   });
+  // }
 
 
   getPlaceholder(): string {
@@ -150,6 +110,8 @@ export class AuditEngagementDetailComponent implements OnDestroy {
         return 'Select Value';
     }
   }
+
+
 
 
   getLeaderName(auditEngagement: AuditEngagementDTO): string {

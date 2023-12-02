@@ -60,6 +60,7 @@ import { AuditEngagementComponent } from './components/Audit-engagement/audit-en
 import { AuditEngagementDetailComponent } from './components/Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
 import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
+import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
 import { NewAuditProgramComponent } from './components/audit-program/new-audit-program/new-audit-program.component';
 import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
 import { NewAuditFindingsComponent } from './components/audit-findings/new-audit-findings/new-audit-findings.component';
@@ -91,6 +92,7 @@ import { NewAuditFindingsComponent } from './components/audit-findings/new-audit
     AuditEngagementDetailComponent,
     NewAuditEngagementComponent,
     AuditProgramComponent,
+    AuditProgramDetailComponent,
     NewAuditProgramComponent,
     AuditFindingsComponent,
     NewAuditFindingsComponent

@@ -8,6 +8,9 @@ import { NewAuditProgramComponent } from '../new-audit-program/new-audit-program
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
+import { Router } from '@angular/router';
+import { AuditEngagementDetailComponent } from '../../Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
+import { AuditEngagementDTO } from '../../../models/audit-engagement';
 
 
 interface ExportColumn {
@@ -26,7 +29,7 @@ interface Column {
   templateUrl: './audit-program.component.html',
   styleUrls: ['./audit-program.component.scss']
 })
-export class AuditProgramComponent  implements OnDestroy {
+export class AuditProgramComponent   {
   public auditProgram: AuditProgramDTO[] = [];
   public auditProgramDisplay: any[] = [];
 
@@ -39,11 +42,13 @@ export class AuditProgramComponent  implements OnDestroy {
   cols!: Column[];
 
   private subscriptions: Subscription[] = [];
+ 
 
   constructor(
     private auditProgramService: AuditProgramService,
     private dialogService: DialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -142,11 +147,37 @@ export class AuditProgramComponent  implements OnDestroy {
       }
     });
   }
-
-
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+  goToDetails(auditEngagement: AuditEngagementDTO): void {
+    // this.auditProgramService.selectedAuditProgram = auditProgram;
+    // this.router.navigate(['ams/audit-program-details']);
+   console.log(auditEngagement);
+    const ref = this.dialogService.open(AuditEngagementDetailComponent, {
+      header: 'Details',
+      draggable: true,
+      width: '90%',
+      data: { auditEngagement},
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
+
+
+
 
   exportPdf() {
     import('jspdf').then((jsPDF) => {
@@ -196,5 +227,7 @@ export class AuditProgramComponent  implements OnDestroy {
       fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
     );
   }
+
+
 
 }

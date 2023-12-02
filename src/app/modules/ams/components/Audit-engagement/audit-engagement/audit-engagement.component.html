@@ -179,7 +179,7 @@
           <button
             pButton
             *ngIf="auditEngagement?.status == 'Engagement'"
-            (click)="addToProgram(auditEngagement.auditSchedule)"
+            (click)="addToProgram(auditEngagement)"
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm h-10 whitespace-nowrap"
             label="Add Program"

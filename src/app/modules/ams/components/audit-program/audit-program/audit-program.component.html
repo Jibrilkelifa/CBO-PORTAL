@@ -1,10 +1,5 @@
 <p-toast position="top-right"></p-toast>
-<div class="flex justify-end">
-  <p-button
-    label="Create a new audit program"
-    (click)="createNewAuditProgram()"
-  ></p-button>
-</div>
+
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Program</h5>
   <p-table
@@ -101,6 +96,14 @@
         <td>{{ auditProgram?.status }}</td>
         <td>
           <div class="flex gap-2">
+
+            <button
+            pButton
+            (click)="goToDetails(auditProgram?.engagementInfo)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Details"
+          ></button>
             <button
             pButton
             (click)="updateAuditProgram(auditProgram)"

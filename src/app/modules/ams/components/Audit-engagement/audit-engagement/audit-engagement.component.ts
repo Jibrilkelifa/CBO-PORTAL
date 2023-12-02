@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { NewAuditEngagementComponent } from '../new-audit-engagement/newAuditEngagement.component';
+import { AuditEngagementDetailComponent } from '../audit-engagement-detail/audit-engagement-detail.component';
 import { NewAuditProgramComponent } from '../../audit-program/new-audit-program/new-audit-program.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -90,7 +91,6 @@ export class AuditEngagementComponent implements OnDestroy {
               memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
             };
           });
-
           this.auditEngagementDisplay = this.auditEngagements.map((obj: any) => ({
             ...obj,
             annualPlanName: obj.auditSchedule.annualPlan.name
@@ -116,7 +116,6 @@ export class AuditEngagementComponent implements OnDestroy {
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
-
     ref.onClose.subscribe((response: any) => {
       if (response.status) {
         this.getAllEngagementOfCurrentYear();
@@ -132,16 +131,15 @@ export class AuditEngagementComponent implements OnDestroy {
           detail: response.message,
         });
       }
-
     });
   }
-  addToProgram(auditSchedule: AuditScheduleDTO): void {
-    console.log(auditSchedule);
+  addToProgram(auditEngagement: AuditEngagementDTO): void {
+  
     const ref = this.dialogService.open(NewAuditProgramComponent, {
       header: 'Create a new program',
       draggable: true,
       width: '50%',
-      data: { auditSchedule },
+      data: { auditEngagement },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -164,8 +162,32 @@ export class AuditEngagementComponent implements OnDestroy {
   }
 
   goToDetails(auditEngagement: AuditEngagementDTO): void {
-    this.auditEngagementService.selectedAuditEngagement = auditEngagement;
-    this.router.navigate(['ams/audit-engagement-details']);
+    // this.auditEngagementService.selectedAuditEngagement = auditEngagement;
+    // this.router.navigate(['ams/audit-engagement-details']);
+    const ref = this.dialogService.open(AuditEngagementDetailComponent, {
+      header: 'Audit Engagement Details',
+      draggable: true,
+      width: '90%',
+      data: { auditEngagement },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.getAllEngagementOfCurrentYear();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
   
   findAuditEngagementByStatus(addDivForm: NgForm): void {

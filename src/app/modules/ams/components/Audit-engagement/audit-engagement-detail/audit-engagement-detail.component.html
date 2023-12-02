@@ -43,11 +43,294 @@
           <button
             pButton
             *ngIf="auditEngagement?.status == 'Engagement'"
-          
+            (click)="addToProgram(auditEngagement)"
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm h-10 whitespace-nowrap"
             label="Add Program"
           ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<br><br><br><br>
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Program</h5>
+  <p-table
+    #dt1
+    [value]="auditPrograms"
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+  >
+
+    <ng-template pTemplate="header">
+      <tr>
+    
+        <th>
+          Name
+        </th>
+        <th>
+          Created User
+        </th>
+        <th>
+          Status
+        </th>
+        <th>
+          Previous Status
+        </th>
+        <th scope="col">Actions</th>
+     
+      </tr>
+    </ng-template>
+
+
+    <ng-template pTemplate="body" let-auditProgram let-rowIndex="rowIndex">
+      <tr >
+        <td>{{ auditProgram.name}}</td>
+        <td>{{ auditProgram.createdUser }}</td>
+        <td>{{ auditProgram.status }}</td>
+        <td>{{ auditProgram.previousStatus}}</td>
+        <td class="flex gap-2">
+          <button
+            pButton
+            *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Engagement'"
+            (click)="addToProgram(auditProgram)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Approve"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <br>
+  <br>
+  <!-- <p-table
+  #dt1
+  [value]="auditPrograms"
+  [exportHeader]="'customExportHeader'"
+  selectionMode="single"
+  dataKey="id"
+  [tableStyle]="{ 'min-width': '50rem' }"
+>
+
+  <ng-template pTemplate="header">
+    <tr>
+  
+      <th>
+        Objective 
+      </th>
+      <th>
+        Overall Time
+      </th>
+      <th>
+        Message
+      </th>
+      <th>
+        Date
+      </th>
+      <th scope="col">Actions</th>
+    </tr>
+  </ng-template>
+
+
+  <ng-template pTemplate="body" let-auditEngagement let-rowIndex="rowIndex">
+    <tr >
+      <td>{{ auditEngagement.objectives }}</td>
+      <td>{{ auditEngagement.overAllTime }}</td>
+      <td>{{ auditEngagement.message }}</td>
+      <td>{{ auditEngagement.date }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No found.</td>
+    </tr>
+  </ng-template>
+</p-table>
+<br>
+<br>
+<p-table
+#dt1
+[value]="auditPrograms"
+[exportHeader]="'customExportHeader'"
+selectionMode="single"
+dataKey="id"
+[tableStyle]="{ 'min-width': '50rem' }"
+>
+
+<ng-template pTemplate="header">
+  <tr>
+
+    <th>
+      Annual Plan
+    </th>
+    <th>
+      Reference Number
+    </th>
+    <th>
+      Message
+    </th>
+    <th>
+      Date
+    </th>
+    <th scope="col">Actions</th>
+  </tr>
+</ng-template>
+
+
+<ng-template pTemplate="body" let-auditEngagement let-rowIndex="rowIndex">
+  <tr >
+    <td>{{ auditEngagement.auditSchedule?.annualPlan.name }}</td>
+    <td>{{ auditEngagement.name }}</td>
+    <td>{{ auditEngagement.message }}</td>
+    <td>{{ auditEngagement.date }}</td>
+  </tr>
+</ng-template>
+<ng-template pTemplate="emptymessage">
+  <tr>
+    <td colspan="5">No found.</td>
+  </tr>
+</ng-template>
+</p-table> -->
+</div>
+<br><br><br><br>
+<div class="flex justify-end">
+  <p-button
+    label="Create a new auditor"
+    (click)="getAuditPrograms()"
+  ></p-button>
+</div>
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Auditors</h5>
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="auditEngagements"
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+    stateStorage="session"
+    stateKey="statedemo-session"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file"
+          (click)="getAuditPrograms()"
+          class="m-2"
+          pTooltip="CSV"
+          tooltipPosition="bottom"
+        ></button>
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-excel"
+          (click)="getAuditPrograms()"
+          class="p-button-success m-2"
+          pTooltip="XLS"
+          tooltipPosition="bottom"
+        ></button>
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-pdf"
+          (click)="getAuditPrograms()"
+          class="p-button-warning m-2"
+          pTooltip="PDF"
+          tooltipPosition="bottom"
+        ></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="user.employee.fullName">
+          Name<p-sortIcon field="user.employee.fullName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="auditType.name">
+          Audit Team<p-sortIcon field="auditType.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status">
+          Status<p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th scope="col">Actions</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target)?.value,
+                'user.employee.fullName',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['fullName'])?.value"
+            placeholder="Search by Name"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target)?.value,
+                'auditType.name',
+                'contains'
+              )
+            "
+            [value]="$any(dt.filters['auditType'])?.value"
+            placeholder="Search by Audit Team"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-auditStaff let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="auditStaff">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ auditStaff?.user.employee.fullName }}</td>
+        <td>{{ auditStaff?.auditType?.name }}</td>
+        <td>{{ auditStaff?.status }}</td>
+        <td>
+          <div class="flex gap-2">
+            <button
+              pButton
+              (click)="getAuditPrograms()"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-20 h-10"
+              label="Update"
+            ></button>
+          </div>
         </td>
       </tr>
     </ng-template>

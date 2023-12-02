@@ -9,6 +9,7 @@ import { AuditProgramDTO } from '../../models/audit program';
 export class AuditProgramService {
   private httpOptions: any;
   private apiServiceUrl: any;
+  selectedAuditProgram: AuditProgramDTO;
 
   private init() {
     this.httpOptions = {
