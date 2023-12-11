@@ -3,6 +3,7 @@ import { TeamMemberDTO } from "./team-member";
 import { BaseModel } from "./base";
 
 export class AuditScheduleDTO extends BaseModel {
+  
     startOn: string;
     endOn: string;
     status: string;

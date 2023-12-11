@@ -65,7 +65,6 @@ export class NewFraudComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   datePresented: string;
-
   
 
   isOtherFraudCategorySelected: boolean = false;

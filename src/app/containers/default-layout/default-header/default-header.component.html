@@ -11,7 +11,9 @@
 
     <c-header-nav class="d-none d-lg-flex me-auto">
       <c-nav-item>
-        <a cNavLink routerLink="/dashboard" routerLinkActive="active"> Home </a>
+        <a cNavLink routerLink="/cc_dashboard" routerLinkActive="active">
+          Home
+        </a>
       </c-nav-item>
     </c-header-nav>
     <c-header-nav class="ms-3">
@@ -58,6 +60,7 @@
     styleClass="p-button-secondary"
     [style]="{ 'margin-right': '10px', padding: '10px' }"
     (click)="openDialog({ position: { top: '10px' } })"
+   *ngIf="cc"
   ></button>
 
   <p-dialog

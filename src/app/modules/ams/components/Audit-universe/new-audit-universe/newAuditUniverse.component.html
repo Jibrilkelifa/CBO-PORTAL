@@ -1,7 +1,7 @@
 <div>
   <form #addDivForm="ngForm" (ngSubmit)="submitAuditableArea(addDivForm)">
     <div style="margin-top: 2em"></div>
-    <div class="row">
+    <div class="flex">
       <div class="col mb-4">
         <label for="integer" class="block mb-2"> Name: </label>
         <input
@@ -15,36 +15,44 @@
           minlength="3"
         />
       </div>
-      <div class="col mb-4">
-        <label for="hex" class="block mb-2"> Audit type: </label>
-        <p-dropdown
-          [required]="true"
-          [options]="auditTypes"
-          name="auditType"
-          [filter]="true"
-          [(ngModel)]="universeInfo.auditType"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Choose audit type"
-          styleClass="p-password"
-          [style]="{ width: '300px', height: '45px' }"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="universeInfo?.auditType">
-              <div>{{ universeInfo.auditType }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-auditType pTemplate="item">
-            <div>
-              <div>{{ auditType }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+      <div class="flex flex-row">
+        <div class="col mb-4 mr-2">
+          <label for="hex" class="block mb-2"> Audit type: </label>
+          <p-dropdown
+            [required]="true"
+            [options]="auditTypes"
+            name="auditType"
+            [filter]="true"
+            [(ngModel)]="universeInfo.auditType"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Choose audit type"
+            styleClass="p-password"
+            [style]="{ width: '300px', height: '45px' }"
+          >
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="universeInfo?.auditType">
+                <div>{{ universeInfo.auditType }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-auditType pTemplate="item">
+              <div>
+                <div>{{ auditType }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <p-button
+          *ngIf="!update"
+          (click)="createAuditType()"
+          class="mt-5"
+          icon="pi pi-plus"
+        ></p-button>
       </div>
     </div>
 
     <div class="flex flex-row">
-      <div class="mb-4 mr-2">
+      <div class="mb-4">
         <label for="hex" class="block mb-2"> Audit object: </label>
         <p-dropdown
           [options]="auditObjects"
@@ -73,10 +81,10 @@
         </p-dropdown>
       </div>
       <p-button
-      *ngIf="!update"
+        *ngIf="!update"
         (click)="createAuditObject()"
         class="mt-4"
-        label="Add audit object"
+        icon="pi pi-plus"
       ></p-button>
     </div>
 

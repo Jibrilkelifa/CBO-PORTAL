@@ -9,12 +9,19 @@ import { CheckListComponent } from './components/Checklist/checklist/checkList.c
 import { AuditScheduleComponent } from './components/Audit-schedule/audit-schedule/audit-schedule.component';
 import { AuditStaffComponent } from './components/Audit-Staff/audit-staff/audit-staff.component';
 import { AuditObjectDetailComponent } from './components/Audit-objects/audit-object-detail/audit-object-detail.component';
+import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
+import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
+import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
+import { AuditEngagementDetailComponent } from './components/Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
+import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
+import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
+import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
 
 const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Authority',
+      title: 'AMS',
     },
     children: [
       {
@@ -84,10 +91,59 @@ const routes: Routes = [
         },
       },
       {
+        path: 'audit-engagement',
+        component: AuditEngagementComponent,
+        data: {
+          title: 'Audit Engagement',
+        },
+      },
+      {
+        path: 'audit-engagement-details',
+        component: AuditEngagementDetailComponent,
+        data: {
+          title: 'Audit Engagement Details',
+        },
+      },
+      {
+        path: 'audit-program-details',
+        component: AuditProgramDetailComponent,
+        data: {
+          title: 'Audit Engagement Details',
+        },
+      },
+      {
+        path: 'audit-program',
+        component: AuditProgramComponent,
+        data: {
+          title: 'Audit Program',
+        },
+      },
+      {
         path: 'audit-staff',
         component: AuditStaffComponent,
         data: {
-          title: 'Audit Staff',
+          title: 'Auditors',
+        },
+      },
+      {
+        path: 'audit-type',
+        component: AuditTypeComponent,
+        data: {
+          title: 'Audit Team',
+        },
+      },
+      {
+        path: 'risk-item',
+        component: RiskItemComponent,
+        data: {
+          title: 'Risk type',
+        },
+      },
+      {
+        path: ' ',
+        component: AuditFindingsComponent,
+        data: {
+          title: 'Audit Finding',
         },
       },
     ],

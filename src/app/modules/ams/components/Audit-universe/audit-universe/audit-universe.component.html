@@ -1,5 +1,9 @@
 <p-toast position="top-right"></p-toast>
-<div class="flex justify-end">
+<div class="flex justify-between">
+  <p-button
+    label="Generate annual plan"
+    (click)="generateAnnualPlan()"
+  ></p-button>
   <p-button
     label="Create a new audit universe"
     (click)="createNewAuditUniverse()"

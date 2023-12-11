@@ -1,0 +1,196 @@
+<p-toast position="top-right"></p-toast>
+<form #addDivForm="ngForm" class="flex justify-end">
+  <div class="col mb-4">
+    <label for="dropdown" class="mr-2"> Choose Filter Type: </label>
+    <p-dropdown
+      [options]="['quarter', 'year', 'status']"
+      name="selectedOption"
+      [(ngModel)]="selectedOption"
+      (onChange)="onOptionChange($event)"
+      [showClear]="true"
+      placeholder="Choose Filter"
+      styleClass="p-password"
+      [required]="true"
+      [style]="{ width: '250px', height: '45px' }"
+    >
+    </p-dropdown>
+    <p-dropdown
+      class="ml-8"
+      *ngIf="selectedOption"
+      [options]="dropdownOptions"
+      name="selectedDropdown"
+      [(ngModel)]="selectedDropdown"
+      [showClear]="true"
+      placeholder="{{ getPlaceholder() }}"
+      styleClass="p-password"
+      [required]="true"
+      [style]="{ width: '250px', height: '45px' }"
+    >
+    </p-dropdown>
+
+    <button
+      pButton
+      type="submit"
+      class="p-button-sm h-12 pl-3 pr-3 whitespace-nowrap"
+      label="Find"
+      (click)="findAuditEngagement(addDivForm)"
+    ></button>
+  </div>
+</form>
+
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Engagement</h5>
+  <p-table
+    #dt1
+    [value]="auditEngagements"
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file"
+          (click)="exportCsv()"
+          class="m-2"
+          pTooltip="CSV"
+          tooltipPosition="bottom"
+        ></button>
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-excel"
+          (click)="exportExcel()"
+          class="p-button-success m-2"
+          pTooltip="XLS"
+          tooltipPosition="bottom"
+        ></button>
+        <button
+          type="button"
+          pButton
+          pRipple
+          icon="pi pi-file-pdf"
+          (click)="exportPdf()"
+          class="p-button-warning m-2"
+          pTooltip="PDF"
+          tooltipPosition="bottom"
+        ></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="startOn">
+          Start on<p-sortIcon field="startOn"></p-sortIcon>
+        </th>
+        <th pSortableColumn="endOn">
+          End on <p-sortIcon field="endOn"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status">
+          Status<p-sortIcon field="status"></p-sortIcon>
+        </th>
+        <th pSortableColumn="auditSchedule.annualPlan.name">
+          Annual plan<p-sortIcon field="auditSchedule.annualPlan.name"></p-sortIcon>
+        </th>
+        <th scope="col">Actions</th>
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt1.filter($any($event.target)?.value, 'startOn', 'contains')
+            "
+            [value]="$any(dt1.filters['name'])?.value"
+            placeholder="Search by start on"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt1.filter($any($event.target)?.value, 'endOn', 'contains')
+            "
+            [value]="$any(dt1.filters['description'])?.value"
+            placeholder="Search by end on"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt1.filter($any($event.target)?.value, 'status', 'contains')
+            "
+            [value]="$any(dt1.filters['type'])?.value"
+            placeholder="Search by status"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt1.filter(
+                $any($event.target)?.value,
+                'auditSchedule.annualPlan.name',
+                'contains'
+              )
+            "
+            [value]="$any(dt1.filters['type'])?.value"
+            placeholder="Search by annual plan"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col"></th>
+
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-auditEngagement let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="auditEngagement">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ auditEngagement.startOn }}</td>
+        <td>{{ auditEngagement.endOn }}</td>
+        <td>{{ auditEngagement.auditSchedule?.status }}</td>
+        <td>{{ auditEngagement.auditSchedule?.annualPlan.name }}</td>
+        <td class="flex gap-2">
+          <button
+          pButton
+          (click)="goToDetails(auditEngagement)"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Details"
+        ></button>
+
+          <button
+            pButton
+            *ngIf="auditEngagement?.status == 'Engagement'"
+            (click)="addToProgram(auditEngagement)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Add Program"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

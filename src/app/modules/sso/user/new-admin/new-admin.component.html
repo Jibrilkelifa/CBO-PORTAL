@@ -17,7 +17,7 @@
   </div>
 
 
-  <form  #addUserForm="ngForm" required>
+  <form  #addUserForm="ngForm" >
     <div *ngIf="selectedTab2">
       <div class="flex flex-wrap gap-2 mb-4">
         <div class="flex-auto">
@@ -50,7 +50,7 @@
         <div class="flex-auto">
           <label for="alphanumeric" class=" block mb-2"> Process: </label>
           <input pInputText id="process" ngModel [(ngModel)]="selectedProcess" name="process"
-            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+            [style]="{'width':'30vw','height':'45px'}"   pKeyFilter="alpha" readonly />
         </div>
         <div class="flex-auto">
           <label for="alphanumeric2" class=" block mb-2"> Sub Process: </label>
@@ -129,6 +129,7 @@
             <label for="writtenOff" class=" block mb-2"> written off upload: </label>
             <p-fileUpload name="writtenOff" (onSelect)="onSelect2($event)" [showUploadButton]=false accept="image/*"
               [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000" required>
+
               <ng-template pTemplate="content">
                 <ul *ngIf="uploadedFiles.length">
                   <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
@@ -155,7 +156,7 @@
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Username </label>
         <input pInputText id="alphabetic" pKeyFilter="alpha" ngModel [(ngModel)]="user.username" name="username"
-          [style]="{'width':'30vw','height':'45px'}" required  />
+          [style]="{'width':'30vw','height':'45px'}"   />
       </div>
       <div *ngIf="!isClicked">
         <p-button label="Update Password" type="button" class="updateButton mt-4" [style]="{'width':'633px'}"

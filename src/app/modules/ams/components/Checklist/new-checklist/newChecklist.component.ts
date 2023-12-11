@@ -60,9 +60,7 @@ export class NewCheckListComponent implements OnDestroy {
     this.subscriptions.push(
       this.checkListService
         .addCheckList(checkList)
-        .subscribe((response: any) => {
-          console.log(response);
-          
+        .subscribe((response: any) => {          
           this.messageService.clear();
           this.ref.close(response);
         })

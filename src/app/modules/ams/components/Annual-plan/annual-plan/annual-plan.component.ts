@@ -7,8 +7,9 @@ import { AnnualPlanDTO } from 'src/app/modules/ams/models/annualPlan';
 import { NewAnnualPlanComponent } from '../new-annual-plan/newAnnualPlan.component';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
-import { AutoGenerateAnnualPlanComponent } from 'src/app/modules/ams/components/Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 import { NewAuditScheduleComponent } from '../../Audit-schedule/new-audit-schedule/newAuditSchedule.component';
+import { NgForm } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 interface Column {
   field: string;
@@ -31,12 +32,15 @@ export class AnnualPlanComponent {
 
   public annualPlanDisplay: any[] = [];
 
-  public annualPlanR: AnnualPlanDTO[] = [];
+  public dropdownOptions = this.getYears();
+  public selectedDropdown: string;
+
   public annualInfo: AnnualPlanDTO;
   selectedAnnualInfo: AnnualPlanDTO;
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
+
 
   private subscriptions: Subscription[] = [];
 
@@ -44,6 +48,7 @@ export class AnnualPlanComponent {
     private annualPlanService: AnnualPlanService,
     private dialogService: DialogService,
     private messageService: MessageService,
+    private datePipe: DatePipe,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -65,32 +70,6 @@ export class AnnualPlanComponent {
     }));
   }
 
-  generateAnnualPlan(): void {
-    const ref = this.dialogService.open(AutoGenerateAnnualPlanComponent, {
-      header: 'Generate Annual Plan',
-      width: '50%',
-      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
-      baseZIndex: 10000,
-    });
-
-    ref.onClose.subscribe((response: any) => {
-      if (response.status) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: response.message,
-        });
-        this.annualPlans = response.result;
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed',
-          detail: response.message,
-        });
-      }
-    });
-  }
-
   getAnnualPlans(): void {
     this.subscriptions.push(
       this.annualPlanService.getAnnualPlans().subscribe(
@@ -107,6 +86,28 @@ export class AnnualPlanComponent {
           console.log(error);
         }
       )
+    );
+  }
+
+  submitAuditPlanYear(addDivForm: NgForm): void {
+    const annualPlan = new AnnualPlanDTO();
+    annualPlan.year = addDivForm.value.selectedDropdown;
+    this.subscriptions.push(
+      this.annualPlanService
+        .getAnnualPlansByYear(annualPlan)
+        .subscribe(
+          (response: any) => {
+            if (response.result) {
+              this.annualPlans = response.result;
+            }
+            else {
+              this.annualPlans = [];
+            }
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        )
     );
   }
 
@@ -197,6 +198,13 @@ export class AnnualPlanComponent {
     });
   }
 
+  getYears(): string[] {
+    const startYear = 2024;
+    const endYear = 2050;
+    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => `${startYear + i}/${startYear + i + 1}`);
+    return years;
+  }
+
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
       subscription.unsubscribe();
@@ -207,22 +215,30 @@ export class AnnualPlanComponent {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        (doc as any).autoTable(this.exportColumns, this.annualPlanDisplay);
+
+        const modifiedAnnualPlanDisplay = this.annualPlanDisplay.map((plan, index) => ({
+          ...plan,
+          id: index + 1,
+        }));
+
+        (doc as any).autoTable(this.exportColumns, modifiedAnnualPlanDisplay);
         doc.save('Annual plan.pdf');
       });
     });
   }
 
+
+
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const data = this.annualPlanDisplay.map(plan => ({
-        id: plan.id,
-        name: plan.name,
-        description: plan.description,
-        year: plan.year,
-        riskScore: plan.riskScore,
-        riskLevel: plan.riskLevel,
-        status: plan.status
+      const data = this.annualPlanDisplay.map((plan, index) => ({
+        Id: index + 1,
+        Name: plan.name,
+        Description: plan.description,
+        Year: plan.year,
+        'Risk Score': plan.riskScore,
+        'Risk Level': plan.riskLevel,
+        Status: plan.status
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
@@ -232,11 +248,11 @@ export class AnnualPlanComponent {
       });
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const dataBlob = new Blob([excelBuffer], {type: EXCEL_TYPE});
+      const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
       this.saveAsExcelFile(dataBlob, 'Annual plan');
     });
   }
-  
+
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_EXTENSION = '.xlsx';
     FileSaver.saveAs(

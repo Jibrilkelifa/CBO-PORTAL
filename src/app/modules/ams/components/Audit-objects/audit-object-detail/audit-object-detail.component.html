@@ -17,7 +17,7 @@
       ></p-button>
     </div>
     <div class="card">
-      <h5 class="table-title">Auditable area</h5>
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Auditable area</h5>
       <p-table
         #dt1
         [value]="auditableArea"
@@ -47,14 +47,20 @@
           <tr [pSelectableRow]="auditableArea">
             <td>{{ auditableArea?.name }}</td>
             <td>{{ auditableArea?.description }}</td>
-            <td>
+            <td class="flex gap-2">
               <button
                 pButton
-                (click)="updateAuditableObject(auditableArea.id)"
+                (click)="updateAuditableArea(auditableArea.id)"
                 [ngClass]="{ updateBlue: true }"
                 class="p-button-sm"
                 label="Update"
               ></button>
+              <button
+              pButton
+              (click)="deleteAuditableArea(auditableArea.id)"
+              class="p-button-sm"
+              label="Delete"
+            ></button>
             </td>
           </tr>
         </ng-template>
@@ -70,7 +76,7 @@
       ></p-button>
     </div>
     <div class="card">
-      <h5 class="table-title">CheckList</h5>
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">CheckList</h5>
       <p-table
         #dt1
         [value]="checklist"
@@ -99,14 +105,19 @@
           <tr [pSelectableRow]="checklist">
             <td>{{ checklist?.name }}</td>
             <td>{{ checklist?.description }}</td>
-            <td>
+            <td class="flex gap-2">
               <button
                 pButton
                 (click)="updateChecklist(checklist.id)"
-                [ngClass]="{ updateBlue: true }"
                 class="p-button-sm"
                 label="Update"
               ></button>
+              <button
+              pButton
+              (click)="deleteCheckList(checklist.id)"
+              class="p-button-sm"
+              label="Delete"
+            ></button>
             </td>
           </tr>
         </ng-template>
