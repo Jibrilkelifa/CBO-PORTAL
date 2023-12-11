@@ -10,9 +10,11 @@ import {
   navItemsCCUserDeliquent,
   navItemsICMSAdmin,
   navItemsICMSDistrict,
+  navItemsICMSDistrictDirector,
   navItemsICMSBranch,
   navItemsICMSProvision,
   navItemsICMSBranchManager,
+  navItemsICMSBankingOperation,
   navItemsSASVAdmin,
   navItemsSASVUser,
   navItemsMemoAdmin,
@@ -47,9 +49,11 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsCCUserDeliquent);
     addIndentClass(navItemsICMSAdmin);
     addIndentClass(navItemsICMSDistrict);
+    addIndentClass(navItemsICMSDistrictDirector);
     addIndentClass(navItemsICMSBranch);
     addIndentClass(navItemsICMSProvision);
     addIndentClass(navItemsICMSBranchManager);
+    addIndentClass(navItemsICMSBankingOperation);
     addIndentClass(navItemsSASVAdmin);
     addIndentClass(navItemsSASVUser);
     addIndentClass(navItemsMemoAdmin);
@@ -168,6 +172,22 @@ export class DefaultLayoutComponent {
                 }
               }
               break;
+              case "ROLE_ICMS_BANKING_OPERATION":
+                this.navItems.push(navItemsICMSBankingOperation);
+                this.dashboardRoute = "default_dashboard"
+                if(localStorage.getItem("supervisor") === "true"){
+                  // if(true){
+                  this.navItems.push(navItemSupervisor);
+                }
+                break;
+              case "ROLE_ICMS_DISTRICT_DIRECTOR":
+                this.navItems.push(navItemsICMSDistrictDirector);
+                this.dashboardRoute = "default_dashboard"
+                if(localStorage.getItem("supervisor") === "true"){
+                  // if(true){
+                  this.navItems.push(navItemSupervisor);
+                }
+                break;
             case "ROLE_SASV_ADMIN":
               this.navItems.push(navItemsSASVAdmin);
               this.dashboardRoute = "default_dashboard"

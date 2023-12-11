@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
 import { CaseStatusService } from '../../../../services/icms-services/ifr-services/case-status.service';
 import { AllCategoryService } from '../../../../services/icms-services/all-category.service';
@@ -14,6 +14,7 @@ import { IFR } from "../../../../models/icms-models/ifr-models/ifr";
 import { CaseStatus } from '../../../../models/icms-models/ifr-models/case-status';
 import { AllCategory } from '../../../../models/icms-models/all-category';
 import { FraudType } from '../../../../models/icms-models/ifr-models/fraud-type';
+import { FileUploadModule } from 'primeng/fileupload';
 import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr-models/suspected-fraudster-profession';
 
 
@@ -25,13 +26,24 @@ import { SuspectedFraudsterProfession } from '../../../../models/icms-models/ifr
 })
 
 export class NewFraudComponent implements OnInit {
+
+  form01: FormGroup;
+  fileSelected = false
+
+
   recoveredAmountError: string;
+  public selectedFiles1: File;
+  maxDate: Date;
+  uploadedFiles: any[] = [];
+  myDate = new Date();
   isButtonDisabled: boolean;
+  isFileSelected:boolean
   public frauds: IFR[] = [];
   public fraud: IFR;
   public rolesStr: string[] = [];
   public fraudR: IFR[] = [];
   selectedFraud: IFR;
+  isWrittenOff: boolean = false;
   public caseStatuses: CaseStatus[] = [];
   selectedCaseStatus: CaseStatus;
   public fraudCategories: AllCategory[] = [];
@@ -41,6 +53,7 @@ export class NewFraudComponent implements OnInit {
   public suspectedFraudsterProfessions: SuspectedFraudsterProfession[] = [];
   selectedSuspectedFraudsterProfession: SuspectedFraudsterProfession;
   public selectedBranch;
+  public selectedTeam;
   public selectedSubProcess;
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
@@ -52,7 +65,6 @@ export class NewFraudComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   datePresented: string;
-
   
 
   isOtherFraudCategorySelected: boolean = false;
@@ -102,6 +114,19 @@ export class NewFraudComponent implements OnInit {
   onFraudTypeChange(event: any) {
     this.isOtherFraudTypeSelected = (event.value.name === 'Other');
   }
+  onCaseStatusSelected() {
+    if (this.selectedCaseStatus && this.selectedCaseStatus.name === "Written Off") {
+      this.isWrittenOff = true;
+    } else {
+      this.isWrittenOff = false;
+    }
+  }
+  onSelect1(event: any) {
+    this.fileSelected = true
+    this.selectedFiles1 = event.files[0];
+    this.fileSelected = event.files.length > 0;
+  }
+
   onSuspectedFraudsterProfessionChange(event: any) {
     this.isOtherSuspectedFraudsterProfessionSelected = (event.value.name === 'Other');
   }
@@ -119,8 +144,14 @@ export class NewFraudComponent implements OnInit {
     private suspectedFraudsterProfessionService: SuspectedFraudsterProfessionService,
     private messageService: MessageService,
     private router: Router,
-    private organizationalUnitService: OrganizationalUnitService
-  ) { }
+    private organizationalUnitService: OrganizationalUnitService,
+    private fb: FormBuilder
+  ) { 
+    this.form01 = this.fb.group({
+      signatureImage: ['', Validators.required]
+    });
+  }
+
 
   ngOnInit() {
     this.populateRoles();
@@ -145,8 +176,10 @@ export class NewFraudComponent implements OnInit {
       this.update = true;
       this.newDiv = false;
     }
+  
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"));
   }
 
   checkRole(roleName: string): boolean {
@@ -267,7 +300,47 @@ export class NewFraudComponent implements OnInit {
     return this.fraud;
   }
 
+
+
+
   public addFraud(addFraudForm: NgForm): void {
+    console.log(addFraudForm.value);
+      const formData = new FormData();
+      formData.append('incidentOrFraud', JSON.stringify(addFraudForm.value));
+      formData.append('file', this.selectedFiles1);
+      formData.append('caseId', addFraudForm.value.caseId);
+      formData.append('caseStatus', JSON.stringify(addFraudForm.value.caseStatus));
+      formData.append('preparedBy', addFraudForm.value.preparedBy);
+      formData.append('authorizedBy', addFraudForm.value.authorizedBy);
+      formData.append('authorizationTimeStamp', addFraudForm.value.authorizationTimeStamp);
+      formData.append('fraudCause', addFraudForm.value.fraudCause);
+      formData.append('fraudAmount', addFraudForm.value.fraudAmount);
+      formData.append('allCategory', JSON.stringify(addFraudForm.value.allCategory));
+      formData.append('otherFraudCategory', addFraudForm.value.otherFraudCategory);
+      formData.append('fraudType', JSON.stringify(addFraudForm.value.fraudType));
+      formData.append('otherFraudType', addFraudForm.value.otherFraudType);
+      formData.append('fraudOccurrenceDate', addFraudForm.value.fraudOccurrenceDate);
+      formData.append('fraudDetectionDate', addFraudForm.value.fraudDetectionDate);
+      formData.append('fraudOccurrencePlace', addFraudForm.value.fraudOccurrencePlace);
+      formData.append('fraudCommittingTechnique', addFraudForm.value.fraudCommittingTechnique);
+      formData.append('reasonForDelay', addFraudForm.value.reasonForDelay);
+      formData.append('reasonForFailedFraudAttempt', addFraudForm.value.reasonForFailedFraudAttempt);
+      formData.append('amountRecovered', addFraudForm.value.amountRecovered);
+      formData.append('provisionHeld', addFraudForm.value.provisionHeld);
+      formData.append('actionTaken', addFraudForm.value.actionTaken);
+      formData.append('suspectedFraudsterAddress', addFraudForm.value.suspectedFraudsterAddress);
+      formData.append('suspectedFraudsterName', addFraudForm.value.suspectedFraudsterName);
+      formData.append('suspectedFraudsterProfession', JSON.stringify(addFraudForm.value.suspectedFraudsterProfession));
+      formData.append('otherSuspectedFraudsterProfession', addFraudForm.value.otherSuspectedFraudsterProfession);
+      formData.append('otherComment', addFraudForm.value.otherComment);
+      formData.append('team', JSON.stringify(addFraudForm.value.team));
+       formData.append('branch', JSON.stringify(addFraudForm.value.branch));
+      // formData.append('isWrittenOff', addFraudForm.value.isWrittenOff.toString());
+      // formData.append('isAuthorized', addFraudForm.value.isAuthorized.toString());
+      formData.append('inCaseOfClosedOrWrittenOff', addFraudForm.value.inCaseOfClosedOrWrittenOff);
+      formData.append('subProcess', JSON.stringify(addFraudForm.value.subProcess));
+    
+      
     const recoveredAmount = addFraudForm.value.amountRecovered;
   const actualAmount = addFraudForm.value.fraudAmount;
   if (recoveredAmount > actualAmount) {
@@ -308,7 +381,7 @@ export class NewFraudComponent implements OnInit {
                 }
               )
             }
-            this.fraudService.addFraud(addFraudForm.value).subscribe(
+            this.fraudService.addFraud(formData).subscribe(
               (response: any) => {
                 this.messageService.add({
                   severity: 'success',
@@ -316,9 +389,9 @@ export class NewFraudComponent implements OnInit {
                   detail: "Incident/Fraud Added Successfully"
                 });
                 setTimeout(() => {
-                }, 1000);
+                }, 100000);
                 this.getFrauds(this.branchId);
-                window.location.reload();
+                  window.location.reload();
               },
               (error: HttpErrorResponse) => {
 
@@ -330,38 +403,109 @@ export class NewFraudComponent implements OnInit {
     )
   }
 
+  // public updateFraud(updateFraud: NgForm): void {
+  //   const recoveredAmount: number = parseFloat(updateFraud.value.amountRecovered);
+  //   const actualAmount: number = parseFloat(this.fraud.fraudAmount);
+  // if (recoveredAmount > actualAmount) {
+  //   this.messageService.add({
+  //     severity: 'error',
+  //     summary: 'Error',
+  //     detail: 'Recovered amount cannot be greater than actual amount.'
+  //   });
+  
+  //   setTimeout(() => {
+  //     this.messageService.clear(); 
+  //   }, 5000); 
+  
+  //   return;
+  // }
+  //   this.fraudService.updateFraud(updateFraud.value).subscribe(
+  //     (response: IFR) =>
+  //      {
+  //       this.getFrauds(this.branchId);
+       
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'Success',
+  //         detail: "Incident/Fraud updated Successfully!"
+  //       });
+  //       setTimeout(() => {
+  //         this.router.navigate(['ICMS/Fraud/viewFraud']);
+  //       }, 1500);
+  //     },
+  //     (error: HttpErrorResponse) => {
+
+  //     }
+  //   );
+  // }
+
   public updateFraud(updateFraud: NgForm): void {
     const recoveredAmount: number = parseFloat(updateFraud.value.amountRecovered);
     const actualAmount: number = parseFloat(this.fraud.fraudAmount);
-  if (recoveredAmount > actualAmount) {
-    this.messageService.add({
-      severity: 'error',
-      summary: 'Error',
-      detail: 'Recovered amount cannot be greater than actual amount.'
-    });
+    
+    if (recoveredAmount > actualAmount) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Recovered amount cannot be greater than actual amount.'
+      });
   
-    setTimeout(() => {
-      this.messageService.clear(); 
-    }, 5000); 
+      setTimeout(() => {
+        this.messageService.clear(); 
+      }, 5000);
   
-    return;
-  }
-    this.fraudService.updateFraud(updateFraud.value).subscribe(
-      (response: IFR) =>
-       {
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('incidentOrFraud', JSON.stringify(updateFraud.value));
+    formData.append('file', this.selectedFiles1);
+    formData.append('caseId', updateFraud.value.caseId);
+    formData.append('caseStatus', JSON.stringify(updateFraud.value.caseStatus));
+    formData.append('preparedBy', updateFraud.value.preparedBy);
+    formData.append('authorizedBy', updateFraud.value.authorizedBy);
+    formData.append('authorizationTimeStamp', updateFraud.value.authorizationTimeStamp);
+    formData.append('fraudCause', updateFraud.value.fraudCause);
+    formData.append('fraudAmount', updateFraud.value.fraudAmount);
+    formData.append('allCategory', JSON.stringify(updateFraud.value.allCategory));
+    formData.append('otherFraudCategory', updateFraud.value.otherFraudCategory);
+    formData.append('fraudType', JSON.stringify(updateFraud.value.fraudType));
+    formData.append('otherFraudType', updateFraud.value.otherFraudType);
+    formData.append('fraudOccurrenceDate', updateFraud.value.fraudOccurrenceDate);
+    formData.append('fraudDetectionDate', updateFraud.value.fraudDetectionDate);
+    formData.append('fraudOccurrencePlace', updateFraud.value.fraudOccurrencePlace);
+    formData.append('fraudCommittingTechnique', updateFraud.value.fraudCommittingTechnique);
+    formData.append('reasonForDelay', updateFraud.value.reasonForDelay);
+    formData.append('reasonForFailedFraudAttempt', updateFraud.value.reasonForFailedFraudAttempt);
+    formData.append('amountRecovered', updateFraud.value.amountRecovered);
+    formData.append('provisionHeld', updateFraud.value.provisionHeld);
+    formData.append('actionTaken', updateFraud.value.actionTaken);
+    formData.append('suspectedFraudsterAddress', updateFraud.value.suspectedFraudsterAddress);
+    formData.append('suspectedFraudsterName', updateFraud.value.suspectedFraudsterName);
+    formData.append('suspectedFraudsterProfession', JSON.stringify(updateFraud.value.suspectedFraudsterProfession));
+    formData.append('otherSuspectedFraudsterProfession', updateFraud.value.otherSuspectedFraudsterProfession);
+    formData.append('otherComment', updateFraud.value.otherComment);
+    formData.append('team', JSON.stringify(updateFraud.value.team));
+    formData.append('branch', JSON.stringify(updateFraud.value.branch));
+    formData.append('inCaseOfClosedOrWrittenOff', updateFraud.value.inCaseOfClosedOrWrittenOff);
+    formData.append('subProcess', JSON.stringify(updateFraud.value.subProcess));
+  
+    this.fraudService.updateFraud(formData).subscribe(
+      (response: IFR) => {
         this.getFrauds(this.branchId);
-       
+  
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: "Incident/Fraud updated Successfully!"
         });
+  
         setTimeout(() => {
           this.router.navigate(['ICMS/Fraud/viewFraud']);
         }, 1500);
       },
       (error: HttpErrorResponse) => {
-
+  
       }
     );
   }

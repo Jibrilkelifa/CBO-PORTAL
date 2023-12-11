@@ -188,7 +188,7 @@ export class DCQTableComponent {
   }
 
   public getDCQs(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
+    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1 || roles.indexOf("ROLE_ICMS_BANKING_OPERATION") !== -1) {
       this.DCQService.getDCQs().subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
@@ -210,7 +210,7 @@ export class DCQTableComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
       // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branchId => {
       //   this.districtId = branchId?.subProcess?.id
       // });

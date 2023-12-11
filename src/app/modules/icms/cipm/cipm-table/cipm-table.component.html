@@ -73,6 +73,8 @@
           Type</th>
           <th scope="col" pSortableColumn="insuredName">Collateral Estimation Value</th>
           <th scope="col" pSortableColumn="insuredName">Sum Insured </th>
+          <th scope="col" pSortableColumn="insuredName">Policy Number </th>
+          <th scope="col" pSortableColumn="insuredName">Reference Number </th>
         <th scope="col" pSortableColumn="insuredName">Insured Name</th>
         <th scope="col" pSortableColumn="status.name" style="width:8%">Status</th>
         <th scope="col" pSortableColumn="insuranceExpireDate">Insurance Expiry
@@ -115,6 +117,8 @@
         </td>
         <td>{{cipms?.collateralEstimationValue}}</td>
         <td>{{cipms?.sumInsured}}</td>
+        <td>{{cipms?.policyNumber}}</td>
+        <td>{{cipms?.referenceNumber}}</td>
         <td>{{cipms?.insuredName}}</td>
         <td>{{cipms?.status?.name}}</td>
         <td>{{(cipms?.insuranceExpireDate)}}</td>
@@ -143,7 +147,7 @@
             Authorized!
           </td>
           <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && cipms.status.name === 'Closed'" class="closed-cell">
-            <span class="closed-text"> &nbsp; Closed!</span>
+            <span class="closed-text">Closed!</span>
           </td>
       </tr>
     </ng-template>

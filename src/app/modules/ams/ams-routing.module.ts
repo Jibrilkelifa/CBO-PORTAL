@@ -12,7 +12,10 @@ import { AuditObjectDetailComponent } from './components/Audit-objects/audit-obj
 import { AuditTypeComponent } from './components/Audit-type/audit-type/audit-type.component';
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
+import { AuditEngagementDetailComponent } from './components/Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
 import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
+import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
+import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
 
 const routes: Routes = [
   {
@@ -95,6 +98,20 @@ const routes: Routes = [
         },
       },
       {
+        path: 'audit-engagement-details',
+        component: AuditEngagementDetailComponent,
+        data: {
+          title: 'Audit Engagement Details',
+        },
+      },
+      {
+        path: 'audit-program-details',
+        component: AuditProgramDetailComponent,
+        data: {
+          title: 'Audit Engagement Details',
+        },
+      },
+      {
         path: 'audit-program',
         component: AuditProgramComponent,
         data: {
@@ -120,6 +137,13 @@ const routes: Routes = [
         component: RiskItemComponent,
         data: {
           title: 'Risk type',
+        },
+      },
+      {
+        path: ' ',
+        component: AuditFindingsComponent,
+        data: {
+          title: 'Audit Finding',
         },
       },
     ],

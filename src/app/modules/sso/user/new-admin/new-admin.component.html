@@ -126,9 +126,10 @@
           </div>
 
           <div class="flex-auto">
-            <label for="signatureImage" class=" block mb-2"> Signature Image: </label>
-            <p-fileUpload name="signatureImage" (onSelect)="onSelect2($event)" [showUploadButton]=false accept="image/*"
-              [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000" >
+            <label for="writtenOff" class=" block mb-2"> written off upload: </label>
+            <p-fileUpload name="writtenOff" (onSelect)="onSelect2($event)" [showUploadButton]=false accept="image/*"
+              [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000" required>
+
               <ng-template pTemplate="content">
                 <ul *ngIf="uploadedFiles.length">
                   <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>

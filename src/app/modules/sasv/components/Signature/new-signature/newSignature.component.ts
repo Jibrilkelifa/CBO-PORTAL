@@ -48,7 +48,7 @@ export class NewSignatureComponent implements OnDestroy {
       this.signatureInfo = this.config.data.auditUniverse;
     }
   }
-
+  
   onSearch(event: any) {
     if (event.query.length >= 3) {
       let query = event.query.toUpperCase();

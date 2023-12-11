@@ -2,12 +2,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
-import { AuditUniverseService } from 'src/app/modules/ams/services/auidit-universe/audit-universe.service';
-import { AuditUniverseDTO } from 'src/app/modules/ams/models/auditUniverse';
+import { AuditProgramService } from 'src/app/modules/ams/services/auidit-program/audit-program.service';
+import { AuditProgramDTO } from 'src/app/modules/ams/models/audit program';
 import { NewAuditProgramComponent } from '../new-audit-program/new-audit-program.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
+import { Router } from '@angular/router';
+import { AuditEngagementDetailComponent } from '../../Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
+import { AuditEngagementDTO } from '../../../models/audit-engagement';
 
 
 interface ExportColumn {
@@ -26,12 +29,12 @@ interface Column {
   templateUrl: './audit-program.component.html',
   styleUrls: ['./audit-program.component.scss']
 })
-export class AuditProgramComponent  implements OnDestroy {
-  public auditUniverse: AuditUniverseDTO[] = [];
-  public auditUniverseDisplay: any[] = [];
+export class AuditProgramComponent   {
+  public auditProgram: AuditProgramDTO[] = [];
+  public auditProgramDisplay: any[] = [];
 
-  public universeInfo: AuditUniverseDTO;
-  selectedUniverseInfo: AuditUniverseDTO;
+  public programInfo: AuditProgramDTO;
+  selectedProgramInfo: AuditProgramDTO;
 
   approved: false;
 
@@ -39,18 +42,20 @@ export class AuditProgramComponent  implements OnDestroy {
   cols!: Column[];
 
   private subscriptions: Subscription[] = [];
+ 
 
   constructor(
-    private auditUniverseService: AuditUniverseService,
+    private auditProgramService: AuditProgramService,
     private dialogService: DialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.getAuditUniverses();
+    this.getAuditPrograms();
     this.cols = [
       { field: 'id', header: 'ID' },
-      { field: 'name', header: 'Name' },
+      { field: 'annualPlan', header: 'Annual Plan' },
       { field: 'name', header: 'Audit Object' }, // Add this line
       { field: 'auditType', header: 'Auditable Type' },
       { field: 'status', header: 'Status' },
@@ -63,11 +68,13 @@ export class AuditProgramComponent  implements OnDestroy {
 
   }
 
-  getAuditUniverses(): void {
+  getAuditPrograms(): void {
     this.subscriptions.push(
-      this.auditUniverseService.getAuditUniverse().subscribe(
+      this.auditProgramService.getAuditPrograms().subscribe(
         (response: any) => {
-          this.auditUniverse = response.result;
+          this.auditProgram = response.result;
+          console.log(this.auditProgram);
+      
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -76,24 +83,11 @@ export class AuditProgramComponent  implements OnDestroy {
     );
   }
 
-  approveAuditUniverse(id: number): void {
-    const auditUniverse = new AuditUniverseDTO;
-    auditUniverse.id = id;
-    this.subscriptions.push(
-      this.auditUniverseService.approveAuditUniverse(auditUniverse).subscribe(
-        (response: any) => {
-          this.getAuditUniverses();
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
-    );
-  }
 
-  createNewAuditUniverse(): void {
+
+  createNewAuditProgram(): void {
     const ref = this.dialogService.open(NewAuditProgramComponent, {
-      header: 'Create a new audit universe',
+      header: 'Create a new audit program',
       draggable: true,
       width: '50%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
@@ -102,7 +96,7 @@ export class AuditProgramComponent  implements OnDestroy {
 
     ref.onClose.subscribe((response: any) => {
       if (response.status) {
-        this.getAuditUniverses();
+        this.getAuditPrograms();
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
@@ -118,26 +112,26 @@ export class AuditProgramComponent  implements OnDestroy {
     });
   }
 
-  updateAuditUniverse(id: number): void {
-    const auditUniverse = this.auditUniverse.find(
-      (universe) => universe.id === id
+  updateAuditProgram(id: number): void {
+    const auditProgram = this.auditProgram.find(
+      (program) => program.id === id
     );
     const ref = this.dialogService.open(NewAuditProgramComponent, {
       header: 'Update audit universe',
       draggable: true,
       width: '50%',
-      data: { auditUniverse },
+      data: { auditProgram },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
 
     ref.onClose.subscribe((response: any) => {
       if (response) {
-        this.auditUniverse = this.auditUniverse.map((universe) =>
-          universe.id === response.id ? response : universe
+        this.auditProgram = this.auditProgram.map((program) =>
+          program.id === response.id ? response : program
         );
         if (response.status) {
-          this.getAuditUniverses();
+          this.getAuditPrograms();
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -153,20 +147,46 @@ export class AuditProgramComponent  implements OnDestroy {
       }
     });
   }
-
-
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+  goToDetails(auditEngagement: AuditEngagementDTO): void {
+    // this.auditProgramService.selectedAuditProgram = auditProgram;
+    // this.router.navigate(['ams/audit-program-details']);
+   console.log(auditEngagement);
+    const ref = this.dialogService.open(AuditEngagementDetailComponent, {
+      header: 'Details',
+      draggable: true,
+      width: '90%',
+      data: { auditEngagement},
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
+
+
+
 
   exportPdf() {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        const data = this.auditUniverse.map((universe, index) => ({
+        const data = this.auditProgram.map((universe, index) => ({
           id: index + 1,
-          Name: universe.name,
-          'Audit Object': universe.auditObject.name,
+          Name: " audit program",
+          'Audit Object': universe.auditObject,
           'Audit Type': universe.auditType,
           status: universe.status,
         }));
@@ -182,10 +202,10 @@ export class AuditProgramComponent  implements OnDestroy {
     import('xlsx').then((xlsx) => {
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const data = this.auditUniverse.map((universe, index) => ({
+      const data = this.auditProgram.map((universe, index) => ({
         Id: index + 1,
-        Name: universe.name,
-        'Audit Object': universe.auditObject.name || 'N/A',
+        Name: 'universe',
+        'Audit Object': universe.auditObject || 'N/A',
         'Audit Type': universe.auditType,
         Status: universe.status,
       }));
@@ -207,5 +227,7 @@ export class AuditProgramComponent  implements OnDestroy {
       fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
     );
   }
+
+
 
 }

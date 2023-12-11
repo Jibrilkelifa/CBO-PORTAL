@@ -9,9 +9,11 @@ export let navItemsCCUser: Object;
 export let navItemsCCUserDeliquent: Object;
 export let navItemsICMSAdmin: Object;
 export let navItemsICMSDistrict: Object;
+export let navItemsICMSDistrictDirector: Object;
 export let navItemsICMSBranch: Object;
 export let navItemsICMSProvision: Object;
 export let navItemsICMSBranchManager: Object;
+export let navItemsICMSBankingOperation: Object;
 export let navItemsSASVAdmin: Object;
 export let navItemsSASVUser: Object;
 export let navItemsMemoAdmin: Object;
@@ -97,10 +99,6 @@ navItemsAMSAdmin =  {
       url: '/ams/audit-engagement',
     },
     {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
       name: 'Setting',
       url: '/ams',
       iconComponent: { name: 'cil-settings' },
@@ -124,6 +122,10 @@ navItemsAMSAdmin =  {
         {
           name: 'Risk item',
           url: '/ams/risk-item',
+        },
+        {
+          name: 'Audit Program',
+          url: '/ams/audit-program',
         },
       ]
     },
@@ -178,6 +180,10 @@ navItemsICMSAdmin = {
       name: 'IFR',
       url: '/ICMS/Fraud',
       children: [
+        {
+          name: 'Add Data',
+          url: '/ICMS/Fraud/addFraud',
+        },
         {
           name: 'View Reports',
           url: '/ICMS/Fraud/viewFraud',
@@ -273,6 +279,7 @@ navItemsICMSDistrict = {
           name: 'View CIPM History',
           url: '/ICMS/CIPM/viewCIPM',
         },
+     
       ]
     },
    
@@ -293,6 +300,10 @@ navItemsICMSDistrict = {
         {
           name: 'View History',
           url: '/ICMS/Fraud/viewFraud',
+        },
+        {
+          name: 'Add Data',
+          url: '/ICMS/Fraud/addFraud',
         },
       
       ]
@@ -360,7 +371,79 @@ navItemsICMSBranchManager = {
     }
   ]
 }
+navItemsICMSBankingOperation = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
+  children: [
 
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/DCQ/viewDCQ'
+        }
+      ]
+    },
+   
+  ]
+}
+
+navItemsICMSDistrictDirector = {
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
+  children: [
+    {
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
+      children: [
+        {
+          name: 'View CIPM History',
+          url: '/ICMS/CIPM/viewCIPM',
+        },
+      ]
+    },
+   
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
+        {
+          name: 'View Data',
+          url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFR',
+      url: '/ICMS/Fraud',
+      children: [
+        {
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
+        },
+        {
+          name: 'Add Data',
+          url: '/ICMS/Fraud/addFraud',
+        },
+     
+      ]
+    },
+    {
+      name: 'DACGM',
+      url: '/ICMS/DACGM',
+      children: [
+        {
+          name: 'View DACGM History',
+          url: '/ICMS/DACGM/viewDACGM',
+        },
+      ]
+    },
+  ]
+}
 navItemsICMSProvision = {
   name: 'Internal Control',
   url: '/ICMS',

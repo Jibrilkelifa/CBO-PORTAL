@@ -17,7 +17,7 @@ export class AuthService {
 
   // API path
 
-  // ssoBathPath = 'http://localhost:8081';
+  //ssoBathPath = 'http://localhost:9081';
   ssoBathPath = 'http://10.1.125.58:9081';
   // emsBasePath = 'http://10.1.11.48:9082';
   emsBasePath = 'http://10.1.125.58:9082';
@@ -26,7 +26,7 @@ export class AuthService {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private emsService:EMSService
+    private emsService: EMSService
   ) { }
 
   // Http Options
@@ -67,29 +67,31 @@ export class AuthService {
         catchError(this.handleError)
       );
   }
-  
+
   userData = new BehaviorSubject<any>(null);
   // After login save token and other values(if any) in localStorage
   async setUser(resp: JwtResponse) {
-   
-   
+
+
     localStorage.clear();
 
-       // Get employee by ID
-      //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
-      const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
+    // Get employee by ID
+    //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
+    const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
 
 
-    
+
 
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
+    localStorage.setItem('team', JSON.stringify(employee?.team));
     localStorage.setItem('supervisor', employee?.supervisor);
     localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
-
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
+    //  localStorage.setItem('branch', JSON.stringify(employee?.branch));
+    // localStorage.setItem('bto', JSON.stringify(employee?.branch ?? employee?.team));
     localStorage.setItem('subProcess', JSON.stringify(employee?.subProcess));
     localStorage.setItem('district', JSON.stringify(employee?.subProcess));
     localStorage.setItem('userId', resp?.user?.id.toString());
@@ -111,37 +113,44 @@ export class AuthService {
     for (let i = 1; i <= resp?.user.roles.length + 2; i++) {
       if (i == 1) {
         localStorage.setItem('url_1', this.ssoBathPath);
-      } else if (i == 2 ) {
+      } else if (i == 2) {
         localStorage.setItem('url_2', this.emsBasePath);
       }
       else if (i >= 3) {
         localStorage.setItem('url_' + (resp?.user?.roles[i - 3].module.id), resp?.user?.roles[i - 3].module.url);
       }
     }
-    
-       localStorage.setItem('subProcessId',employee?.subProcess.id.toString());
-       localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+
+    localStorage.setItem('subProcessId', employee?.subProcess.id.toString());
+    //  localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+    let branchId = 'default';
+    if (employee?.branch != null) {
+      branchId = employee.branch.id.toString();
+    } else if (employee?.team != null) {
+      branchId = employee.team.id.toString();
+    }
+    localStorage.setItem('branchId', branchId);
     // localStorage.setItem('sub_process_Id',  employee?.subProcess.id.toString());
-   
+
     //  localStorage.setItem('branchId',  resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change
 
     const role = resp?.user?.roles[0]?.name;
 
-  if (role) {
-    if (this.checkModule(resp?.user, "CC")) {
-      await this.router.navigate(['cc_dashboard']);
-    } else if (this.checkModule(resp?.user, "ICMS")) {
-      await this.router.navigate(['icms_dashboard']);
-    } else if (this.checkModule(resp?.user, "CMS")) {
-      await this.router.navigate(['cms_dashboard']);
-    } else {
-      await this.router.navigate(['default_dashboard']); // changed later
+    if (role) {
+      if (this.checkModule(resp?.user, "CC")) {
+        await this.router.navigate(['cc_dashboard']);
+      } else if (this.checkModule(resp?.user, "ICMS")) {
+        await this.router.navigate(['icms_dashboard']);
+      } else if (this.checkModule(resp?.user, "CMS")) {
+        await this.router.navigate(['cms_dashboard']);
+      } else {
+        await this.router.navigate(['default_dashboard']); // changed later
+      }
     }
   }
-  }
 
 
-  
+
 
   checkIfUserIsAdmin(user: any): boolean {
     if (user?.roles?.length > 0) {

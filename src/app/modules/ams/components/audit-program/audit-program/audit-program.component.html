@@ -1,16 +1,11 @@
 <p-toast position="top-right"></p-toast>
-<div class="flex justify-end">
-  <p-button
-    label="Create a new audit program"
-    (click)="createNewAuditUniverse()"
-  ></p-button>
-</div>
+
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Program</h5>
   <p-table
     #dt
     [columns]="cols"
-    [value]="auditUniverse"
+    [value]="auditProgram"
     [exportHeader]="'customExportHeader'"
     selectionMode="single"
     dataKey="id"
@@ -58,18 +53,12 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="name">
-          Name<p-sortIcon field="name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="auditObject.name">
-          Audit Object<p-sortIcon field="auditObject.name"></p-sortIcon>
-        </th>
-        <th pSortableColumn="auditType">
-          Audit Type<p-sortIcon field="auditType"></p-sortIcon>
+        <th pSortableColumn="auditProgram.auditEngagement.auditSchedule.annualPlan.name">
+          Annual Plan <p-sortIcon field="auditProgram.auditEngagement.auditSchedule.annualPlan.name"></p-sortIcon>
         </th>
         <th class="flex" pSortableColumn="status">
           Status<p-sortIcon field="status"></p-sortIcon>
-        </th>
+        </th> 
         <th scope="col">Actions</th>
       </tr>
       <tr>
@@ -89,22 +78,6 @@
             pInputText
             type="text"
             (input)="
-              dt.filter(
-                $any($event.target)?.value,
-                'auditObject.name',
-                'contains'
-              )
-            "
-            [value]="$any(dt.filters['auditObject.name'])?.value"
-            placeholder="Search by audit object"
-            class="p-column-filter"
-          />
-        </th>
-        <th scope="col">
-          <input
-            pInputText
-            type="text"
-            (input)="
               dt.filter($any($event.target)?.value, 'auditType', 'contains')
             "
             [value]="$any(dt.filters['auditType'])?.value"
@@ -116,30 +89,29 @@
         <th scope="col"></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-auditUniverse let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="auditUniverse">
+    <ng-template pTemplate="body" let-auditProgram let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="auditProgram">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ auditUniverse?.name }}</td>
-        <td>{{ auditUniverse?.auditObject?.name }}</td>
-        <td>{{ auditUniverse?.auditType }}</td>
-        <td>{{ auditUniverse?.status }}</td>
+        <td>{{ auditProgram?.auditSchedule?.annualPlan?.name }}</td>
+        <td>{{ auditProgram?.status }}</td>
         <td>
           <div class="flex gap-2">
+
             <button
-              pButton
-              (click)="updateAuditUniverse(auditUniverse.id)"
-              [ngClass]="{ updateBlue: true }"
-              class="p-button-sm w-20 h-10 p-2"
-              label="Update"
-            ></button>
+            pButton
+            (click)="goToDetails(auditProgram?.engagementInfo)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Details"
+          ></button>
             <button
-              pButton
-              *ngIf="auditUniverse?.status != 'Approved'"
-              (click)="approveAuditUniverse(auditUniverse.id)"
-              [ngClass]="{ updateBlue: true }"
-              class="p-button-sm w-20 h-10 p-2"
-              label="Approve"
-            ></button>
+            pButton
+            (click)="updateAuditProgram(auditProgram)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Add Finding"
+          ></button>
+     
           </div>
         </td>
       </tr>

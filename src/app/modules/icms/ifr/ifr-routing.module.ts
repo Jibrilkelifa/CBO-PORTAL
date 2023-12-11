@@ -6,6 +6,7 @@ import { FraudTableComponent } from './ifr-table/ifr-table.component';
 import { FraudNBETableComponent } from './ifr-nbe-table/ifr-nbe-table.component';
 import { IFRProvisionComponent } from './ifr-provision/ifr-provision.component';
 import { FraudNewComponent } from './ifr-new/ifr-new.component';
+
 import { FraudOutstandingpComponent } from './ifr-outstandingp/ifr-outstandingp.component';
 import { FraudOutstandingComponent } from './ifr-outstanding/ifr-outstanding.component';
 
@@ -78,6 +79,7 @@ const routes: Routes = [
           title: 'Calculate Provision for Incident or Fraud',
         },
       },
+
       {
         path: 'viewFraudForNBE',
         component: FraudNBETableComponent,

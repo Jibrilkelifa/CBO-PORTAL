@@ -120,7 +120,11 @@ export class SingleFraudCaseTableComponent {
 
   getSingleFraudCase(caseId: number) {
     this.fraudService.getFraud(caseId).subscribe(
+
       (response: IFR) => {
+        console.log("dame",response);
+        this.authorizedBy = response.authorizedBy;
+        
         this.items[0].description = response.suspectedFraudsterName + ", " + response.suspectedFraudsterAddress;
         this.items[0].remark = "";
 
@@ -160,7 +164,12 @@ export class SingleFraudCaseTableComponent {
         this.items[12].description = response.otherComment;
         this.items[12].remark = "";
 
-         this.caseName = response.branch.name +  "COOPERATIVE BANK OF OROMIA";
+        if (response.branch && response.branch.name) {
+          this.caseName = response.branch.name + " - COOPERATIVE BANK OF OROMIA";
+        } else if (response.team) {
+          this.caseName = response.team.externalName + " - COOPERATIVE BANK OF OROMIA";
+        }
+         //this.caseName = response.branch.name +  "COOPERATIVE BANK OF OROMIA";
         //  ", " + response.branch.district+ ", " +
         this.caseIdentifier = response.caseId;
         const dateObj = new Date(this.caseIdentifier.substring(5));
@@ -171,7 +180,7 @@ export class SingleFraudCaseTableComponent {
         });
         this.preparedBy = response.preparedBy;
         this.authorizedDate = response.authorizationTimeStamp;
-        this.authorizedBy = response.authorizedBy;
+        
         this.getSignatures();
       }
     )

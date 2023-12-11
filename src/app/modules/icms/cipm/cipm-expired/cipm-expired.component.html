@@ -76,6 +76,8 @@
           Type</th>
           <th scope="col" pSortableColumn="insuredName">Collateral estimation value</th>
           <th scope="col" pSortableColumn="insuredName">Sum Insured </th>
+          <th scope="col" pSortableColumn="insuredName">Policy Number </th>
+          <th scope="col" pSortableColumn="insuredName">Reference Number </th>
         <th scope="col" pSortableColumn="insuredName" style="width:8%">Insured Name</th>
         <th scope="col" pSortableColumn="status.name" style="width:8%">Status</th>
         <th scope="col" pSortableColumn="insuranceExpireDate" style="width:8%">Insurance Expiry
@@ -93,7 +95,11 @@
     <ng-template pTemplate="body" let-cipmee>
       <tr [pSelectableRow]="cipmee">
 
+<<<<<<< HEAD
         <td>{{cipmee?.subProcess?.name}}</td>
+=======
+        <td>{{cipmee?.branch?.subProcess?.name}}</td>
+>>>>>>> 369ee81ae22b6b009fd10267e8e4cb6400ec47cf
         <td>{{cipmee?.branch?.name}}</td>
         <td>{{cipmee?.borrowerName}}</td>
         <td>{{cipmee?.loanAccount}}</td>
@@ -117,6 +123,8 @@
         </td>
         <td>{{cipmee?.collateralEstimationValue}}</td>
         <td>{{cipmee?.sumInsured}}</td>
+        <td>{{cipmee?.policyNumber}}</td>
+        <td>{{cipmee?.referenceNumber}}</td>
         <td>{{cipmee?.insuredName}}</td>
         <td>{{cipmee?.status?.name}}</td>
         <td>{{(cipmee?.insuranceExpireDate)}}</td>

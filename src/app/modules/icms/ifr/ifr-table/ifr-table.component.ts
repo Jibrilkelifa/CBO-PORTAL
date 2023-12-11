@@ -9,6 +9,7 @@ import { IFR } from 'src/app/models/icms-models/ifr-models/ifr';
 import * as XLSX from 'xlsx';
 import { DialogService } from 'primeng/dynamicdialog';
 import { SingleFraudCaseTableComponent } from '../ifr-single-case/ifr-single-case-table.component';
+import { ShowIFRComponent } from '../show/show-ifr.component';
 
 @Component({
   selector: 'app-accordions',
@@ -158,6 +159,7 @@ export class FraudTableComponent {
 
 
   branchId: number = Number(localStorage.getItem('branchId'));
+  // teamId: number = Number(localStorage.getItem('teamId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   roles: string[] = [];
 
@@ -182,6 +184,9 @@ export class FraudTableComponent {
   calculateProvision(id: number): void {
     this.router.navigate(['ICMS/Fraud/calculateProvision', id]);
   }
+  // showFraud(id: number):void {
+  //   this.router.navigate('ICMS/Fraud/showFraud',id)
+  // }
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
@@ -241,7 +246,7 @@ export class FraudTableComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_DISTRICT_IC")) {
+    else if (roles.includes("ROLE_ICMS_DISTRICT_IC")|| roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
       // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
       //   this.districtId = branch?.subProcess?.id
       // });
@@ -295,6 +300,22 @@ export class FraudTableComponent {
           id: caseId
         }
       });
+  }
+
+  show(id: number) {
+    const data = this.frauds.find(
+      (fraud) => fraud.id === id
+    );
+    const title = 'Fraud image';
+
+    const ref = this.dialogService.open(ShowIFRComponent, {
+      header: 'Fraud image',
+      draggable: true,
+      width: '50%',
+      data: { data, title },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
   }
 }
 

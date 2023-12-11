@@ -81,7 +81,10 @@
     <ng-template pTemplate="body" let-fraudo>
       <tr [pSelectableRow]="fraudo">
         <td>{{fraudo?.subProcess?.name}}</td>
-        <td>{{fraudo?.branch?.name}}</td>
+        <ng-container *ngIf="fraudo?.team?.externalName || fraudo?.branch?.name">
+          <td *ngIf="fraudo?.team?.externalName">{{fraudo?.team?.externalName}}</td>
+          <td *ngIf="fraudo?.branch?.name">{{fraudo?.branch?.name}}</td>
+        </ng-container>
         <td>{{fraudo?.caseId}}</td>
         <td>{{fraudo?.suspectedFraudsterName}}</td>
         <td>{{fraudo?.suspectedFraudsterAddress}}</td>

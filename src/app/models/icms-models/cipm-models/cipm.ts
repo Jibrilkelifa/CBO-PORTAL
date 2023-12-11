@@ -12,6 +12,10 @@ export interface CIPM {
   preparedBy: string,
   preparationTimeStamp: string,
   authorizedBy: string,
+  
+  policyNumber:String ,
+  
+  referenceNumber:String ,
   authorizationTimeStamp: string,
   collateralType: {
     id: number
