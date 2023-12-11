@@ -12,12 +12,19 @@ export class IFRService {
 
   private httpOptions;
   private apiServiceUrl;
+  private formDataOptions;
   private init() {
     this.httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       })
+    };
+
+    this.formDataOptions = {
+      headers: new HttpHeaders({
+        Authorization: `Bearer ${localStorage.getItem('access_token')}`
+      }),
     };
     this.apiServiceUrl = localStorage.getItem('url_4');
   }
@@ -35,6 +42,10 @@ export class IFRService {
   public getFraud(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/find/${id}`, this.httpOptions)
+  }
+  public getImage(id: number): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/image/${id}`, this.httpOptions)
   }
   public getFraudForBranch(id: number): Observable<any> {
     this.init();
@@ -60,9 +71,49 @@ export class IFRService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/getOutstandingCasesInPreviousQuarter-list`, this.httpOptions)
   }
-  public addFraud(fraud: NgForm): Observable<any> {
+  // public addFraud(fraud: FormData): Observable<any> {
+  //   this.init();
+  //   return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/add`, fraud, this.httpOptions)
+  // }
+  
+  public addFraud(fraud: FormData): Observable<any> {
     this.init();
-    return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/add`, fraud, this.httpOptions)
+    return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/add`, fraud, this.formDataOptions);
+  }
+//   public addFraud(fraud: IFR): Observable<any> {
+//   this.init();
+//   const formData = new FormData();
+//   formData.append('suspectedFraudsterName', fraud.suspectedFraudsterName);
+//   formData.append('suspectedFraudsterAddress', fraud.suspectedFraudsterAddress);
+//   formData.append('fraudTypeId', fraud.fraudType.id.toString());
+//   formData.append('caseStatusId', fraud.caseStatus.id.toString());
+//   formData.append('suspectedFraudsterProfessionId', fraud.suspectedFraudsterProfession.id.toString());
+//   formData.append('allCategoryId', fraud.allCategory.id.toString());
+//   formData.append('fraudCause', fraud.fraudCause);
+//   formData.append('caseId', fraud.caseId);
+//   formData.append('preparedBy', fraud.preparedBy);
+//   formData.append('authorizedBy', fraud.authorizedBy);
+//   formData.append('authorizationTimeStamp', fraud.authorizationTimeStamp);
+//   formData.append('fraudAmount', fraud.fraudAmount);
+//   formData.append('provisionHeld', fraud.provisionHeld);
+//   formData.append('fraudOccurrenceDate', fraud.fraudOccurrenceDate);
+//   formData.append('fraudDetectionDate', fraud.fraudDetectionDate);
+//   formData.append('reasonForDelay', fraud.reasonForDelay);
+//   formData.append('fraudOccurrencePlace', fraud.fraudOccurrencePlace);
+//   // Append other fields here
+
+//   return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/add`, formData, this.formDataOptions);
+// }
+  // public addFraud(formData: FormData): Observable<any> {
+  //   this.init();
+  //   return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/add`, formData, {
+  //     headers: this.formDataOptions.headers
+  //   });
+  // }
+  public uploadWrittenOff(file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('writtenOff', file, file.name);
+    return this.http.post<any>(`${this.apiServiceUrl}/incidentFraudReport/upload`, formData);
   }
 
   public authorizeFraud(id: number): Observable<any> {
@@ -80,9 +131,9 @@ export class IFRService {
     };
     return  this.http.patch<any>(`${this.apiServiceUrl}/incidentFraudReport/calculateProvision/${id}`, body, this.httpOptions)
   }
-  public updateFraud(fraud: IFR): Observable<any>{
+  public updateFraud(fraud: FormData): Observable<any>{
     this.init();
-    return this.http.put<IFR>(`${this.apiServiceUrl}/incidentFraudReport/update`, fraud, this.httpOptions)
+    return this.http.put<IFR>(`${this.apiServiceUrl}/incidentFraudReport/update`, fraud, this.formDataOptions)
   }
   public deleteFraud(fraudId: number): Observable<any> {
     this.init();

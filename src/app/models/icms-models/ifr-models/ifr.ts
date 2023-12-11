@@ -4,6 +4,7 @@ import { AllCategory } from '../all-category'
 import { FraudType } from './fraud-type'
 import { Branch } from '../../sso-models/branch';
 import { SubProcess } from '../../sso-models/sub-process';
+import { Team } from '../../sso-models/team';
 // import { OrganizationalUnit } from '../../sso-models/branch';
 
 export interface IFR {
@@ -34,7 +35,13 @@ export interface IFR {
   otherSuspectedFraudsterProfession: string,
   otherComment: string,
   branch: Branch,
+  team: Team,
+  isWrittenOff:boolean,
   isAuthorized:boolean,
   inCaseOfClosedOrWrittenOff,
-  subProcess:SubProcess
+  subProcess:SubProcess,
+  fileName: string,
+  filePath: string,
+  fileData: ArrayBuffer,
+  addedByRole: string;
 }

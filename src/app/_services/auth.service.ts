@@ -17,8 +17,8 @@ export class AuthService {
 
   // API path
 
-  // ssoBathPath = 'http://localhost:8081';
-  ssoBathPath = 'http://10.1.125.58:9081';
+  //ssoBathPath = 'http://localhost:9081';
+   ssoBathPath = 'http://10.1.125.58:9081';
   // emsBasePath = 'http://10.1.11.48:9082';
   emsBasePath = 'http://10.1.125.58:9082';
 
@@ -86,7 +86,10 @@ export class AuthService {
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
+    localStorage.setItem('team', JSON.stringify(employee?.team));
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
+    //  localStorage.setItem('branch', JSON.stringify(employee?.branch));
+    // localStorage.setItem('bto', JSON.stringify(employee?.branch ?? employee?.team));
     localStorage.setItem('subProcess', JSON.stringify(employee?.subProcess));
     localStorage.setItem('district', JSON.stringify(employee?.subProcess));
     localStorage.setItem('userId', resp?.user?.id.toString());
@@ -116,7 +119,9 @@ export class AuthService {
       }
     }
        localStorage.setItem('subProcessId',employee?.subProcess.id.toString());
-       localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+    
+      localStorage.setItem('branchId', employee?.branch != null ? employee?.branch.id.toString() : employee?.team.id.toString());
+     
     // localStorage.setItem('sub_process_Id',  employee?.subProcess.id.toString());
    
     //  localStorage.setItem('branchId',  resp?.user?.employee?.branch != null ? resp?.user?.employee?.branch?.id.toString() : resp?.user?.employee?.team?.externalName);  //need to change

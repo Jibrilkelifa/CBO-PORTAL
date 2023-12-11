@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 
+
 import {
   FormModule,
   AccordionModule,
@@ -27,6 +28,7 @@ import {
   UtilitiesModule
 } from '@coreui/angular';
 import { NewFraudComponent } from './new-ifr/new-ifr.component';
+import { ShowIFRComponent } from './show/show-ifr.component';
 import { FraudTableComponent } from './ifr-table/ifr-table.component';
 import { FraudClosedComponent } from './ifr-closed/ifr-closed.component';
 import{ FraudOutstandingComponent} from './ifr-outstanding/ifr-outstanding.component';
@@ -47,6 +49,7 @@ import { BlockUIModule } from 'primeng/blockui';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AnimateModule } from 'primeng/animate';
 import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { SingleFraudCaseTableComponent } from './ifr-single-case/ifr-single-case-table.component';
 import { IFRProvisionComponent } from './ifr-provision/ifr-provision.component';
@@ -71,6 +74,7 @@ import { DialogService } from 'primeng/dynamicdialog';
     ListGroupModule,
     IconModule,
     ListGroupModule,
+    FileUploadModule,
     PlaceholderModule,
     ProgressModule,
     SpinnerModule,
@@ -107,7 +111,8 @@ import { DialogService } from 'primeng/dynamicdialog';
     FraudClosedComponent,
     FraudNewComponent,
     FraudOutstandingComponent,
-    FraudOutstandingpComponent
+    FraudOutstandingpComponent,
+    ShowIFRComponent
   ],
   providers: [ConfirmationService, MessageService, DialogService, DatePipe]
 })

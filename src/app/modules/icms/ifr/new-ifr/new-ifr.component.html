@@ -1,6 +1,6 @@
 <p-messages style="position: fixed; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
 <div *ngIf="newDiv">
-  <form #addFraudForm="ngForm" (ngSubmit)="addFraud(addFraudForm)" required>
+  <form #addFraudForm="ngForm" (ngSubmit)="addFraud(addFraudForm)" required >
     <div class="flex flex-wrap gap-3 mb-2">
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Case ID </label>
@@ -112,6 +112,12 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="flex-auto" *ngIf="isOtherSuspectedFraudsterProfessionSelected">
+        <label for="alphabetic" class=" block mb-2"> Other Suspected Fraudster Profession </label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="otherSuspectedFraudsterProfession"
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3"
+          [readonly]="checkRole('ROLE_ICMS_PROVISION')" />
+      </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2">In Case of Attempted Fraud, Reason for failure of Fraud</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="reasonForFailedFraudAttempt"
@@ -142,38 +148,6 @@
           [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" [maxDate]="fraudDetectionDate"></p-calendar>
       </div>
       <div class="flex-auto">
-        <label for="hex" class=" block mb-2"> Case Status </label>
-        <p-dropdown [options]="caseStatuses" name="caseStatus" ngModel [(ngModel)]="selectedCaseStatus"
-          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Case Status"
-          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
-          <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="selectedCaseStatus">
-              <div>{{ selectedCaseStatus.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-selectedCaseStatuse pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ selectedCaseStatuse.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-    </div>
-    <div class="flex flex-wrap gap-3 mb-2">
-      <div class="flex-auto">
-        <label for="fraudDetectionDate" class="block mb-2"> Date of Detection of Fraud</label>
-        <p-calendar id="fraudDetectionDate" [(ngModel)]="fraudDetectionDate" name="fraudDetectionDate"
-          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"
-          [disabled]="!fraudOccurrenceDate || checkRole('ROLE_ICMS_PROVISION')"
-          [minDate]="fraudOccurrenceDate"></p-calendar>
-      </div>
-      <div class="flex-auto" *ngIf="isOtherSuspectedFraudsterProfessionSelected">
-        <label for="alphabetic" class=" block mb-2"> Other Suspected Fraudster Profession </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="otherSuspectedFraudsterProfession"
-          [style]="{'width':'30vw','height':'45px'}" required minlength="3"
-          [readonly]="checkRole('ROLE_ICMS_PROVISION')" />
-      </div>
-      <div class="flex-auto">
         <label for="hex" class=" block mb-2"> Category of the Fraud </label>
         <p-dropdown [options]="fraudCategories" name="allCategory" ngModel [(ngModel)]="selectedFraudCategory"
           optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Fraud Category"
@@ -197,8 +171,66 @@
           [style]="{'width':'30vw','height':'45px'}" required minlength="3"
           [readonly]="checkRole('ROLE_ICMS_PROVISION')" />
       </div>
-    </div>
 
+    </div>
+    
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="fraudDetectionDate" class="block mb-2"> Date of Detection of Fraud</label>
+        <p-calendar id="fraudDetectionDate" [(ngModel)]="fraudDetectionDate" name="fraudDetectionDate"
+          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"
+          [disabled]="!fraudOccurrenceDate || checkRole('ROLE_ICMS_PROVISION')"
+          [minDate]="fraudOccurrenceDate"></p-calendar>
+      </div>
+   
+ 
+      <div class="flex-auto">
+        <label for="hex" class="block mb-2">Case Status</label>
+        <p-dropdown [options]="caseStatuses" name="caseStatus" [(ngModel)]="selectedCaseStatus"
+          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Case Status"
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
+          (onChange)="onCaseStatusSelected()">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedCaseStatus">
+              <div>{{ selectedCaseStatus.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selectedCaseStatus pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedCaseStatus.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+   
+      
+     </div>
+
+     <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto"  [style]="{'width':'30vw','height':'45px'}">
+      </div>
+
+     <!-- <div class="flex-auto" *ngIf="selectedCaseStatus && selectedCaseStatus.name === 'Written Off'">
+      <label for="hex" class="block mb-2">Upload proof:</label>
+      <p-fileUpload  name="signatureImage" (onSelect)="onSelect1($event)" [showUploadButton]="false"
+        accept="image/*" [style]="{'width':'30vw','height':'75px'}" [maxFileSize]="1000000" required>
+      </p-fileUpload>
+      <ul *ngIf="uploadedFiles.length" >
+        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+      </ul>
+    </div> -->
+    <div class="flex-auto" *ngIf="selectedCaseStatus && selectedCaseStatus.name === 'Written Off'">
+      <label for="hex" class="block mb-2">Upload Evidence:</label>
+      <p-fileUpload name="signatureImage" (onSelect)="onSelect1($event)" [showUploadButton]="false"
+        accept="image/*" [style]="{'width':'30vw','height':'75px'}" [maxFileSize]="1000000" required>
+      </p-fileUpload>
+      <ul *ngIf="uploadedFiles.length">
+        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+      </ul>
+    </div>
+    
+  
+     </div>
     <div class="flex-auto">
       <div class="flex-auto" [hidden]="!checkRole('ROLE_ICMS_PROVISION')">
         <label for="alphabetic" class=" block mb-2"> Days After Detection of Fraud </label>
@@ -214,9 +246,14 @@
     <div class="flex-auto" [hidden]="true">
       <label for="alphabetic" class=" block mb-2"> Branch </label>
       <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch"
-        name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+        name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
     </div>
     <div class="flex-auto" [hidden]="true">
+      <label for="alphabetic" class=" block mb-2"> Team</label>
+      <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedTeam"
+        name="team" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
+    </div>
+    <div class="flex-auto" [hidden]="true" >
       <label for="alphabetic" class=" block mb-2"> District </label>
       <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
         name="subProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
@@ -228,9 +265,11 @@
     <input [hidden]="true" pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="authorizationTimeStamp"
       name="authorizationTimeStamp" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
     <div class="mb-5"></div>
-    <p-button label="Record Incident/Fraud Report" type="submit" [disabled]="addFraudForm.invalid"
-    [disabled]="isButtonDisabled"
-      class="createButton mb-5"></p-button>
+    <p-button label="Record Incident/Fraud Report" class="mb-2 mt-16" type="submit"
+    [disabled]="addFraudForm.invalid || isButtonDisabled || 
+    !(selectedCaseStatus && (selectedCaseStatus.name === 'Written Off' && fileSelected) || 
+    (selectedCaseStatus.name === 'Outstanding' || selectedCaseStatus.name === 'Closed'))"
+    class="createButton mb-5"></p-button>
      
   </form>
 </div>
@@ -244,8 +283,9 @@
         <label for="hex" class="block mb-2">Case Status</label>
         <p-dropdown [options]="caseStatuses" name="casestatus" ngModel [(ngModel)]="selectedCaseStatus" name="caseStatus"
           optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Case Status"
-          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true">
-          (ngOnInit)="populateSelectedCaseStatus(existingCaseStatus)">
+          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
+          (onChange)="onCaseStatusSelected()">
+          <!-- (ngOnInit)="populateSelectedCaseStatus(existingCaseStatus)"> -->
           <!-- (onChange)="onStatusChange($event)"> -->
           <ng-template pTemplate="selectedItem">
             <div class="flex align-items-center gap-2" *ngIf="selectedCaseStatus">
@@ -259,6 +299,15 @@
           </ng-template>
         </p-dropdown>
       </div>
+      <div class="flex-auto" *ngIf="selectedCaseStatus && selectedCaseStatus.name === 'Written Off'">
+        <label for="hex" class="block mb-2">Upload Evidence:</label>
+        <p-fileUpload name="signatureImage" (onSelect)="onSelect1($event)" [showUploadButton]="false"
+          accept="image/*" [style]="{'width':'30vw','height':'75px'}" [maxFileSize]="1000000" required>
+        </p-fileUpload>
+        <ul *ngIf="uploadedFiles.length">
+          <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+        </ul>
+      </div>
     
       <div class="flex-auto">
         <label for="alphabetic" class="block mb-2">Amount Recovered (If Any)</label>
@@ -271,8 +320,10 @@
     <!-- Add space here -->
     <div style="margin-bottom: 20px;"></div>
     
-    <p-button label="Update Incident Or Fraud " type="submit" [disabled]="updateFraudForm.invalid"
-      class="updateButton"></p-button>
+    <p-button label="Update Incident Or Fraud" type="submit" [disabled]="updateFraudForm.invalid || isButtonDisabled || 
+    !(selectedCaseStatus && (selectedCaseStatus.name === 'Written Off' && fileSelected) || 
+    (selectedCaseStatus.name === 'Outstanding' || selectedCaseStatus.name === 'Closed'))"
+    class="updateButton"></p-button>
     </form>
      
 </div>

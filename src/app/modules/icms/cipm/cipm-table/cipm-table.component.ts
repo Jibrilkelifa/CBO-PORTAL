@@ -37,6 +37,8 @@ export class CIPMTableComponent {
       { name: 'Other Insurance Policy Coverage Type', value: 'otherInsuranceCoverageType' },
       { name: 'Collateral Estimation Value', value: 'collateralEstimationValue' },
       { name: 'sum Insured', value: 'sumInsured' },
+      { name: 'policy number', value: 'policy number' },
+      { name: 'reference number', value: 'reference number' },
       { name: 'Insured Name', value: 'insuredName' },
       { name: 'Status', value: 'status.name' },
       { name: 'Insurance Expiry Date', value: 'insuranceExpireDate' },
@@ -267,7 +269,7 @@ export class CIPMTableComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
       // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
       //   console.log("branchId = " + this.branchId)
       //   this.districtId = branch?.subProcess?.id

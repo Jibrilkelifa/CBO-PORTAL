@@ -40,6 +40,7 @@ const routes: Routes = [
       {
         path: 'ICMS/Fraud/calculateProvision/:id',  component: IFRProvisionComponent, data: {title: 'Fraud /  plan'}
       },
+     
       {
         path: 'ICMS/DACGM/approveActionPlan/:id',  component: DACGMPlanComponent, data: {title: 'Fraud /  escalated'}
       },

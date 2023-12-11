@@ -1,0 +1,30 @@
+<div
+  class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg overflow-visible"
+>
+  <div class="mb-8">
+  </div>
+  <div class="flex justify-around space-x-16 mb-8">
+    <div *ngIf="ifrImage" class="group">
+      <img
+        class="w-44 h-44 border border-blue-600"
+        [src]="dbIfrImage"
+        alt="ifrImage"
+      />
+      <img
+        class="w-24 h-24  border border-blue-600 absolute transform scale-100 group-hover:scale-200 group-hover:z-10 hover-img"
+        (mouseout)="deleteBlurred1()"
+        (mouseover)="showBlurred1()"
+        [src]="dbIfrImage"
+        alt="ifrImage"
+      />
+      <figcaption
+        *ngIf="ifrImage"
+        class="text-center text-sm font-bold mt-2"
+      >
+        Ifr
+      </figcaption>
+    </div>
+    
+  </div>
+
+</div>

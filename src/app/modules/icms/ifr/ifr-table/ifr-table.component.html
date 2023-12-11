@@ -71,6 +71,7 @@
         <th scope="col" pSortableColumn="caseStatus.name" style="width:5%">Case Status</th>
         <th scope="col" pSortableColumn="daysSinceFraudDetection" style="width:8%">Days since fraud detection<p-sortIcon
           field="daysSinceFraudDetection"></p-sortIcon></th>
+          <th scope="col" pSortableColumn="caseStatus.name" style="width:5%">Authorization</th>
         <th scope="col" pSortableColumn="Action" style="width:1%" [attr.colspan]="roles.includes('ROLE_ICMS_PROVISION') ? 2 : 1">Actions</th>
       </tr>
       <p-confirmDialog [style]="{width: '30vw'}" key="positionDialog" [position]="position"
@@ -81,7 +82,10 @@
     <ng-template pTemplate="body" let-frauds>
       <tr [pSelectableRow]="frauds">
         <td>{{frauds?.subProcess?.name}}</td>
-        <td>{{frauds?.branch?.name}}</td>
+        <ng-container *ngIf="frauds?.team?.externalName || frauds?.branch?.name">
+          <td *ngIf="frauds?.team?.externalName">{{frauds?.team?.externalName}}</td>
+          <td *ngIf="frauds?.branch?.name">{{frauds?.branch?.name}}</td>
+        </ng-container>
         <td>{{frauds?.caseId}}</td>
         <td>{{frauds?.suspectedFraudsterName}}</td>
         <td>{{frauds?.suspectedFraudsterAddress}}</td>
@@ -126,42 +130,71 @@
         <td
         [ngClass]="{ 'red': calculateDaysSinceFraudDetection(frauds?.fraudDetectionDate )>=0 }">
         {{absoluteValue(calculateDaysSinceFraudDetection(frauds?.fraudDetectionDate))}}</td>
-        <!-- <td *ngIf="frauds.authorizedBy !== 'Not Authorized'">Authorized!</td> -->
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') ">
-          <!-- && !(frauds.authorizedBy !== 'Not Authorized') -->
-          <button pButton (click)="updateFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Update"></button>
-        </td>
-        <td *ngIf="roles.includes('ROLE_ICMS_PROVISION')">
-          <ng-container *ngIf="!(frauds.authorizedBy !== 'Not Authorized')">
-            <span>Not Authorized!</span>
+        <td>
+          <ng-container *ngIf="roles.includes('ROLE_ICMS_PROVISION')">
+            <ng-container *ngIf="!(frauds.authorizedBy !== 'Not Authorized')">
+              <span>Not Authorized!</span>
+            </ng-container>
+            <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name === 'Written Off'">
+              <span>Written Off</span>
+            </ng-container>
+            <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name === 'Closed'">
+              <span>Closed!</span>
+            </ng-container>
+      
           </ng-container>
-          <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name === 'Written Off'">
-            <span>Written Off</span>
+          
+          <ng-container *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') && !frauds.isAuthorized && this.frauds.addedByRole === 'ROLE_ICMS_ADMIN'">
+            <button pButton (click)="authorizeFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Authorize"></button>
           </ng-container>
-          <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name === 'Closed'">
-            <span>Closed!</span>
+          
+          <ng-container *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_DIRECTOR') && !frauds.isAuthorized && this.frauds.addedByRole === 'ROLE_ICMS_DISTRICT_IC'">
+            <button pButton (click)="authorizeFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Authorize"></button>
           </ng-container>
-          <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && frauds.caseStatus.name !== 'Written Off' && frauds.caseStatus.name !== 'Closed'">
-            <button pButton
-              (click)="calculateProvision(frauds?.id)"
-              [ngClass]="{updateBlue: true}"
-              class="p-button-sm mb-3 increase-height"
-              label="Calculate Provision">
-            </button>
+          
+          <ng-container *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !frauds.isAuthorized && this.frauds.addedByRole === 'ROLE_ICMS_BRANCH_IC'">
+            <button pButton (click)="authorizeFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
+              label="Authorize"></button>
+          </ng-container>
+          
+          <ng-container *ngIf="frauds.isAuthorized && frauds.caseStatus.name !== 'Closed' && frauds.caseStatus.name !== 'Written Off'">
+            Authorized!
           </ng-container>
         </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && !frauds.isAuthorized ">
-          <button pButton (click)="authorizeFrauds(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Authorize"></button>
-        </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') && frauds.isAuthorized">
-          Authorized!
-        </td>
-        <td *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')">
-          <button pButton (click)="openInModal(frauds?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
-            label="Detail"></button>
-        </td>
+     
+              <td>
+              <div class="flex">
+                <ng-container *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC') && this.frauds.addedByRole === 'ROLE_ICMS_BRANCH_IC'">
+                  <button (click)="updateFrauds(frauds?.id)" class="p-button-sm mb-3 mr-5">
+                    <i class="pi pi-pencil text-blue-500"></i>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="this.roles.includes('ROLE_ICMS_DISTRICT_IC') && this.frauds.addedByRole === 'ROLE_ICMS_DISTRICT_IC'">
+                  <button (click)="updateFrauds(frauds?.id)" class="p-button-sm mb-3 mr-5">
+                    <i class="pi pi-pencil text-blue-500"></i>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="this.roles.includes('ROLE_ICMS_ADMIN') && this.frauds.addedByRole === 'ROLE_ICMS_ADMIN'">
+                  <button (click)="updateFrauds(frauds?.id)" class="p-button-sm mb-3 mr-5">
+                    <i class="pi pi-pencil text-blue-500"></i>
+                  </button>
+                </ng-container>
+              
+                <button *ngIf="frauds.caseStatus.name === 'Written Off'" (click)="show(frauds.id)" class="mr-5">
+                  <i class="pi pi-eye text-green-500"></i>
+                </button>
+                <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')" (click)="openInModal(frauds?.id)" class="mr-5">
+                  <i class="pi pi-info-circle text-orange-500"></i>
+                </button>
+                <ng-container *ngIf="(frauds.authorizedBy !== 'Not Authorized') && roles.includes('ROLE_ICMS_PROVISION') && frauds.caseStatus.name !== 'Written Off' && frauds.caseStatus.name !== 'Closed'">
+                  <button (click)="calculateProvision(frauds?.id)" class="p-button-sm mb-3 mr-2">
+                    <i class="pi pi-calculator text-red-500"></i>
+                  </button>
+                </ng-container>
+              </div>
+              </td>
       </tr>
     </ng-template>
 
