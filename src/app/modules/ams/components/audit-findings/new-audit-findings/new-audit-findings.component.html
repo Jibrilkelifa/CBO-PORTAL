@@ -1,113 +1,155 @@
 <div>
-  <form #addDivForm="ngForm" (ngSubmit)="submitAuditProgram(addDivForm)">
+  <form #addDivForm="ngForm" (ngSubmit)="addFinding(addDivForm)">
     <div style="margin-top: 2em"></div>
     <div class="row">
       <div class="col mb-4">
-        <label for="name" class="block mb-2"> Name : </label>
+        <label for="name" class="block mb-2"> Finding : </label>
         <input
           pInputText
-          id="name"
-          [ngModel]="programInfo.name"
+          id="finding"
+          [ngModel]="findingInfo.finding"
           name="name"
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
         />
       </div>
-      
       <div class="col mb-4">
-        <label for="previousStatus" class="block mb-2"> Previous Status: </label>
+        <label for="previousStatus" class="block mb-2"> Criteria: </label>
         <input
           pInputText
-          id="previousStatus"
-          [ngModel]="programInfo.previousStatus"
-          name="previousStatus"
+          id="criteria"
+          [ngModel]="findingInfo.criteria"
+          name="criteria"
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
         />
       </div>
-      </div>
+    </div> 
 
-
-   
-
-      <div class="row">
-       <div class="col mb-4">
-        <label for="previousDescription" class="block mb-2"> Previous Description : </label>
-        <textarea
-          pInputText
-          id="previousDescription"
-          [ngModel]="programInfo.previousDescription"
-          name="previousDescription"
-          style="width: 98%; height: 150px; resize: none"
-          required
-          minlength="3">
-       </textarea>
-       </div>
-      </div>
-
-
-      <div class="row">
+    <div class="row">
       <div class="col mb-4">
-        <label for="methodology" class="block mb-2"> Methodology : </label>
+        <label for="name" class="block mb-2"> Cause : </label>
         <input
           pInputText
-          id="methodology"
-          [ngModel]="programInfo.methodology"
-          name="methodology"
+          id="cause"
+          [ngModel]="findingInfo.cause"
+          name="cause"
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
         />
       </div>
       <div class="col mb-4">
-        <label for="OverAllTime" class="block mb-2"> Overall Time : </label>
+        <label for="implementedControls" class="block mb-2"> Implemented Controls: </label>
         <input
           pInputText
-          id="OverAllTime"
-          [ngModel]="programInfo.overAllTime"
-          name="OverAllTime"
+          id="implementedControls"
+          [ngModel]="findingInfo.implementedControls"
+          name="implementedControls"
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
         />
       </div>
+    </div> 
 
-      <div class="row">
-        <div class="col mb-4">
-         <label for="scopeDescription" class="block mb-2"> Scope Description : </label>
-         <textarea
-           pInputText
-           id="scopeDescription"
-           [ngModel]="programInfo.scopeDescription"
-           name="scopeDescription"
-           style="width: 100%; height: 150px; resize: none"
-           required
-           minlength="3">
-        </textarea>
-        </div>
-       </div>
+    <div class="row">
+      <div class="col mb-4">
+        <label for="impact" class="block mb-2"> Impact : </label>
+        <input
+          pInputText
+          id="impact"
+          [ngModel]="findingInfo.impact"
+          name="impact"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+      <div class="col mb-4">
+        <label for="recommendations" class="block mb-2"> Recomendations: </label>
+        <input
+          pInputText
+          id="recommendations"
+          [ngModel]="findingInfo.recommendations"
+          name="recommendations"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+    </div> 
 
-    
+
+    <div class="row">
+      <div class="col mb-4">
+        <label for="justifications" class="block mb-2"> Justifications : </label>
+        <input
+          pInputText
+          id="justifications"
+          [ngModel]="findingInfo.justifications"
+          name="justifications"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+      <div class="col mb-4">
+        <label for="rectificationProgress" class="block mb-2"> Rectification Progress: </label>
+        <input
+          pInputText
+          id="rectificationProgress"
+          [ngModel]="findingInfo.rectificationProgress"
+          name="rectificationProgress"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+    </div> 
+
+    <div class="col flex flex-row">
+      <div class="mb-4 mr-2">
+      <label for="hex" class="block mb-2"> Auditable Area: </label>
+      <p-dropdown
+        [required]="true"
+        [options]="auditableArea"
+        optionLabel="name"  
+        name="area"
+        [filter]="true"
+        [(ngModel)]="findingInfo.area"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Choose audit area"
+        styleClass="p-password"
+        [style]="{ width: '300px', height: '45px' }"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="findingInfo?.area">
+            <div>{{findingInfo.area.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template let-findingInfo pTemplate="item">
+          <div>
+            <div>{{ findingInfo.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
     </div>
-    
+  </div>
+
+
 
     <div style="margin-top: 10em"></div>
     <div class="buttonDiv">
       <p-button label="Cancel" (click)="closeDialog()"></p-button>
       <p-button
-        *ngIf="!update"
         label="Create audit program"
         [disabled]="addDivForm.invalid!"
         type="submit"
       ></p-button>
-      <!-- <p-button
-        *ngIf="update"
-        label="Update audit universe"
-        [disabled]="addDivForm.invalid!"
-        type="submit"
-      ></p-button> -->
     </div>
   </form>
 </div>

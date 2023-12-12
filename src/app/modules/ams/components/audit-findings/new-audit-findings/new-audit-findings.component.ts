@@ -6,11 +6,16 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { Subscription } from 'rxjs';
 import { AuditScheduleService } from 'src/app/modules/ams/services/audit-schedule/audit-schedule.service';
 import { AuditProgramService } from 'src/app/modules/ams/services/auidit-program/audit-program.service';
+import { AuditFindingService } from 'src/app/modules/ams/services/auidit-finding/audit-finding.service';
 import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { AuditProgramDTO } from 'src/app/modules/ams/models/audit program';
 import { NewAuditObjectComponent } from '../../Audit-objects/new-audit-object/newAuditObject.component';
 import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { FindingDTO } from '../../../models/finding';
+import { AuditableAreasDTO } from '../../../models/auditableAreas';
+import { AuditableAreasService } from '../../../services/auditableArea/auditableArea.service';
+import { AuditObjectDTO } from '../../../models/auditObject';
 
 @Component({
   selector: 'app-new-audit-findings',
@@ -19,21 +24,14 @@ import { AuditEngagementDTO } from '../../../models/audit-engagement';
   providers: [MessageService, ConfirmationService],
 })
 export class NewAuditFindingsComponent implements OnDestroy {
-  public auditSchedules: AuditScheduleDTO[] = [];
-  
-  statusOptions: any;
+  public auditableArea: AuditableAreasDTO[] = [];
+  public findingInfo: FindingDTO = new FindingDTO();
+  private subscriptions: Subscription[] = [];
+  public auditProgram: AuditProgramDTO[] = [];
+  datePipe: any;
 
   public programInfo: AuditProgramDTO = new AuditProgramDTO();
-  public scheduleInfo: AuditScheduleDTO = new AuditScheduleDTO();
   
-  selectedProgramInfo: AuditProgramDTO;
-  public selectedAuditType: any;
-  public auditSchedule: AuditScheduleDTO;
-
-  private subscriptions: Subscription[] = [];
-
-  update: boolean = false;
-  newDiv: boolean = true;
 
   constructor(
     private messageService: MessageService,
@@ -42,85 +40,52 @@ export class NewAuditFindingsComponent implements OnDestroy {
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private dialogService: DialogService,
+    private auditFindingService: AuditFindingService,
+    private auditableAreaService: AuditableAreasService
   ) { }
 
   ngOnInit() {
-    this.getAuditSchedule();
-    if (this.config.data?.auditSchedule) {
-      this.scheduleInfo = this.config.data.auditSchedule;
-      // this.update = true;
-      this.newDiv = false;
+    if (this.config.data?.auditProgram) {
+      this.programInfo = this.config.data.auditProgram;
+      this.getAuditableAreas(this.config.data.auditProgram.engagementInfo.auditSchedule.annualPlan.auditUniverse.auditObject.id);
     }
-
   }
 
-  getAuditSchedule(): void {
+  
+  addFinding(addDivForm: NgForm): void {
+    const finding: FindingDTO = { ...addDivForm.value, auditProgram: this.programInfo };
+    console.log(finding);
     this.subscriptions.push(
-      this.auditScheduleService.getAuditSchedules().subscribe(
+      this.auditFindingService.addAuditFinding(finding).subscribe(
         (response: any) => {
-          this.auditSchedules = response.result.map(
-            (auditSchedule: AuditScheduleDTO) => auditSchedule
-          );
+          this.ref.close(response);
+     
         },
         (error: HttpErrorResponse) => {
           console.log(error);
         }
-      ));
+      )
+    );
   }
 
-  submitAuditProgram(auditProgramForm: NgForm): void {
-    // this.auditSchedule.id = auditProgramForm.form.value.auditSchedule;
-    // auditProgramForm.form.value.auditSchedule = this.auditSchedule;
-    
-    
 
-    // submitAuditableArea(auditProgramForm: NgForm): void {
-    // if (this.update) {
-      // this.updateAuditPrograms(auditProgramForm);
-    // } else {
-      // this.addAuditProgram(auditProgramForm);
-    // }
+  getAuditableAreas(id?: number): void {
+    let auditObject = new AuditObjectDTO();
+    auditObject.id = id as number;
+    this.subscriptions.push(
+      this.auditableAreaService.getAuditableAreasById(auditObject).subscribe(
+        (response: any) => {
+          this.auditableArea = response.result;
+          console.log(this.auditableArea, " is auditable area");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
   }
-  
 
-  // addAuditProgram(addDivForm: NgForm): void {
-  //   this.subscriptions.push(
-  //     this.auditProgramService
-  //       .addAuditProgram(addDivForm.value)
-  //       .subscribe((response: any) => {
-  //         this.messageService.clear();
-  //         this.ref.close(response);
-  //       })
-  //   );
-  // }
-  // addAuditProgram(addDivForm: NgForm): void {
-  //   const auditProgram: AuditProgramDTO = { ...addDivForm.value, auditSchedule: this.scheduleInfo };
-  //   console.log(auditProgram);
-  //   this.subscriptions.push(
-  //     this.auditProgramService.addAuditProgram(auditProgram).subscribe(
-  //       (response: any) => {
-  //         this.ref.close(response);
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         console.log(error);
-  //       }
-  //     )
-  //   );
-  // }
 
-  // updateAuditPrograms(addDivForm: NgForm): void {
-  //   let auditProgram: AuditProgramDTO = addDivForm.value;
-  //   auditProgram = this.programInfo;
-  //   auditProgram.auditObject = this.programInfo.auditObject;
-  //   this.subscriptions.push(
-  //     this.auditProgramService
-  //       .updateAuditUniverse(auditUniverse)
-  //       .subscribe((response: any) => {
-  //         this.messageService.clear();
-  //         this.ref.close(response);
-  //       })
-  //   );
-  // }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

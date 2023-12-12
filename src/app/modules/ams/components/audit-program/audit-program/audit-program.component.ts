@@ -148,32 +148,33 @@ export class AuditProgramComponent   {
     });
   }
   goToDetails(auditEngagement: AuditEngagementDTO): void {
-    // this.auditProgramService.selectedAuditProgram = auditProgram;
-    // this.router.navigate(['ams/audit-program-details']);
-   console.log(auditEngagement);
-    const ref = this.dialogService.open(AuditEngagementDetailComponent, {
-      header: 'Details',
-      draggable: true,
-      width: '90%',
-      data: { auditEngagement},
-      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
-      baseZIndex: 10000,
-    });
-    ref.onClose.subscribe((response: any) => {
-      if (response.status) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: response.message,
-        });
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed',
-          detail: response.message,
-        });
-      }
-    });
+    localStorage.setItem('currentEngagement', JSON.stringify(auditEngagement));
+    this.router.navigate(['ams/audit-engagement-details']);
+
+ 
+    // const ref = this.dialogService.open(AuditEngagementDetailComponent, {
+    //   header: 'Details',
+    //   draggable: true,
+    //   width: '90%',
+    //   data: { auditEngagement},
+    //   contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+    //   baseZIndex: 10000,
+    // });
+    // ref.onClose.subscribe((response: any) => {
+    //   if (response.status) {
+    //     this.messageService.add({
+    //       severity: 'success',
+    //       summary: 'Success',
+    //       detail: response.message,
+    //     });
+    //   } else {
+    //     this.messageService.add({
+    //       severity: 'error',
+    //       summary: 'Failed',
+    //       detail: response.message,
+    //     });
+    //   }
+    // });
   }
 
 

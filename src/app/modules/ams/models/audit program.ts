@@ -14,5 +14,6 @@ export class AuditProgramDTO extends BaseModel {
     auditObject : AuditScheduleDTO;
     overAllTime: Date;
     engagementDTO: AuditEngagementDTO;
+    
 
 }
