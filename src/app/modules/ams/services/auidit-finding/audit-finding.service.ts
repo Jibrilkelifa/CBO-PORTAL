@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { WBS_DTO } from '../../models/WBS';
 import { FindingDTO } from '../../models/finding';
+import { AuditCommentDTO } from '../../models/comment';
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class AuditFindingService {
+
   private httpOptions: any;
   private apiServiceUrl: any;
 
@@ -44,5 +45,23 @@ export class AuditFindingService {
     );
   }
 
+  public updateAuditFinding(finding: FindingDTO): Observable<any> {
+    this.init();
+    return this.http.post(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/update`,
+      finding,
+      this.httpOptions
+    );
+  }
 
+
+
+  public addComment(comment: AuditCommentDTO): Observable<any> {
+    this.init();
+    return this.http.post(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/comment/register`,
+      comment,
+      this.httpOptions
+    );
+  }
 }

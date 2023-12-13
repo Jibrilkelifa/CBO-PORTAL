@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { AuditEngagementService } from '../../../services/audit-engagement/audit-engagement.service';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { AuditCommentDTO } from '../../../models/comment';
 import { AuditProgramDTO } from '../../../models/audit program';
 import { AuditProgramService } from '../../../services/auidit-program/audit-program.service';
 import { NewWBSComponent } from '../../audit-program/new-wbs/new-wbs.component';
@@ -15,6 +16,7 @@ import { AuditWBSService } from 'src/app/modules/ams/services/auidit-wbs/audit-w
 import { NewAuditFindingsComponent } from '../../audit-findings/new-audit-findings/new-audit-findings.component';
 import { FindingDTO } from '../../../models/finding';
 import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
+import { NewAuditFindingsCommentComponent } from '../../audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
 
 
 
@@ -135,9 +137,46 @@ export class AuditEngagementDetailComponent implements OnDestroy {
           detail: response.message,
         });
       }
+
+      this.getAuditProgram(this.auditEngagements[0].id);
     });
-    this.getAuditProgram(this.auditEngagements[0].id);
-    console.log("new program is added");
+
+  
+
+    
+  
+  }
+
+  addToComment(auditFinding: AuditCommentDTO): void {
+    console.log(auditFinding);
+    const ref = this.dialogService.open(NewAuditFindingsCommentComponent, {
+      header: 'Add new comment ',
+      draggable: true,
+      width: '50%',
+      data: { auditFinding },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+      
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+
+      this.getAuditProgram(this.auditEngagements[0].id);
+    });
+
+  
 
     
   
@@ -176,11 +215,12 @@ export class AuditEngagementDetailComponent implements OnDestroy {
           detail: response.message,
         });
       }
+      this.getAuditProgram(this.auditEngagements[0].id);
     });
 
-    this.getAuditProgram(this.auditEngagements[0].id);
-  }
 
+  }
+  
   addFinding(auditProgram:AuditProgramDTO): void {
 
     const ref = this.dialogService.open(NewAuditFindingsComponent, {
@@ -205,10 +245,39 @@ export class AuditEngagementDetailComponent implements OnDestroy {
           detail: response.message,
         });
       }
+      this.getAuditProgram(this.auditEngagements[0].id);
     });
-    this.getAuditProgram(this.auditEngagements[0].id);
+   
   }
 
+  updateFinding(auditFinding:FindingDTO): void {
+
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
+      header: 'Update Finding',
+      draggable: true,
+      width: '50%',
+      data: { auditFinding },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+      this.getAuditProgram(this.auditEngagements[0].id);
+    });
+   
+  }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

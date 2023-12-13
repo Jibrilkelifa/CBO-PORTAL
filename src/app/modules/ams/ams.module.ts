@@ -64,7 +64,11 @@ import { AuditProgramDetailComponent } from './components/audit-program/audit-pr
 import { NewAuditProgramComponent } from './components/audit-program/new-audit-program/new-audit-program.component';
 import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
 import { NewAuditFindingsComponent } from './components/audit-findings/new-audit-findings/new-audit-findings.component';
+import { NewAuditFindingsCommentComponent } from './components/audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
 import { NewWBSComponent } from './components/audit-program/new-wbs/new-wbs.component';
+
+
+
 @NgModule({
   declarations: [
     AuditUniverseComponent,
@@ -97,8 +101,8 @@ import { NewWBSComponent } from './components/audit-program/new-wbs/new-wbs.comp
     NewAuditProgramComponent,
     AuditFindingsComponent,
     NewAuditFindingsComponent,
-    NewWBSComponent
-    
+    NewAuditFindingsCommentComponent,
+    NewWBSComponent  
   ],
   imports: [
     NgApexchartsModule,

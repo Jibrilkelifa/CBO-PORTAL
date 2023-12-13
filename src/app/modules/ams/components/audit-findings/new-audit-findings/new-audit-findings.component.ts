@@ -29,9 +29,10 @@ export class NewAuditFindingsComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
   public auditProgram: AuditProgramDTO[] = [];
   datePipe: any;
+  public isCreate:boolean = true;
 
   public programInfo: AuditProgramDTO = new AuditProgramDTO();
-  
+ 
 
   constructor(
     private messageService: MessageService,
@@ -49,14 +50,43 @@ export class NewAuditFindingsComponent implements OnDestroy {
       this.programInfo = this.config.data.auditProgram;
       this.getAuditableAreas(this.config.data.auditProgram.engagementInfo.auditSchedule.annualPlan.auditUniverse.auditObject.id);
     }
-  }
 
-  
+    if (this.config.data?.auditFinding) {
+      this.findingInfo = this.config.data.auditFinding;
+      this.isCreate = false;
+      console.log(this.isCreate);
+    }
+
+    
+  }
+  submit(data : NgForm){
+        if(this.config.data?.auditFinding){
+          this.updateFinding(data);
+        } else if(this.config.data?.auditProgram){
+          this.addFinding(data);
+        }
+  }
   addFinding(addDivForm: NgForm): void {
     const finding: FindingDTO = { ...addDivForm.value, auditProgram: this.programInfo };
     console.log(finding);
     this.subscriptions.push(
       this.auditFindingService.addAuditFinding(finding).subscribe(
+        (response: any) => {
+          this.ref.close(response);
+     
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+
+  updateFinding(addDivForm: NgForm): void {
+    const finding: FindingDTO = addDivForm.value;
+    console.log(finding);
+    this.subscriptions.push(
+      this.auditFindingService.updateAuditFinding(finding).subscribe(
         (response: any) => {
           this.ref.close(response);
      

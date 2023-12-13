@@ -1,5 +1,5 @@
 <div>
-  <form #addDivForm="ngForm" (ngSubmit)="addFinding(addDivForm)">
+  <form #addDivForm="ngForm" (ngSubmit)="submit(addDivForm)">
     <div style="margin-top: 2em"></div>
     <div class="row">
       <div class="col mb-4">
@@ -110,7 +110,7 @@
       </div>
     </div> 
 
-    <div class="col flex flex-row">
+    <div class="col flex flex-row" *ngIf="isCreate">
       <div class="mb-4 mr-2">
       <label for="hex" class="block mb-2"> Auditable Area: </label>
       <p-dropdown
@@ -146,10 +146,9 @@
     <div class="buttonDiv">
       <p-button label="Cancel" (click)="closeDialog()"></p-button>
       <p-button
-        label="Create audit program"
         [disabled]="addDivForm.invalid!"
         type="submit"
-      ></p-button>
+      >{{isCreate ? 'Create' : 'Update'}}</p-button>
     </div>
   </form>
 </div>

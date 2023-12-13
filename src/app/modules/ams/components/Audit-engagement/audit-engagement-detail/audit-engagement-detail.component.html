@@ -184,7 +184,6 @@
     [columns]="cols"
     [value]="auditFinding"
     selectionMode="single"
-    
     [tableStyle]="{ 'min-width': '50rem' }"
     [rows]="5"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
@@ -209,7 +208,7 @@
         <th pSortableColumn="justification">
           Jusitification <p-sortIcon field="justification"></p-sortIcon>
         </th>       
-        <th></th>
+        <th scope="col">Actions</th>
       </tr>
   
     </ng-template>
@@ -220,6 +219,22 @@
         <td>{{ auditFinding.auditees}}</td>
         <td>{{ auditFinding.cause}}</td>
         <td>{{ auditFinding.justifications}}</td>
+        <td class="flex gap-4">
+          <button
+          pButton
+          (click)="addToComment(auditFinding)"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Add Comment"
+        ></button>
+        <button
+        pButton
+        (click)="updateFinding(auditFinding)"
+        [ngClass]="{ updateBlue: true }"
+        class="p-button-sm h-10 whitespace-nowrap"
+        label="Update"
+      ></button>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
