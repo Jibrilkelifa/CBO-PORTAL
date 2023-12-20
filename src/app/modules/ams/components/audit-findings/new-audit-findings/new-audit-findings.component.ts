@@ -7,11 +7,7 @@ import { Subscription } from 'rxjs';
 import { AuditScheduleService } from 'src/app/modules/ams/services/audit-schedule/audit-schedule.service';
 import { AuditProgramService } from 'src/app/modules/ams/services/auidit-program/audit-program.service';
 import { AuditFindingService } from 'src/app/modules/ams/services/auidit-finding/audit-finding.service';
-import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { AuditProgramDTO } from 'src/app/modules/ams/models/audit program';
-import { NewAuditObjectComponent } from '../../Audit-objects/new-audit-object/newAuditObject.component';
-import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
-import { AuditEngagementDTO } from '../../../models/audit-engagement';
 import { FindingDTO } from '../../../models/finding';
 import { AuditableAreasDTO } from '../../../models/auditableAreas';
 import { AuditableAreasService } from '../../../services/auditableArea/auditableArea.service';
@@ -35,9 +31,6 @@ export class NewAuditFindingsComponent implements OnDestroy {
  
 
   constructor(
-    private messageService: MessageService,
-    private auditProgramService: AuditProgramService,
-    private auditScheduleService: AuditScheduleService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private dialogService: DialogService,
@@ -54,7 +47,6 @@ export class NewAuditFindingsComponent implements OnDestroy {
     if (this.config.data?.auditFinding) {
       this.findingInfo = this.config.data.auditFinding;
       this.isCreate = false;
-      console.log(this.isCreate);
     }
 
     
@@ -83,7 +75,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
   }
 
   updateFinding(addDivForm: NgForm): void {
-    const finding: FindingDTO = addDivForm.value;
+    const finding: FindingDTO = this.findingInfo;
     console.log(finding);
     this.subscriptions.push(
       this.auditFindingService.updateAuditFinding(finding).subscribe(

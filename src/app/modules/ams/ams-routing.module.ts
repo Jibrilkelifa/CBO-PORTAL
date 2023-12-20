@@ -15,6 +15,7 @@ import { AuditEngagementDetailComponent } from './components/Audit-engagement/au
 import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
 import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
 import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
+import { AuditFindingsDetailComponent } from './components/Audit-findings/audit-findings-detail/audit-findings-detail.component';
 
 const routes: Routes = [
   {
@@ -101,6 +102,13 @@ const routes: Routes = [
         component: AuditEngagementDetailComponent,
         data: {
           title: 'Audit Engagement Details',
+        },
+      },
+      {
+        path: 'audit-findings-details',
+        component: AuditFindingsDetailComponent,
+        data: {
+          title: 'Audit Findings Details',
         },
       },
       {

@@ -1,108 +1,56 @@
 <p-toast position="top-right"></p-toast>
 
-
-<div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Engagement</h5>
+<div class="card" >
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Audit Finding </h5>
   <p-table
-    [value]="auditEngagements"
-    dataKey="id"
-    [tableStyle]="{ 'min-width': '50rem' }"
+    #dt
+    [columns]="cols"
+    [value]="auditFinding"
+    stateStorage="session"
+    stateKey="statedemo-session"
   >
+ 
 
     <ng-template pTemplate="header">
       <tr>
-        <th>
-          Annual Plan
+        <th pSortableColumn="area.name">
+          Area <p-sortIcon field="area.name"></p-sortIcon>
         </th>
-        <th>
-          Reference Number
-        </th>
-        <th>
-          Message
-        </th>
-        <th>
-          Date
-        </th>
+        <th pSortableColumn="auditiees">
+          Auditees <p-sortIcon field="auditiees"></p-sortIcon>
+        </th>  
+        <th pSortableColumn="cause">
+          Cause <p-sortIcon field="cause"></p-sortIcon>
+        </th>   
+        <th pSortableColumn="justification">
+          Jusitification <p-sortIcon field="justification"></p-sortIcon>
+        </th>       
         <th scope="col">Actions</th>
       </tr>
+  
     </ng-template>
-
-
-    <ng-template pTemplate="body" let-auditEngagement >
-      <tr >
-        <td>{{ auditEngagement.auditSchedule?.annualPlan.name }}</td>
-        <td>{{ auditEngagement.refNum }}</td>
-        <td>{{ auditEngagement.message }}</td>
-        <td>{{ auditEngagement.date }}</td>
-   
-        <td class="flex gap-2">
+    <ng-template pTemplate="body" let-auditFinding >
+      <tr [pSelectableRow]="auditFinding">
+        <td>{{ auditFinding.area.name}}</td>
+        <td>{{ auditFinding.auditees}}</td>
+        <td>{{ auditFinding.cause}}</td>
+        <td>{{ auditFinding.justifications}}</td>
+        <td class="flex gap-4">
           <button
-            pButton
-            *ngIf="auditEngagement?.status == 'Engagement'"
-            (click)="addToProgram(auditEngagement)"
-            [ngClass]="{ updateBlue: true }"
-            class="p-button-sm h-10 whitespace-nowrap"
-            label="Add Program"
-          ></button>
-        </td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="5">No found.</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
-<br><br><br><br>
-<div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Program</h5>
-  <p-table
-    [value]="auditPrograms"
-    dataKey="id"
-    [tableStyle]="{ 'min-width': '50rem' }"
-  >
-
-    <ng-template pTemplate="header">
-      <tr>
-    
-        <th>
-          Name
-        </th>
-        <th>
-          Created User
-        </th>
-        <th>
-          Status
-        </th>
-        <th>
-          Previous Status
-        </th>
-        <th scope="col">Actions</th>
-     
-      </tr>
-    </ng-template>
-
-
-    <ng-template pTemplate="body" let-auditProgram let-rowIndex="rowIndex">
-      <tr >
-        <td>{{ auditProgram.name}}</td>
-        <td>{{ auditProgram.createdUser }}</td>
-        <td>{{ auditProgram.status }}</td>
-        <td>{{ auditProgram.previousStatus}}</td>
+          pButton
+      
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Add Comment"
+        ></button>
+        <button
+        pButton
        
-        <td class="flex gap-2">
-          
-          <button
-            pButton
-            *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Draft'"
-            (click)="ApproveProgram(auditProgram?.id)"
-            [ngClass]="{ updateBlue: true }"
-            class="p-button-sm h-10 whitespace-nowrap"
-            label="Approve"
-          ></button>
+        [ngClass]="{ updateBlue: true }"
+        class="p-button-sm h-10 whitespace-nowrap"
+        label="Update"
+      ></button>
         </td>
-    
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -111,25 +59,19 @@
       </tr>
     </ng-template>
   </p-table>
-  <br>
-  <br>
+</div>
 
-</div>
+
 <br><br><br><br>
-<div class="flex justify-end">
-  <p-button
-  *ngIf="auditPrograms[0]?.status == 'Draft'"
-    label="Add WBS"
-    (click)="addWBS(auditPrograms[0])"
-  ></p-button>
-</div>
-<div class="card"  *ngIf="auditPrograms[0]?.status == 'Draft'">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Work Break Down Structure </h5>
+
+
+<div class="card" >
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Comments </h5>
   <p-table
    
     #dt
     [columns]="cols"
-    [value]="auditWBS"
+    [value]="auditFinding"
     selectionMode="single"
     dataKey="id"
     [tableStyle]="{ 'min-width': '50rem' }"
@@ -170,15 +112,11 @@
   </p-table>
 </div>
 <br><br><br><br>
-<div class="flex justify-end">
-  <p-button
-  *ngIf="auditPrograms[0]?.status == 'Approved'"
-    label="Add Finding"
-    (click)="addFinding(auditPrograms[0])"
-  ></p-button>
-</div>
-<div class="card"   *ngIf="auditPrograms[0]?.status == 'Approved'">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Findings </h5>
+
+
+
+<div class="card" >
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Ammandements </h5>
   <p-table
     #dt
     [columns]="cols"
@@ -213,7 +151,7 @@
   
     </ng-template>
     <ng-template pTemplate="body" let-auditFinding let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="auditFinding" (click)="goToDetails(auditFinding)">
+      <tr [pSelectableRow]="auditFinding">
         <td>{{ rowIndex + 1 }}</td>
         <td>{{ auditFinding.area.name}}</td>
         <td>{{ auditFinding.auditees}}</td>
@@ -222,14 +160,14 @@
         <td class="flex gap-4">
           <button
           pButton
-          (click)="addToComment(auditFinding)"
+      
           [ngClass]="{ updateBlue: true }"
           class="p-button-sm h-10 whitespace-nowrap"
           label="Add Comment"
         ></button>
         <button
         pButton
-        (click)="updateFinding(auditFinding)"
+       
         [ngClass]="{ updateBlue: true }"
         class="p-button-sm h-10 whitespace-nowrap"
         label="Update"

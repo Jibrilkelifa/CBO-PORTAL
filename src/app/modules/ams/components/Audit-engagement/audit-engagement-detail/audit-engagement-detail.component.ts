@@ -17,6 +17,7 @@ import { NewAuditFindingsComponent } from '../../audit-findings/new-audit-findin
 import { FindingDTO } from '../../../models/finding';
 import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
 import { NewAuditFindingsCommentComponent } from '../../audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
+import { Router } from '@angular/router';
 
 
 
@@ -59,6 +60,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     private messageService: MessageService,
     private auditWBSService: AuditWBSService,
     private auditFindingService: AuditFindingService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -277,6 +279,15 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       this.getAuditProgram(this.auditEngagements[0].id);
     });
    
+  }
+
+  
+  goToDetails(auditFinding: FindingDTO): void {
+    
+    
+    localStorage.setItem('currentFinding', JSON.stringify(auditFinding));
+    this.router.navigate(['ams/audit-findings-details']);
+
   }
 
   ngOnDestroy() {
