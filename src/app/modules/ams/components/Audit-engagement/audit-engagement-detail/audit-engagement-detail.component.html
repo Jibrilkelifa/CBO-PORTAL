@@ -244,4 +244,11 @@
     </ng-template>
   </p-table>
 </div>
-<br><br><br><br>
+<br><br>
+<div class="flex justify-center">
+  <p-button
+  *ngIf="auditPrograms[0]?.status == 'Approved'"
+    label="Generate Report"
+    (click)="goToGenerateReport(auditEngagements[0])"
+  ></p-button>
+</div>

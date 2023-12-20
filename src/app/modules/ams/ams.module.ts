@@ -47,6 +47,7 @@ import { AuditFindingsComponent } from './components/audit-findings/audit-findin
 import { NewAuditFindingsComponent } from './components/audit-findings/new-audit-findings/new-audit-findings.component';
 import { NewAuditFindingsCommentComponent } from './components/audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
 import { NewWBSComponent } from './components/audit-program/new-wbs/new-wbs.component';
+import { Report } from './components/Report/report.component';
 import { AccordionModule,BadgeModule,BreadcrumbModule,CardModule,CollapseModule,GridModule,UtilitiesModule,SharedModule,ListGroupModule,PlaceholderModule,ProgressModule,SpinnerModule,TabsModule,NavModule, CarouselModule,FormModule,PaginationModule,PopoverModule} from '@coreui/angular';
 
 
@@ -84,7 +85,8 @@ import { AccordionModule,BadgeModule,BreadcrumbModule,CardModule,CollapseModule,
     NewAuditFindingsComponent,
     NewAuditFindingsCommentComponent,
     NewWBSComponent,
-    AuditFindingsDetailComponent
+    AuditFindingsDetailComponent,
+    Report
   ],
   imports: [
     NgApexchartsModule,

@@ -36,6 +36,7 @@ interface Column {
 export class AuditEngagementDetailComponent implements OnDestroy {
 
 
+
   public auditEngagements: AuditEngagementDTO[] = [];
   public auditPrograms: AuditProgramDTO[] = [];
   public auditWBS: WBS_DTO[] = [];
@@ -288,6 +289,12 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     localStorage.setItem('currentFinding', JSON.stringify(auditFinding));
     this.router.navigate(['ams/audit-findings-details']);
 
+  }
+
+  goToGenerateReport(auditEngagement: AuditEngagementDTO) {
+     
+    localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
+    this.router.navigate(['ams/report']);
   }
 
   ngOnDestroy() {
