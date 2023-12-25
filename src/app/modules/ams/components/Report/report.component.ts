@@ -32,17 +32,14 @@ interface ExportColumn {
   styleUrls: ['./report.component.scss'],
 })
 export class Report {
-
   auditEngagements:AuditEngagementDTO[] = [];
   auditPrograms: AuditProgramDTO[] = [];
   auditFinding: FindingDTO[] = [];
   exportColumns!: ExportColumn[];
   cols!: Column[];
   public Editor = ClassicEditor;
-
-
   private subscriptions: Subscription[] = [];
-finding: any;
+  finding: any;
 
   constructor(
     private auditProgramService: AuditProgramService,

@@ -38,7 +38,7 @@ import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRi
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
 import { AuditEngagementDetailComponent } from './components/Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
-import { AuditFindingsDetailComponent } from './components/Audit-findings/audit-findings-detail/audit-findings-detail.component';
+import { AuditFindingsDetailComponent } from './components/audit-findings/audit-findings-detail/audit-findings-detail.component';
 import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
 import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
