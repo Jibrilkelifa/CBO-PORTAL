@@ -10,6 +10,7 @@ import { AuditCommentDTO } from '../../models/comment';
 
 export class AuditFindingService {
 
+
   private httpOptions: any;
   private apiServiceUrl: any;
 
@@ -64,4 +65,23 @@ export class AuditFindingService {
       this.httpOptions
     );
   }
+
+  public getCommentByFindingId(id: number): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/comment/findById/${id}`,
+      this.httpOptions
+    );
+  }
+  
+  public getAmmendmentByFindingId(id: number) {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/amendedFinding/ByFindingId/${id}`,
+      this.httpOptions
+    ); 
+  }
+
+
+
 }

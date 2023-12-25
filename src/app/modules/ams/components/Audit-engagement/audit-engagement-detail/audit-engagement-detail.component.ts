@@ -105,7 +105,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       this.auditFindingService.getAuditFindingByProgramId(id).subscribe(
         (response: any) => {
           this.auditFinding = response.result;
-          console.log(this.auditFinding);
+          console.log(this.auditFinding, "this is audit finding");
         },
         (error: HttpErrorResponse) => {
           console.log(error);

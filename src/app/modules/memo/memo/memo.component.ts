@@ -31,7 +31,7 @@ export class MemoComponent extends HeaderComponent {
 
   postMemo = {} as Memo;
   ngOnInit() {
-    console.log(localStorage.getItem('id')," this is aaayidi");
+
     this.ldivision = localStorage.getItem('division');
     this.getAllSubProcess();
   }

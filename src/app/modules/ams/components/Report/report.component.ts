@@ -8,6 +8,13 @@ import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { AuditEngagementDTO } from '../../models/audit-engagement';
+import { AuditProgramService } from '../../services/auidit-program/audit-program.service';
+import { AuditProgramDTO } from '../../models/audit program'
+import { AuditFindingService } from '../../services/auidit-finding/audit-finding.service';
+import { FindingDTO } from '../../models/finding';
+import { Router } from '@angular/router';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 interface Column {
   field: string;
@@ -25,49 +32,37 @@ interface ExportColumn {
   styleUrls: ['./report.component.scss'],
 })
 export class Report {
-  public annualPlans: AnnualPlanDTO[] = [];
-  public risk: AnnualPlanDTO[] = [];
 
-  public annualPlanDisplay: any[] = [];
-
-  public dropdownOptions = this.getYears();
-  public selectedDropdown: string;
-
-  public annualInfo: AnnualPlanDTO;
-  selectedAnnualInfo: AnnualPlanDTO;
-
+  auditEngagements:AuditEngagementDTO[] = [];
+  auditPrograms: AuditProgramDTO[] = [];
+  auditFinding: FindingDTO[] = [];
   exportColumns!: ExportColumn[];
   cols!: Column[];
+  public Editor = ClassicEditor;
 
 
   private subscriptions: Subscription[] = [];
+finding: any;
 
   constructor(
-    private annualPlanService: AnnualPlanService,
-    private dialogService: DialogService,
-    private messageService: MessageService,
-    private datePipe: DatePipe,
-    private cd: ChangeDetectorRef
+    private auditProgramService: AuditProgramService,
+    private auditFindingService: AuditFindingService,
+    private router:Router
   ) {}
 
   ngOnInit() {
-    // if (localStorage.getItem("currentEngagement")) {
-    //   this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
-    //   this.getAuditProgram(this.auditEngagements[0].id);
-    // }  
+    if (localStorage.getItem("currentEngagement")) {
+      this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
+      this.getAuditProgram(this.auditEngagements[0].id);
+    }  
   }
 
-  getAnnualPlans(): void {
+  getAuditProgram(id:number): void {
     this.subscriptions.push(
-      this.annualPlanService.getAnnualPlans().subscribe(
+      this.auditProgramService.getAuditProgramByEngagementId(id).subscribe(
         (response: any) => {
-          this.annualPlans = response.result;
-          this.annualPlanDisplay = this.annualPlans.map((obj: any) => ({
-            ...obj,
-            auditaUniverseName: obj.auditUniverse
-              ? obj.auditUniverse.name
-              : null,
-          }));
+          this.auditPrograms[0]= response.result[0];
+          this.getFinding(this.auditPrograms[0].id)
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -76,35 +71,27 @@ export class Report {
     );
   }
 
-  submitAuditPlanYear(addDivForm: NgForm): void {
-    const annualPlan = new AnnualPlanDTO();
-    annualPlan.year = addDivForm.value.selectedDropdown;
+
+  getFinding(id:number): void {
     this.subscriptions.push(
-      this.annualPlanService
-        .getAnnualPlansByYear(annualPlan)
-        .subscribe(
-          (response: any) => {
-            if (response.result) {
-              this.annualPlans = response.result;
-            }
-            else {
-              this.annualPlans = [];
-            }
-          },
-          (error: HttpErrorResponse) => {
-            console.log(error);
-          }
-        )
+      this.auditFindingService.getAuditFindingByProgramId(id).subscribe(
+        (response: any) => {
+          this.auditFinding = response.result;
+     
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
     );
   }
 
+  goToDetails(auditFinding: FindingDTO): void {
+    
+    
+    localStorage.setItem('currentFinding', JSON.stringify(auditFinding));
+    this.router.navigate(['ams/audit-findings-details']);
 
-
-  getYears(): string[] {
-    const startYear = 2024;
-    const endYear = 2050;
-    const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => `${startYear + i}/${startYear + i + 1}`);
-    return years;
   }
 
   ngOnDestroy() {
@@ -113,53 +100,6 @@ export class Report {
     }
   }
 
-  exportPdf() {
-    import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
-        const doc = new jsPDF.default('p', 'px', 'a4');
-
-        const modifiedAnnualPlanDisplay = this.annualPlanDisplay.map((plan, index) => ({
-          ...plan,
-          id: index + 1,
-        }));
-
-        (doc as any).autoTable(this.exportColumns, modifiedAnnualPlanDisplay);
-        doc.save('Annual plan.pdf');
-      });
-    });
-  }
 
 
-
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const data = this.annualPlanDisplay.map((plan, index) => ({
-        Id: index + 1,
-        Name: plan.name,
-        Description: plan.description,
-        Year: plan.year,
-        'Risk Score': plan.riskScore,
-        'Risk Level': plan.riskLevel,
-        Status: plan.status
-      }));
-      const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array',
-      });
-      const EXCEL_TYPE =
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-      this.saveAsExcelFile(dataBlob, 'Annual plan');
-    });
-  }
-
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_EXTENSION = '.xlsx';
-    FileSaver.saveAs(
-      buffer,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
-    );
-  }
 }

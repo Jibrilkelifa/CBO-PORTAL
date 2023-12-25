@@ -1,43 +1,20 @@
-:host ::ng-deep .accordion-custom {
-  .accordion-button {
-    background-color: var(--cui-dark);
-    color: var(--cui-white);
-  }
+.ckeditor {
+  min-height: 1000px !important;
+  margin: 30px;
 }
 
-::ng-deep .p-dialog .p-dialog-header {
-  background: #3b82f6;
-  color: white;
-  font-size: 24px;
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 55vh;
+  min-width: 69vw;
 }
 
-::ng-deep .p-dialog {
-  border: 1px solid #3b82f6;
-  animation: fadeIn 0.5s, fadeOut 0.5s;
+form{
+  padding: 50px;
 }
 
-::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
-  color: white;
+.abdycustom {
+  margin: 30px;
 }
-
-th input {
-  padding: 0.5em;
+.center{
+ justify-content: center;
 }
-
-p-button {
-  padding: 0.5em;
-}
-
-.card {
-  margin-top: 10px;
-}
-
-
-
-.table-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  margin: 15px;
-}
-

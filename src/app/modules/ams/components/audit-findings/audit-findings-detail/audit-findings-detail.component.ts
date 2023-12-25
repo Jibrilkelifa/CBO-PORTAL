@@ -15,6 +15,7 @@ import { WBS_DTO } from '../../../models/WBS';
 import { AuditWBSService } from 'src/app/modules/ams/services/auidit-wbs/audit-wbs.service';
 // import { NewAuditFindingsComponent } from '../new-audit-findings/new-audit-findings.component';
 import { FindingDTO } from '../../../models/finding';
+
 import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
 // import { NewAuditFindingsCommentComponent } from '../new-audit-findings-comment/new-audit-findings-comment.component';
 
@@ -37,7 +38,8 @@ export class AuditFindingsDetailComponent implements OnDestroy {
 
 
   public auditFinding: FindingDTO[] = [];
-  public auditWBS: WBS_DTO[] = [];
+  public ammendment: any[] = [];
+  public comment: AuditCommentDTO[] = [];
 
   private subscriptions: Subscription[] = [];
   cols!: Column[];
@@ -53,31 +55,15 @@ export class AuditFindingsDetailComponent implements OnDestroy {
   ngOnInit() {
     if (localStorage.getItem("currentFinding")) {
       this.auditFinding[0]  =  JSON.parse(localStorage.getItem("currentFinding"));
-      this.getAuditWBS(this.auditFinding[0].id);
+      this.getFindingAmmandement(this.auditFinding[0].id);
+      this.getFindingComment(this.auditFinding[0].id);
     }  
   }
-  // getAuditProgram(id:number): void {
-  //   this.subscriptions.push(
-  //     this.auditProgramService.getAuditProgramByEngagementId(id).subscribe(
-  //       (response: any) => {
-  //         this.auditPrograms[0]= response.result[0];
-  //         this.getAuditWBS(this.auditPrograms[0].id);
-  //         this.getFinding(this.auditPrograms[0].id)
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         console.log(error);
-  //       }
-  //     )
-  //   );
-  // }
-
-
-  getAuditWBS(id:number): void {
+  getFindingAmmandement(id:number): void {
     this.subscriptions.push(
-      this.auditWBSService.getAuditWBSByProgramId(id).subscribe(
+      this.auditFindingService.getAmmendmentByFindingId(id).subscribe(
         (response: any) => {
-          this.auditWBS = response.result;
-          console.log(this.auditWBS);
+          this.ammendment= response.result;
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -86,12 +72,11 @@ export class AuditFindingsDetailComponent implements OnDestroy {
     );
   }
 
-  getFinding(id:number): void {
+  getFindingComment(id:number): void {
     this.subscriptions.push(
-      this.auditFindingService.getAuditFindingByProgramId(id).subscribe(
+      this.auditFindingService.getCommentByFindingId(id).subscribe(
         (response: any) => {
-          this.auditFinding = response.result;
-          console.log(this.auditFinding);
+          this.comment= response.result;
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -99,6 +84,8 @@ export class AuditFindingsDetailComponent implements OnDestroy {
       )
     );
   }
+
+
 
 
 

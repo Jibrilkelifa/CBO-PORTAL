@@ -53,8 +53,8 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="auditProgram.auditEngagement.auditSchedule.annualPlan.name">
-          Annual Plan <p-sortIcon field="auditProgram.auditEngagement.auditSchedule.annualPlan.name"></p-sortIcon>
+        <th pSortableColumn="auditProgram.engagementInfo.auditSchedule.annualPlan.name">
+          Annual Plan <p-sortIcon field="auditProgram.engagementInfo.auditSchedule.annualPlan.name"></p-sortIcon>
         </th>
         <th class="flex" pSortableColumn="status">
           Status<p-sortIcon field="status"></p-sortIcon>
@@ -92,7 +92,7 @@
     <ng-template pTemplate="body" let-auditProgram let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditProgram"   (click)="goToDetails(auditProgram?.engagementInfo)">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ auditProgram?.auditSchedule?.annualPlan?.name }}</td>
+        <td>{{ auditProgram.engagementInfo.auditSchedule.annualPlan.name }}</td>
         <td>{{ auditProgram?.status }}</td>
         <td>
           <div class="flex gap-2">
@@ -104,13 +104,14 @@
             class="p-button-sm h-10 whitespace-nowrap"
             label="Details"
           ></button>
-            <button
-            pButton
-            (click)="updateAuditProgram(auditProgram)"
-            [ngClass]="{ updateBlue: true }"
-            class="p-button-sm h-10 whitespace-nowrap"
+          <button
+          pButton
+          [ngClass]="{ updateBlue: true }"
+           *ngIf="auditProgram?.status == 'Approved'"
             label="Add Finding"
-          ></button>
+            class="p-button-sm h-10 whitespace-nowrap"
+           (click)="addFinding(auditProgram)"
+  ></button>
      
           </div>
         </td>

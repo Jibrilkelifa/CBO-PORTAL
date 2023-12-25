@@ -11,6 +11,7 @@ import * as FileSaver from 'file-saver';
 import { Router } from '@angular/router';
 import { AuditEngagementDetailComponent } from '../../Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { NewAuditFindingsComponent } from '../../audit-findings/new-audit-findings/new-audit-findings.component';
 
 
 interface ExportColumn {
@@ -73,7 +74,7 @@ export class AuditProgramComponent   {
       this.auditProgramService.getAuditPrograms().subscribe(
         (response: any) => {
           this.auditProgram = response.result;
-          console.log(this.auditProgram);
+       
       
         },
         (error: HttpErrorResponse) => {
@@ -152,31 +153,39 @@ export class AuditProgramComponent   {
     this.router.navigate(['ams/audit-engagement-details']);
 
  
-    // const ref = this.dialogService.open(AuditEngagementDetailComponent, {
-    //   header: 'Details',
-    //   draggable: true,
-    //   width: '90%',
-    //   data: { auditEngagement},
-    //   contentStyle: { 'min-height': 'auto', overflow: 'auto' },
-    //   baseZIndex: 10000,
-    // });
-    // ref.onClose.subscribe((response: any) => {
-    //   if (response.status) {
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: response.message,
-    //     });
-    //   } else {
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Failed',
-    //       detail: response.message,
-    //     });
-    //   }
-    // });
+ 
+
   }
 
+
+  addFinding(auditProgram:AuditProgramDTO): void {
+
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
+      header: 'Add Finding',
+      draggable: true,
+      width: '50%',
+      data: { auditProgram },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    
+    });
+   
+  }
 
 
 
