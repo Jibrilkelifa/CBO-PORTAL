@@ -161,7 +161,7 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-auditEngagement let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="auditEngagement">
+      <tr [pSelectableRow]="auditEngagement"   (click)="goToDetails(auditEngagement)">
         <td>{{ rowIndex + 1 }}</td>
         <td>{{ auditEngagement.startOn }}</td>
         <td>{{ auditEngagement.endOn }}</td>

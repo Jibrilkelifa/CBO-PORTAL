@@ -1,24 +1,26 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { NewAuditEngagementComponent } from '../new-audit-engagement/newAuditEngagement.component';
 import { NewAuditProgramComponent } from '../../audit-program/new-audit-program/new-audit-program.component';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import * as FileSaver from 'file-saver';
-import { AnnualPlanDTO } from '../../../models/annualPlan';
 import { DatePipe } from '@angular/common';
-import { NgForm } from '@angular/forms';
 import { AuditEngagementService } from '../../../services/audit-engagement/audit-engagement.service';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { AuditCommentDTO } from '../../../models/comment';
 import { AuditProgramDTO } from '../../../models/audit program';
-import { AuditScheduleDTO } from '../../../models/auditSchedule';
 import { AuditProgramService } from '../../../services/auidit-program/audit-program.service';
+import { NewWBSComponent } from '../../audit-program/new-wbs/new-wbs.component';
+import { WBS_DTO } from '../../../models/WBS';
+import { AuditWBSService } from 'src/app/modules/ams/services/auidit-wbs/audit-wbs.service';
+import { NewAuditFindingsComponent } from '../../audit-findings/new-audit-findings/new-audit-findings.component';
+import { FindingDTO } from '../../../models/finding';
+import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
+import { NewAuditFindingsCommentComponent } from '../../audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
+import { Router } from '@angular/router';
 
-interface ExportColumn {
-  title: string;
-  dataKey: string;
-}
+
+
 
 interface Column {
   field: string;
@@ -32,75 +34,49 @@ interface Column {
   styleUrls: ['./audit-engagement-detail.component.scss'],
 })
 export class AuditEngagementDetailComponent implements OnDestroy {
-  public annualPlans: AnnualPlanDTO[] = [];
+
+
+
   public auditEngagements: AuditEngagementDTO[] = [];
-  public auditPrograms: AuditEngagementDTO[] = [];
+  public auditPrograms: AuditProgramDTO[] = [];
+  public auditWBS: WBS_DTO[] = [];
+  public auditFinding: FindingDTO[] = [];
 
 
-  public auditEngagementDisplay: any[] = [];
 
-  public selectedOption: string;
   public dropdownOptions = [];
 
-  exportColumns!: ExportColumn[];
   cols!: Column[];
 
-  leaderSearchTerm: string = '';
-  memberSearchTerm: string = '';
 
-  public selectedDropdown: string;
+
+
 
   private subscriptions: Subscription[] = [];
 
 
   constructor(
-    private auditEngagementService: AuditEngagementService,
     private auditProgramService: AuditProgramService,
     private dialogService: DialogService,
     private messageService: MessageService,
-    private datePipe: DatePipe,
-    private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig,
-
-  
+    private auditWBSService: AuditWBSService,
+    private auditFindingService: AuditFindingService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    
-    this.cols = [
-      { field: 'id', header: 'ID' },
-      { field: 'startOn', header: 'Start on' },
-      { field: 'endOn', header: 'End on' },
-      { field: 'status', header: 'Status' },
-      { field: 'annualPlanName', header: 'Annual plan' },
-    ];
-
-    this.exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
-
-    if (this.config.data?.auditEngagement) {
-      this.auditEngagements[0]  = this.config.data.auditEngagement;
-  
-    }
-
-
-    
-
-    this.getAuditPrograms();
-   
+    if (localStorage.getItem("currentEngagement")) {
+      this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
+      this.getAuditProgram(this.auditEngagements[0].id);
+    }  
   }
-
-
-
-  getAuditPrograms(): void {
+  getAuditProgram(id:number): void {
     this.subscriptions.push(
-      this.auditProgramService.getAuditPrograms().subscribe(
+      this.auditProgramService.getAuditProgramByEngagementId(id).subscribe(
         (response: any) => {
-          this.auditPrograms = response.result;
-          console.log(this.auditPrograms);
-      
+          this.auditPrograms[0]= response.result[0];
+          this.getAuditWBS(this.auditPrograms[0].id);
+          this.getFinding(this.auditPrograms[0].id)
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -109,6 +85,36 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     );
   }
 
+
+  getAuditWBS(id:number): void {
+    this.subscriptions.push(
+      this.auditWBSService.getAuditWBSByProgramId(id).subscribe(
+        (response: any) => {
+          this.auditWBS = response.result;
+          console.log(this.auditWBS);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+
+  getFinding(id:number): void {
+    this.subscriptions.push(
+      this.auditFindingService.getAuditFindingByProgramId(id).subscribe(
+        (response: any) => {
+          this.auditFinding = response.result;
+          console.log(this.auditFinding, "this is audit finding");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+
+
   addToProgram(auditEngagement: AuditEngagementDTO): void {
 
     const ref = this.dialogService.open(NewAuditProgramComponent, {
@@ -116,6 +122,85 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       draggable: true,
       width: '50%',
       data: { auditEngagement },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+      
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+
+      this.getAuditProgram(this.auditEngagements[0].id);
+    });
+
+  
+
+    
+  
+  }
+
+  addToComment(auditFinding: AuditCommentDTO): void {
+    console.log(auditFinding);
+    const ref = this.dialogService.open(NewAuditFindingsCommentComponent, {
+      header: 'Add new comment ',
+      draggable: true,
+      width: '50%',
+      data: { auditFinding },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+      
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+
+      this.getAuditProgram(this.auditEngagements[0].id);
+    });
+
+  
+
+    
+  
+  }
+
+  ApproveProgram(id: number): void {
+    this.auditProgramService.loadAuditProgram(id).subscribe(data => {
+      console.log(data);
+      this.getAuditProgram(this.auditEngagements[0].id);
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  addWBS(auditProgram:AuditProgramDTO): void {
+
+    const ref = this.dialogService.open(NewWBSComponent, {
+      header: 'Add WBS',
+      draggable: true,
+      width: '50%',
+      data: { auditProgram },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -133,35 +218,83 @@ export class AuditEngagementDetailComponent implements OnDestroy {
           detail: response.message,
         });
       }
+      this.getAuditProgram(this.auditEngagements[0].id);
     });
+
+
+  }
+  
+  addFinding(auditProgram:AuditProgramDTO): void {
+
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
+      header: 'Add Finding',
+      draggable: true,
+      width: '50%',
+      data: { auditProgram },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+      this.getAuditProgram(this.auditEngagements[0].id);
+    });
+   
   }
 
+  updateFinding(auditFinding:FindingDTO): void {
 
-
-  getPlaceholder(): string {
-    switch (this.selectedOption) {
-      case 'quarter':
-        return 'Select Quarter';
-      case 'year':
-        return 'Select Year';
-      case 'status':
-        return 'Select Status';
-      default:
-        return 'Select Value';
-    }
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
+      header: 'Update Finding',
+      draggable: true,
+      width: '50%',
+      data: { auditFinding },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+      this.getAuditProgram(this.auditEngagements[0].id);
+    });
+   
   }
 
+  
+  goToDetails(auditFinding: FindingDTO): void {
+    
+    
+    localStorage.setItem('currentFinding', JSON.stringify(auditFinding));
+    this.router.navigate(['ams/audit-findings-details']);
 
-  getLeaderName(auditEngagement: AuditEngagementDTO): string {
-    const leader = auditEngagement?.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
-    return leader?.auditStaffDTO?.user?.employee?.fullName || '';
   }
 
-  getMemberNames(auditEngagement: AuditEngagementDTO): string {
-    const members = auditEngagement.auditSchedule?.teamMembers
-      .filter(member => member.teamRole === 'Member')
-      .map(member => member.auditStaffDTO?.user?.employee?.fullName);
-    return members?.join('\n') || '';
+  goToGenerateReport(auditEngagement: AuditEngagementDTO) {
+     
+    localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
+    this.router.navigate(['ams/report']);
   }
 
   ngOnDestroy() {

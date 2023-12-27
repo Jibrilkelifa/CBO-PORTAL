@@ -13,6 +13,7 @@ export class AuditProgramDTO extends BaseModel {
     scopeDescription : string;
     auditObject : AuditScheduleDTO;
     overAllTime: Date;
-    engagementDTO: AuditEngagementDTO;
+    engagementInfo: AuditEngagementDTO;
+    
 
 }

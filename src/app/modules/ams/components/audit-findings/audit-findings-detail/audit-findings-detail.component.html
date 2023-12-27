@@ -1,0 +1,159 @@
+<p-toast position="top-right"></p-toast>
+
+<div class="card" >
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Audit Finding </h5>
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="auditFinding"
+    stateStorage="session"
+    stateKey="statedemo-session"
+  >
+ 
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="area.name">
+          Area <p-sortIcon field="area.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="auditiees">
+          Auditees <p-sortIcon field="auditiees"></p-sortIcon>
+        </th>  
+        <th pSortableColumn="cause">
+          Cause <p-sortIcon field="cause"></p-sortIcon>
+        </th>   
+        <th pSortableColumn="justification">
+          Jusitification <p-sortIcon field="justification"></p-sortIcon>
+        </th>       
+    
+      </tr>
+  
+    </ng-template>
+    <ng-template pTemplate="body" let-auditFinding >
+      <tr [pSelectableRow]="auditFinding">
+        <td>{{ auditFinding.area.name}}</td>
+        <td>{{ auditFinding.auditees}}</td>
+        <td>{{ auditFinding.cause}}</td>
+        <td>{{ auditFinding.justifications}}</td>
+        <td class="flex gap-4">
+          <!-- <button
+          pButton
+      
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Add Comment"
+        ></button>
+        <button
+        pButton
+       
+        [ngClass]="{ updateBlue: true }"
+        class="p-button-sm h-10 whitespace-nowrap"
+        label="Update"
+      ></button> -->
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+
+<br><br><br><br>
+
+
+<div class="card" >
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Comments </h5>
+  <p-table
+   
+    #dt
+    [columns]="cols"
+    [value]="comment"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+    stateStorage="session"
+    stateKey="statedemo-session"
+  >
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>No:</th>
+  
+        <th pSortableColumn="description">
+          Comment <p-sortIcon field="description"></p-sortIcon>
+        </th>      
+        <th></th>
+      </tr>
+
+  
+    </ng-template>
+    <ng-template pTemplate="body" let-comment let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="comment">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ comment.comment}}</td>
+        <td></td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<br><br><br><br>
+
+
+
+<div class="card" >
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Ammandements </h5>
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="ammendment"
+    selectionMode="single"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+    stateStorage="session"
+    stateKey="statedemo-session"
+  >
+ 
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th>No:</th>
+      
+        <th pSortableColumn="cause">
+          Created User <p-sortIcon field="cause"></p-sortIcon>
+        </th>   
+        <th pSortableColumn="justification">
+          Finding Before Ammandements <p-sortIcon field="justification"></p-sortIcon>
+        </th>       
+       
+      </tr>
+  
+    </ng-template>
+    <ng-template pTemplate="body" let-ammendment let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="auditFinding">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ ammendment.createdUser}}</td>
+        <td>{{ ammendment.findingBeforeAmendment}}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<br><br><br><br>

@@ -11,6 +11,7 @@ import * as FileSaver from 'file-saver';
 import { Router } from '@angular/router';
 import { AuditEngagementDetailComponent } from '../../Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { NewAuditFindingsComponent } from '../../audit-findings/new-audit-findings/new-audit-findings.component';
 
 
 interface ExportColumn {
@@ -73,7 +74,7 @@ export class AuditProgramComponent   {
       this.auditProgramService.getAuditPrograms().subscribe(
         (response: any) => {
           this.auditProgram = response.result;
-          console.log(this.auditProgram);
+       
       
         },
         (error: HttpErrorResponse) => {
@@ -148,14 +149,22 @@ export class AuditProgramComponent   {
     });
   }
   goToDetails(auditEngagement: AuditEngagementDTO): void {
-    // this.auditProgramService.selectedAuditProgram = auditProgram;
-    // this.router.navigate(['ams/audit-program-details']);
-   console.log(auditEngagement);
-    const ref = this.dialogService.open(AuditEngagementDetailComponent, {
-      header: 'Details',
+    localStorage.setItem('currentEngagement', JSON.stringify(auditEngagement));
+    this.router.navigate(['ams/audit-engagement-details']);
+
+ 
+ 
+
+  }
+
+
+  addFinding(auditProgram:AuditProgramDTO): void {
+
+    const ref = this.dialogService.open(NewAuditFindingsComponent, {
+      header: 'Add Finding',
       draggable: true,
-      width: '90%',
-      data: { auditEngagement},
+      width: '50%',
+      data: { auditProgram },
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
@@ -173,9 +182,10 @@ export class AuditProgramComponent   {
           detail: response.message,
         });
       }
+    
     });
+   
   }
-
 
 
 

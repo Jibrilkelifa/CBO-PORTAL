@@ -19,26 +19,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AmsRoutingModule } from './ams-routing.module';
 import { TableModule } from 'primeng/table';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-  AccordionModule,
-  BadgeModule,
-  BreadcrumbModule,
-  CardModule,
-  CollapseModule,
-  GridModule,
-  UtilitiesModule,
-  SharedModule,
-  ListGroupModule,
-  PlaceholderModule,
-  ProgressModule,
-  SpinnerModule,
-  TabsModule,
-  NavModule,
-  CarouselModule,
-  FormModule,
-  PaginationModule,
-  PopoverModule,
-} from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessagesModule } from 'primeng/messages';
@@ -58,12 +38,21 @@ import { NewRiskItemComponent } from './components/Risk-item/new-risk-item/newRi
 import { RiskItemComponent } from './components/Risk-item/risk-item/risk-item.component';
 import { AuditEngagementComponent } from './components/Audit-engagement/audit-engagement/audit-engagement.component';
 import { AuditEngagementDetailComponent } from './components/Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
+import { AuditFindingsDetailComponent } from './components/audit-findings/audit-findings-detail/audit-findings-detail.component';
 import { NewAuditEngagementComponent } from './components/Audit-engagement/new-audit-engagement/newAuditEngagement.component';
 import { AuditProgramComponent } from './components/audit-program/audit-program/audit-program.component';
 import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
 import { NewAuditProgramComponent } from './components/audit-program/new-audit-program/new-audit-program.component';
 import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
 import { NewAuditFindingsComponent } from './components/audit-findings/new-audit-findings/new-audit-findings.component';
+import { NewAuditFindingsCommentComponent } from './components/audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
+import { NewWBSComponent } from './components/audit-program/new-wbs/new-wbs.component';
+import { Report } from './components/Report/report.component';
+import { CheckboxModule } from 'primeng/checkbox';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AccordionModule,BadgeModule,BreadcrumbModule,CardModule,CollapseModule,GridModule,UtilitiesModule,SharedModule,ListGroupModule,PlaceholderModule,ProgressModule,SpinnerModule,TabsModule,NavModule, CarouselModule,FormModule,PaginationModule,PopoverModule} from '@coreui/angular';
+
+
 @NgModule({
   declarations: [
     AuditUniverseComponent,
@@ -95,8 +84,11 @@ import { NewAuditFindingsComponent } from './components/audit-findings/new-audit
     AuditProgramDetailComponent,
     NewAuditProgramComponent,
     AuditFindingsComponent,
-    NewAuditFindingsComponent
-    
+    NewAuditFindingsComponent,
+    NewAuditFindingsCommentComponent,
+    NewWBSComponent,
+    AuditFindingsDetailComponent,
+    Report
   ],
   imports: [
     NgApexchartsModule,
@@ -136,7 +128,9 @@ import { NewAuditFindingsComponent } from './components/audit-findings/new-audit
     InputTextModule,
     MessagesModule,
     ToastModule,
-    CalendarModule
+    CalendarModule,
+    CheckboxModule,
+    CKEditorModule
   ],
   providers: [ConfirmationService, MessageService, DialogService,DatePipe],
 })

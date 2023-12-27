@@ -6,6 +6,7 @@ import { AuditProgramDTO } from '../../models/audit program';
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuditProgramService {
   private httpOptions: any;
   private apiServiceUrl: any;
@@ -31,6 +32,13 @@ export class AuditProgramService {
     );
   }
 
+  public getAuditProgramByEngagementId(id:number): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditProgram/byEngagementId/findById/${id}`,
+      this.httpOptions
+    );
+  }
 
 
 
@@ -48,8 +56,9 @@ export class AuditProgramService {
   //   return this.http.post(`${this.apiServiceUrl}/ams/auditUniverse/update`, auditUniverse, this.httpOptions)
   // }
 
-  // public approveAuditUniverse(auditUniverse: AuditProgramDTO): Observable<any>{
-  //   this.init();
-  //   return this.http.post(`${this.apiServiceUrl}/ams/auditUniverse/approve`, auditUniverse, this.httpOptions)
-  // }
+  public loadAuditProgram(id: number): Observable<any> {
+    const url = `${this.apiServiceUrl}/ams/auditProgram/changeStatus/findById/${id}`;
+    return this.http.post(url, {}, this.httpOptions);
+  }
 }
+

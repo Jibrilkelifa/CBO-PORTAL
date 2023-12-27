@@ -6,25 +6,28 @@ import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dy
 import { Subscription } from 'rxjs';
 import { AuditScheduleService } from 'src/app/modules/ams/services/audit-schedule/audit-schedule.service';
 import { AuditProgramService } from 'src/app/modules/ams/services/auidit-program/audit-program.service';
+import { AuditWBSService } from 'src/app/modules/ams/services/auidit-wbs/audit-wbs.service';
 import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { AuditProgramDTO } from 'src/app/modules/ams/models/audit program';
 import { NewAuditObjectComponent } from '../../Audit-objects/new-audit-object/newAuditObject.component';
 import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
+import { WBS_DTO } from '../../../models/WBS';
 
 @Component({
   selector: 'newAuditUniverse',
-  templateUrl: './new-audit-program.component.html',
-  styleUrls: ['./new-audit-program.component.scss'],
+  templateUrl: './new-wbs.component.html',
+  styleUrls: ['./new-wbs.component.scss'],
   providers: [MessageService, ConfirmationService],
 })
-export class NewAuditProgramComponent implements OnDestroy {
+export class NewWBSComponent implements OnDestroy {
   public auditSchedules: AuditScheduleDTO[] = [];
   
   statusOptions: any;
 
   public programInfo: AuditProgramDTO = new AuditProgramDTO();
-  public engagementInfo: AuditScheduleDTO = new AuditScheduleDTO();
+  public wbsInfo: WBS_DTO = new WBS_DTO();
+
   
   selectedProgramInfo: AuditProgramDTO;
   public selectedAuditType: any;
@@ -42,14 +45,14 @@ export class NewAuditProgramComponent implements OnDestroy {
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private dialogService: DialogService,
+    private auditWbsService: AuditWBSService
   ) { }
 
   ngOnInit() {
     this.getAuditSchedule();
-    if (this.config.data?.auditEngagement) {
-      this.engagementInfo = this.config.data.auditEngagement;
-      // this.update = true;
-      this.newDiv = false;
+    if (this.config.data?.auditProgram) {
+      this.programInfo = this.config.data.auditProgram;
+   
     }
  
 
@@ -69,38 +72,15 @@ export class NewAuditProgramComponent implements OnDestroy {
       ));
   }
 
-  submitAuditProgram(auditProgramForm: NgForm): void {
-    // this.auditSchedule.id = auditProgramForm.form.value.auditSchedule;
-    // auditProgramForm.form.value.auditSchedule = this.auditSchedule;
-    
-    
 
-    // submitAuditableArea(auditProgramForm: NgForm): void {
-    // if (this.update) {
-      // this.updateAuditPrograms(auditProgramForm);
-    // } else {
-      this.addAuditProgram(auditProgramForm);
-    // }
-  }
-  
-
-  // addAuditProgram(addDivForm: NgForm): void {
-  //   this.subscriptions.push(
-  //     this.auditProgramService
-  //       .addAuditProgram(addDivForm.value)
-  //       .subscribe((response: any) => {
-  //         this.messageService.clear();
-  //         this.ref.close(response);
-  //       })
-  //   );
-  // }
-  addAuditProgram(addDivForm: NgForm): void {
-    const auditProgram: AuditProgramDTO = { ...addDivForm.value, engagementInfo: this.engagementInfo };
-    console.log(auditProgram);
+  addAuditWbs(addDivForm: NgForm): void {
+    const wbs: WBS_DTO = { ...addDivForm.value, auditProgram: this.programInfo };
+    console.log(wbs);
     this.subscriptions.push(
-      this.auditProgramService.addAuditProgram(auditProgram).subscribe(
+      this.auditWbsService.addAuditWBS(wbs).subscribe(
         (response: any) => {
           this.ref.close(response);
+     
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -109,19 +89,6 @@ export class NewAuditProgramComponent implements OnDestroy {
     );
   }
 
-  // updateAuditPrograms(addDivForm: NgForm): void {
-  //   let auditProgram: AuditProgramDTO = addDivForm.value;
-  //   auditProgram = this.programInfo;
-  //   auditProgram.auditObject = this.programInfo.auditObject;
-  //   this.subscriptions.push(
-  //     this.auditProgramService
-  //       .updateAuditUniverse(auditUniverse)
-  //       .subscribe((response: any) => {
-  //         this.messageService.clear();
-  //         this.ref.close(response);
-  //       })
-  //   );
-  // }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

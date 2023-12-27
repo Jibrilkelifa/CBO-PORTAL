@@ -1,0 +1,45 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="addComment(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div class="row">
+      <div class="col mb-4">
+        <label for="originalfinding" class="block mb-2"> Original Finding : </label>
+        <input
+          pInputText
+          id="originalfinding"
+          [ngModel]="commentInfo?.originalfinding"
+          name="originalfinding"
+          [style]="{ width: '98%', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+    </div> 
+
+    <div class="row">
+      <div class="col mb-4">
+       <label for="comment" class="block mb-2"> Comment : </label>
+       <textarea
+         pInputText
+         id="comment"
+         [ngModel]="commentInfo?.comment"
+         name="comment"
+         style="width: 98%; height: 150px; resize: none"
+         required
+         minlength="3">
+      </textarea>
+      </div>
+     </div>
+
+
+    <div style="margin-top: 10em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        label="Add Comment"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>

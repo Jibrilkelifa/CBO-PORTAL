@@ -1,0 +1,20 @@
+.ckeditor {
+  min-height: 1000px !important;
+  margin: 30px;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 55vh;
+  min-width: 69vw;
+}
+
+form{
+  padding: 50px;
+}
+
+.abdycustom {
+  margin: 30px;
+}
+h5{
+ text-align: center;
+}

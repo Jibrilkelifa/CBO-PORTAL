@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { AuditUniverseComponent } from './components/Audit-universe/audit-universe/audit-universe.component';
 import { AnnualPlanComponent } from './components/Annual-plan/annual-plan/annual-plan.component';
 import { AuditObjectComponent } from './components/Audit-objects/audit-object/audit-object.component';
@@ -17,6 +16,8 @@ import { AuditProgramComponent } from './components/audit-program/audit-program/
 import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
 import { AuditProgramDetailComponent } from './components/audit-program/audit-program-detail/audit-program-detail.component';
 
+import { Report } from './components/Report/report.component';
+import { AuditFindingsDetailComponent } from './components/audit-findings/audit-findings-detail/audit-findings-detail.component';
 const routes: Routes = [
   {
     path: '',
@@ -105,6 +106,13 @@ const routes: Routes = [
         },
       },
       {
+        path: 'audit-findings-details',
+        component: AuditFindingsDetailComponent,
+        data: {
+          title: 'Audit Findings Details',
+        },
+      },
+      {
         path: 'audit-program-details',
         component: AuditProgramDetailComponent,
         data: {
@@ -137,6 +145,13 @@ const routes: Routes = [
         component: RiskItemComponent,
         data: {
           title: 'Risk type',
+        },
+      },
+      {
+        path: 'report',
+        component: Report,
+        data: {
+          title: 'Report',
         },
       },
       {

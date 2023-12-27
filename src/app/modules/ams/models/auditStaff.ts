@@ -7,4 +7,4 @@ export class AuditStaffDTO extends BaseModel {
     user : UserDTO;
     status : string;
 }
-
+ 
