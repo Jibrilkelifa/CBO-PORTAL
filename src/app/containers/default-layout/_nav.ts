@@ -425,11 +425,6 @@ navItemsICMSDistrictDirector = {
           name: 'View History',
           url: '/ICMS/Fraud/viewFraud',
         },
-        {
-          name: 'Add Data',
-          url: '/ICMS/Fraud/addFraud',
-        },
-     
       ]
     },
     {

@@ -1,6 +1,6 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, tap, throwError } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { IFR } from '../../../models/icms-models/ifr-models/ifr';
 import { NewFraudComponent } from 'src/app/modules/icms/ifr/new-ifr/new-ifr.component';
@@ -43,10 +43,50 @@ export class IFRService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/find/${id}`, this.httpOptions)
   }
+  // public getImage(id: number): Observable<any> {
+  //   this.init();
+  //   return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/images/${id}`, this.httpOptions)
+  // }
+  // public getImage(id: number): Observable<Blob> {
+  //   this.init();
+  //   return this.http.get(`${this.apiServiceUrl}/incidentFraudReport/images/${id}`, {
+  //     ...this.httpOptions,
+  //     responseType: 'arraybuffer' // Set the response type to 'arraybuffer'
+  //   }).pipe(
+  //     catchError((error: HttpErrorResponse) => {
+  //       console.error('Error occurred while fetching the image:', error);
+  //       return throwError('Failed to fetch the image. Please try again later.');
+  //     }),
+  //     map((response: ArrayBuffer) => {
+  //       return new Blob([response], { type: 'image/jpeg' }); // Create a Blob from the ArrayBuffer
+  //     })
+  //   );
+  // }
   public getImage(id: number): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/image/${id}`, this.httpOptions)
+    return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/images/${id}`, {
+      ...this.httpOptions,
+      observe: 'response', // Add this line to observe the full response
+      responseType: 'blob' // Set the response type to 'blob'
+    }).pipe(
+      map((response: HttpResponse<Blob>) => {
+        const headers = response.headers;
+        const contentType = headers.get('content-type') || '';
+        const fileData = response.body;
+  
+        return {
+          contentType,
+          fileData
+        };
+      })
+    );
   }
+
+  // Your existing service code
+
+
+
+
   public getFraudForBranch(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/findByOrganizationalUnitId/${id}`, this.httpOptions)

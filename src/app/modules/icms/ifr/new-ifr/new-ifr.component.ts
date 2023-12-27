@@ -147,9 +147,9 @@ export class NewFraudComponent implements OnInit {
     private organizationalUnitService: OrganizationalUnitService,
     private fb: FormBuilder
   ) { 
-    this.form01 = this.fb.group({
-      signatureImage: ['', Validators.required]
-    });
+    // this.form01 = this.fb.group({
+    //   signatureImage: ['', Validators.required]
+    // });
   }
 
 

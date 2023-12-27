@@ -13,6 +13,16 @@ button {
 input {
   height: 2em;
 }
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px; /* Adjust the value as needed */
+}
+// .truncate:hover {
+//   font-size: 16px;
+//   color: red; /* Adjust the font size as needed */
+// }
 
 h5 {
   padding: 0.5em;

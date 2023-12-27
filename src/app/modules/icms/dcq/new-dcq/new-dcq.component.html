@@ -119,11 +119,12 @@
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.datePresented"
           name="datePresented" [readonly]="true" [style]="{'width':'30vw','height':'45px'}">
       </div>
-      <div class="flex-auto">
+       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Frequency </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.frequency" name="frequency"
           [readonly]="true" [style]="{'width':'30vw','height':'45px'}" />
-      </div>
+      </div> 
+ 
     </div>
     <div class="flex flex-wrap gap-3 mb-2">
       <div class="flex-auto">
@@ -143,12 +144,13 @@
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.tin" name="tin"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
-      <div class="flex-auto">
+       <div class="flex-auto" >
         <label for="alphabetic" class=" block mb-2"> Account Number </label>
-        <input pInputText pKeyFilter="alphanum" id="accountNumber" [(ngModel)]="DCQ.accountNumber"
+        <input pInputText pKeyFilter="alphanum" id="accountNumber" [(ngModel)]="DCQ.accountNumber"  [readonly]="true" 
           name="accountNumber" [style]="{'width':'30vw','height':'45px'}" required minlength="3"
           (ngModelChange)="searchFrequency(accountNumber)" />
-      </div>
+      </div> 
+
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Name of Beneficiery </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="DCQ.nameOfBeneficiary"
@@ -186,22 +188,9 @@
     </div>
     <div class="flex flex-wrap gap-3 mb-5">
       <div class="flex-auto">
-        <label for="hex" class=" block mb-2"> Action Taken </label>
-        <p-dropdown [options]="actionsTaken" name="actionTaken" ngModel [(ngModel)]="selectedActionTaken"
-          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true"
-          placeholder="Select Insurance Policy Coverage Type" class="w-full" styleClass="p-password"
-          [style]="{'width':'30vw','height':'45px'}" [required]="true">
-          <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="selectedActionTaken">
-              <div>{{ selectedActionTaken.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-selectedActionTakene pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{selectedActionTakene.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+        <label for="alphabetic" class=" block mb-2"> Action taken</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="DCQ.actionTaken.name" name="actionsTaken" [readonly]=true
+          [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class=" block mb-2"> Branch </label>

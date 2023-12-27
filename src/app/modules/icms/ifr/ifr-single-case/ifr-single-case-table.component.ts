@@ -233,6 +233,21 @@ export class SingleFraudCaseTableComponent {
     return str;
   }
 
+
+
+  // public getSignatureImage(id: number) {
+  //   this.signatureService.getSignatureImageByEmployee(id).subscribe(
+  //     (response: SignatureDTO) => {
+  //       this.postResponse = response;
+  //       this.dbSignImage =
+  //         'data:image/jpeg;base64,' + this.postResponse.signature;
+  //     },
+  //     (error: HttpErrorResponse) => {}
+  //   );
+  // }
+
+
+
   getSignatures() {
     this.employeeService.getEmployeeByFullNameFromDB(this.preparedBy).subscribe(
       (response1: any) => {
