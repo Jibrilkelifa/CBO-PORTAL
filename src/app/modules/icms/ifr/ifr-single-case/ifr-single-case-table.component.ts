@@ -270,7 +270,7 @@ export class SingleFraudCaseTableComponent {
         console.log(response1?.employeeId,"hgfjkhgjkh");
 
     
-        this.employeeService.getSignatureImage(response1?.employeeId).subscribe(
+        this.employeeService.getSignatureImage(response1[0]?.employeeId).subscribe(
           (response2: any) => {
             console.log(`Fetching signature image: ${JSON.stringify(response2)}`);
             const blob = new Blob([response2], { type: 'image/jpeg' });
@@ -294,11 +294,11 @@ export class SingleFraudCaseTableComponent {
     );
     this.emsService.getEmployeeByFullNameFromDB(this.authorizedBy).subscribe(
       (response1:Employee) => {
-        console.log(`Fetching signature image for employee ${response1}...`);
-        console.log(response1?.employeeId,"hgfjkhgjkh");
+        console.log(`Fetching signature image for employee ${response1[0]}...`);
+        console.log(response1[0]?.employeeId,"hgfjkhgjkh");
 
     
-        this.employeeService.getSignatureImage(response1?.employeeId).subscribe(
+        this.employeeService.getSignatureImage(response1[0]?.employeeId).subscribe(
           (response2: any) => {
             console.log(`Fetching signature image: ${JSON.stringify(response2)}`);
             const blob = new Blob([response2], { type: 'image/jpeg' });
