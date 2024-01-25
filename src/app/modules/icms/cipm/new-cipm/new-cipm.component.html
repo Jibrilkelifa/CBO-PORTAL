@@ -40,12 +40,12 @@
       <div class="flex-auto">
         <label for="policyNumber" class="block mb-2">Policy Number</label>
         <input pInputText id="policyNumber" ngModel name="policyNumber"
-          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9a-zA-Z]+$" minlength="1" required />
+          [style]="{'width':'30vw','height':'45px'}" pattern=".*" minlength="1" required />
       </div>
       <div class="flex-auto">
         <label for="referenceNumber" class="block mb-2">Reference Number</label>
         <input pInputText id="referenceNumber" ngModel name="referenceNumber"
-          [style]="{'width':'30vw','height':'45px'}" pattern="^[0-9a-zA-Z]+$" minlength="1" required />
+          [style]="{'width':'30vw','height':'45px'}" pattern=".*"  minlength="1" required />
       </div>
     </div>
     <div class="flex flex-wrap gap-3 mb-2">

@@ -1,0 +1,42 @@
+<!-- <div class="flex-auto">
+  <label for="hex" class="block mb-2">Upload:</label>
+  <p-fileUpload name="signatureImage" (onSelect)="onSelect1($event)" [showUploadButton]="false"
+    [style]="{'width':'30vw','height':'75px'}" [maxFileSize]="1000000000000" required>
+  </p-fileUpload>
+  <ul *ngIf="uploadedFiles.length">
+    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+  </ul>
+</div>
+
+<button type="button" class="btn btn-primary" [disabled]="!fileSelected" (click)="sendSMS()">
+  Send
+</button> -->
+<p-messages [value]="messages" [closable]="true"
+  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
+<div>
+  <p-fileUpload #fileUpload name="file"  [uploadLabel]="'Send'"  (onSelect)="onSelect1($event)" (click)="sendSMS()"></p-fileUpload>
+  <div class="spinner-container" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Please Wait</p>
+  </div>
+</div>
+
+<!-- <p-messages [value]="messages" [closable]="true"
+  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
+<div>
+  <p-fileUpload #fileUpload name="file"  (onBeforeUpload)="onBeforeUpload()"
+    (onError)="onUploadError($event)" (onUpload)="onUpload()"></p-fileUpload>
+  <div class="spinner-container" *ngIf="loading">
+    <p-progressSpinner></p-progressSpinner>
+    <p>Please Wait</p>
+  </div>
+  <div *ngIf="!loading">
+    <p [innerHTML]="cobSummaryDetail"></p>
+  </div>
+</div> -->
+
+<!-- (onBeforeUpload)="onSelect1($event)" -->
+<!-- (onError)="onUploadError($event)" -->
+<!-- (onUpload)="sendSMS()" -->
+<!-- (onSelect)="onSelect1($event)"  -->
+

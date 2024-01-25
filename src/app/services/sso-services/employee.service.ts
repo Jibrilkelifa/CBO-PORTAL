@@ -56,15 +56,29 @@ export class EmployeeService {
     return this.http.get(`${this.apiServiceUrl}/employee/avatarImagePath/${id}`, { responseType: 'blob' })
   }
 
+  // getSignatureImage(id: number): Observable<any> {
+  //   this.init();
+  //   console.log(`${this.apiServiceUrl}/employee/signatureImagePath/${id}`)
+  //   return this.http.get(`${this.apiServiceUrl}/user/signatureImagePath/${id}`, { responseType: 'blob' })
+  // }
+
   getSignatureImage(id: number): Observable<any> {
     this.init();
-    console.log(`${this.apiServiceUrl}/employee/signatureImagePath/${id}`)
-    return this.http.get(`${this.apiServiceUrl}/employee/signatureImagePath/${id}`, { responseType: 'blob' })
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'content-type': 'application/json',   
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+      })
+    };
+    
+    console.log(`${this.apiServiceUrl}/employee/signatureImagePath/${id}`);
+    return this.http.get(`${this.apiServiceUrl}/user/signatureImagePath/${id}`, { responseType: 'blob', ...httpOptions });
   }
   public getEmployeeByFullNameFromDB(fullname: string): Observable<any>{
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/employee/getEmployeeByFullName/${fullname}`, this.httpOptions)
   }
+  
   public getEmployees(): Observable<any>{
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/employee/all`, this.httpOptions)

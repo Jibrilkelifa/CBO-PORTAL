@@ -12,6 +12,7 @@ import {
   navItemsICMSDistrict,
   navItemsICMSDistrictDirector,
   navItemsICMSBranch,
+  navItemsSMSAdmin,
   navItemsICMSProvision,
   navItemsICMSBranchManager,
   navItemsICMSBankingOperation,
@@ -51,6 +52,7 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsICMSDistrict);
     addIndentClass(navItemsICMSDistrictDirector);
     addIndentClass(navItemsICMSBranch);
+    addIndentClass(navItemsSMSAdmin);
     addIndentClass(navItemsICMSProvision);
     addIndentClass(navItemsICMSBranchManager);
     addIndentClass(navItemsICMSBankingOperation);
@@ -144,6 +146,10 @@ export class DefaultLayoutComponent {
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
               this.dashboardRoute = "default_dashboard"
+              break;
+            // case "ROLE_SMS_ADMIN":
+            //     this.navItems.push(navItemsSMSAdmin);
+            //     this.dashboardRoute = "default_dashboard"
         
               break;
             case "ROLE_ICMS_PROVISION":

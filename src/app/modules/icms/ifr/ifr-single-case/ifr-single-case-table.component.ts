@@ -9,6 +9,10 @@ import html2canvas from 'html2canvas';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SignatureDTO } from 'src/app/modules/sasv/models/signature';
+import { EMSService } from 'src/app/services/ems-services/ems-services.service';
+import { SignatureService } from 'src/app/modules/sasv/services/signature-service/signature.service';
+import { Employee } from 'src/app/modules/sasv/models/employee';
 
 @Component({
   selector: 'app-accordions',
@@ -21,6 +25,8 @@ export class SingleFraudCaseTableComponent {
   public caseIdentifier: string;
   public preparedDate: string;
   public preparedBy: string = localStorage.getItem('name');
+  public preparedById: string = localStorage.getItem('id');
+  public authorizedById: string = localStorage.getItem('id');
   public authorizedDate: string = "Not Authorized";
   public authorizedBy: string = "Not Authorized";
   public caseName: string = "non";
@@ -235,25 +241,36 @@ export class SingleFraudCaseTableComponent {
 
 
 
-  // public getSignatureImage(id: number) {
-  //   this.signatureService.getSignatureImageByEmployee(id).subscribe(
-  //     (response: SignatureDTO) => {
-  //       this.postResponse = response;
-  //       this.dbSignImage =
-  //         'data:image/jpeg;base64,' + this.postResponse.signature;
+  // getSignatures() {
+  //   this.signatureService.getSignatureImageByEmployee(this.preparerById).subscribe(
+  //     (preparerResponse: SignatureDTO) => {
+  //       this.preparerImageData = 'data:image/jpeg;base64,' + preparerResponse.signature;
   //     },
-  //     (error: HttpErrorResponse) => {}
+  //     (error: HttpErrorResponse) => {
+  //       // Handle error for preparer
+  //     }
+  //   );
+  
+  //   this.signatureService.getSignatureImageByEmployee(this.authorizeredById).subscribe(
+  //     (authorizerResponse: SignatureDTO) => {
+  //       this.authorizerImageData = 'data:image/jpeg;base64,' + authorizerResponse.signature;
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       // Handle error for authorizer
+  //     }
   //   );
   // }
 
 
 
   getSignatures() {
-    this.employeeService.getEmployeeByFullNameFromDB(this.preparedBy).subscribe(
-      (response1: any) => {
-        console.log(`Fetching signature image for employee ${response1.id}...`);
+    this.emsService.getEmployeeByFullNameFromDB(this.authorizedBy).subscribe(
+      (response1:Employee) => {
+        console.log(`Fetching signature image for employee ${response1}...`);
+        console.log(response1?.employeeId,"hgfjkhgjkh");
 
-        this.employeeService.getSignatureImage(response1.id).subscribe(
+    
+        this.employeeService.getSignatureImage(response1?.employeeId).subscribe(
           (response2: any) => {
             console.log(`Fetching signature image: ${JSON.stringify(response2)}`);
             const blob = new Blob([response2], { type: 'image/jpeg' });
@@ -261,7 +278,7 @@ export class SingleFraudCaseTableComponent {
             this.preparerImageData = this.sanitizer.bypassSecurityTrustUrl(url);
           },
           (error: HttpErrorResponse) => {
-            console.log(`Error fetching avatar image for employee ${response1.id}: ${JSON.stringify(error)}`);
+            console.log(`Error fetching avatar image for employee ${response1?.employeeId}: ${JSON.stringify(error)}`);
             if (error) {
               // default signature
             }
@@ -269,14 +286,19 @@ export class SingleFraudCaseTableComponent {
         );
       },
       (error: HttpErrorResponse) => {
-        console.log(`No employee found by the name ${this.preparedBy}`);
+        console.log(`No employee found by the name ${this.authorizedBy}`);
+      
+        
       }
-    );
-    this.employeeService.getEmployeeByFullNameFromDB(this.authorizedBy).subscribe(
-      (response1: any) => {
-        console.log(`Fetching signature image for employee ${response1.id}...`);
 
-        this.employeeService.getSignatureImage(response1.id).subscribe(
+    );
+    this.emsService.getEmployeeByFullNameFromDB(this.authorizedBy).subscribe(
+      (response1:Employee) => {
+        console.log(`Fetching signature image for employee ${response1}...`);
+        console.log(response1?.employeeId,"hgfjkhgjkh");
+
+    
+        this.employeeService.getSignatureImage(response1?.employeeId).subscribe(
           (response2: any) => {
             console.log(`Fetching signature image: ${JSON.stringify(response2)}`);
             const blob = new Blob([response2], { type: 'image/jpeg' });
@@ -284,7 +306,7 @@ export class SingleFraudCaseTableComponent {
             this.authorizerImageData = this.sanitizer.bypassSecurityTrustUrl(url);
           },
           (error: HttpErrorResponse) => {
-            console.log(`Error fetching avatar image for employee ${response1.id}: ${JSON.stringify(error)}`);
+            console.log(`Error fetching avatar image for employee ${response1?.employeeId}: ${JSON.stringify(error)}`);
             if (error) {
               // default signature
             }
@@ -292,7 +314,9 @@ export class SingleFraudCaseTableComponent {
         );
       },
       (error: HttpErrorResponse) => {
-        console.log(`No employee found by the name ${this.preparedBy}`);
+        console.log(`No employee found by the name ${this.authorizedBy}`);
+      
+        
       }
 
     );
@@ -303,9 +327,12 @@ export class SingleFraudCaseTableComponent {
     private primengConfig: PrimeNGConfig,
     private config: DynamicDialogConfig,
     private datePipe: DatePipe,
+    private emsService: EMSService,
     private employeeService: EmployeeService,
+    private signatureService: SignatureService,
     private sanitizer: DomSanitizer) {
-    this.employeeService = employeeService;
+    this.emsService = emsService;
+    this.signatureService = signatureService;
     this.caseId = this.config.data?.id;
   }
 }

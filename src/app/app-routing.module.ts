@@ -19,6 +19,7 @@ const routes: Routes = [
   {
     path: 'login', component: LoginComponent
   },
+
   {
     path: '',
     component: DefaultLayoutComponent, canActivate: [AuthGuard],
@@ -38,11 +39,11 @@ const routes: Routes = [
         path: 'updateDACGM/:id', component: NewDACGMComponent, data: { title: 'DACGM / Update DACGM' }
       },
       {
-        path: 'ICMS/Fraud/calculateProvision/:id',  component: IFRProvisionComponent, data: {title: 'Fraud /  plan'}
+        path: 'ICMS/Fraud/calculateProvision/:id', component: IFRProvisionComponent, data: { title: 'Fraud /  plan' }
       },
-     
+
       {
-        path: 'ICMS/DACGM/approveActionPlan/:id',  component: DACGMPlanComponent, data: {title: 'Fraud /  escalated'}
+        path: 'ICMS/DACGM/approveActionPlan/:id', component: DACGMPlanComponent, data: { title: 'Fraud /  escalated' }
       },
       {
         path: 'updateDCQ/:id', component: NewDCQComponent, data: { title: 'Dishonoured Cheque / Update Dishonoured Cheque' }
@@ -79,6 +80,11 @@ const routes: Routes = [
         path: 'EMS',
         loadChildren: () =>
           import('./modules/ems/ems.module').then((m) => m.EMSModule)
+      },
+      {
+        path: 'sms',
+        loadChildren: () =>
+          import('./modules/sms/sms.module').then((m) => m.SmsModule)
       },
       {
         path: 'user',
@@ -146,7 +152,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/cc/cc.module').then((m) => m.CCModule)
       },
-  
+
       {
         path: 'ecx/account',
         loadChildren: () =>
