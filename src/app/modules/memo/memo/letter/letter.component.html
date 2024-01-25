@@ -47,7 +47,7 @@
       <div class="last">
         <div class="closing">
           Regards
-          <img style="width: 200px; "
+          <img *ngIf="dbSignImage"  style="width: 200px; "
           class="w-24 h-24 "
           [src]="dbSignImage"
           alt="signatureImage"

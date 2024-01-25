@@ -75,7 +75,7 @@ export class MemoComponent extends HeaderComponent {
   }
 
   addMemo(data: any) {
-
+    alert(data.value.outlook);
     const now = new Date();
     data.value.sendate = now;
     data.value.toTo = data.value.toTo.name;

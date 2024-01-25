@@ -7,4 +7,5 @@ export interface Memo {
   carbonCopy: string;
   subject: string;
   body: string;
+  outlook:string;
 }

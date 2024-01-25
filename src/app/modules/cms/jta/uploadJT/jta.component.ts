@@ -21,6 +21,7 @@ export class JTAComponent {
   constructor(private jtaService: JTAService) { }
 
   public cms_url: string = localStorage.getItem('url_8') + `/CMS/JT/upload/${localStorage.getItem('name')}`
+  // public cms_url: string =  `http://localhost:8088/CMS/JT/upload/${localStorage.getItem('name')}`
   public messages: Message[] = [];
   closeTimeout = 5000; // 5 seconds
   public loading: boolean = false;

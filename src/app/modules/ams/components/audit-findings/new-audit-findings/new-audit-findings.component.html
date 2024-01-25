@@ -1,10 +1,19 @@
 <div>
   <form #addDivForm="ngForm" (ngSubmit)="submit(addDivForm)">
-    <div style="margin-top: 2em"></div>
+   
     <div class="row">
       <div class="col mb-4">
         <label for="name" class="block mb-2"> Finding : </label>
-        <input
+        <textarea
+        pInputText
+        id="finding"
+        [ngModel]="findingInfo.finding"
+        name="finding"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
           pInputText
           id="finding"
           [(ngModel)]="findingInfo.finding"
@@ -12,8 +21,8 @@
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
-        />
-      </div>
+        />-->
+      </div> 
       <div class="col mb-4">
         <label for="previousStatus" class="block mb-2"> Criteria: </label>
         <input
@@ -31,7 +40,17 @@
     <div class="row">
       <div class="col mb-4">
         <label for="name" class="block mb-2"> Cause : </label>
-        <input
+
+        <textarea
+        pInputText
+        id="cuase"
+        [ngModel]="findingInfo.finding"
+        name="cause"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
           pInputText
           id="cause"
           [(ngModel)]="findingInfo.cause"
@@ -39,11 +58,20 @@
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
-        />
+        /> -->
       </div>
       <div class="col mb-4">
         <label for="implementedControls" class="block mb-2"> Implemented Controls: </label>
-        <input
+        <textarea
+        pInputText
+        id="implementedControls"
+        [(ngModel)]="findingInfo.implementedControls"
+        name="implementedControls"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
           pInputText
           id="implementedControls"
           [(ngModel)]="findingInfo.implementedControls"
@@ -51,14 +79,23 @@
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
-        />
+        /> -->
       </div>
     </div> 
 
     <div class="row">
       <div class="col mb-4">
         <label for="impact" class="block mb-2"> Impact : </label>
-        <input
+        <textarea
+        pInputText
+        id="impact"
+        [(ngModel)]="findingInfo.impact"
+        name="impact"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
           pInputText
           id="impact"
           [(ngModel)]="findingInfo.impact"
@@ -66,11 +103,20 @@
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
-        />
+        /> -->
       </div>
       <div class="col mb-4">
         <label for="recommendations" class="block mb-2"> Recomendations: </label>
-        <input
+        <textarea
+        pInputText
+        id="recommendations"
+        [(ngModel)]="findingInfo.recommendations"
+        name="recommendations"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
           pInputText
           id="recommendations"
           [(ngModel)]="findingInfo.recommendations"
@@ -78,7 +124,7 @@
           [style]="{ width: '300px', height: '45px' }"
           required
           minlength="3"
-        />
+        /> -->
       </div>
     </div> 
 
@@ -86,15 +132,16 @@
     <div class="row">
       <div class="col mb-4">
         <label for="justifications" class="block mb-2"> Justifications : </label>
-        <input
-          pInputText
-          id="justifications"
+        <textarea
+        pInputText
+        id="justifications"
           [(ngModel)]="findingInfo.justifications"
           name="justifications"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        />
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+     
       </div>
       <div class="col mb-4">
         <label for="rectificationProgress" class="block mb-2"> Rectification Progress: </label>

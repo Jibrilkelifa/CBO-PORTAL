@@ -24,7 +24,7 @@ export class JTAService {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       }) 
     };
-    this.apiServiceUrl = 'http://10.1.125.58:8088';//localStorage.getItem('url_8');
+    this.apiServiceUrl = 'http://localhost:8088';//localStorage.getItem('url_8');
     this.uploadedBy = localStorage.getItem('name');
   }
   constructor(private http: HttpClient) { }

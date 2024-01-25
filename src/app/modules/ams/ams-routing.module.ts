@@ -18,6 +18,8 @@ import { AuditProgramDetailComponent } from './components/audit-program/audit-pr
 
 import { Report } from './components/Report/report.component';
 import { AuditFindingsDetailComponent } from './components/audit-findings/audit-findings-detail/audit-findings-detail.component';
+import { ReportList } from './components/Report/list/report-list.component';
+import { ReportDisplay } from './components/Report/display/display.component';
 const routes: Routes = [
   {
     path: '',
@@ -150,6 +152,20 @@ const routes: Routes = [
       {
         path: 'report',
         component: Report,
+        data: {
+          title: 'Report',
+        },
+      },
+      {
+        path: 'report-list',
+        component: ReportList,
+        data: {
+          title: 'Reports',
+        },
+      },
+      {
+        path: 'report-detail',
+        component: ReportDisplay,
         data: {
           title: 'Report',
         },

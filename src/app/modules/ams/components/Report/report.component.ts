@@ -12,6 +12,7 @@ import { AuditEngagementDTO } from '../../models/audit-engagement';
 import { AuditProgramService } from '../../services/auidit-program/audit-program.service';
 import { AuditProgramDTO } from '../../models/audit program'
 import { AuditFindingService } from '../../services/auidit-finding/audit-finding.service';
+import { AuditReportService } from '../../services/audit-report/audit-report.service';
 import { FindingDTO } from '../../models/finding';
 import { Router } from '@angular/router';
 import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -39,11 +40,14 @@ export class Report {
   cols!: Column[];
   public Editor = ClassicEditor;
   private subscriptions: Subscription[] = [];
-  finding: any;
+  checkedIds: number[] = [];
+  textInput: string;
+
 
   constructor(
     private auditProgramService: AuditProgramService,
     private auditFindingService: AuditFindingService,
+    private auditReportService: AuditReportService,
     private router:Router
   ) {}
 
@@ -67,6 +71,24 @@ export class Report {
       )
     );
   }
+  onSubmit():void {
+    let data = {
+      text: this.textInput,
+      numbers: this.checkedIds
+    }
+   console.log("sending" , data);
+    this.subscriptions.push(
+      this.auditReportService.generateReport(data).subscribe(
+        (response: any) => {
+        
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  
+  };
 
 
   getFinding(id:number): void {
@@ -90,6 +112,16 @@ export class Report {
     this.router.navigate(['ams/audit-findings-details']);
 
   }
+
+  onCheck(e,id){
+    if(e.target.checked){
+      this.checkedIds.push(id);
+    }else {
+      this.checkedIds = this.checkedIds.filter(a => a !== id);
+    }
+  }
+
+
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

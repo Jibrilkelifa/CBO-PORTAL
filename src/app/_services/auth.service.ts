@@ -19,8 +19,8 @@ export class AuthService {
 
   //ssoBathPath = 'http://localhost:9081';
   ssoBathPath = 'http://10.1.125.58:9081';
-  // emsBasePath = 'http://10.1.11.48:9082';
-  emsBasePath = 'http://10.1.125.58:9082';
+  // emsBasePath = 'http://localhost:8082';
+  emsBasePath = 'http://10.1.125.58:8082';
 
 
   constructor(
@@ -78,8 +78,6 @@ export class AuthService {
     // Get employee by ID
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
-
-
 
 
 

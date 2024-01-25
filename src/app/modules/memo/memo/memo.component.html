@@ -49,6 +49,9 @@
           <p-dropdown [style]="{'min-width':'500px', 'margin':'10px'}" [options]="tempArray" id="templates"
             optionLabel="name" placeholder="Select Template" class="template" name="template" [filter]="true"
             (onChange)="addTemp($event.value.value)" ngModel [required]="true"></p-dropdown>
+
+            <input [style]="{'width':'500px','margin':'10px'}" type="text" placeholder="Outlook Email" pInputText
+            class="outlook" name="outlook" ngModel [required]="true" />
         </div>
       </div>
       <div class="mbody">

@@ -14,6 +14,7 @@ import { Module } from 'src/app/models/sso-models/module';
 import { RoleService } from 'src/app/services/sso-services/role.service';
 import { TimeService } from 'src/app/services/sso-services/time.service';
 import { ADUserService } from 'src/app/services/sso-services/ad-user.service';
+import Fuse from 'fuse.js'
 
 
 @Component({
@@ -197,7 +198,6 @@ export class NewAdminComponent implements OnInit {
           const matches = response[0].dn.match(dnPattern);
           const name = matches ? matches[1] : '';
           if (this.userExists) this.searchEmployees(name);
-          console.log(name)
           this.fullName = name;
           resolve();  // Resolve the promise
         },
@@ -219,6 +219,7 @@ export class NewAdminComponent implements OnInit {
       }
     );
   }
+
   public getRoles(): void {
     this.roleService.getEveryRole().subscribe(
       (response: Role[]) => {
@@ -240,24 +241,42 @@ export class NewAdminComponent implements OnInit {
     });
     return result; // return the result at the end of the function
   }
+
   async startAdding(addUserForm: NgForm): Promise<void> {
     try {
       await this.searchUsernameFromAD(addUserForm.value.adUserName);
+      let fromAd = [{name:this.fullName.toUpperCase()}];
 
+          // Fuse.js options
+    const options = {
+      includeScore: true,
+      findAllMatches: true,
+      threshold: 0.5, // This is your 50% likelihood
+      location: 0,
+      distance: 100,
+      maxPatternLength: 32,
+      minMatchCharLength: 1,
+      keys: ["name"]
+    };
+    
+      let fuse = new Fuse(fromAd, options);
+      let match = fuse.search(this.selectedFullName);
+      console.log(match);
+      let percentage = (1-match[0].score)*100;
+      let messageIfOk = " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName +  "  with similiarity of  " + percentage.toFixed(1) +"%";
+      let messageIfNotOk = "User doesn't match";
+      
 
+      
       this.confirmationService.confirm({
-
-        message: " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName,
+        message: (percentage < 50)? messageIfNotOk:messageIfOk,
         header: 'Confirm that these users are the same',
         icon: 'pi pi-info-circle',
         acceptLabel: " Yes",
         rejectLabel: " No",
-        acceptVisible: true,
+        acceptVisible: percentage > 50,
         accept: () => {
-
-
           this.addUser(addUserForm);
-
           this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record Created', life: 5000 });
         },
         reject: (type: ConfirmEventType) => {
@@ -276,6 +295,7 @@ export class NewAdminComponent implements OnInit {
       console.error(error);
     }
   }
+
   public addUser(addUserForm: NgForm): void {
     let time: string;
     let roles: any[];

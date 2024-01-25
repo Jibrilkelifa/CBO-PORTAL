@@ -141,7 +141,15 @@
         <div class="button-container">
           <div class="spacer"></div>
           <p-toast></p-toast>
-          <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" position="buttom" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
+          <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" position="buttom" rejectButtonStyleClass="p-button-outlined">
+            <ng-template pTemplate="message" let-message>
+              <div>
+                <p>From AD: {{message.fullName}}</p>
+                <p>From Employee Management System: {{message.selectedFullName }}</p>
+                <p-progressBar [value]="message.similarity"></p-progressBar>
+              </div>
+            </ng-template>
+          </p-confirmDialog>
           <button pButton type="submit" [disabled]="addUserForm.invalid" label="Create Admin" (click)="startAdding(addUserForm)"></button>
         </div>
       </div>

@@ -48,6 +48,8 @@ import { NewAuditFindingsComponent } from './components/audit-findings/new-audit
 import { NewAuditFindingsCommentComponent } from './components/audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
 import { NewWBSComponent } from './components/audit-program/new-wbs/new-wbs.component';
 import { Report } from './components/Report/report.component';
+import { ReportList } from './components/Report/list/report-list.component';
+import { ReportDisplay } from './components/Report/display/display.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule,BadgeModule,BreadcrumbModule,CardModule,CollapseModule,GridModule,UtilitiesModule,SharedModule,ListGroupModule,PlaceholderModule,ProgressModule,SpinnerModule,TabsModule,NavModule, CarouselModule,FormModule,PaginationModule,PopoverModule} from '@coreui/angular';
@@ -88,7 +90,9 @@ import { AccordionModule,BadgeModule,BreadcrumbModule,CardModule,CollapseModule,
     NewAuditFindingsCommentComponent,
     NewWBSComponent,
     AuditFindingsDetailComponent,
-    Report
+    Report,
+    ReportList,
+    ReportDisplay
   ],
   imports: [
     NgApexchartsModule,

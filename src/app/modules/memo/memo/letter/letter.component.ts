@@ -47,7 +47,9 @@ export class LetterComponent {
         this.dbSignImage =
           'data:image/jpeg;base64,' + this.postResponse.signature;
       },
-      (error: HttpErrorResponse) => {}
+      (error: HttpErrorResponse) => {
+        console.error('Error fetching signature image:', error);
+      }
     );
   }
 

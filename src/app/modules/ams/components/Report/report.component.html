@@ -4,9 +4,9 @@
 
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4 ">Introduction and Executive Summary</h5>
-  <form>
-    <ckeditor class="ckeditor" [editor]="Editor" name="body" ngModel
-    [required]="true"></ckeditor>
+  <form >
+    <ckeditor class="ckeditor" [editor]="Editor" name="body" ngModel [(ngModel)]="textInput"
+    [required]="true" ></ckeditor>
     
 <div class="card"   *ngIf="auditPrograms[0]?.status == 'Approved'">
   <h5 class="text-1xl  text-blue-600 my-3 pl-4 abdycustom"> Select Finding </h5>
@@ -44,7 +44,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-auditFinding let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditFinding" >
-        <td><p-checkbox name="finding" value="{{finding}}"></p-checkbox></td>
+        <td>
+          <input type="checkbox" name="finding" (change)="onCheck($event, auditFinding.id)">
+        </td>
         <td>{{ auditFinding.area.name}}</td>
         <td>{{ auditFinding.auditees}}</td>
         <td>{{ auditFinding.cause}}</td>
@@ -63,6 +65,7 @@
       <p-button
       *ngIf="auditPrograms[0]?.status == 'Approved'"
         label="Generate Report"
+        (onClick)="onSubmit()"
       ></p-button>
     </div>
   </form>

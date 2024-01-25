@@ -19,7 +19,7 @@ export class CMSDashboardService {
       }),
     };
     // this.apiServiceUrl = localStorage.getItem('url_8');
-    this.apiServiceUrl = 'http://10.1.125.58:8088';
+    this.apiServiceUrl = 'http://localhost:8088';
     // this.apiServiceUrl = 'http://10.1.125.58:8088';
   }
 
