@@ -268,71 +268,121 @@ navItemsICMSBranch = {
 }
 
 navItemsICMSDistrict = {
-  name: 'SMS',
-  url: '/sms',
-  iconComponent: { name: 'cil-comment-square' },
+  name: 'Internal Control',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-chart' },
   children: [
     {
-      name: 'SMS Sending',
-      url: '/sms',
-      iconComponent: { name: 'cil-send' },
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
       children: [
         {
-          name: 'All Customer ',
-          url: '/sms/customer',
+          name: 'View CIPM History',
+          url: '/ICMS/CIPM/viewCIPM',
         },
+      ]
+    },
+   
+    {
+      name: 'DCQ',
+      url: '/ICMS/DCQ',
+      children: [
         {
-          name: 'Bulk SMS ',
-          url: '/sms/bulk',
+          name: 'View Data',
+          url: '/ICMS/DCQ/viewDCQ'
         },
-        {
-          name: 'Single Messaging',
-          url: '/sms/single',
-        },
-        {
-          name: 'Group Messaging',
-          url: '/sms/group',
-        },
-        {
-            name: 'SMS Template',
-            url: '/sms/template',
-        },
-      
       ]
     },
     {
-      name: 'Reports',
-      url: '/sms',
-      iconComponent: { name: 'cil-bar-chart' },
+      name: 'IFR',
+      url: '/ICMS/Fraud',
       children: [
         {
-          name: 'All messages',
-          url: '/sms/all-messages',
+          name: 'Add Data',
+          url: '/ICMS/Fraud/addFraud',
         },
         {
-          name: 'Sent messages',
-          url: '/sms/sent-messages',
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
         },
-        {
-          name: 'Cutomer Messages',
-          url: '/sms/customers',
-        },
-        {
-          name: 'Bulk Messages',
-          url: '/sms/bulks',
-        },
-        {
-            name: 'Cost',
-            url: '/sms/cost',
-        },
-      
       ]
     },
+    {
+      name: 'DACGM',
+      url: '/ICMS/DACGM',
+      children: [
+        {
+          name: 'View DACGM History',
+          url: '/ICMS/DACGM/viewDACGM',
+        },
+      ]
+    },
+  ]
+  // name: 'SMS',
+  // url: '/sms',
+  // iconComponent: { name: 'cil-comment-square' },
+  // children: [
+  //   {
+  //     name: 'SMS Sending',
+  //     url: '/sms',
+  //     iconComponent: { name: 'cil-send' },
+  //     children: [
+  //       {
+  //         name: 'All Customer ',
+  //         url: '/sms/customer',
+  //       },
+  //       {
+  //         name: 'Bulk SMS ',
+  //         url: '/sms/bulk',
+  //       },
+  //       {
+  //         name: 'Single Messaging',
+  //         url: '/sms/single',
+  //       },
+  //       {
+  //         name: 'Group Messaging',
+  //         url: '/sms/group',
+  //       },
+  //       {
+  //           name: 'SMS Template',
+  //           url: '/sms/template',
+  //       },
+      
+  //     ]
+  //   },
+  //   {
+  //     name: 'Reports',
+  //     url: '/sms',
+  //     iconComponent: { name: 'cil-bar-chart' },
+  //     children: [
+  //       {
+  //         name: 'All messages',
+  //         url: '/sms/all-messages',
+  //       },
+  //       {
+  //         name: 'Sent messages',
+  //         url: '/sms/sent-messages',
+  //       },
+  //       {
+  //         name: 'Cutomer Messages',
+  //         url: '/sms/customers',
+  //       },
+  //       {
+  //         name: 'Bulk Messages',
+  //         url: '/sms/bulks',
+  //       },
+  //       {
+  //           name: 'Cost',
+  //           url: '/sms/cost',
+  //       },
+      
+  //     ]
+  //   },
     
     
     
    
-  ],
+  // ],
   
 }
 
