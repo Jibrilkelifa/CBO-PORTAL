@@ -11,6 +11,7 @@ export let navItemsICMSAdmin: Object;
 export let navItemsICMSDistrict: Object;
 export let navItemsICMSDistrictDirector: Object;
 export let navItemsICMSBranch: Object;
+export let navItemsSMSAdmin: Object;
 export let navItemsICMSProvision: Object;
 export let navItemsICMSBranchManager: Object;
 export let navItemsICMSBankingOperation: Object;
@@ -279,7 +280,6 @@ navItemsICMSDistrict = {
           name: 'View CIPM History',
           url: '/ICMS/CIPM/viewCIPM',
         },
-     
       ]
     },
    
@@ -298,14 +298,13 @@ navItemsICMSDistrict = {
       url: '/ICMS/Fraud',
       children: [
         {
-          name: 'View History',
-          url: '/ICMS/Fraud/viewFraud',
-        },
-        {
           name: 'Add Data',
           url: '/ICMS/Fraud/addFraud',
         },
-      
+        {
+          name: 'View History',
+          url: '/ICMS/Fraud/viewFraud',
+        },
       ]
     },
     {
@@ -319,7 +318,74 @@ navItemsICMSDistrict = {
       ]
     },
   ]
+  // name: 'SMS',
+  // url: '/sms',
+  // iconComponent: { name: 'cil-comment-square' },
+  // children: [
+  //   {
+  //     name: 'SMS Sending',
+  //     url: '/sms',
+  //     iconComponent: { name: 'cil-send' },
+  //     children: [
+  //       {
+  //         name: 'All Customer ',
+  //         url: '/sms/customer',
+  //       },
+  //       {
+  //         name: 'Bulk SMS ',
+  //         url: '/sms/bulk',
+  //       },
+  //       {
+  //         name: 'Single Messaging',
+  //         url: '/sms/single',
+  //       },
+  //       {
+  //         name: 'Group Messaging',
+  //         url: '/sms/group',
+  //       },
+  //       {
+  //           name: 'SMS Template',
+  //           url: '/sms/template',
+  //       },
+      
+  //     ]
+  //   },
+  //   {
+  //     name: 'Reports',
+  //     url: '/sms',
+  //     iconComponent: { name: 'cil-bar-chart' },
+  //     children: [
+  //       {
+  //         name: 'All messages',
+  //         url: '/sms/all-messages',
+  //       },
+  //       {
+  //         name: 'Sent messages',
+  //         url: '/sms/sent-messages',
+  //       },
+  //       {
+  //         name: 'Cutomer Messages',
+  //         url: '/sms/customers',
+  //       },
+  //       {
+  //         name: 'Bulk Messages',
+  //         url: '/sms/bulks',
+  //       },
+  //       {
+  //           name: 'Cost',
+  //           url: '/sms/cost',
+  //       },
+      
+  //     ]
+  //   },
+    
+    
+    
+   
+  // ],
+  
 }
+
 navItemsICMSBranchManager = {
   name: 'Internal Control',
   url: '/ICMS',
@@ -425,11 +491,6 @@ navItemsICMSDistrictDirector = {
           name: 'View History',
           url: '/ICMS/Fraud/viewFraud',
         },
-        {
-          name: 'Add Data',
-          url: '/ICMS/Fraud/addFraud',
-        },
-     
       ]
     },
     {

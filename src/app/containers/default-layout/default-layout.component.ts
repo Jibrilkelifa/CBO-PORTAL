@@ -12,6 +12,7 @@ import {
   navItemsICMSDistrict,
   navItemsICMSDistrictDirector,
   navItemsICMSBranch,
+  navItemsSMSAdmin,
   navItemsICMSProvision,
   navItemsICMSBranchManager,
   navItemsICMSBankingOperation,
@@ -51,6 +52,7 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsICMSDistrict);
     addIndentClass(navItemsICMSDistrictDirector);
     addIndentClass(navItemsICMSBranch);
+    addIndentClass(navItemsSMSAdmin);
     addIndentClass(navItemsICMSProvision);
     addIndentClass(navItemsICMSBranchManager);
     addIndentClass(navItemsICMSBankingOperation);
@@ -130,11 +132,7 @@ export class DefaultLayoutComponent {
             case "ROLE_ICMS_ADMIN":
               this.navItems.push(navItemsICMSAdmin);
               this.dashboardRoute = "icms_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+          
               break;
             case "ROLE_ICMS_DISTRICT_IC":
               this.navItems.push(navItemsICMSDistrict);
@@ -148,45 +146,31 @@ export class DefaultLayoutComponent {
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              break;
+            // case "ROLE_SMS_ADMIN":
+            //     this.navItems.push(navItemsSMSAdmin);
+            //     this.dashboardRoute = "default_dashboard"
+        
               break;
             case "ROLE_ICMS_PROVISION":
               this.navItems.push(navItemsICMSProvision);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+          
               break;
             case "ROLE_ICMS_BRANCH_MANAGER":
               this.navItems.push(navItemsICMSBranchManager);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+         
               break;
               case "ROLE_ICMS_BANKING_OPERATION":
                 this.navItems.push(navItemsICMSBankingOperation);
                 this.dashboardRoute = "default_dashboard"
-                if(localStorage.getItem("supervisor") === "true"){
-                  // if(true){
-                  this.navItems.push(navItemSupervisor);
-                }
+           
                 break;
               case "ROLE_ICMS_DISTRICT_DIRECTOR":
                 this.navItems.push(navItemsICMSDistrictDirector);
                 this.dashboardRoute = "default_dashboard"
-                if(localStorage.getItem("supervisor") === "true"){
-                  // if(true){
-                  this.navItems.push(navItemSupervisor);
-                }
+           
                 break;
             case "ROLE_SASV_ADMIN":
               this.navItems.push(navItemsSASVAdmin);

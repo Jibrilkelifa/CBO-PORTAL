@@ -40,4 +40,10 @@ export class EMSService {
     return this.http.get<Employee>(`http://10.1.125.58:8082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
 
   }
+  public getEmployeeByFullNameFromDB(fullname: string): Observable<any>{
+    this.init();
+    // return this.http.get<any>(`http://localhost:8082/ems/api/getEmployeeByName/${fullname}`, this.httpOptions2)
+    return this.http.get<any>(`http://10.1.125.58:8082/ems/api/getEmployeeByName/${fullname}`, this.httpOptions2)
+
+  }
 }

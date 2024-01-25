@@ -1,30 +1,93 @@
-<div
+<!-- <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg overflow-visible">
+  <div class="mb-8"></div>
+  <div class="flex justify-around space-x-16 mb-8">
+    <div *ngIf="ifrImage" class="group">
+      <ng-container *ngIf="isOctetStream(contentType)">
+        <img class="w-44 h-44 border border-blue-600" [src]="dbIfrImage" alt="ifrImage" />
+        <img
+          class="w-24 h-24  border border-blue-600 absolute transform scale-100 group-hover:scale-200 group-hover:z-10 hover-img"
+          (mouseout)="deleteBlurred1()"
+          (mouseover)="showBlurred1()"
+          [src]="dbIfrImage"
+          alt="ifrImage"
+        />
+        <figcaption *ngIf="ifrImage" class="text-center text-sm font-bold mt-2">Ifr</figcaption>
+      </ng-container>
+      <ng-container *ngIf="!isOctetStream(contentType)">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="downloadFile(dbIfrImage)">Download</button>
+      </ng-container>
+    </div>
+  </div>
+</div> -->
+<!-- <div class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg overflow-visible">
+  <div class="mb-8">
+  </div>
+  <div class="flex justify-around space-x-16 mb-8">
+    <div *ngIf="ifrImage" class="group">
+      <ng-container *ngIf="isImageFile(dbIfrImage)">
+        <div class="relative">
+          <img class="w-44 h-44 border border-blue-600" [src]="dbIfrImage" alt="ifrImage" />
+          <img
+            class="w-24 h-24 border border-blue-600 absolute transform scale-100 group-hover:scale-200 group-hover:z-10 hover-img"
+            (mouseout)="deleteBlurred1()"
+            (mouseover)="showBlurred1()"
+            [src]="dbIfrImage"
+            alt="ifrImage"
+          />
+        </div>
+        <figcaption *ngIf="ifrImage" class="text-center text-sm font-bold mt-2">
+          Ifr
+        </figcaption>
+      </ng-container>
+      <ng-container *ngIf="!isImageFile(dbIfrImage)">
+        <button class="border border-blue-600 px-4 py-2 rounded-lg" (click)="downloadFile(dbIfrImage)">
+          Download File
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</div> -->
+
+
+ <div
   class="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg overflow-visible"
 >
   <div class="mb-8">
   </div>
   <div class="flex justify-around space-x-16 mb-8">
     <div *ngIf="ifrImage" class="group">
-      <img
+      <img *ngIf="isOctetStream(contentType)"
         class="w-44 h-44 border border-blue-600"
         [src]="dbIfrImage"
         alt="ifrImage"
       />
-      <img
+      <img  *ngIf="isOctetStream(contentType)"
         class="w-24 h-24  border border-blue-600 absolute transform scale-100 group-hover:scale-200 group-hover:z-10 hover-img"
         (mouseout)="deleteBlurred1()"
         (mouseover)="showBlurred1()"
         [src]="dbIfrImage"
         alt="ifrImage"
       />
+      <!-- <ng-container *ngIf="!isOctetStream(contentType)">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="downloadFile(dbIfrImage)">Download</button>
+      </ng-container> -->
+      <ng-container *ngIf="!isOctetStream(contentType) && !isImageFile(dbIfrImage)">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" (click)="downloadFile(dbIfrImage)">Download</button>
+      </ng-container>
+
+      
       <figcaption
         *ngIf="ifrImage"
         class="text-center text-sm font-bold mt-2"
       >
-        Ifr
+      
       </figcaption>
+      
     </div>
+   
     
   </div>
 
-</div>
+</div> 
+
+

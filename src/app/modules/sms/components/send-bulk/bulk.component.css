@@ -1,0 +1,59 @@
+label {
+  margin: 1%;
+}
+
+::placeholder {
+  color: black;
+}
+
+.mbody {
+  background-color: white;
+
+}
+
+#submit {
+  background-color: #00AEEF;
+
+  width: 12%;
+  height: 40px;
+  border-radius: 20px;
+
+}
+
+.mcontainer {
+  padding: 20px;
+  background-color: white;
+
+  margin-top: -10px;
+}
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding: 10px;
+
+}
+
+
+select::-ms-expand {
+  display: none;
+}
+
+.ckeditor {
+  min-height: 1000px !important;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: 55vh;
+  min-width: 69vw;
+}
+
+:host ::ng-deep .prime-chips-override {
+  width: 1000px;
+
+}
+
+.inputs {
+  display: flex;
+}

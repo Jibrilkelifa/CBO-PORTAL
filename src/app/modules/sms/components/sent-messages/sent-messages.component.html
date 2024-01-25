@@ -1,0 +1,128 @@
+<div class="card">
+    <p-table #dt1 [value]="messages" selectionMode="single" [(selection)]="selectedMessages" dataKey="id" [tableStyle]="{'min-width': '50rem'}"
+    [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name" style="width:25%">Phone Number<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="country.name" style="width:25%">Message Content<p-sortIcon field="country.name"></p-sortIcon></th>
+                <th pSortableColumn="status" style="width:25%">Batch Number <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="status" style="width:25%">Batch Time  <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="status" style="width:25%">Delivery Time  <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="name" style="width:25%">Sender<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="name" style="width:25%">Status<p-sortIcon field="name"></p-sortIcon></th>
+            </tr>
+            <tr>
+                <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by phone Number"
+                    class="p-column-filter"
+                  />                </th>
+                  <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by phone Number"
+                    class="p-column-filter"
+                  />                </th>
+                   <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by Message Content"
+                    class="p-column-filter"
+                  />                </th>
+                <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by Batch Number"
+                    class="p-column-filter"
+                  />                </th>
+                <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by message Batch Time"
+                    class="p-column-filter"
+                  />                </th>
+           
+                  <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by Sender Name"
+                    class="p-column-filter"
+                  />                </th>
+                  <th>
+                    <input
+                    pInputText
+                    type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'name', 'contains')"
+                    [value]="$any(dt1.filters['name'])?.value"
+                    placeholder="Search by Status"
+                    class="p-column-filter"
+                  />                </th>
+
+            
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-messages>
+            <tr [pSelectableRow]="messages">
+                <td>
+                    <span class="p-column-title">Phone Number</span>
+                    {{ messages?.phoneNumber }}
+                  </td>
+                  <td>
+                    <span  class="p-column-title" >Message Content</span>
+                    <span class="truncat" [title]="messages.messageContent">
+                    {{ messages?.messageContent }}</span>
+                  </td>
+                  <td>
+                    <span class="p-column-title" >Batch Number</span>
+                    {{ messages?.messageBatch.id}}
+                  </td>
+                  <td>
+                    <span class="p-column-title" >Batch Time</span>
+                    {{ messages?.messageBatch.messageBatchDate}}
+                  </td>
+                  <td>
+                    <span class="p-column-title" >Batch Time</span>
+                    {{ messages?.messageBatch.messageBatchDate }}
+                  </td>
+                <td>
+                    <span class="p-column-title">Sender</span>
+                    {{ messages?.phoneNumber }}
+                    
+                  </td>
+                  <!-- <td>
+                    <span class="p-column-title">Status</span>
+                    <p-tag [value]="messages.status" [severity]="getSeverity(messages?.status)"></p-tag>
+                </td> -->
+                <td>
+                  <span class="p-column-title">Status</span>
+                  <p-tag [value]="getDisplayLabel(messages?.status)" [severity]="getSeverity(messages?.status)"></p-tag>
+                </td>
+             
+             
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No Data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

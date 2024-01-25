@@ -18,8 +18,8 @@ export class AuthService {
   // API path
 
   //ssoBathPath = 'http://localhost:9081';
-  ssoBathPath = 'http://10.1.125.58:9081';
-  // emsBasePath = 'http://localhost:8082';
+   ssoBathPath = 'http://10.1.125.58:9081';
+  // emsBasePath = 'http://10.1.11.48:9082';
   emsBasePath = 'http://10.1.125.58:8082';
 
 

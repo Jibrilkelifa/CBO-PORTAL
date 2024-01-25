@@ -65,6 +65,7 @@
         <th scope="col" pSortableColumn="chequeType" style="width:7%">Cheque Type</th>
         <th scope="col" pSortableColumn="nameOfBeneficiary" style="width:8%">Name of Beneficiary</th>
         <th scope="col" pSortableColumn="frequency" style="width:8%">Frequency</th>
+        <th scope="col" pSortableColumn="Action taken" style="width:70%">Action taken</th>
         <th scope="col" pSortableColumn="Action" style="width:1%" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">Actions
         </th>
       </tr>
@@ -87,6 +88,10 @@
         <td>{{DCQs?.chequeType?.name}}</td>
         <td>{{DCQs?.nameOfBeneficiary}}</td>
         <td>{{DCQs?.frequency}}</td>
+        <td class="truncate" [title]="DCQs?.actionTaken.name">
+          {{ DCQs?.actionTaken.name }}
+        </td>
+        <!-- <td>{{DCQs?.actionTaken.name}}</td> -->
         <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_MANAGER')">
           <button pButton (click)="updateDCQs(DCQs?.id)" [ngClass]="{updateBlue: true}" class="p-button-sm mb-3"
             label="Update"></button>
