@@ -25,7 +25,13 @@ import {
   navItemsCMSAdmin,
   navItemsCMSUser,
   navItemSupervisor,
-  navItemsAMSAdmin
+  navItemsAMSAdmin,
+  navCC,
+  navItemSearch,
+  navItemDelinquent,
+  navItemAdmin,
+  navItemWeeklyCheck,
+  complianceCheckMenu
 } from './_nav';
 
 @Component({
@@ -33,6 +39,7 @@ import {
   templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent {
+  
 
   public navItems = [];
   public dashboardRoute: string = ""
@@ -42,6 +49,7 @@ export class DefaultLayoutComponent {
   };
 
   constructor() {
+
     addIndentClass(navItemsSuperAdmin);
     addIndentClass(navItemsEMSAdmin);
     addIndentClass(navItemsEMSUser);
@@ -66,19 +74,52 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsCMSUser);
     addIndentClass(navItemSupervisor);
     addIndentClass(navItemsAMSAdmin);
+    addIndentClass(navCC);
+
     this.navItems.push(navItemMenu);
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
     const otp = localStorage.getItem('otp') == "true";
     if (!otp) {
       for (let i = 0; i <= totalModules; i++) {
         let moduleStatus = localStorage.getItem("module_" + i) === "true"
+
+        
         if (moduleStatus) {
-          switch (localStorage.getItem("role_" + i)) {
+          let supervisorMenuItemAdded = false;
+          let role = localStorage.getItem("role_" + i);
+          if (role.includes('CC')) {
+            // ... other code ...
+          
+            if (role.includes('ROLE_CC_USER_DELIQUENT')) {
+              // Add Delinquent submenu
+              if (!complianceCheckMenu.children.includes(navItemDelinquent)) {
+                complianceCheckMenu.children.push(navItemDelinquent);
+              }
+            } else if (role.includes('ROLE_CC_ADMIN')) {
+              // Add Admin submenu
+              if (!complianceCheckMenu.children.includes(navItemAdmin)) {
+                complianceCheckMenu.children.push(navItemAdmin);
+              }
+          
+              // Add Weekly Check only for ROLE_CC_ADMIN
+              if (!complianceCheckMenu.children.some(item => item.name === 'Weekly Check')) {
+                complianceCheckMenu.children.push(navItemWeeklyCheck);
+              }
+            }
+          
+            // Check if Compliance Check menu is already in the list before adding
+            if (!this.navItems.some(item => item.name === 'Compliance Check')) {
+              this.navItems.push(complianceCheckMenu);
+            }
+          }
+          
+   
+          switch (role) {
             case "ROLE_SUPER_ADMIN":
               this.navItems.push(navItemsSuperAdmin);
               this.dashboardRoute = "default_dashboard"
               if (localStorage.getItem("supervisor") === "true") {
-
+                
                 if (!this.navItems.includes(navItemSupervisor)) {
                   this.navItems.push(navItemSupervisor);
                 }
@@ -102,33 +143,33 @@ export class DefaultLayoutComponent {
                 }
               }
               break;
-            case "ROLE_CC_ADMIN":
-              this.navItems.push(navItemsCCAdmin);
-              this.dashboardRoute = "cc_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
-              break;
-            case "ROLE_CC_USER":
-              this.navItems.push(navItemsCCUser);
-              this.dashboardRoute = "cc_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
-              break;
-            case "ROLE_CC_USER_DELIQUENT":
-              this.navItems.push(navItemsCCUserDeliquent);
-              this.dashboardRoute = "cc_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
-              break;
+            // case "ROLE_CC_ADMIN":
+            //   this.navItems.push(navItemsCCAdmin);
+            //   this.dashboardRoute = "cc_dashboard"
+            //   if (localStorage.getItem("supervisor") === "true") {
+            //     if (!this.navItems.includes(navItemSupervisor)) {
+            //       this.navItems.push(navItemSupervisor);
+            //     }
+            //   }
+            //   break;
+            // case "ROLE_CC_USER":
+            //   this.navItems.push(navItemsCCUser);
+            //   this.dashboardRoute = "cc_dashboard"
+            //   if (localStorage.getItem("supervisor") === "true") {
+            //     if (!this.navItems.includes(navItemSupervisor)) {
+            //       this.navItems.push(navItemSupervisor);
+            //     }
+            //   }
+            //   break;
+            // case "ROLE_CC_USER_DELIQUENT":
+            //   this.navItems.push(navItemsCCUserDeliquent);
+            //   this.dashboardRoute = "cc_dashboard"
+            //   if (localStorage.getItem("supervisor") === "true") {
+            //     if (!this.navItems.includes(navItemSupervisor)) {
+            //       this.navItems.push(navItemSupervisor);
+            //     }
+            //   }
+            //   break;
             case "ROLE_ICMS_ADMIN":
               this.navItems.push(navItemsICMSAdmin);
               this.dashboardRoute = "icms_dashboard"
@@ -248,9 +289,9 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsAMSAdmin);
               this.dashboardRoute = "default_dashboard"
               break;
-          }
+          }}
         }
-      }
+      
     }
   }
 }

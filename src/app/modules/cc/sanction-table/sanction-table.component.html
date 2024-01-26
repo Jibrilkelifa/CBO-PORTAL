@@ -992,10 +992,14 @@
   <p-tabPanel header="HPR">
   </p-tabPanel>
 </p-tabView>
-<div
-  *ngIf="this.loadingnbe || this.loadingunindividual|| this.loadingunentity || this.loadingeusanction || this.loadinguksanction || this.loadingpep || this.loadingadverser  || this.loadingofac || this.loadingde"
+
+
+
+  <div
+  *ngIf="!this.loadingnbe && !this.loadingunindividual && !this.loadingunentity && !this.loadingeusanction && !this.loadinguksanction && !this.loadingpep && !this.loadingadverser  && !this.loadingofac && !this.loadingde"
   class="spinner-container">
-  <p-progressSpinner></p-progressSpinner>
-  <p> Loading Please Wait!
+  <!-- <p-progressSpinner></p-progressSpinner> -->
+  <p> Loaded all data!
   <p>
 </div>
+

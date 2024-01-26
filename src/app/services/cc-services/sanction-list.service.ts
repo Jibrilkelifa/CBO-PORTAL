@@ -55,6 +55,7 @@ export class SanctionListService {
   
 
     this.BUI = this.apiServiceUrl + "/api/v1/un_all_individuals_optimized"
+
     this.BUE = this.apiServiceUrl + "/api/v1/un_all_entities_optimized"
     this.BEU = this.apiServiceUrl + "/api/v1/eu_all_optimized"
     this.BUK = this.apiServiceUrl + "/api/v1/uk_all_optimized"
@@ -91,6 +92,13 @@ export class SanctionListService {
     this.init();
     return this.httpClient.get<UNindividual_[]>(this.BUI);
   }
+
+  getAllUnIndividualByName(searchResult:String): Observable<UNindividual_[]> {
+    this.init();
+    const url = `http://localhost:8083/api/v1/getUnIndividualByName/${searchResult}`;
+    return this.httpClient.get<UNindividual_[]>(url);
+  }
+
   getAllUnEntity(): Observable<UNentity_[]> {
     this.init();
     return this.httpClient.get<UNentity_[]>(this.BUE);

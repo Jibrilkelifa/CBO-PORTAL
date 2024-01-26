@@ -1,3 +1,11 @@
+interface NavItem {
+  name: string;
+  url: string;
+  children: Array<NavItem>;
+}
+
+
+
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
 export let navItemsAMSAdmin: Object;
@@ -24,6 +32,9 @@ export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
+export let navCC:NavItem;
+
+
 
 
 
@@ -522,6 +533,10 @@ navItemsICMSProvision = {
   ]
 }
 
+
+
+
+
 navItemsCCAdmin = {
   name: 'Compliance Check',
   url: '/CC',
@@ -534,7 +549,7 @@ navItemsCCAdmin = {
     {
       name: 'Uploads',
       url: '/CC/upload',
-      children: [
+      children:[
         {
           name: 'UK',
           url: '/CC/upload/uk',
@@ -789,3 +804,57 @@ navItemsCMSAdmin = {
 navItemsCMSUser = {
 
 }
+export const navItemSearch = {
+  name: 'Search',
+  url: '/CC/viewSanction',
+};
+
+export const navItemDelinquent = {
+  name: 'Delinquent',
+  url: '/CC/upload/delinquent',
+  children: [
+    {
+      name: 'Delinquent List',
+      url: '/CC/upload/deliquent',
+    },
+    {
+      name: 'Business Continuity',
+      url: '/CC/upload/business',
+    },
+    // Add more items as needed
+  ],
+};
+
+export const navItemAdmin = {
+  name: 'Uploads',
+  url: '/CC/upload',
+  children: [
+    {
+      name: 'UK',
+      url: '/CC/upload/uk',
+    },
+    {
+      name: 'EU',
+      url: '/CC/upload/eu',
+    },
+    {
+      name: 'PEP',
+      url: '/CC/upload/pep',
+    },    
+    // Add more items as needed
+  ],
+};
+
+export const navItemWeeklyCheck = {
+  name: 'Weekly Check',
+  url: '/CC/weeklyCheck',
+};
+
+export const complianceCheckMenu = {
+  name: 'Compliance Check',
+  url: '/CC',
+  icon:'pi pi-check',
+  children: [
+    navItemSearch, // Include Search submenu by default
+  ],
+};

@@ -1,9 +1,9 @@
 <h3 style="color: green">{{title}}</h3>
-<h3 *ngIf="type === 'adverser' || type === 'pep' || type === 'nbe-deliquent' || type === 'nbe-block'|| type === 'eu' || type === 'uk'">Please make sure that you are uploading the right file. </h3>
+<h3 *ngIf=" type === 'adverser' || type === 'pep' || type === 'nbe-deliquent' || type === 'nbe-block'|| type === 'eu' || type === 'uk'">Please make sure that you are uploading the right file. </h3>
 <h5>{{instruction}}</h5>
 
 <p-messages [value]="messages"></p-messages>
-<p-fileUpload #fileUpload name="file" [url]="upload_url" [accept]="file_type"  (onBeforeUpload)="onBeforeUpload()" (onError)="onUploadError()" (onUpload)="onUpload()" *ngIf="type === 'adverser' || type === 'pep' || type === 'nbe-deliquent' || type === 'nbe-block'|| type === 'eu' || type === 'uk'"
+<p-fileUpload #fileUpload name="file" [url]="upload_url" [accept]="file_type"  (onBeforeUpload)="onBeforeUpload()" (onError)="onUploadError()" (onUpload)="onUpload()" *ngIf=" type === 'adverser' || type === 'pep' || type === 'nbe-deliquent' || type === 'nbe-block'|| type === 'eu' || type === 'uk'"
 ></p-fileUpload>
 
 

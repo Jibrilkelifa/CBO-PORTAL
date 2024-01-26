@@ -135,18 +135,7 @@ export class SanctionTableComponent implements OnInit {
   // private listener: Listener;
 
   constructor(private router: Router, public modalService: ModalService, private sanctionListService: SanctionListService, private primengConfig: PrimeNGConfig, private dbService: NgxIndexedDBService, private indexedDBService: NgxIndexedDBService) {
-    // this.listener = new Listener(this);
 
-    // this.client = new Client();
-    // this.client.webSocketFactory = () => new WebSocket('ws://10.1.11.48:9083/ws'); // WebSocket endpoint
-    // this.client.onConnect = () => {
-    //   this.client.subscribe('/topic/messages', (message) => {
-    //     console.log('Received:', message.body);
-    //     // Handle the received string message in your Angular component
-
-    //   });
-    // };
-    // this.client.activate();
   }
 
 
@@ -169,9 +158,6 @@ export class SanctionTableComponent implements OnInit {
     this.loadingofac = true;
     this.loadingde = true;
 
-
-
-
     this.fetchUnIndividual()
     this.fetchUnEntity()
     this.fetchEuSanction()
@@ -181,19 +167,7 @@ export class SanctionTableComponent implements OnInit {
     this.fetchAdverserSanction()
     this.fetchOfacSanction()
     this.fetchDeSanction()
-
-
-
-
-
     //abdydiditends
-
-
-
-
-
-
-
   }
 
 
@@ -909,8 +883,9 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
 
 
   public getSearchResult(searchResult: string) {
-   
-    if(!this.loadingde && !this.loadingnbe && !this.loadinguksanction ){
+
+
+
       const uioptions = {
         keys: ["firstName"],
         includeScore: true,
@@ -928,9 +903,7 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
           // concatenate the values of the keys into a single string
           return obj.firstName + " " + obj.secondName + " " + obj.thirdName;
         }
-      };
-  
-  
+      }; 
       const euoptions = {
         keys: ["wholeNames"],
         includeScore: true,
@@ -945,7 +918,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
           }
         }
       };
-  
       const ukoptions = {
         keys: ["wholeNames"],
         includeScore: true,
@@ -1039,22 +1011,45 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
           return [];
         }
       }
-      //un individual
-      const aui = search(this.all_un_individual, 'all_un_individual');
+
+
+    
   
-      // Map the aui array to a new array that contains only the item values
-      const auiitems = aui.map(result => result.item);
+    
+ 
+   
+   
   
-      // Assign the auiitems array to asro_all_un_individual
-      this.asro_all_un_individual = auiitems;
+
+      if (this.loadingunindividual){
+
+        
+        this.sanctionListService.getAllUnIndividualByName(searchResult).subscribe(data => {
+          this.asro_all_un_individual = data; // assign the data returned by the API to a local variable
+    
+        });
+
+    
+      }else{
+           //un individual
+            const aui = search(this.all_un_individual, 'all_un_individual');
+
+            // Map the aui array to a new array that contains only the item values
+            const auiitems = aui.map(result => result.item);
   
-      const auiscores = aui.map(result => result.score.toFixed(1));
+            // Assign the auiitems array to asro_all_un_individual
+            this.asro_all_un_individual = auiitems;
   
-      // Assign the scores array to aaui_score
-      this.aaui_score = auiscores;
+             const auiscores = aui.map(result => result.score.toFixed(1));
   
-  
-      //un entity
+             // Assign the scores array to aaui_score
+             this.aaui_score = auiscores;
+      }
+
+      if(this.loadingunentity){
+
+      }else{
+       //un entity
       const aue = search(this.all_un_entities, 'all_un_entities');
   
       // Map the aui array to a new array that contains only the item values
@@ -1067,8 +1062,12 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
       // Assign the scores array to aaui_score
       this.aaue_score = auescores;
-  
-      //eu sanction
+      }
+
+      if(this.loadingeusanction){
+
+      }else{
+           //eu sanction
       const aes = search(this.all_eu_sanction, 'all_eu_sanction');
   
       // Map the aes array to a new array that contains only the item values
@@ -1081,7 +1080,14 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
       // Assign the scores array to aaui_score
       this.aaes_score = aesscores;
-  
+        
+      }
+
+      if(this.loadinguksanction){
+
+      } else{
+
+          
       //uk sanction
       const aus = search(this.all_uk_sanction, 'all_uk_sanction');
   
@@ -1095,8 +1101,13 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
       // Assign the scores array to aaui_score
       this.aaus_score = ausscores;
-  
-      //nbe sanction
+
+      }
+
+      if(this.loadingnbe){
+
+      }else{
+            //nbe sanction
       const ans = search(this.all_nbe_sanction, "all_nbe_sanction");
   
       // Map the aes array to a new array that contains only the item values
@@ -1109,7 +1120,12 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
       // Assign the scores array to aaui_score
       this.aans_score = ansscore;
-  
+      }
+
+      if(this.loadingpep){
+
+      } else{
+           
       //pep sanction
       const aps = search(this.all_pep_sanction, 'all_pep_sanction');
   
@@ -1123,8 +1139,12 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
       // Assign the scores array to aaui_score
       this.aaps_score = apsscore;
-  
-      //adverser sanction
+      }
+
+      if(this.loadingadverser){
+
+      }else{
+             //adverser sanction
       const aas = search(this.all_adverser_sanction, 'all_adverser_sanction');
   
       // Map the aes array to a new array that contains only the item values
@@ -1137,9 +1157,12 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
       // Assign the scores array to aaui_score
       this.aaas_score = aasscore;
-  
-  
-      //ofac sanction
+      }
+
+      if(this.loadingofac){
+
+      }else{
+              //ofac sanction
   
   
       const aos = search(this.all_ofac_sanction, 'all_ofac_sanction');
@@ -1157,23 +1180,27 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
       this.aaos_score = aosscore;
   
       //deliquent sanction
+      }
+
+      if(this.loadingde){
+
+      } else {
+        const ads = search(this.all_deliquent_sanction, 'all_deliquent_sanction');
   
   
   
-      const ads = search(this.all_deliquent_sanction, 'all_deliquent_sanction');
-  
-  
-  
-      // Map the aes array to a new array that contains only the item values
-      const adsitems = ads.map(result => result.item);
-  
-  
-      this.asro_all_deliquent_sanction = adsitems;
-      const adsscore = ads.map(result => result.score.toFixed(1));
-  
-      // Assign the scores array to aaui_score
-      this.aads_score = adsscore;
-    }
+        // Map the aes array to a new array that contains only the item values
+        const adsitems = ads.map(result => result.item);
+    
+    
+        this.asro_all_deliquent_sanction = adsitems;
+        const adsscore = ads.map(result => result.score.toFixed(1));
+    
+        // Assign the scores array to aaui_score
+        this.aads_score = adsscore;
+      }
+
+ 
 
   }
 
