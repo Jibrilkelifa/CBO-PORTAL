@@ -359,104 +359,104 @@ export class NewFraudComponent implements OnInit {
   
     return;
   }
-  //   this.timeService.getDate().subscribe(
-  //     (response: any) => {
-  //       const dateParts = response.time.split('/'); // 
-  //       const year = dateParts[2];
-  //       const month = dateParts[0].padStart(2, "0");
-  //       const day = dateParts[1].padStart(2, "0");
-  //       const datePresented = `${month}/${day}/${year}`; 
-  //       this.fraudService.getSize().subscribe(
-  //         (response: any) => {
-  //           if (response == 0) {
-  //             addFraudForm.value.caseId = "0001/" + datePresented;
-  //           }
-  //           else {
-  //             this.fraudService.getFraud(response).subscribe(
-  //               (response: any) => {
-  //                 if (response.caseId.slice(-4) === year) {
-  //                   const lastCaseId = parseInt(response.caseId.slice(0, 4));
-  //                   const nextCaseId = (lastCaseId + 1).toString().padStart(4, "0");
-  //                   addFraudForm.value.caseId = nextCaseId + "/" + datePresented;
-  //                 } else {
-  //                   addFraudForm.value.caseId = "0001/" + datePresented;
-  //                 }
-  //               }
-  //             )
-  //           }
-  //           this.fraudService.addFraud(formData).subscribe(
-  //             (response: any) => {
-  //               this.messageService.add({
-  //                 severity: 'success',
-  //                 summary: 'Success',
-  //                 detail: "Incident/Fraud Added Successfully"
-  //               });
-  //               setTimeout(() => {
-  //               }, 100000);
-  //               this.getFrauds(this.branchId);
-  //                 window.location.reload();
-  //             },
-  //             (error: HttpErrorResponse) => {
-
-  //             }
-  //           );
-  //         }
-  //       )
-  //     }
-  //   )
-  // }
-  this.timeService.getDate().subscribe((response: any) => {
-    const dateParts = response.time.split('/');
-    const year = dateParts[2];
-    const month = dateParts[0].padStart(2, '0');
-    const day = dateParts[1].padStart(2, '0');
-    const datePresented = `${month}/${day}/${year}`;
-  
-    this.fraudService.getSize().subscribe((response: any) => {
-      if (response == 0) {
-        addFraudForm.value.caseId = '0001/' + datePresented;
-      } else {
-        this.fraudService.getFraud(response).subscribe((response: any) => {
-          if (response.caseId.slice(-4) === year) {
-            const lastCaseId = parseInt(response.caseId.slice(0, 4));
-            const nextCaseId = (lastCaseId + 1).toString().padStart(4, '0');
-            addFraudForm.value.caseId = nextCaseId + '/' + datePresented;
-          } else {
-            addFraudForm.value.caseId = '0001/' + datePresented;
-          }
-  
-          // Save the fraud record
-          this.fraudService.addFraud(formData).subscribe(
-            (response: any) => {
-              // Retrieve the saved record to get the actual caseId
-              this.fraudService.getFraud(response.savedId).subscribe(
-                (savedFraud: any) => {
-                  addFraudForm.value.caseId = savedFraud.caseId;
-  
-                  this.messageService.add({
-                    severity: 'success',
-                    summary: 'Success',
-                    detail: 'Incident/Fraud Added Successfully'
-                  });
-  
-                  setTimeout(() => {}, 100000);
-                  this.getFrauds(this.branchId);
-                  window.location.reload();
-                },
-                (error: HttpErrorResponse) => {
-                  // Handle error
-                }
-              );
-            },
-            (error: HttpErrorResponse) => {
-              // Handle error
+    this.timeService.getDate().subscribe(
+      (response: any) => {
+        const dateParts = response.time.split('/'); // 
+        const year = dateParts[2];
+        const month = dateParts[0].padStart(2, "0");
+        const day = dateParts[1].padStart(2, "0");
+        const datePresented = `${month}/${day}/${year}`; 
+        this.fraudService.getSize().subscribe(
+          (response: any) => {
+            if (response == 0) {
+              addFraudForm.value.caseId = "0001/" + datePresented;
             }
-          );
-        });
+            else {
+              this.fraudService.getFraud(response).subscribe(
+                (response: any) => {
+                  if (response.caseId.slice(-4) === year) {
+                    const lastCaseId = parseInt(response.caseId.slice(0, 4));
+                    const nextCaseId = (lastCaseId + 1).toString().padStart(4, "0");
+                    addFraudForm.value.caseId = nextCaseId + "/" + datePresented;
+                  } else {
+                    addFraudForm.value.caseId = "0001/" + datePresented;
+                  }
+                }
+              )
+            }
+            this.fraudService.addFraud(formData).subscribe(
+              (response: any) => {
+                this.messageService.add({
+                  severity: 'success',
+                  summary: 'Success',
+                  detail: "Incident/Fraud Added Successfully"
+                });
+                setTimeout(() => {
+                }, 100000);
+                this.getFrauds(this.branchId);
+                  window.location.reload();
+              },
+              (error: HttpErrorResponse) => {
+
+              }
+            );
+          }
+        )
       }
-    });
-  });
-}
+    )
+  }
+//   this.timeService.getDate().subscribe((response: any) => {
+//     const dateParts = response.time.split('/');
+//     const year = dateParts[2];
+//     const month = dateParts[0].padStart(2, '0');
+//     const day = dateParts[1].padStart(2, '0');
+//     const datePresented = `${month}/${day}/${year}`;
+  
+//     this.fraudService.getSize().subscribe((response: any) => {
+//       if (response == 0) {
+//         addFraudForm.value.caseId = '0001/' + datePresented;
+//       } else {
+//         this.fraudService.getFraud(response).subscribe((response: any) => {
+//           if (response.caseId.slice(-4) === year) {
+//             const lastCaseId = parseInt(response.caseId.slice(0, 4));
+//             const nextCaseId = (lastCaseId + 1).toString().padStart(4, '0');
+//             addFraudForm.value.caseId = nextCaseId + '/' + datePresented;
+//           } else {
+//             addFraudForm.value.caseId = '0001/' + datePresented;
+//           }
+  
+//           // Save the fraud record
+//           this.fraudService.addFraud(formData).subscribe(
+//             (response: any) => {
+//               // Retrieve the saved record to get the actual caseId
+//               this.fraudService.getFraud(response.savedId).subscribe(
+//                 (savedFraud: any) => {
+//                   addFraudForm.value.caseId = savedFraud.caseId;
+  
+//                   this.messageService.add({
+//                     severity: 'success',
+//                     summary: 'Success',
+//                     detail: 'Incident/Fraud Added Successfully'
+//                   });
+  
+//                   setTimeout(() => {}, 100000);
+//                   this.getFrauds(this.branchId);
+//                   window.location.reload();
+//                 },
+//                 (error: HttpErrorResponse) => {
+//                   // Handle error
+//                 }
+//               );
+//             },
+//             (error: HttpErrorResponse) => {
+//               // Handle error
+//             }
+//           );
+//         });
+//       }
+//     });
+//   });
+// }
 
   // public updateFraud(updateFraud: NgForm): void {
   //   const recoveredAmount: number = parseFloat(updateFraud.value.amountRecovered);

@@ -41,6 +41,7 @@ export class NewCIPMComponent implements OnInit {
   msgs: Message[] = [];
   value: string;
   branchId: number = Number(localStorage.getItem('branchId'));
+  
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   authorizedBy: string = "Not Authorized"
   preparedBy: string = localStorage.getItem('name');
