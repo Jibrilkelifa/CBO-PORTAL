@@ -32,6 +32,7 @@ export class NewDCQComponent implements OnInit {
   public actionsTaken: ActionTaken[] = [];
   selectedActionTaken: ActionTaken;
   public selectedBranch;
+  public selectedTeam;
   public selectedSubProcess;
   update: boolean = false;
   newDiv: boolean = true;
@@ -58,6 +59,7 @@ export class NewDCQComponent implements OnInit {
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
     
 
