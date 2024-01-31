@@ -49,7 +49,7 @@
     "ngx-indexed-db": "^16.0.0",
     "ngx-perfect-scrollbar": "^10.1.1",
     "pdf-lib": "^1.17.1",
-    "pdfmake": "^0.2.7",
+    "pdfmake": "^0.2.9",
     "primeicons": "^6.0.1",
     "primeng": "^15.2.0",
     "rxjs": "~7.8.0",
