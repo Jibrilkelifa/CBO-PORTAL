@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditEngagementDTO } from '../../models/audit-engagement';
 @Injectable({
@@ -27,16 +27,31 @@ export class AuditReportService {
   public generateReport(report: any): Observable<any> {
     this.init();
     console.log("i generated" + report);
-    return this.http.post<any>(
-      `${this.apiServiceUrl}/ams/auditSchedule/addToEngagement`, report,
-      this.httpOptions
-    );
+    const url = `${this.apiServiceUrl}/ams/report/register/byAuditSchedule`;
+    return this.http.post(url, report, this.httpOptions);
   }
 
+  public generateReport1(id: number): Observable<any> {
+    this.init();
+    const url = `${this.apiServiceUrl}/ams/report/generateByAuditSchedule`;
+    const requestBody = { id };
 
-
-
+    return this.http.post<any>(url, requestBody);
+  }
   
+  public registerReport(theBigJson: any): Observable<any> {
+    this.init();
+    const url = `http://10.1.125.58:8099/ams/report/register/byAuditSchedule`;
+    return this.http.post(url, theBigJson);
+  }
+
+  public getAuditReports(): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/listAllReports`,
+      this.httpOptions
+    );
+  }  
 
 }
 

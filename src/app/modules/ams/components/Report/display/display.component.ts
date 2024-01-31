@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AnnualPlanService } from 'src/app/modules/ams/services/annual-plan/annual-plan.service';
@@ -10,6 +10,13 @@ import html2canvas from 'html2canvas';
 
 
 import { Router } from '@angular/router';
+
+
+
+
+
+
+
 
 
 interface Column {
@@ -27,27 +34,42 @@ interface ExportColumn {
   templateUrl: './display.component.html',
   styleUrls: ['./display.component.scss'],
 })
-export class ReportDisplay {
+export class ReportDisplay implements OnInit {
+
+
+  auditReport:any[] = [];
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
 
   private subscriptions: Subscription[] = [];
+  pdfBlobUrl: string;
 
 
 
   constructor(
-
     private router:Router
   ) {}
 
   ngOnInit() {
-    if (localStorage.getItem("currentEngagement")) {
-     
-
+    if (localStorage.getItem("currentReport")) {
+      this.auditReport[0]  =  JSON.parse(localStorage.getItem("currentReport"));
+         console.log(this.auditReport);
     }  
+
+
+   
+
+ 
   }
 
+
+
+
+
+
+
+  
   public downloadPDF() {
     const pages = document.querySelectorAll('.page');
     const pdf = new jsPDF('p', 'mm', 'a4');

@@ -40,8 +40,6 @@ export class AuditProgramService {
     );
   }
 
-
-
   public addAuditProgram(auditProgram: AuditProgramDTO): Observable<any> {
     this.init();
     return this.http.post(
@@ -50,11 +48,6 @@ export class AuditProgramService {
       this.httpOptions
     );
   }
-
-  // public updateAuditUniverse(auditUniverse: AuditProgramDTO): Observable<any>{
-  //   this.init();
-  //   return this.http.post(`${this.apiServiceUrl}/ams/auditUniverse/update`, auditUniverse, this.httpOptions)
-  // }
 
   public loadAuditProgram(id: number): Observable<any> {
     const url = `${this.apiServiceUrl}/ams/auditProgram/changeStatus/findById/${id}`;

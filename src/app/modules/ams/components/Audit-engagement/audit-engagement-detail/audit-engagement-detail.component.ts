@@ -18,6 +18,7 @@ import { FindingDTO } from '../../../models/finding';
 import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
 import { NewAuditFindingsCommentComponent } from '../../audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
 import { Router } from '@angular/router';
+import { AuditReportService } from '../../../services/audit-report/audit-report.service';
 
 
 
@@ -61,7 +62,8 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     private messageService: MessageService,
     private auditWBSService: AuditWBSService,
     private auditFindingService: AuditFindingService,
-    private router: Router
+    private router: Router,
+    private auditReportService: AuditReportService
   ) { }
 
   ngOnInit() {
@@ -292,6 +294,14 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   }
 
   goToGenerateReport(auditEngagement: AuditEngagementDTO) {
+    
+    this.auditReportService.generateReport1(auditEngagement?.auditSchedule?.id).subscribe(data => {
+      
+      localStorage.setItem('thebigjson', JSON.stringify(data));
+    
+    }, error => {
+      console.error(error);
+    });
      
     localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
     this.router.navigate(['ams/report']);

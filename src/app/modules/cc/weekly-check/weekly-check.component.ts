@@ -16,15 +16,18 @@ export class WeeklyCheckComponent {
   constructor(private sanctionListService: SanctionListService,) { }
 
   public onBeforeUpload() {
+    console.log("about to");
     this.loading = true;
   }
 
   public messages: Message[] = [];
 
   public onUpload() {
+    console.log("added");
     this.loading = false;
     this.messages = [{ severity: 'success', summary: 'File Uploaded', detail: 'File has been uploaded successfully' }];
     this.getIntersection();
+    
   }
 
   public onUploadError() {
@@ -33,8 +36,10 @@ export class WeeklyCheckComponent {
   }
 
   public getIntersection() {
+    console.log("ask intersection");
     this.sanctionListService.getUnWeeklyIntersection().subscribe(data => {
       this.all_intersections = data;
+      console.log("got intersection");
     });
   }
 }

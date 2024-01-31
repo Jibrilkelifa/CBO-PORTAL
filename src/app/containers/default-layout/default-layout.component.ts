@@ -101,10 +101,10 @@ export class DefaultLayoutComponent {
                 complianceCheckMenu.children.push(navItemAdmin);
               }
           
-              // Add Weekly Check only for ROLE_CC_ADMIN
-              if (!complianceCheckMenu.children.some(item => item.name === 'Weekly Check')) {
-                complianceCheckMenu.children.push(navItemWeeklyCheck);
-              }
+              // // Add Weekly Check only for ROLE_CC_ADMIN
+              // if (!complianceCheckMenu.children.some(item => item.name === 'Weekly Check')) {
+              //   complianceCheckMenu.children.push(navItemWeeklyCheck);
+              // }
             }
           
             // Check if Compliance Check menu is already in the list before adding

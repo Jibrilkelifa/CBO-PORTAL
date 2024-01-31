@@ -3,9 +3,14 @@
 
 
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4 ">Introduction and Executive Summary</h5>
+ 
   <form >
-    <ckeditor class="ckeditor" [editor]="Editor" name="body" ngModel [(ngModel)]="textInput"
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4 ">Introduction</h5>
+    <ckeditor class="ckeditor" [editor]="Editor" name="introduction" ngModel [(ngModel)]="introInput"
+    [required]="true" ></ckeditor>
+
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4 ">Summary</h5>
+    <ckeditor class="ckeditor" [editor]="Editor" name="summary" ngModel [(ngModel)]="summaryInput"
     [required]="true" ></ckeditor>
     
 <div class="card"   *ngIf="auditPrograms[0]?.status == 'Approved'">

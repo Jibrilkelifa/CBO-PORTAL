@@ -95,7 +95,7 @@ export class SanctionListService {
 
   getAllUnIndividualByName(searchResult:String): Observable<UNindividual_[]> {
     this.init();
-    const url = `http://localhost:8083/api/v1/getUnIndividualByName/${searchResult}`;
+    const url = `http://10.1.125.58:8083/api/v1/getUnIndividualByName/${searchResult}`;
     return this.httpClient.get<UNindividual_[]>(url);
   }
 
