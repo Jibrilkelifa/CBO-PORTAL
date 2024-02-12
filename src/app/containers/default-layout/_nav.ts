@@ -111,6 +111,14 @@ navItemsAMSAdmin =  {
       url: '/ams/audit-engagement',
     },
     {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+    {
       name: 'Setting',
       url: '/ams',
       iconComponent: { name: 'cil-settings' },
@@ -135,10 +143,7 @@ navItemsAMSAdmin =  {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
-        {
-          name: 'Audit Program',
-          url: '/ams/audit-program',
-        },
+  
       ]
     },
   ],

@@ -1,165 +1,9 @@
 <div>
   <form #addDivForm="ngForm" (ngSubmit)="submit(addDivForm)">
-   
-    <div class="row">
-      <div class="col mb-4">
-        <label for="name" class="block mb-2"> Finding : </label>
-        <textarea
-        pInputText
-        id="finding"
-        [ngModel]="findingInfo.finding"
-        name="finding"
-        style="width: 98%; height: 150px; resize: none"
-        required
-        minlength="3">
-     </textarea>
-        <!-- <input
-          pInputText
-          id="finding"
-          [(ngModel)]="findingInfo.finding"
-          name="name"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        />-->
-      </div> 
-      <div class="col mb-4">
-        <label for="previousStatus" class="block mb-2"> Criteria: </label>
-        <input
-          pInputText
-          id="criteria"
-          [(ngModel)]="findingInfo.criteria"
-          name="criteria"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        />
-      </div>
-    </div> 
-
-    <div class="row">
-      <div class="col mb-4">
-        <label for="name" class="block mb-2"> Cause : </label>
-
-        <textarea
-        pInputText
-        id="cuase"
-        [ngModel]="findingInfo.finding"
-        name="cause"
-        style="width: 98%; height: 150px; resize: none"
-        required
-        minlength="3">
-     </textarea>
-        <!-- <input
-          pInputText
-          id="cause"
-          [(ngModel)]="findingInfo.cause"
-          name="cause"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        /> -->
-      </div>
-      <div class="col mb-4">
-        <label for="implementedControls" class="block mb-2"> Implemented Controls: </label>
-        <textarea
-        pInputText
-        id="implementedControls"
-        [(ngModel)]="findingInfo.implementedControls"
-        name="implementedControls"
-        style="width: 98%; height: 150px; resize: none"
-        required
-        minlength="3">
-     </textarea>
-        <!-- <input
-          pInputText
-          id="implementedControls"
-          [(ngModel)]="findingInfo.implementedControls"
-          name="implementedControls"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        /> -->
-      </div>
-    </div> 
-
-    <div class="row">
-      <div class="col mb-4">
-        <label for="impact" class="block mb-2"> Impact : </label>
-        <textarea
-        pInputText
-        id="impact"
-        [(ngModel)]="findingInfo.impact"
-        name="impact"
-        style="width: 98%; height: 150px; resize: none"
-        required
-        minlength="3">
-     </textarea>
-        <!-- <input
-          pInputText
-          id="impact"
-          [(ngModel)]="findingInfo.impact"
-          name="impact"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        /> -->
-      </div>
-      <div class="col mb-4">
-        <label for="recommendations" class="block mb-2"> Recomendations: </label>
-        <textarea
-        pInputText
-        id="recommendations"
-        [(ngModel)]="findingInfo.recommendations"
-        name="recommendations"
-        style="width: 98%; height: 150px; resize: none"
-        required
-        minlength="3">
-     </textarea>
-        <!-- <input
-          pInputText
-          id="recommendations"
-          [(ngModel)]="findingInfo.recommendations"
-          name="recommendations"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        /> -->
-      </div>
-    </div> 
-
-
-    <div class="row">
-      <div class="col mb-4">
-        <label for="justifications" class="block mb-2"> Justifications : </label>
-        <textarea
-        pInputText
-        id="justifications"
-          [(ngModel)]="findingInfo.justifications"
-          name="justifications"
-        style="width: 98%; height: 150px; resize: none"
-        required
-        minlength="3">
-     </textarea>
-     
-      </div>
-      <div class="col mb-4">
-        <label for="rectificationProgress" class="block mb-2"> Rectification Progress: </label>
-        <input
-          pInputText
-          id="rectificationProgress"
-          [(ngModel)]="findingInfo.rectificationProgress"
-          name="rectificationProgress"
-          [style]="{ width: '300px', height: '45px' }"
-          required
-          minlength="3"
-        />
-      </div>
-    </div> 
 
     <div class="col flex flex-row" *ngIf="isCreate">
       <div class="mb-4 mr-2">
-      <label for="hex" class="block mb-2"> Auditable Area: </label>
+      <label for="hex" class="block mb-2"> Select auditable area to register finding: </label>
       <p-dropdown
         [required]="true"
         [options]="auditableArea"
@@ -172,6 +16,7 @@
         placeholder="Choose audit area"
         styleClass="p-password"
         [style]="{ width: '300px', height: '45px' }"
+        (ngModelChange)="isAreaSelected = !isAreaSelected"
       >
         <ng-template pTemplate="selectedItem">
           <div *ngIf="findingInfo?.area">
@@ -186,6 +31,157 @@
       </p-dropdown>
     </div>
   </div>
+
+         <div *ngIf="isAreaSelected || !isCreate">
+        <label for="name" class="block mb-2"> Finding : </label>
+        <textarea
+        pInputText
+        id="finding"
+        [ngModel]="findingInfo.finding"
+        name="finding"
+        style="width: 98%; height: 160px; resize: none"
+        required
+        minlength="3">
+    
+        </textarea>
+         </div>
+     
+         <div *ngIf="isAreaSelected || !isCreate">
+        <label for="previousStatus" class="block mb-2"> Criteria: </label>
+        <textarea
+        pInputText
+        id="criteria"
+        [(ngModel)]="findingInfo.criteria"
+        name="criteria"
+        style="width: 98%; height: 160px; resize: none"
+        required
+        minlength="3">
+        </textarea>
+    </div>
+     
+
+
+
+      <div class="col mb-4" *ngIf="isAreaSelected || !isCreate">
+        <label for="name" class="block mb-2"> Cause : </label>
+
+        <textarea
+        pInputText
+        id="cuase"
+        [ngModel]="findingInfo.finding"
+        name="cause"
+        style="width: 100%; height: 150px; resize: none"
+        required
+        minlength="3">
+       </textarea>
+        <!-- <input
+          pInputText
+          id="cause"
+          [(ngModel)]="findingInfo.cause"
+          name="cause"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        /> -->
+      </div>
+      <div class="col mb-4" *ngIf="isAreaSelected || !isCreate">
+        <label for="implementedControls" class="block mb-2"> Implemented Controls: </label>
+        <textarea
+        pInputText
+        id="implementedControls"
+        [(ngModel)]="findingInfo.implementedControls"
+        name="implementedControls"
+        style="width: 100%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
+          pInputText
+          id="implementedControls"
+          [(ngModel)]="findingInfo.implementedControls"
+          name="implementedControls"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        /> -->
+      </div>
+
+
+
+      <div  *ngIf="isAreaSelected || !isCreate" class="col mb-4">
+        <label for="impact" class="block mb-2"> Impact : </label>
+        <textarea
+        pInputText
+        id="impact"
+        [(ngModel)]="findingInfo.impact"
+        name="impact"
+        style="width: 100%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
+          pInputText
+          id="impact"
+          [(ngModel)]="findingInfo.impact"
+          name="impact"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        /> -->
+      </div>
+      <div class="col mb-4" *ngIf="isAreaSelected || !isCreate">
+        <label for="recommendations" class="block mb-2"> Recomendations: </label>
+        <textarea
+        pInputText
+        id="recommendations"
+        [(ngModel)]="findingInfo.recommendations"
+        name="recommendations"
+        style="width: 100%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+        <!-- <input
+          pInputText
+          id="recommendations"
+          [(ngModel)]="findingInfo.recommendations"
+          name="recommendations"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        /> -->
+      </div>
+ 
+
+
+    <!-- <div class="row"> -->
+      <!-- <div class="col mb-4">
+        <label for="justifications" class="block mb-2"> Justifications : </label>
+        <textarea
+        pInputText
+        id="justifications"
+          [(ngModel)]="findingInfo.justifications"
+          name="justifications"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
+     
+      </div> -->
+      <!-- <div class="col mb-4">
+        <label for="rectificationProgress" class="block mb-2"> Rectification Progress: </label>
+        <input
+          pInputText
+          id="rectificationProgress"
+          [(ngModel)]="findingInfo.rectificationProgress"
+          name="rectificationProgress"
+          [style]="{ width: '300px', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div> -->
+    <!-- </div>  -->
+
+
 
 
 

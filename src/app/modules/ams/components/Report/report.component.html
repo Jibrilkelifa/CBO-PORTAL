@@ -3,8 +3,11 @@
 
 
 <div class="card">
+
+
  
   <form >
+
     <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4 ">Introduction</h5>
     <ckeditor class="ckeditor" [editor]="Editor" name="introduction" ngModel [(ngModel)]="introInput"
     [required]="true" ></ckeditor>
@@ -50,7 +53,7 @@
     <ng-template pTemplate="body" let-auditFinding let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditFinding" >
         <td>
-          <input type="checkbox" name="finding" (change)="onCheck($event, auditFinding.id)">
+          <input type="checkbox" name="finding"  [checked]="isFindingSelected(auditFinding.id)" (change)="onCheck($event, auditFinding.id)">
         </td>
         <td>{{ auditFinding.area.name}}</td>
         <td>{{ auditFinding.auditees}}</td>
@@ -66,10 +69,18 @@
     </ng-template>
   </p-table>
 </div>
+<br>
+<br>
+
+
+<p-calendar [showIcon]="true" [style]="{'min-width':'500px', 'margin':'10px'}" id="curdateid" class="curdate"
+placeholder="Date" name="curdate"  [(ngModel)]="date" ngModel
+[required]="true"></p-calendar>
+
     <div class="flex justify-center abdycustom">
       <p-button
       *ngIf="auditPrograms[0]?.status == 'Approved'"
-        label="Generate Report"
+        label="Create Report"
         (onClick)="onSubmit()"
       ></p-button>
     </div>

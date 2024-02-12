@@ -29,6 +29,7 @@ export class NewAuditProgramComponent implements OnDestroy {
   selectedProgramInfo: AuditProgramDTO;
   public selectedAuditType: any;
   public auditSchedule: AuditScheduleDTO;
+  objectives: { description: string }[] = [];
 
   private subscriptions: Subscription[] = [];
 
@@ -95,6 +96,8 @@ export class NewAuditProgramComponent implements OnDestroy {
   //   );
   // }
   addAuditProgram(addDivForm: NgForm): void {
+    addDivForm.value.objectives = this.objectives;
+   
     const auditProgram: AuditProgramDTO = { ...addDivForm.value, engagementInfo: this.engagementInfo };
     console.log(auditProgram);
     this.subscriptions.push(
@@ -122,6 +125,14 @@ export class NewAuditProgramComponent implements OnDestroy {
   //       })
   //   );
   // }
+  addObjective() {
+    this.objectives.push({ description: '' });
+  
+  }
+
+  removeObjective(index: number) {
+    this.objectives.splice(index, 1);
+  }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

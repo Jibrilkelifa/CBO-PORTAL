@@ -7,17 +7,18 @@ import { AnnualPlanDTO } from 'src/app/modules/ams/models/annualPlan';
 import { Subscription } from 'rxjs';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { TDocumentDefinitions } from 'pdfmake/interfaces';
+import * as PizZip from 'pizzip';
+import * as Docxtemplater from 'docxtemplater';
+
+
 
 
 import { Router } from '@angular/router';
 
-
-
-
-
-
-
-
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 interface Column {
   field: string;
@@ -36,7 +37,7 @@ interface ExportColumn {
 })
 export class ReportDisplay implements OnInit {
 
-
+  introduction:String;
   auditReport:any[] = [];
 
   exportColumns!: ExportColumn[];
@@ -44,6 +45,9 @@ export class ReportDisplay implements OnInit {
 
   private subscriptions: Subscription[] = [];
   pdfBlobUrl: string;
+   year;
+   monthName;
+  
 
 
 
@@ -54,20 +58,179 @@ export class ReportDisplay implements OnInit {
   ngOnInit() {
     if (localStorage.getItem("currentReport")) {
       this.auditReport[0]  =  JSON.parse(localStorage.getItem("currentReport"));
-         console.log(this.auditReport);
-    }  
+      this.introduction = this.auditReport[0].introduction.split(/\.|\?|!/)[0].trim();
+         console.log(this.auditReport,"we are working with this");
+    }   
 
+    
+    const dateArray = this.auditReport[0].dateGenerated;
+    const dateObject = new Date(dateArray[0], dateArray[1] - 1, dateArray[2]);
+    
+     this.year = dateObject.getFullYear();
+     this.monthName = dateObject.toLocaleDateString('en-US', { month: 'long' });
+    
 
-   
-
- 
   }
 
+ 
+  createPdf() {
+    let docDefinition: TDocumentDefinitions = {
+      content: [
+        {
+          text: 'Baankii Hojii Gamtaa Oromiyaa (W.A)',
+          style: 'companyName'
+        },
+        {
+          text: 'Cooperative Bank of Oromia (S.C)',
+          style: 'companyName'
+        },
+        {
+          text: 'INTERNAL AUDIT PROCESS',
+          style: 'mainTitle'
+        },
+        {
+          text: this.auditReport[0].auditSchedule.annualPlan.auditUniverse.auditObject.auditType + " Report on " + this.auditReport[0].auditSchedule.annualPlan.name,
+          style: 'mainText'
+        },
+        {
+          text: this.monthName + " " + this.year,
+          style: 'date'
+        },
+        // Page break to start the next page
+        { text: '', pageBreak: 'after' },
+        {
+          text: 'Introduction',
+          style: 'title',
+          pageOrientation: 'landscape'
+        },
+        {
+          text: this.parseHtml(this.auditReport[0].introduction),
+          style: 'text_body'
+        },
+        {
+          text: 'Executive Summary',
+          style: 'title'
+        },
+        {
+          text: this.parseHtml(this.auditReport[0].summary),
+          style: 'text_body'
+        },
+        {
+          text: 'Methodology',
+          style: 'title'
+        },
+        {
+          text: this.parseHtml(this.auditReport[0].methodology),
+          style: 'text_body'
+        },
+        {
+          text: 'Audit Findings, Recommendations and Response Summary',
+          style: 'title'
+        },
+        {
+          table: {
+            headerRows: 1,
+            widths: ['auto', 'auto', 'auto', 'auto', 'auto' , 'auto', 'auto'], // Adjust column widths as needed
+            body: [
+              // Header row with numbering
+              [
+                { text: 'No.', style: 'tableHeader' },
+                { text: 'Finding', style: 'tableHeader' }, 
+                { text: 'Criteria', style: 'tableHeader' }, 
+                { text: 'Impact', style: 'tableHeader' }, 
+                { text: 'Recomendation', style: 'tableHeader' },
+                { text: 'Auditees Response' , style: 'tableHeader'},
+                { text: 'Response Justification' , style: 'tableHeader'}
+              ],
+              // Data rows with numbers
+              ...this.auditReport[0].findings.map((finding, index) => [
+                { text: (index + 1).toString(), style: 'tableCell' }, // Display numbers
+                { text: finding.finding || '', style: 'tableCell' },
+                { text: finding.criteria || '', style: 'tableCell' },
+                { text: finding.impact || '', style: 'tableCell' },
+                { text: finding.recommendations || '', style: 'tableCell' },
+                { text: finding.auditeesResponse || '', style: 'tableCell' },
+                { text: finding.justifications || '', style: 'tableCell' }
+              ]),
+            ]
+          }
+        },
+        
+        
+      ],
+      styles: {
+        companyName: {
+          fontSize: 18,
+          bold: true,
+          color: '#00AEEF',
+          alignment: 'center',
+          margin: [0, 10, 0, 10]
+        },
+        title: {
+          fontSize: 16,
+          bold: true,
+          alignment: 'center',
+          color:  '#00AEEF',
+          margin: [0, 5, 0, 5]
+        },
+        title2: {
+          color: '#00AEEF'
+        },
+        mainTitle: {
+          fontSize: 20,
+          bold: true,
+          color: '#00AEEF',
+          alignment: 'center',
+          margin: [0, 200, 0, 10],
+          
+        },
+        mainText: {
+          fontSize: 16,
+          alignment: 'center',
+          color: '#00AEEF',
+          margin: [0, 10, 0, 20]
+        },
+        secondPageText: {
+          fontSize: 18,
+          alignment: 'center',
+          margin: [0, 20, 0, 20]
+        },
+        date: {
+          fontSize: 12,
+          color: '#333',
+          alignment: 'right',
+          margin: [0, 300, 20, 20]
+        },
+        text_body: {
+          fontSize: 12,
+          margin: [0, 0, 0, 10],
+          bold:false,
+          lineHeight: 1.5
+        },
+        tableHeader: {
+          fillColor: '#00AEEF', 
+          color: '#FFFFFF',    
+          bold: true,
+          alignment: 'center',
+          margin: [0, 5, 0, 5]
+        },
+        
+      }
+    };
+  
+    pdfMake.createPdf(docDefinition).open();
+  }
+  
 
-
-
-
-
+  parseHtml(html: string): any[] {
+    // Use a library or function to parse HTML to PDFMake-compatible format
+    // Here's a simple example, you may need to use a more robust library for complex HTML
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const body = doc.body.textContent || '';
+    return [{ text: body }];
+  }
+  
 
   
   public downloadPDF() {
@@ -96,6 +259,19 @@ export class ReportDisplay implements OnInit {
       });
     };
     processPage();
+  }
+
+  goToDetails(auditFinding: any): void {
+   
+    localStorage.setItem('currentFinding', JSON.stringify(auditFinding));
+    this.router.navigate(['ams/audit-findings-details']);
+
+  }
+
+  goToGenerateReport() {
+    localStorage.setItem('currentAuditEngagement', JSON.stringify(this.auditReport[0].auditEngagement));
+    localStorage.setItem('editTheBigJson', JSON.stringify(this.auditReport[0]));
+    this.router.navigate(['ams/report']);
   }
 
 
