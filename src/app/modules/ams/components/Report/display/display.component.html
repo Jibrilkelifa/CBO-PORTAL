@@ -23,7 +23,7 @@
    
       </ng-template>
       <ng-template pTemplate="body" let-auditReport let-rowIndex="rowIndex">
-        <tr [pSelectableRow]="auditReport"   (click)="createPdf()">
+        <tr [pSelectableRow]="auditReport" >
           <td>{{ rowIndex + 1 }}</td>
           <td [innerHTML]="introduction"></td>
           <td [innerHTML]="auditReport?.methodology"></td>

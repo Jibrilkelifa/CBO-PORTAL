@@ -8,8 +8,7 @@ import { Subscription } from 'rxjs';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { TDocumentDefinitions } from 'pdfmake/interfaces';
-import * as PizZip from 'pizzip';
-import * as Docxtemplater from 'docxtemplater';
+
 
 
 
