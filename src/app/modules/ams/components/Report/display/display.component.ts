@@ -17,6 +17,8 @@ import { Router } from '@angular/router';
 
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
+import { FindingDTO } from '../../../models/finding';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 interface Column {
@@ -38,6 +40,7 @@ export class ReportDisplay implements OnInit {
 
   introduction:String;
   auditReport:any[] = [];
+  fileName:String;
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -51,10 +54,12 @@ export class ReportDisplay implements OnInit {
 
 
   constructor(
-    private router:Router
+    private router:Router,
+    private auditFindingService: AuditFindingService
   ) {}
 
   ngOnInit() {
+
     if (localStorage.getItem("currentReport")) {
       this.auditReport[0]  =  JSON.parse(localStorage.getItem("currentReport"));
       this.introduction = this.auditReport[0].introduction.split(/\.|\?|!/)[0].trim();
@@ -272,6 +277,56 @@ export class ReportDisplay implements OnInit {
     localStorage.setItem('editTheBigJson', JSON.stringify(this.auditReport[0]));
     this.router.navigate(['ams/report']);
   }
+
+  getIsmage(auditFinding:any): void {
+    // alert();
+    // this.subscriptions.push(
+    //   this.auditFindingService.getAuditFindingEvidenceNameById(auditFinding.id).subscribe(
+    //     (response: any) => {
+          
+    //       console.log(response,"ATTENTION PLEASE");      
+    //     },
+    //     (error: HttpErrorResponse) => {
+    //       console.log(error);
+    //     }
+    //   )
+    // );
+  }
+  
+  getImage(auditFinding:any): void {
+    this.auditFindingService.getPdf(auditFinding.findingEvidenceFileUploadedToSupplementTheFindingsPath).subscribe(
+      (pdfBlob: Blob) => {
+        // Create a blob URL for the Blob object
+        const blobUrl = URL.createObjectURL(pdfBlob);
+
+        // Create an anchor element
+        const link = document.createElement('a');
+
+        // Set the href attribute to the blob URL
+        link.href = blobUrl;
+
+        // Set the download attribute with the desired file name
+        link.download = `${auditFinding.findingEvidenceFileUploadedToSupplementTheFindingsPath}.pdf`;
+
+        // Append the link to the document
+        document.body.appendChild(link);
+
+        // Programmatically trigger a click event on the link
+        link.click();
+
+        // Remove the link from the document
+        document.body.removeChild(link);
+
+        // Revoke the blob URL to free up resources
+        URL.revokeObjectURL(blobUrl);
+      },
+      (error) => {
+        console.error('Error downloading PDF:', error);
+        // Handle error appropriately, e.g., show an error message to the user
+      }
+    );
+  }
+
 
 
 
