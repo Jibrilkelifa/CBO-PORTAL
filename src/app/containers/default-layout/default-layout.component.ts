@@ -31,7 +31,8 @@ import {
   navItemDelinquent,
   navItemAdmin,
   navItemWeeklyCheck,
-  complianceCheckMenu
+  complianceCheckMenu,
+  navItemsCADCLAdmin
 } from './_nav';
 
 @Component({
@@ -251,6 +252,7 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ECX_ADMIN":
               this.navItems.push(navItemsECXAdmin);
+              this.navItems.push(navItemsCADCLAdmin);
               this.dashboardRoute = "default_dashboard"
               if (localStorage.getItem("supervisor") === "true") {
                 if (!this.navItems.includes(navItemSupervisor)) {
@@ -260,6 +262,7 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ECX_USER":
               this.navItems.push(navItemsECXUser);
+              this.navItems.push(navItemsCADCLAdmin);
               this.dashboardRoute = "default_dashboard"
               if (localStorage.getItem("supervisor") === "true") {
                 if (!this.navItems.includes(navItemSupervisor)) {

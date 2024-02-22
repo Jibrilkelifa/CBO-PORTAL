@@ -11,6 +11,7 @@ import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history
 import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
 import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
 import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
+import { DetailComponent } from './modules/cadcl/Details-Page/detail/detail.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,9 @@ const routes: Routes = [
       },
       {
         path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: { title: 'History / Update History' }
+      },
+      {
+        path: 'cadcl/checklists/update/:id', component: DetailComponent, data: { title: 'Check List / Details' }
       },
       {
         path: 'updateCIPM/:id', component: NewCIPMComponent, data: { title: 'CIPM / Update CIPM' }
@@ -157,6 +161,11 @@ const routes: Routes = [
         path: 'ecx/account',
         loadChildren: () =>
           import('./modules/ecx/accounts/account.module').then((m) => m.AccountModule)
+      },
+      {
+        path: 'cadcl/checklists',
+        loadChildren: () =>
+          import('./modules/cadcl/cadcl.module').then((m) => m.CadclModule)
       },
       {
         path: 'ecx',

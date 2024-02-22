@@ -28,6 +28,7 @@ export let navItemsSASVUser: Object;
 export let navItemsMemoAdmin: Object;
 export let navItemsMemoUser: Object;
 export let navItemsECXAdmin: Object;
+export let navItemsCADCLAdmin: object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
@@ -654,6 +655,32 @@ navItemsECXAdmin = {
           url: '/ecx/account/relation'
         },
 
+      ]
+    },
+  ]
+}
+navItemsECXUser = {
+
+}
+
+navItemsCADCLAdmin = {
+  name: 'CADCL',
+  url: '/cadcl',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
+    {
+      name: 'Checklists',
+      url: '/cadcl/checklists',
+      iconComponent: { name: 'cil-wallet' },
+      children: [
+        {
+          name: 'View',
+          url: '/cadcl/checklists/checklist'
+        },
+        {
+          name: 'Summery',
+          url: '/cadcl/checklists/accountTable',
+        },
       ]
     },
   ]

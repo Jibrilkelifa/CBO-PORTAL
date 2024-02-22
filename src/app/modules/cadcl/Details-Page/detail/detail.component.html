@@ -1,0 +1,54 @@
+<div class="caChecklist-details-container">
+
+    <div class="details-partition">
+        <h2>Request Details</h2>
+        <div class="details-section">
+            <div class="column">
+                <p><strong>Inquiry Type:</strong> {{ caChecklist.inquiryType || "unknown" }}</p>
+                <p><strong>Description:</strong> {{ caChecklist.description || "unknown" }}</p>
+                <p><strong>Requested Organ:</strong> {{ caChecklist.requestedOrgan || "unknown" }}</p>
+                <p><strong>Inquiry Received:</strong> {{ caChecklist.inquiryReceived || "unknown" }}</p>
+                <p><strong>Number of Accounts Searched:</strong> {{ caChecklist.numAccountSearched || "unknown" }}</p>
+                <p><strong>Case Owner:</strong> {{ caChecklist.caseOwner || "unknown" }}</p>
+            </div>
+            <div class="column">
+                <p><strong>Deadline:</strong> {{ caChecklist.deadline || "unknown" }}</p>
+                <p><strong>Reference Number:</strong> {{ caChecklist.referenceNum || "unknown" }}</p>
+                <p><strong>Requested Organs:</strong> {{ caChecklist.requestedOrgans || "unknown" }}</p>
+                <p><strong>Task Status:</strong> {{ caChecklist.taskStatus || "unknown" }}</p>
+                <p><strong>Urgency:</strong> {{ caChecklist.urgency || "unknown" }}</p>
+                <p><strong>Impact:</strong> {{ caChecklist.impact || "unknown" }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="details-partition">
+        <h2>Response Details</h2>
+        <div class="details-section">
+            <div class="column">
+                <p><strong>Response Date:</strong> {{ caChecklist.responseDate || "unknown" }}</p>
+                <p><strong>Sent At:</strong> {{ caChecklist.sentAt || "unknown" }}</p>
+                <p><strong>Task Collected Date:</strong> {{ caChecklist.taskCollectedDate || "unknown" }}</p>
+                <p><strong>Justification:</strong> {{ caChecklist.justification || "unknown" }}</p>
+            </div>
+            <div class="column">
+                <p><strong>Response Delivered:</strong> {{ caChecklist.responseDelivered || "unknown" }}</p>
+                <p><strong>Response Letter Prep:</strong> {{ caChecklist.responseLetterPrep || "unknown" }}</p>
+                <p><strong>Delivered By:</strong> {{ caChecklist.deliveredBy || "unknown" }}</p>
+            </div>
+            <div class="column">
+                <p><strong>Task Status:</strong> {{ caChecklist.taskStatus || "unknown" }}</p>
+            </div>
+            <div class="column">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="details-partition">
+        <h2>Actions</h2>
+        <div class="details-section">
+            <button (click)="escalate()">Escalate</button>
+        </div>
+    </div>
+</div>
