@@ -1,7 +1,127 @@
-<div>
 
+<div class="card">
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Report</h5>
+    <p-table
+      #dt
+      [columns]="cols"
+      [value]="auditReport"
+      selectionMode="single"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
 
-    <!-- <a href="javascript:void(0);" (click)="openPDF()">Open PDF</a> -->
+      <ng-template pTemplate="header">
+        <tr>
+          <th>No.</th>
+          <th>
+            Introduction 
+          </th>
+          <th class="flex">
+            Methodology 
+          </th> 
+          <th scope="col">Actions</th>
+        </tr>
+   
+      </ng-template>
+      <ng-template pTemplate="body" let-auditReport let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="auditReport" >
+          <td>{{ rowIndex + 1 }}</td>
+          <td [innerHTML]="introduction"></td>
+          <td [innerHTML]="auditReport?.methodology"></td>
+          <td class="flex gap-4">
+            <button
+            pButton
+            (click)="createPdf()"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="See Pdf"
+          ></button>
+          <button
+          pButton
+          (click)="goToGenerateReport()"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Edit"
+        ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">No found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 
+  <br><br><br>
+
+  <div class="card" >
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Findings </h5>
+    <p-table
+      #dt
+      [columns]="cols"
+      [value]="auditReport[0].findings"
+      selectionMode="single"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 15, 20]"
+      [paginator]="true"
+      stateStorage="session"
+      stateKey="statedemo-session"
+    >
+   
   
-</div>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>No:</th>
+          <th pSortableColumn="area.name">
+            Area <p-sortIcon field="area.name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="auditiees">
+            Auditees <p-sortIcon field="auditiees"></p-sortIcon>
+          </th>  
+          <th pSortableColumn="cause">
+            Cause <p-sortIcon field="cause"></p-sortIcon>
+          </th>   
+          <th pSortableColumn="justification">
+            Jusitification <p-sortIcon field="justification"></p-sortIcon>
+          </th>       
+          <th scope="col">Actions</th>
+        </tr>
+    
+      </ng-template>
+      <ng-template pTemplate="body" let-auditFinding let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="auditFinding" >
+          <td>{{ rowIndex + 1 }}</td>
+          <td>{{ auditFinding.area.name}}</td>
+          <td>{{ auditFinding.auditees}}</td>
+          <td>{{ auditFinding.cause}}</td>
+          <td>{{ auditFinding.justifications}}</td>
+          <td class="flex gap-4">
+            <button
+            pButton
+            (click)="goToDetails(auditFinding)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Go To Detail"
+          ></button>
+          <button
+          pButton
+          (click)="getImage(auditFinding)"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="View Evidence"
+        ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">No found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+<!-- your.component.html -->
+
+

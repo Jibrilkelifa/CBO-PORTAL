@@ -19,7 +19,7 @@ export class AuditProgramService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://10.1.125.58:8099';
+    this.apiServiceUrl = 'http://192.168.137.224:8099';
   }
 
   constructor(private http: HttpClient) {}

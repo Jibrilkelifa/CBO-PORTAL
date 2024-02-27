@@ -50,6 +50,8 @@ export class AuthService {
   }
 
 
+
+
   loginForm(data: any): Observable<JwtResponse> {
     localStorage.clear();
     const body = new HttpParams()
@@ -78,7 +80,7 @@ export class AuthService {
     // Get employee by ID
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
-
+     
 
 
     localStorage.setItem('gender', employee?.gender);

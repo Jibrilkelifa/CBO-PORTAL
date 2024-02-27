@@ -57,7 +57,7 @@
           Introduction <p-sortIcon field="auditProgram.engagementInfo.auditSchedule.annualPlan.name"></p-sortIcon>
         </th>
         <th class="flex" pSortableColumn="status">
-          Summary <p-sortIcon field="status"></p-sortIcon>
+          Methodology <p-sortIcon field="status"></p-sortIcon>
         </th> 
         <th scope="col">Actions</th>
       </tr>
@@ -92,26 +92,27 @@
     <ng-template pTemplate="body" let-auditReport let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditReport"   (click)="goToDetails(auditReport)">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ auditReport.introduction }}</td>
-        <td>{{ auditReport?.summary }}</td>
+        <td [innerHTML]="auditReport?.introduction.substring(0,10)"></td>
+        <td [innerHTML]="auditReport?.methodology"></td>
         <td>
           <div class="flex gap-2">
 
             <button
             pButton
-            (click)="goToDetails(auditReport?.engagementInfo)"
+            (click)="goToDetails(auditReport)"
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm h-10 whitespace-nowrap"
             label="Details"
           ></button>
+
           <button
           pButton
+          (click)="goToGenerateReport(auditReport?.engagementInfo)"
           [ngClass]="{ updateBlue: true }"
-           *ngIf="auditReport?.status == 'Approved'"
-            label="Add Finding"
-            class="p-button-sm h-10 whitespace-nowrap"
-           (click)="addFinding(auditReport)"
-  ></button>
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Edit"
+        ></button>
+
      
           </div>
         </td>

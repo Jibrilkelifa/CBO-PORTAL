@@ -38,6 +38,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
 
+
   public auditEngagements: AuditEngagementDTO[] = [];
   public auditPrograms: AuditProgramDTO[] = [];
   public auditWBS: WBS_DTO[] = [];
@@ -306,6 +307,20 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
     this.router.navigate(['ams/report']);
   }
+  addAttachement(auditFinding: any) {
+  
+  
+    this.subscriptions.push(
+      this.auditFindingService.addAttachement(auditFinding).subscribe(
+        (response: any) => {
+          console.log("Successifully Added Attachement");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+    }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

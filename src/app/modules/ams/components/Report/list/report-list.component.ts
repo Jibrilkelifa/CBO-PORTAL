@@ -54,13 +54,7 @@ export class ReportList   {
 
   ngOnInit() {
     this.getAuditReport();
-    this.cols = [
-      { field: 'id', header: 'ID' },
-      { field: 'annualPlan', header: 'Annual Plan' },
-      { field: 'name', header: 'Audit Object' }, // Add this line
-      { field: 'auditType', header: 'Auditable Type' },
-      { field: 'status', header: 'Status' },
-    ];
+
     
     this.exportColumns = this.cols.map((col) => ({
       title: col.header,
@@ -86,6 +80,15 @@ export class ReportList   {
   goToDetails(auditReport: any): void {
     localStorage.setItem('currentReport', JSON.stringify(auditReport));
     this.router.navigate(['ams/report-detail']);
+  }
+
+  goToGenerateReport(auditEngagement) {
+    
+
+     
+    localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
+    localStorage.setItem('editTheBigJson', JSON.stringify(this.auditReport[0]));
+    this.router.navigate(['ams/report']);
   }
 
 
@@ -167,6 +170,9 @@ export class ReportList   {
       fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
     );
   }
+
+
+
 
 
 
