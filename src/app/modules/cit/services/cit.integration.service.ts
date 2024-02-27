@@ -10,8 +10,8 @@ import {Step} from '../models/stepDTO'
 export class CitIntegrationService {
 
 
-  private baseUrl="http://localhost:8081/cobIssue";
-  private stepUrl="http://localhost:8081/cobSteps";
+  private baseUrl="http://10.1.125.58:8102/cobIssue";
+  private stepUrl="http://10.1.125.58:8102/cobSteps";
   constructor(private http:HttpClient) { }
   public getListCobDTO():Observable<any>{
     return this.http.get<any>(`${this.baseUrl}/getAll`);
