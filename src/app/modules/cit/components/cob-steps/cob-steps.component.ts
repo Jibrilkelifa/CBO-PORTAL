@@ -12,10 +12,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./cob-steps.component.scss']
 })
 export class CobStepsComponent {
-
-
   tag="";
-  
+
     constructor(private router:Router,private securityService:SecurityServiceService,private clipboardService: ClipboardService,private service:CitIntegrationService) { 
  
   

@@ -5,7 +5,6 @@ export interface Step{
    commandCopied:string;
    type:string;
 }
-
 const step: Step = {
    id:-1,
    type:"unknown",

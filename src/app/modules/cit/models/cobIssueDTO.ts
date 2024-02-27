@@ -8,5 +8,4 @@ export interface CobDTO{
     detail:string;
     branchId:string;
     error:string;
-
 }

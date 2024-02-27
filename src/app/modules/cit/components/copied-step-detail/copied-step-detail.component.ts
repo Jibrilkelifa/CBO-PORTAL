@@ -21,9 +21,6 @@ export class CopiedStepDetailComponent {
     cobStepCopied: any;
     ngOnInit() {
     
-    
-
-
    
         if(this.securityService.hasRole("ROLE_CIST_ADMIN")){}
         else{

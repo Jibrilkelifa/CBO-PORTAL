@@ -16,7 +16,6 @@ export class CitIntegrationService {
   public getListCobDTO():Observable<any>{
     return this.http.get<any>(`${this.baseUrl}/getAll`);
 
-
   }
   public addCobDTO(cobDTO :CobDTO):Observable<CobDTO>{
 

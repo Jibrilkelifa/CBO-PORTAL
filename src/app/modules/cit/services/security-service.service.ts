@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SecurityServiceService {
-
   constructor() { }
   public hasRole(role:string){
   const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;

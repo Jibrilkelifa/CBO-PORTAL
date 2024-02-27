@@ -65,7 +65,6 @@ export class CobListComponent {
           detail: response.message,
           
         }
-        
         );
         this.getCobDTOList();
       } else {

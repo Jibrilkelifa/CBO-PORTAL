@@ -15,8 +15,6 @@ export class DetailViewComponent {
 
   ) { }
 
-
-
   private subscriptions: Subscription[] = [];
 
   cobInfo: any;

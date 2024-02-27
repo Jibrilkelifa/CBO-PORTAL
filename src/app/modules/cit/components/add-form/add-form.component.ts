@@ -31,11 +31,6 @@ export class AddFormComponent {
   flag = ""
   CobDTOStage: any = [];
 
-
-
-
-
-
   public addCobDTO(addForm: NgForm) {
     const formattedDate = this.datePipe.transform(addForm.value.date, 'yyyy-MM-ddTHH:mm:ss');
     addForm.value.data = formattedDate;
