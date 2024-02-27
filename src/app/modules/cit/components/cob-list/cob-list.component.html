@@ -1,0 +1,119 @@
+
+
+     <p-toast position="top-right"></p-toast>
+     <div class="flex justify-end">
+      <p-button label="Add COB Issue" (click)="addForm()"></p-button></div>
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">COB Issues List</h5>
+  <p-table
+    #dt2
+    [value]="cobDTOList"
+
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+
+  >
+    
+
+    <ng-template pTemplate="header">
+    
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="date">
+          Date<p-sortIcon field="date"></p-sortIcon>
+        </th>
+        <th pSortableColumn="cobStage">
+          COB Stage <p-sortIcon field="cobStage"></p-sortIcon>
+        </th>
+        <th pSortableColumn="batch">Batch<p-sortIcon field="batch"></p-sortIcon></th>
+        <th pSortableColumn="jobName">JobName<p-sortIcon field="jobName"></p-sortIcon></th>
+        <th scope="col">TCSP ID</th>
+    
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="dt2.filter($any($event.target)?.value, 'date', 'contains')"
+            [value]="$any(dt2.filters['date'])?.value"
+            placeholder="Search by date"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt2.filter($any($event.target)?.value, 'cobStage', 'contains')
+            "
+            [value]="$any(dt2.filters['cobStage'])?.value"
+            placeholder="Search by COB STAGE"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt2.filter($any($event.target)?.value, 'batch', 'contains')
+            "
+            [value]="$any(dt2.filters['batch'])?.value"
+            placeholder="Search by Batch"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt2.filter($any($event.target)?.value, 'jobName', 'contains')
+            "
+            [value]="$any(dt2.filters['jobName'])?.value"
+            placeholder="Search by Job Name"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+            <input
+              pInputText
+              type="text"
+              (input)="
+                dt2.filter($any($event.target)?.value, 'tcspId', 'contains')
+              "
+              [value]="$any(dt2.filters['tcspId'])?.value"
+              placeholder="Search by TCSP ID"
+              class="p-column-filter"
+            />
+          </th>
+        <th scope="col"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cob let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="cob" (click)="detailView(cob)">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ cob?.date }}</td>
+        <td>{{ cob?.cobStage }}</td>
+        <td>{{ cob?.batch }}</td>
+        <td>{{ cob?.jobName }}</td>
+        <td>{{ cob?.tcspId}}</td>
+       
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+ 
+</div>

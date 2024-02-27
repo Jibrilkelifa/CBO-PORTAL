@@ -1,0 +1,7 @@
+td{
+       
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Show ellipsis (...) at the end */
+  max-width: 200px; /* Set a maximum width for your container */
+}

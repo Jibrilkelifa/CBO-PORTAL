@@ -31,7 +31,9 @@ import {
   navItemDelinquent,
   navItemAdmin,
   navItemWeeklyCheck,
-  complianceCheckMenu
+  complianceCheckMenu,
+  navItemsCISTAdmin,
+
 } from './_nav';
 
 @Component({
@@ -74,6 +76,7 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsCMSUser);
     addIndentClass(navItemSupervisor);
     addIndentClass(navItemsAMSAdmin);
+    addIndentClass(navItemsCISTAdmin);
     addIndentClass(navCC);
 
     this.navItems.push(navItemMenu);
@@ -110,6 +113,7 @@ export class DefaultLayoutComponent {
             // Check if Compliance Check menu is already in the list before adding
             if (!this.navItems.some(item => item.name === 'Compliance Check')) {
               this.navItems.push(complianceCheckMenu);
+            
             }
           }
           
@@ -172,6 +176,7 @@ export class DefaultLayoutComponent {
             //   break;
             case "ROLE_ICMS_ADMIN":
               this.navItems.push(navItemsICMSAdmin);
+             
               this.dashboardRoute = "icms_dashboard"
           
               break;
@@ -186,6 +191,7 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
+          
               this.dashboardRoute = "default_dashboard"
               break;
             // case "ROLE_SMS_ADMIN":
@@ -287,8 +293,14 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_AMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
+              this.navItems.push(navItemsCISTAdmin);
               this.dashboardRoute = "default_dashboard"
               break;
+            case "ROLE_CIST_ADMIN":
+                this.navItems.push(navItemsCISTAdmin);
+                this.dashboardRoute = "default_dashboard"
+                break;
+            
           }}
         }
       

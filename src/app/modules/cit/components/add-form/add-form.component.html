@@ -1,0 +1,210 @@
+<!-- 
+<head>
+    <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table, th, td {
+        border: 1.5px solid #0f0f0f;
+        padding: 15px;
+        text-align: left;
+        
+        color: black;
+      }
+      </style>
+      </head>
+
+
+
+<div class="container">
+
+
+ 
+
+
+
+        <form #addForm="ngForm" (ngSubmit)="addCobDTO(addForm)">
+            <label for="date">DATE:</label><br>
+            <input type="text" id="date" name="date" class="form-input" ngModel><br>
+          
+            <label for="stage">COB STAGE:</label>
+            <input type="text" id="stage" name="cobStage" class="form-input" ngModel><br>
+            <label for="batch">BATCH:</label><br>
+            <input type="text" id="batch" name="batch" class="form-input" ngModel><br>
+            <label for="job">JOB NAME:</label>
+            <input type="text" id="job" name="jobName" class="form-input" ngModel><br>
+            <label for="jobname">JOB List NAME:</label>
+            <input type="text" id="jobname" name="jobListName" class="form-input" ngModel><br>
+            <label for="tcsp">TCSP ID:</label>
+            <input type="text" id="tcsp" name="tcspId" class="form-input" ngModel><br>
+            <label for="detail">DETAIL:</label><br>
+            <input type="text" id="detail" name="detail" class="form-input" ngModel><br>
+            <label for="branch">BRANCH ID:</label>
+            <input type="text" id="branch" name="branchId" class="form-input" ngModel><br>
+            <label for="error">ERROR:</label><br>
+            <input type="text" id="error" name="error" class="form-input" ngModel><br><br>
+         
+            <p-button type="submit"  [disabled]="addForm['invalid']" class="form-button" >Add</p-button>
+          
+      
+          </form>
+          
+    
+    </div>
+    
+     -->
+
+
+    <div>
+      <form #addDivForm="ngForm" (ngSubmit)="addCobDTO(addDivForm)">
+        <div style="margin-top: 2em"></div>
+        <div class="row">
+          <div class="col mb-4">
+            <label for="date" class="block mb-2"> DATE : </label>
+            <input
+              type="datetime-local"
+              id="date"
+            ngModel
+              name="date"
+              [style]="{ width: '300px', height: '45px' }"
+              required
+              minlength="3"
+            />
+          </div>
+          
+          <div class="col mb-4">
+            <label for="stage" class="block mb-2"> COB STAGE : </label>
+            <input
+              pInputText
+              id="stage"
+              ngModel
+              name="cobStage"
+              [style]="{ width: '300px', height: '45px' }"
+              required
+              minlength="3"
+            />
+          </div>
+          </div>
+    
+    
+       
+    
+          <div class="row">
+      
+           <div class="col mb-4">
+            <label for="jobName" class="block mb-2"> JOB NAME : </label>
+            <input
+              pInputText
+              id="jobName"
+              ngModel
+              name="jobName"
+              [style]="{ width: '300px', height: '45px' }"
+              required
+              minlength="3"
+            />
+           
+          </div>
+          <div class="col mb-4">
+            <label for="jobListName" class="block mb-2"> JOB List NAME : </label>
+            <input
+              pInputText
+              id="jobListName"
+              ngModel
+              name="jobListName"
+              [style]="{ width: '300px', height: '45px' }"
+              required
+              minlength="3"
+            />
+          </div>
+          </div>
+    
+    
+          <div class="row">
+         
+          <div class="col mb-4">
+            <label for="tcspId" class="block mb-2"> TCSP ID : </label>
+            <input
+              pInputText
+              id="tcspId"
+              ngModel
+              name="tcspId"
+              [style]="{ width: '300px', height: '45px' }"
+              required
+              minlength="3"
+            />
+           
+          </div>
+          <div class="col mb-4">
+          <label for="branchId" class="block mb-2"> Branch ID : </label>
+          <input
+            pInputText
+            id="branchId"
+            ngModel
+            name="branchId"
+            [style]="{ width: '300px', height: '45px' }"
+            required
+            minlength="3"
+          /></div>
+          <div class="col mb-4">
+            <label for="batch" class="block mb-2"> Batch : </label>
+            <input
+              pInputText
+              id="batch"
+              ngModel
+              name="batch"
+              [style]="{ width: '300px', height: '45px' }"
+              required
+              minlength="3"
+            /></div>
+    </div>
+    <div>
+
+          <div class="row">
+            <div class="col mb-4">
+             <label for="detail" class="block mb-2"> DETAIL : </label>
+             <textarea
+               pInputText
+               id="detail"
+               ngModel
+               name="detail"
+               style="width: 100%; height: 150px; resize: none"
+               required
+               minlength="3">
+            </textarea>
+            <label for="error" class="block mb-2"> ERROR : </label>
+             <textarea
+               pInputText
+               id="error"
+               ngModel
+               name="error"
+               style="width: 100%; height: 150px; resize: none"
+               required
+               minlength="3">
+            </textarea>
+            </div>
+           </div>
+           
+        
+        </div>
+        
+    
+        <div style="margin-top: 10em"></div>
+        <div class="buttonDiv">
+          <p-button label="Cancel" (click)="closeDialog()"></p-button>
+          <p-button
+     
+            label="Add COB Issue"
+            [disabled]="addDivForm.invalid!"
+            type="submit"
+          ></p-button>
+          <!-- <p-button
+            *ngIf="update"
+            label="Update audit universe"
+            [disabled]="addDivForm.invalid!"
+            type="submit"
+          ></p-button> -->
+        </div>
+      </form>
+    </div>
+    
