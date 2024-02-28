@@ -23,6 +23,8 @@ export class CitIntegrationService {
     return this.http.post<CobIssueDTO>(`${this.baseUrl}/register`,CobIssueDTO);
 
 
+  }
+ 
   public listCopiedSteps():Observable<any>{
     return this.http.get<any>(`${this.stepUrl}/getAll`);
 
