@@ -1,4 +1,4 @@
-export interface Step{
+export class Step{
     id:number;
    userName:string;
   dateTime:Date;

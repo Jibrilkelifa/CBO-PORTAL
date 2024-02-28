@@ -6,7 +6,7 @@ import {SecurityServiceService} from '../../services/security-service.service';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { DetailViewComponent } from '../detail-view/detail-view.component';
-import { CobDTO } from '../../models/CobIssueDTO';
+import { CobIssueDTO } from '../../models/CobIssueDTO';
 import { NgForm } from '@angular/forms';
 import { AddFormComponent } from '../add-form/add-form.component';
 
@@ -19,7 +19,7 @@ export class CobListComponent {
 
   constructor(private securityService:SecurityServiceService,private router: Router, private service: CitIntegrationService, private dialogService: DialogService, private messageService: MessageService,) { }
 
-  detailView(cob: CobDTO): void {
+  detailView(cob: CobIssueDTO): void {
     const ref = this.dialogService.open(DetailViewComponent, {
       header: 'COB Issue Detail',
       draggable: true,

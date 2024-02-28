@@ -4,7 +4,7 @@ import { CitIntegrationService } from '../../services/cit.integration.service';
 import { DialogService } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Step } from '../../models/stepDTO';
+import { Step } from '../../models/Step';
 import { CopiedStepDetailComponent } from '../copied-step-detail/copied-step-detail.component';
 import { SecurityServiceService } from '../../services/security-service.service';
 

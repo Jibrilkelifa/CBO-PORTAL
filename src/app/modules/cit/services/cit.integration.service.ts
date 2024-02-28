@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {CobDTO} from '../models/CobIssueDTO';
-import {Step} from '../models/stepDTO'
+import {CobIssueDTO} from '../models/CobIssueDTO';
+import {Step} from '../models/Step'
 
 @Injectable({
   providedIn: 'root'
@@ -17,15 +17,15 @@ export class CitIntegrationService {
     return this.http.get<any>(`${this.baseUrl}/getAll`);
 
   }
-  public addCobDTO(cobDTO :CobDTO):Observable<CobDTO>{
+  public addCobDTO(CobIssueDTO :CobIssueDTO):Observable<CobIssueDTO>{
 
     
-    return this.http.post<CobDTO>(`${this.baseUrl}/register`,cobDTO);
+    return this.http.post<CobIssueDTO>(`${this.baseUrl}/register`,CobIssueDTO);
 
 
   }
-  public updateEmployee(CobDTO :CobDTO):Observable<CobDTO>{
-    return this.http.put<CobDTO>(`${this.baseUrl}/update`,CobDTO);
+  public updateEmployee(CobIssueDTO :CobIssueDTO):Observable<CobIssueDTO>{
+    return this.http.put<CobIssueDTO>(`${this.baseUrl}/update`,CobIssueDTO);
 
 
   }
@@ -34,8 +34,8 @@ export class CitIntegrationService {
 
 
   }
-  public findEmployee(id:number):Observable<CobDTO>{
-    return this.http.get<CobDTO>(`${this.baseUrl}/find${id}`);
+  public findEmployee(id:number):Observable<CobIssueDTO>{
+    return this.http.get<CobIssueDTO>(`${this.baseUrl}/find${id}`);
 
 
   }

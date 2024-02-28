@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CitIntegrationService } from '../../services/cit.integration.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Step } from '../../models/stepDTO';
+import { Step } from '../../models/Step';
 import { SecurityServiceService } from '../../services/security-service.service';
 import { Router } from '@angular/router';
 
