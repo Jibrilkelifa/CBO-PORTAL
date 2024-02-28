@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { unWeeklyIntersection } from 'src/app/models/sanction-models/unWeeklyIntersection';
 import { SanctionListService } from 'src/app/services/cc-services/sanction-list.service';
 import { Message } from 'primeng/api';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService, ConfirmEventType } from 'primeng/api';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Deliquent_ } from 'src/app/models/sanction-models/Deliquent_';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TimeScale } from 'chart.js';
 import { NbeBlackList } from 'src/app/models/sanction-models/nbeblacklist/NbeBlackList';
+import { pid } from 'process';
+import { DOCUMENT } from '@angular/common';
 
 
 
@@ -17,63 +19,79 @@ import { NbeBlackList } from 'src/app/models/sanction-models/nbeblacklist/NbeBla
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss']
 })
-export class UploadComponent {
+export class UploadComponent implements OnInit {
   type: string;
   upload_url: string;
   file_type: string;
   title: string;
   instruction: string;
-  back_end_url:string = "http://10.1.125.58:8083";
+  back_end_url: string = "http://10.1.125.58:8083";
   position: string = 'center';
-  isUserFound:boolean;
-  acceptLabel:string;
-  rejectLabel:string;
-  placeHolderText:string;
+  isUserFound: boolean;
+  editMode: boolean;
+  acceptLabel: string;
+  rejectLabel: string;
+  placeHolderText: string;
   public date: Date;
-  stateOptions: any[] = [{label: 'Id', value: true}, {label: 'Tin', value: false}];
-  
+  stateOptions: any[] = [{ label: 'Id', value: true }, { label: 'Tin', value: false }];
+
+  // Define properties and set default values
+  customer_name: string = '';
+  mother_name: string = '';
+  nbe_reference: string = '';
+  tin_Account: string = '';
+  phone_number: string = '';
+  kebele_id_number: string = '';
+  bank: string = '';
+  branch: string = '';
+  remark: string = '';
+  account_number: string = '';
+  delinquent_list_id: number;
+
+
+
 
   IdSelected: boolean = true;
   Accortin: string;
 
 
-  constructor(private sanctionListService: SanctionListService,private route: ActivatedRoute, private confirmationService: ConfirmationService, private messageService: MessageService) {
+  constructor(private sanctionListService: SanctionListService, private route: ActivatedRoute, private confirmationService: ConfirmationService, private messageService: MessageService, private router: Router, @Inject(DOCUMENT) private document: Document) {
     this.route.params.subscribe(params => {
       if (params && params['type']) {
         this.type = params['type'];
         switch (this.type) {
           case 'uk':
-            this.upload_url = this.back_end_url+ '/api/v1/import-uk-xml-to-db-atf';
+            this.upload_url = this.back_end_url + '/api/v1/import-uk-xml-to-db-atf';
             this.file_type = '.xml';
             this.title = 'Upload UK List';
             this.instruction = 'Select XML file that contains the UK delinquent list';
             break;
           case 'eu':
-            this.upload_url =  this.back_end_url+ '/api/v1/import-eu-xml-to-db-atf';
+            this.upload_url = this.back_end_url + '/api/v1/import-eu-xml-to-db-atf';
             this.file_type = '.xml';
             this.title = 'Upload EU  List';
             this.instruction = 'Select XML file that contains the EU delinquent list';
             break;
           case 'nbe-block':
-            this.upload_url = this.back_end_url+ '/api/v1/import-black_list-to-db-atf';
+            this.upload_url = this.back_end_url + '/api/v1/import-black_list-to-db-atf';
             this.file_type = '.csv';
             this.title = 'Upload NBE BLOCK List';
             this.instruction = 'Select Excel file that contains the NBE BLOCK list';
             break;
           case 'nbe-deliquent':
-            this.upload_url = this.back_end_url+ '/api/v1/import-deliquent-to-db-atf';
+            this.upload_url = this.back_end_url + '/api/v1/import-deliquent-to-db-atf';
             this.file_type = '.csv';
             this.title = 'Upload NBE Delinquent List';
             this.instruction = 'Select Excel file that contains the NBE delinquent list';
             break;
           case 'pep':
-            this.upload_url =  this.back_end_url+ '/api/v1/import-pep-to-db-atf';
+            this.upload_url = this.back_end_url + '/api/v1/import-pep-to-db-atf';
             this.file_type = '.csv';
             this.title = 'Upload PEP List';
             this.instruction = 'Select Excel file that contains the PEP list';
             break;
           case 'adverser':
-            this.upload_url =this.back_end_url+ '/api/v1/import-adverser-to-db-atf';
+            this.upload_url = this.back_end_url + '/api/v1/import-adverser-to-db-atf';
             this.file_type = '.csv';
             this.title = 'Upload Adverser List';
             this.instruction = 'Select Excel file that contains the Adverser list';
@@ -99,6 +117,16 @@ export class UploadComponent {
   }
 
 
+  ngOnInit(): void {
+
+
+
+    this.populateEditItems();
+
+
+  }
+
+
 
 
 
@@ -112,13 +140,13 @@ export class UploadComponent {
 
   public onUpload() {
     this.loading = false;
-    this.messages = [{ severity: 'success', summary: 'File Uploaded', detail: 'File has been uploaded successfully' ,life: 5000}];
+    this.messages = [{ severity: 'success', summary: 'File Uploaded', detail: 'File has been uploaded successfully', life: 5000 }];
     this.getIntersection();
   }
 
   public onUploadError() {
     this.loading = false;
-    this.messages = [{ severity: 'error', summary: 'File Upload Error', detail: 'An error occurred while uploading the file' ,life:5000}];
+    this.messages = [{ severity: 'error', summary: 'File Upload Error', detail: 'An error occurred while uploading the file', life: 5000 }];
   }
 
   public getIntersection() {
@@ -131,187 +159,365 @@ export class UploadComponent {
   loading: boolean = false;
   ConfirmationMessage = '';
 
-  async someMethod(position,data) {
+  async someMethod(position, data) {
     const customerName = await this.getCustomerNameById(data);
-    console.log(this.IdSelected);
-    this.startDeleting(position,data);
+
+    this.startDeleting(position, data);
   }
 
-  startDeleting(position: string,data:any) {
+  async activateEditMode(position, data) {
 
-   
-  
+
+    this.getCustomerById(data);
+
+  }
+
+  startDeleting(position: string, data: any) {
+
+
+
     this.position = position;
-    if(this.isUserFound){
+    if (this.isUserFound) {
       this.acceptLabel = "Yes";
-      if(this.type == "deliquent"){
+      if (this.type == "deliquent") {
         this.ConfirmationMessage = "Do you want to delete  " + this.DeliquentCustomerNameGotById;
-      } else if (this.type == "business"){
-        this.ConfirmationMessage = "Do you want to delete "  + this.BusinessContinuityCustomerNameGotById
+      } else if (this.type == "business") {
+        this.ConfirmationMessage = "Do you want to delete " + this.BusinessContinuityCustomerNameGotById
       }
-     
+
       this.rejectLabel = "No"
-    }  else {
+    } else {
       this.ConfirmationMessage = "Sorry We can't find custer with that id"
       this.rejectLabel = "OK"
-     
+
     }
 
     this.confirmationService.confirm({
-        message: this.ConfirmationMessage,
-        header: 'Delete Confirmation',
-        icon: 'pi pi-info-circle',
-        acceptLabel: this.acceptLabel,
-        rejectLabel:this.rejectLabel,
-        acceptVisible:this.isUserFound,
-        accept: () => {
-           
-         
-              this.deleteCustomer(data);
-      
-            this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' ,life:5000});
-        },
-        reject: (type: ConfirmEventType) => {
-            switch (type) {
-                case ConfirmEventType.REJECT:
-                    this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected',life:5000 });
-                    break;
-                case ConfirmEventType.CANCEL:
-                    this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled',life:5000 });
-                    break;
-            }
-        },
-        key: 'positionDialog'
+      message: this.ConfirmationMessage,
+      header: 'Delete Confirmation',
+      icon: 'pi pi-info-circle',
+      acceptLabel: this.acceptLabel,
+      rejectLabel: this.rejectLabel,
+      acceptVisible: this.isUserFound,
+      accept: () => {
+
+
+        this.deleteCustomer(data);
+
+        this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted', life: 5000 });
+      },
+      reject: (type: ConfirmEventType) => {
+        switch (type) {
+          case ConfirmEventType.REJECT:
+            this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 5000 });
+            break;
+          case ConfirmEventType.CANCEL:
+            this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled', life: 5000 });
+            break;
+        }
+      },
+      key: 'positionDialog'
     });
-}
-public createCustomer(data:any){
-  data.value.rlog_create_user_name = localStorage.getItem('username');
-  if (this.type == 'deliquent') {
- 
+  }
+  public createCustomer(data: any) {
 
-    this.sanctionListService.postDeliquentCustomer(data.value).subscribe(
-      (response:Deliquent_) => {
-  
-        this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully' ,life:5000}];
+    data.value.rlog_create_user_name = localStorage.getItem('username');
 
-      },
-      (error:HttpErrorResponse) => {
-      //  alert(error.message);
-      this.messages = [{ severity: 'error', summary: 'Customer Add', detail: 'An error occurred while adding customer' ,life:5000}];
-      }
-   );
-  } else if(this.type == 'business'){
-         
-        data.value.account_number = data.value.tin_Account;
-           
 
-   
-           this.sanctionListService.postBusinessContinuityCustomer(data.value).subscribe(
-             (response:NbeBlackList) => {
-         
-               this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully' ,life:5000}];
-       
-             },
-             (error:HttpErrorResponse) => {
-             //  alert(error.message);
-             this.messages = [{ severity: 'error', summary: 'Customer Add', detail: 'An error occurred while adding customer' ,life:5000}];
-             }
+    if (this.type == 'deliquent') {
+      if (localStorage.getItem('editType') !== null) {
+
+        if (localStorage.getItem('editType') === 'deliquent') {
+          data.value.delinquent_list_id = this.delinquent_list_id;
+          this.sanctionListService.editDeliquentCustomer(data.value).subscribe(
+            (response: any) => {
+
+              this.messages = [{ severity: 'success', summary: 'Customer Add', detail: "Created Succesifully", life: 5000 }];
+              localStorage.removeItem('editModeData');
+              localStorage.removeItem('editModeType');
+              this.document.location.reload();
+              //reset variables
+            },
+            (error: HttpErrorResponse) => {
+              console.error('HTTP error:', error);
+
+
+              this.messages = [{ severity: 'error', summary: 'Customer Add', detail: 'An error occurred while adding customer', life: 5000 }];
+              if (error.error instanceof Error) {
+                console.error('Client-side error:', error.error.message);
+              } else {
+                console.error('Server-side error:', error.error);
+              }
+            }
           );
+        }
+
+      } else {
+        this.sanctionListService.postDeliquentCustomer(data.value).subscribe(
+          (response: Deliquent_) => {
+
+            this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully', life: 5000 }];
+
+          },
+          (error: HttpErrorResponse) => {
+            //  alert(error.message);
+            this.messages = [{ severity: 'error', summary: 'Customer Add', detail: 'An error occurred while adding customer', life: 5000 }];
+          }
+        )
+      }
+
+
+    } else if (this.type == 'business') {
+
+      data.value.account_number = data.value.tin_Account;
+      if (localStorage.getItem('editType') !== null) {
+
+        if (localStorage.getItem('editType') === 'business') {
+
+          data.value.delinquent_list_id = this.delinquent_list_id;
+          console.log(data.value);
+          this.sanctionListService.editBusinessContinuityCustomer(data.value).subscribe(
+            (response: any) => {
+              this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully', life: 5000 }];
+              // Remove the 'editModeData' item from localStorage
+              localStorage.removeItem('editModeData');
+              localStorage.removeItem('editModeType');
+              this.document.location.reload();
+              //reset the variables
+            },
+            (error: HttpErrorResponse) => {
+              //  alert(error.message);
+              this.messages = [{ severity: 'error', summary: 'Customer Add', detail: 'An error occurred while adding customer', life: 5000 }];
+            }
+          );
+        }
+      } else {
+        this.sanctionListService.postBusinessContinuityCustomer(data.value).subscribe(
+          (response: NbeBlackList) => {
+
+            this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully', life: 5000 }];
+            // Remove the 'editModeData' item from localStorage
+
+
+          },
+          (error: HttpErrorResponse) => {
+            //  alert(error.message);
+            this.messages = [{ severity: 'error', summary: 'Customer Add', detail: 'An error occurred while adding customer', life: 5000 }];
+          }
+        );
+      }
+    }
+
   }
 
-}
-
-public deleteCustomer(data:any){
+  public deleteCustomer(data: any) {
 
 
-  if(this.type == "deliquent"){
-         if(this.IdSelected){
-          this.sanctionListService.deleteDeliquentCustomer(data).subscribe(
-            (response:Deliquent_) => {
-        
-                 
-        
-            },
-            (error:HttpErrorResponse) => {
-             alert(error.message);
-            }
-         );
-         } else{
-          this.sanctionListService.deleteDeliquentCustomerByTin(data).subscribe(
-            (response:Deliquent_) => {
-        
-                 
-        
-            },
-            (error:HttpErrorResponse) => {
-             alert(error.message);
-            }
-         );
-         }
-  } else if (this.type == "business"){
+    if (this.type == "deliquent") {
+      if (this.IdSelected) {
+        this.sanctionListService.deleteDeliquentCustomer(data).subscribe(
+          (response: Deliquent_) => {
 
-    this.sanctionListService.deleteBusinessContinuityCustomer(data).subscribe(
-      (response:NbeBlackList) => {
-  
-   
-  
-      },
-      (error:HttpErrorResponse) => {
-       alert(error.message);
+
+
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        );
+      } else {
+        this.sanctionListService.deleteDeliquentCustomerByTin(data).subscribe(
+          (response: Deliquent_) => {
+
+
+
+          },
+          (error: HttpErrorResponse) => {
+            alert(error.message);
+          }
+        );
       }
-   );
-    
+    } else if (this.type == "business") {
+
+      this.sanctionListService.deleteBusinessContinuityCustomer(data).subscribe(
+        (response: NbeBlackList) => {
+
+
+
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+        }
+      );
+
+    }
+
+
   }
-  
 
-}
+  DeliquentCustomerGotById: Deliquent_;
+  BusinessContinuityCustomerGotById: NbeBlackList;
 
- DeliquentCustomerNameGotById:string;
- BusinessContinuityCustomerNameGotById:string;
+  public getCustomerById(data: any): void {
+    if (this.type === 'deliquent') {
+      try {
+        if (this.IdSelected) {
+          this.sanctionListService.getWholeDeliquentCustomerById(data).toPromise()
+            .then((response) => {
+              this.DeliquentCustomerGotById = response;
 
- public async getCustomerNameById(data: any): Promise<string> {
 
+              // Register the JSON to localStorage or perform any other necessary operations for edit mode
+              const jsonToStore = JSON.stringify(this.DeliquentCustomerGotById);
+              localStorage.setItem('editModeData', jsonToStore);
+              localStorage.setItem('editType', 'deliquent');
 
-  if (this.type == 'deliquent'){
-    try {
-      if(this.IdSelected){
-        console.log("got this by id");
-        const response = await this.sanctionListService.getDeliquentCustomerById(data).toPromise();
-        this.DeliquentCustomerNameGotById = response;
-      
-        this.isUserFound = true;
-        return this.DeliquentCustomerNameGotById;
-      } else{
-        console.log("got this by tin");
-        const response = await this.sanctionListService.getDeliquentCustomerByTin(data).toPromise();
-        this.DeliquentCustomerNameGotById = response;
-      
-        this.isUserFound = true;
-        return this.DeliquentCustomerNameGotById;
+              this.isUserFound = true;
+
+              // Reroute to the same page without specifying any route parameters
+              // this.router.navigate(['.'], { relativeTo: this.route });
+              this.document.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+              this.isUserFound = false;
+            });
+        } else {
+          console.log("got this by tin");
+          this.sanctionListService.getWholeDeliquentCustomerByTin(data).toPromise()
+            .then((response) => {
+              this.DeliquentCustomerGotById = response;
+
+              // Register the JSON to localStorage or perform any other necessary operations for edit mode
+              const jsonToStore = JSON.stringify(this.DeliquentCustomerGotById);
+              localStorage.setItem('editModeData', jsonToStore);
+              localStorage.setItem('editType', 'deliquent');
+
+              this.isUserFound = true;
+              // Reroute to the same page without specifying any route parameters
+              // this.router.navigate(['.'], { relativeTo: this.route });
+              this.document.location.reload();
+            })
+            .catch((error) => {
+              console.log(error);
+              this.isUserFound = false;
+            });
+        }
+      } catch (error) {
+        console.log(error);
+        this.isUserFound = false;
       }
-      
+    } else if (this.type === 'business') {
+      console.log("i swear i am trying to delete it")
+      this.sanctionListService.getWholeBusinessContinuityById(data).toPromise()
+        .then((response) => {
+          this.BusinessContinuityCustomerGotById = response;
+
+          // Register the JSON to localStorage or perform any other necessary operations for edit mode
+          const jsonToStore = JSON.stringify(this.BusinessContinuityCustomerGotById);
+          localStorage.setItem('editModeData', jsonToStore);
+          localStorage.setItem('editType', 'business');
+
+          this.isUserFound = true;
+          // Reroute to the same page without specifying any route parameters
+          // this.router.navigate(['.'], { relativeTo: this.route });
+          this.document.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+          this.isUserFound = false;
+        });
+    }
+    // For other types, no rerouting is needed
+  }
+
+  DeliquentCustomerNameGotById: string;
+  BusinessContinuityCustomerNameGotById: string;
+  public async getCustomerNameById(data: any): Promise<string> {
+
+
+    if (this.type == 'deliquent') {
+      try {
+        if (this.IdSelected) {
+          console.log("got this by id");
+          const response = await this.sanctionListService.getDeliquentCustomerById(data).toPromise();
+          this.DeliquentCustomerNameGotById = response;
+
+          this.isUserFound = true;
+          return this.DeliquentCustomerNameGotById;
+        } else {
+          console.log("got this by tin");
+          const response = await this.sanctionListService.getDeliquentCustomerByTin(data).toPromise();
+          this.DeliquentCustomerNameGotById = response;
+
+          this.isUserFound = true;
+          return this.DeliquentCustomerNameGotById;
+        }
+
+
+      } catch (error) {
+        console.log(error);
+        this.isUserFound = false;
+        return "null";
+      }
+    } else if (this.type == 'business') {
+
+      try {
+        const response = await this.sanctionListService.getBusinessContinuityById(data).toPromise();
+        this.BusinessContinuityCustomerNameGotById = response;
+
+        this.isUserFound = true;
+        return this.BusinessContinuityCustomerNameGotById;
+      } catch (error) {
+        console.log(error);
+        this.isUserFound = false;
+        return "null";
+      }
+    } else {
+      return null;
+    }
+  }
+
+  public populateEditItems() {
+
+
+
+    const editModeData = localStorage.getItem('editModeData');
+    console.log(editModeData, "hey here");
+    if (editModeData) {
+      this.editMode = true;
+      const parsedData = JSON.parse(editModeData);
+      this.customer_name = parsedData.customer_name;
+      this.remark = parsedData.remark;
+      this.branch = parsedData.branch;
+      this.bank = parsedData.bank;
+
+      this.tin_Account = parsedData.tin_Account;
+      this.nbe_reference = parsedData.nbe_reference;
      
-    } catch (error) {
-      console.log(error);
-     this.isUserFound = false;
-      return "null";
-    }
-  } else if (this.type == 'business'){
-    console.log("i swear i am trying to delete it")
-    try {
-      const response = await this.sanctionListService.getBusinessContinuityById(data).toPromise();
-      this.BusinessContinuityCustomerNameGotById = response;
+      this.date = parsedData.data_closed;
+      this.delinquent_list_id = parsedData.delinquent_list_id;
+
+
+
+      if (localStorage.getItem('editType') === 'deliquent') {
+
+        this.tin_Account = parsedData.tin_Account;
     
-      this.isUserFound = true;
-      return this.BusinessContinuityCustomerNameGotById;
-    } catch (error) {
-      console.log(error);
-     this.isUserFound = false;
-      return "null";
+      } else {
+        this.mother_name = parsedData.mother_name;
+        this.tin_Account = parsedData.account_number;
+        this.kebele_id_number = parsedData.kebele_id_number;
+        this.phone_number = parsedData.phone_number;
+      }
+
+
+
+    } else {
+
+      console.log('EditModeData is not set');
     }
-  } else{
-    return null;
+
   }
-}
 
 }

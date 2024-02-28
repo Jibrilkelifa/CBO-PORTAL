@@ -30,12 +30,17 @@ export class SanctionListService {
   private BW;
   private DE;
   private AddDeliquentURL;
+  private EditDeliquentURL;
   private DeleteDeliquentURL;
   private DeleteDeliquentURLByTin;
   private GetDeliquentById;
+  private GetWholeDeliquentById;
   private GetDeliquentByTin;
+  private GetWholeDeliquentByTin;
   private AddBusinessContinuityURL;
+  private EditBusinessContinuityURL;
   private GetBusinessContinuityById;
+  private GetWholeBusinessContinuityById;
   private DeleteBusinessContinuityURL;
   private checkDeliquentUpdate;
   private checkBusinessContinuityUpdate;
@@ -50,8 +55,10 @@ export class SanctionListService {
       })
     };
 
-
+   // for prod
    this.apiServiceUrl = localStorage.getItem("url_3");
+ // for test
+  //  this.apiServiceUrl = "http://localhost:8083";
   
 
     this.BUI = this.apiServiceUrl + "/api/v1/un_all_individuals_optimized"
@@ -66,12 +73,17 @@ export class SanctionListService {
     this.BW = this.apiServiceUrl + "/api/v1/check"
     this.DE = this.apiServiceUrl + "/api/v1/deliquent_list_all_from_db_optimized"
     this.AddDeliquentURL =this.apiServiceUrl + "/api/v1/create_deliquent_user"
+    this.EditDeliquentURL =this.apiServiceUrl + "/api/v1/update_deliquent_user"
     this.DeleteDeliquentURL = this.apiServiceUrl + "/api/v1/delete_deliquent_user"
     this.DeleteDeliquentURLByTin = this.apiServiceUrl + "/api/v1/delete_deliquent_user_by_tin"
     this.GetDeliquentById = this.apiServiceUrl + "/api/v1/get_deliquent_by_id"
+    this.GetWholeDeliquentById = this.apiServiceUrl + "/api/v1/get_whole_deliquent_by_id"
     this.GetDeliquentByTin = this.apiServiceUrl + "/api/v1/get_deliquent_by_tin"
+    this.GetWholeDeliquentByTin = this.apiServiceUrl + "/api/v1/get_whole_deliquent_by_tin"
     this.AddBusinessContinuityURL = this.apiServiceUrl + "/api/v1/create_business_continuity_user"
+    this.EditBusinessContinuityURL = this.apiServiceUrl + "/api/v1/update_business_continuity_user"
     this.GetBusinessContinuityById = this.apiServiceUrl + "/api/v1/get_business_continuity_by_id"
+    this.GetWholeBusinessContinuityById = this.apiServiceUrl + "/api/v1/get_whole_business_continuity_by_id"
     this.DeleteBusinessContinuityURL = this.apiServiceUrl + "/api/v1/delete_businessc_user"
     this.checkDeliquentUpdate = this.apiServiceUrl + "/api/v1/checkDeliquentUpdate"
     this.checkBusinessContinuityUpdate = this.apiServiceUrl + "/api/v1/checkBusinessContinuityUpdate"
@@ -142,13 +154,29 @@ export class SanctionListService {
   }
   postDeliquentCustomer(deliquent:Deliquent_): Observable<any>{
     this.init();
+    console.log(deliquent);
+    alert(deliquent);
     return this.httpClient.post<Deliquent_>(this.AddDeliquentURL,deliquent,this.httpOptions)
+
+  }
+
+  editDeliquentCustomer(deliquent:Deliquent_): Observable<any>{
+    this.init();
+    console.log(deliquent);
+
+    return this.httpClient.post<Deliquent_>(this.EditDeliquentURL,deliquent,this.httpOptions)
 
   }
 
   postBusinessContinuityCustomer(nbeblacklist:NbeBlackList): Observable<any>{
     this.init();
     return this.httpClient.post<NbeBlackList>(this.AddBusinessContinuityURL,nbeblacklist,this.httpOptions)
+
+  }
+
+  editBusinessContinuityCustomer(nbeblacklist:NbeBlackList): Observable<any>{
+    this.init();
+    return this.httpClient.post<NbeBlackList>(this.EditBusinessContinuityURL,nbeblacklist,this.httpOptions)
 
   }
   
@@ -174,9 +202,24 @@ public getDeliquentCustomerByTin(tin: string): Observable<string> {
   this.init();
   return this.httpClient.get(this.GetDeliquentByTin + "/" + tin, { responseType: 'text' });
 }
+
+
+
+public getWholeDeliquentCustomerById(id: number): Observable<Deliquent_> {
+  this.init();
+  return this.httpClient.get<Deliquent_>(this.GetWholeDeliquentById + "/" + id);
+}
+public getWholeDeliquentCustomerByTin(tin: string): Observable<Deliquent_> {
+this.init();
+return this.httpClient.get<Deliquent_>(this.GetWholeDeliquentByTin + "/" + tin);
+}
 public getBusinessContinuityById(id: number): Observable<string> {
   this.init();
   return this.httpClient.get(this.GetBusinessContinuityById + "/" + id, { responseType: 'text' });
+}
+public getWholeBusinessContinuityById(id: number): Observable<NbeBlackList> {
+  this.init();
+  return this.httpClient.get<NbeBlackList>(this.GetWholeBusinessContinuityById + "/" + id);
 }
 public checkDeliquentUpdateF(): Observable<any> {
   this.init();

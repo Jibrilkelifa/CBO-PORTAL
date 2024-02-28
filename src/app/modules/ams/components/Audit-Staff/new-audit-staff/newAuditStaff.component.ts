@@ -88,14 +88,15 @@ export class NewAuditStaffComponent implements OnDestroy {
   }
 
   addAMSStaff(auditStaffForm: NgForm): void {
-    this.subscriptions.push(
-      this.auditStaffService
-        .registerAuditStaff(auditStaffForm.value)
-        .subscribe((response: any) => {
-          this.messageService.clear();
-          this.ref.close(response);
-        })
-    );
+    console.log(auditStaffForm.value);
+    // this.subscriptions.push(
+    //   this.auditStaffService
+    //     .registerAuditStaff(auditStaffForm.value)
+    //     .subscribe((response: any) => {
+    //       this.messageService.clear();
+    //       this.ref.close(response);
+    //     })
+    // );
   }
 
   updateAMSStaff(addDivForm: NgForm): void {

@@ -261,7 +261,7 @@ export class NewAdminComponent implements OnInit {
     
       let fuse = new Fuse(fromAd, options);
       let match = fuse.search(this.selectedFullName);
-      console.log(match);
+      // console.log(match);
       let percentage = (1-match[0].score)*100;
       let messageIfOk = " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName +  "  with similiarity of  " + percentage.toFixed(1) +"%";
       let messageIfNotOk = "User doesn't match";
