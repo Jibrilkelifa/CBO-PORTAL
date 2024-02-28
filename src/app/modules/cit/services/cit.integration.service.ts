@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {Step} from '../models/Step'
-import { CobIssueDTO } from '../models/CobIssueDTO';
+import { CobIssueDTO } from '../models/cobIssueDTO';
 
 @Injectable({
   providedIn: 'root'
