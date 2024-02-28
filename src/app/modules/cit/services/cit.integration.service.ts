@@ -26,6 +26,7 @@ export class CitIntegrationService {
   }
  
   public listCopiedSteps():Observable<any>{
+   
     return this.http.get<any>(`${this.stepUrl}/getAll`);
 
 
