@@ -23,22 +23,12 @@ export class CitIntegrationService {
     return this.http.post<CobIssueDTO>(`${this.baseUrl}/register`,CobIssueDTO);
 
 
-  }
-  public updateEmployee(CobIssueDTO :CobIssueDTO):Observable<CobIssueDTO>{
-    return this.http.put<CobIssueDTO>(`${this.baseUrl}/update`,CobIssueDTO);
-
-
-  }
   public listCopiedSteps():Observable<any>{
     return this.http.get<any>(`${this.stepUrl}/getAll`);
 
 
   }
-  public findEmployee(id:number):Observable<CobIssueDTO>{
-    return this.http.get<CobIssueDTO>(`${this.baseUrl}/find${id}`);
 
-
-  }
   public copyRecord(step :Step):Observable<any>{
   
     
