@@ -6,9 +6,9 @@ import {SecurityServiceService} from '../../services/security-service.service';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService } from 'primeng/api';
 import { DetailViewComponent } from '../detail-view/detail-view.component';
-import { CobIssueDTO } from '../../models/CobIssueDTO';
 import { NgForm } from '@angular/forms';
 import { AddFormComponent } from '../add-form/add-form.component';
+import { CobIssueDTO } from '../../models/CobIssueDTO';
 
 @Component({
   selector: 'app-cob-list',

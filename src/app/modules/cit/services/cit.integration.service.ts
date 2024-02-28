@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {CobIssueDTO} from '../models/CobIssueDTO';
 import {Step} from '../models/Step'
+import { CobIssueDTO } from '../models/CobIssueDTO';
 
 @Injectable({
   providedIn: 'root'
