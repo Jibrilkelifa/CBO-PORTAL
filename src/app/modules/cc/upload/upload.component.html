@@ -7,71 +7,71 @@
 ></p-fileUpload>
 
 
-<!-- here -->
-<p-panel class="content" header="Add Customer" *ngIf="type === 'business' || type === 'deliquent' ">
+
+<p-panel class="content" header="Add Customer" *ngIf="type === 'business' ||type === 'deliquent' ">
  <div>
 
   <form  #dataToBeSent="ngForm" (ngSubmit)="createCustomer(dataToBeSent)">
 
   <div class="p-inputgroup">
 
-    <input type="text" pInputText placeholder="Customer Name" name="customer_name" ngModel required  [(ngModel)]="customer_name"/>
+    <input type="text" pInputText placeholder="Customer Name" name="customer_name" ngModel required pattern="^$|^[a-zA-Z\s]+$"/>
     
     <div *ngIf="dataToBeSent.controls['customer_name'].invalid && (dataToBeSent.controls['customer_name'].dirty || dataToBeSent.controls['customer_name'].touched)" class="error-message"></div>
   </div>
   <div class="p-inputgroup" *ngIf="type === 'business'">
 
-    <input  type="text" pInputText placeholder="Mother Name" name="mother_name" ngModel   [(ngModel)]="mother_name"/>
+    <input  type="text" pInputText placeholder="Mother Name" name="mother_name" ngModel  pattern="^$|^[a-zA-Z\s]+$"/>
     
     <div  *ngIf="dataToBeSent.controls['mother_name'].invalid && (dataToBeSent.controls['mother_name'].dirty || dataToBeSent.controls['mother_name'].touched)" class="error-message"></div>
   </div>
   <div class="p-inputgroup">
 
-    <input type="text" pInputText placeholder="NBE Reference" name="nbe_reference" ngModel required  [(ngModel)]="nbe_reference"/>
+    <input type="text" pInputText placeholder="NBE Reference" name="nbe_reference" ngModel required/>
   </div>
   <div class="p-inputgroup">
 
-    <input type="text" pInputText [placeholder]="placeHolderText" name="tin_Account" required ngModel   [(ngModel)]="tin_Account"/>
+    <input type="text" pInputText [placeholder]="placeHolderText" name="tin_Account" required ngModel />
   </div>
   <div class="p-inputgroup">
 
    
 
     <p-calendar [showIcon]="true" [style]="{'min-width':'500px', 'margin':'10px'}" id="curdateid" class="curdate"
-    placeholder="Data Closed" name="data_closed" [(ngModel)]="date" ngModel *ngIf="!editMode"
+    placeholder="Data Closed" name="data_closed" [(ngModel)]="date" ngModel
     ></p-calendar>
   </div>
   <div class="p-inputgroup" *ngIf="type === 'business'">
 
-    <input  type="text" pInputText placeholder="Phone Number" name="phone_number" ngModel   [(ngModel)]="phone_number"/>
+    <input  type="text" pInputText placeholder="Phone Number" name="phone_number" ngModel  pattern="^09\d{8}$"/>
     
     <div  *ngIf="dataToBeSent.controls['phone_number'].invalid && (dataToBeSent.controls['phone_number'].dirty || dataToBeSent.controls['phone_number'].touched)" class="error-message"></div>
   </div>
   <div class="p-inputgroup" *ngIf="type === 'business'">
 
-    <input  type="text" pInputText placeholder="Kebele Id No" name="kebele_id_number" ngModel   [(ngModel)]="kebele_id_number"/>
+    <input  type="text" pInputText placeholder="Kebele Id No" name="kebele_id_number" ngModel  pattern="^\d+$"/>
     
     <div  *ngIf="dataToBeSent.controls['kebele_id_number'].invalid && (dataToBeSent.controls['kebele_id_number'].dirty || dataToBeSent.controls['kebele_id_number'].touched)" class="error-message"></div>
   </div>
   <div class="p-inputgroup">
 
-    <input type="text" pInputText placeholder="Bank" name="bank" ngModel   [(ngModel)]="bank"/>
+    <input type="text" pInputText placeholder="Bank" name="bank" ngModel />
   </div>
   <div class="p-inputgroup">
 
-    <input type="text" pInputText placeholder="Branch" name="branch" ngModel  [(ngModel)]="branch"/>
+    <input type="text" pInputText placeholder="Branch" name="branch" ngModel/>
   </div>
   <div class="p-inputgroup">
 
-    <input type="text" pInputText placeholder="Remark" name="remark" ngModel  [(ngModel)]="remark"/>
+    <input type="text" pInputText placeholder="Remark" name="remark" ngModel/>
   </div>
 
   
-<p-button type="submit" class="btn" label="Submit" [disabled]="!dataToBeSent.valid "  ></p-button>
+<p-button type="submit" class="btn" label="Submit" [disabled]="!dataToBeSent.valid"></p-button>
 </form>
  </div>
 </p-panel>
-<p-panel header="Delete Customer" *ngIf="type === 'business' || type === 'deliquent' ">
+<p-panel header="Delete Customer" *ngIf="type === 'business' ||type === 'deliquent' ">
 
 <div class="p-inputgroup delete">
   <div class="card flex justify-content-center">
@@ -81,7 +81,7 @@
     <p-toast></p-toast>
 <p-confirmDialog [style]="{ width: '50vw' }" key="positionDialog" [position]="position" rejectButtonStyleClass="p-button-outlined"></p-confirmDialog>
     <p-button class="btn1" label="Delete" styleClass="p-button-danger"(click)="someMethod('bottom',idToBeDeleted.value)" ></p-button>
-    <p-button class="btn1" label="Edit" (click)="activateEditMode('bottom',idToBeDeleted.value)" ></p-button>
+
 </div>
 </p-panel>
 

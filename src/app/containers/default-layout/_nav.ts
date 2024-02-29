@@ -9,7 +9,6 @@ interface NavItem {
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
 export let navItemsAMSAdmin: Object;
-export let navItemsAMSManager: Object;
 export let navItemsAMSUser: Object;
 export let navItemsEMSAdmin: Object;
 export let navItemsEMSUser: Object;
@@ -144,46 +143,6 @@ navItemsAMSAdmin =  {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
-  
-      ]
-    },
-  ],
-  
-},
-
-navItemsAMSManager =  {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-
-    {
-      name: 'Audit Schedule',
-      url: '/ams/audit-schedule',
-    },
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
-      name: 'Audit Reports',
-      url: '/ams/report-list',
-    },
-    {
-      name: 'Setting',
-      url: '/ams',
-      iconComponent: { name: 'cil-settings' },
-      children: [
-   
-
-        {
-          name: 'Audit team',
-          url: '/ams/audit-type',
-        }
   
       ]
     },
