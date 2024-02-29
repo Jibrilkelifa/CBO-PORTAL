@@ -1,0 +1,106 @@
+
+
+     <p-toast position="top-right"></p-toast>
+    
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">COB Steps Copied</h5>
+  <p-table
+    #dt3
+    [value]="cobStepsCopiedList"
+
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+  >
+    
+
+    <ng-template pTemplate="header">
+    
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="username">
+          Username<p-sortIcon field="username"></p-sortIcon>
+        </th>
+        <th pSortableColumn="dateTime">
+          Date Time <p-sortIcon field="dateTime"></p-sortIcon>
+        </th>
+        <th pSortableColumn="commandCopied">Command Copied<p-sortIcon field="commandCopied"></p-sortIcon></th>
+        <th pSortableColumn="type">type<p-sortIcon field="type"></p-sortIcon></th>
+     
+    
+      </tr>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="dt3.filter($any($event.target)?.value, 'userName', 'contains')"
+            [value]="$any(dt3.filters['userName'])?.value"
+            placeholder="Search by Username"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target)?.value, 'dateTime', 'contains')
+            "
+            [value]="$any(dt3.filters['dateTime'])?.value"
+            placeholder="Search by Date Time Logged"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target)?.value, 'commandCopied', 'contains')
+            "
+            [value]="$any(dt3.filters['commandCopied'])?.value"
+            placeholder="Search by Command Copied"
+            class="p-column-filter"
+          />
+        </th>
+        <th scope="col">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target)?.value, 'type', 'contains')
+            "
+            [value]="$any(dt3.filters['type'])?.value"
+            placeholder="Search by Type"
+            class="p-column-filter"
+          />
+        </th>
+    
+        <th scope="col"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-step let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="step" (click)="detailView(step)">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ step?.userName }}</td>
+        <td>{{ step?.dateTime }}</td>
+        <td>{{ step?.commandCopied }}</td>
+        <td>{{ step?.type }}</td>
+       
+       
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+ 
+</div>

@@ -128,6 +128,13 @@ const routes: Routes = [
           import('./modules/ams/ams.module').then((m) => m.AmsModule),
       },
       {
+        path: 'cit',
+        loadChildren: () =>
+          import('./modules/cit/cit.module').then((m) => m.CitModule),
+      },
+
+    
+      {
         path: 'ICMS/CIPM',
         loadChildren: () =>
           import('./modules/icms/cipm/cipm.module').then((m) => m.CIPMModule)
