@@ -6,7 +6,6 @@ import { JwtResponse } from '../models/sso-models/Jwt-response';
 import { Employee } from '../models/sso-models/employee';
 import { BehaviorSubject } from 'rxjs';
 import { EMSService } from '../services/ems-services/ems-services.service';
-import { User } from '../models/sso-models/user';
 
 
 
@@ -19,7 +18,7 @@ export class AuthService {
   // API path
 
   //ssoBathPath = 'http://localhost:9081';
-  ssoBathPath = 'http://10.1.125.58:9081';
+   ssoBathPath = 'http://10.1.125.58:9081';
   // emsBasePath = 'http://10.1.11.48:9082';
   emsBasePath = 'http://10.1.125.58:8082';
 
@@ -49,11 +48,12 @@ export class AuthService {
     return throwError(
       'Something bad happened; please try again later.');
   }
+
+
+
+
   loginForm(data: any): Observable<JwtResponse> {
-
-
     localStorage.clear();
-
     const body = new HttpParams()
       .set('username', data.username)
       .set('password', data.password);
@@ -148,8 +148,6 @@ export class AuthService {
       }
     }
   }
-
-
 
 
 

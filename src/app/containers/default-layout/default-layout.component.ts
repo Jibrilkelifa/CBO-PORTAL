@@ -26,7 +26,6 @@ import {
   navItemsCMSUser,
   navItemSupervisor,
   navItemsAMSAdmin,
-  navItemsAMSManager,
   navCC,
   navItemSearch,
   navItemDelinquent,
@@ -77,23 +76,19 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemsCMSUser);
     addIndentClass(navItemSupervisor);
     addIndentClass(navItemsAMSAdmin);
-    addIndentClass(navItemsAMSManager);
-    addIndentClass(navItemsCISTAdmin);
     addIndentClass(navCC);
 
     this.navItems.push(navItemMenu);
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
-
-       
     const otp = localStorage.getItem('otp') == "true";
     if (!otp) {
       for (let i = 0; i <= totalModules; i++) {
         let moduleStatus = localStorage.getItem("module_" + i) === "true"
-   
+
+
         if (moduleStatus) {
           let supervisorMenuItemAdded = false;
           let role = localStorage.getItem("role_" + i);
-       
           if (role.includes('CC')) {
             // ... other code ...
           
@@ -299,26 +294,7 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsAMSAdmin);
         
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
               break;
-              case "ROLE_AMS_MANAGER":
-                this.navItems.push(navItemsAMSManager);
-                this.dashboardRoute = "default_dashboard"
-                if (localStorage.getItem("supervisor") === "true") {
-                  if (!this.navItems.includes(navItemSupervisor)) {
-                    this.navItems.push(navItemSupervisor);
-                  }
-                }
-                break;
-            case "ROLE_CIST_ADMIN":
-                this.navItems.push(navItemsCISTAdmin);
-                this.dashboardRoute = "default_dashboard"
-                break;
-            
           }}
         }
       
