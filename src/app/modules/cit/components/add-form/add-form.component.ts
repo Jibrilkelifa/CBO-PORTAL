@@ -6,7 +6,7 @@ import { CitIntegrationService } from '../../services/cit.integration.service'
 import { DetailViewComponent } from '../detail-view/detail-view.component';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { MessageService, TranslationKeys } from 'primeng/api';
-import { CobIssueDTO } from '../../models/cobIssueDTO';
+import { CobIssueDTO } from '../../models/CobIssueDTO';
 import { DatePipe } from '@angular/common';
 
 @Component({

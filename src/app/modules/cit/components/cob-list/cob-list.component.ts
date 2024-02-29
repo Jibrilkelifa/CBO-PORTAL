@@ -8,7 +8,7 @@ import { MessageService } from 'primeng/api';
 import { DetailViewComponent } from '../detail-view/detail-view.component';
 import { NgForm } from '@angular/forms';
 import { AddFormComponent } from '../add-form/add-form.component';
-import { CobIssueDTO } from '../../models/cobIssueDTO';
+import { CobIssueDTO } from '../../models/CobIssueDTO';
 
 @Component({
   selector: 'app-cob-list',

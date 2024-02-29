@@ -115,7 +115,7 @@ export class DefaultLayoutComponent {
             }
           
             // Check if Compliance Check menu is already in the list before adding
-            if (!this.navItems.some(item => item.name === 'Compliance Check')) {
+            if (!this.navItems.some(item => item?.name === 'Compliance Check')) {
               this.navItems.push(complianceCheckMenu);
             
             }
