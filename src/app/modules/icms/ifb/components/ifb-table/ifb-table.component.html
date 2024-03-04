@@ -1,0 +1,126 @@
+<p-toast position="top-right"></p-toast>
+<div class="flex justify-between mb-3">
+  <div class="flex">
+    <span class="p-input-icon-left ml-auto">
+      <input
+        pInputText
+        type="text"
+        (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
+        placeholder="Search here"
+      />
+    </span>
+  </div>
+</div>
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">IFB Table</h5>
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="IFBList"
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [globalFilterFields]="[
+    'ifbDate',
+    'caseId',
+    'accountNumber',
+    'borrowerName',
+    'productTypes.name',
+    'allCategory.name',
+    'allSubCategory.name',
+    'irregularity',
+    'amountInvolved',
+    'responsiblePerson',
+    'status.name',
+  ]"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+    stateStorage="session"
+    stateKey="statedemo-session"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="ifbDate">
+          Date
+          <p-sortIcon field="ifbDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="caseId">
+          Case ID
+          <p-sortIcon field="caseId"></p-sortIcon>
+        </th>
+        <th pSortableColumn="accountNumber">
+          Account Number
+          <p-sortIcon field="accountNumber"></p-sortIcon>
+        </th>
+        <th pSortableColumn="borrowerName">
+          Borrower Name
+          <p-sortIcon field="borrowerName"></p-sortIcon>
+        </th>
+        <th pSortableColumn="productTypes.name">
+          Product Type
+          <p-sortIcon field="productTypes.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="allCategory.name">
+          Category
+          <p-sortIcon field="allCategory.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="allSubCategory.name">
+          Sub-category
+          <p-sortIcon field="allSubCategory.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="irregularity">
+          Irregularity
+          <p-sortIcon field="irregularity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="amountInvolved">
+          Amount Involved
+          <p-sortIcon field="amountInvolved"></p-sortIcon>
+        </th>
+        <th pSortableColumn="responsiblePerson">
+          Responsible Person
+          <p-sortIcon field="responsiblePerson"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status.name">
+          Status
+          <p-sortIcon field="status.name"></p-sortIcon>
+        </th>
+        <th scope="col">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-IFBList let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="IFBList">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ IFBList?.ifbDate }}</td>
+        <td>{{ IFBList?.caseId }}</td>
+        <td>{{ IFBList?.accountNumber }}</td>
+        <td>{{ IFBList?.borrowerName }}</td>
+        <td>{{ IFBList?.productTypes?.name }}</td>
+        <td>{{ IFBList?.allCategory?.name }}</td>
+        <td>{{ IFBList?.allSubCategory?.name }}</td>
+        <td>{{ IFBList?.irregularity }}</td>
+        <td>{{ IFBList?.amountInvolved }}</td>
+        <td>{{ IFBList?.responsiblePerson }}</td>
+        <td>{{ IFBList?.status?.name }}</td>
+        <td>
+          <div class="flex gap-2">
+            <button
+              pButton
+              (click)="updateIFB(IFBList.id)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-20 h-10 p-2"
+              label="Update"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No records found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

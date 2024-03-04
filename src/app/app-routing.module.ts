@@ -11,6 +11,7 @@ import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history
 import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
 import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
 import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
+import { NewIFBComponent } from './modules/icms/ifb/components/new-ifb/new-ifb.component';
 
 const routes: Routes = [
   {
@@ -136,6 +137,21 @@ const routes: Routes = [
         path: 'ICMS/DACGM',
         loadChildren: () =>
           import('./modules/icms/dacgm/dacgm.module').then((m) => m.DACGMModule)
+      },
+      {
+        path: 'ICMS/IFB',
+        loadChildren: () =>
+          import('./modules/icms/ifb/ifb.module').then((m) => m.IFBModule)
+      },
+      {
+        path: 'ICMS/Finance',
+        loadChildren: () =>
+          import('./modules/icms/finance/finance.module').then((m) => m.FinanceModule)
+      },
+      {
+        path: 'ICMS/FireExtinguisher',
+        loadChildren: () =>
+          import('./modules/icms/fire extinguisher/fire-extinguisher.module').then((m) => m.FireExtinguisherModule)
       },
       {
         path: 'ICMS/DCQ',
