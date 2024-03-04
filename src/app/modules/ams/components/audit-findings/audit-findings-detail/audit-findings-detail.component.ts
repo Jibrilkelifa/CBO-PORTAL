@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { NewAuditProgramComponent } from '../../audit-program/new-audit-program/new-audit-program.component';
-import { MessageService } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { AuditEngagementService } from '../../../services/audit-engagement/audit-engagement.service';
@@ -40,10 +40,13 @@ export class AuditFindingsDetailComponent implements OnDestroy {
   public auditFinding: FindingDTO[] = [];
   public ammendment: any[] = [];
   public comment: AuditCommentDTO[] = [];
-
+  loading: boolean = false;
   private subscriptions: Subscription[] = [];
   cols!: Column[];
+  file_type:string = ".pdf";
 
+  back_end_url:string = "http://192.168.137.224:8099";
+  upload_url: string;
   constructor(
     private auditProgramService: AuditProgramService,
     private dialogService: DialogService,
@@ -55,10 +58,32 @@ export class AuditFindingsDetailComponent implements OnDestroy {
   ngOnInit() {
     if (localStorage.getItem("currentFinding")) {
       this.auditFinding[0]  =  JSON.parse(localStorage.getItem("currentFinding"));
+      console.log(this.auditFinding[0],"we are workign with")
       this.getFindingAmmandement(this.auditFinding[0].id);
       this.getFindingComment(this.auditFinding[0].id);
+      this.upload_url = this.back_end_url + `/ams/auditProgram/finding/attachEvidence/${this.auditFinding[0].id}`;
     }  
   }
+
+  
+  public onBeforeUpload() {
+    this.loading = true;
+  }
+
+  public messages: Message[] = [];
+
+  public onUpload() {
+    this.loading = false;
+    this.messages = [{ severity: 'success', summary: 'File Uploaded', detail: 'File has been uploaded successfully' ,life: 5000}];
+
+  }
+
+  public onUploadError() {
+    this.loading = false;
+    this.messages = [{ severity: 'error', summary: 'File Upload Error', detail: 'An error occurred while uploading the file' ,life:5000}];
+  }
+
+  
   getFindingAmmandement(id:number): void {
     this.subscriptions.push(
       this.auditFindingService.getAmmendmentByFindingId(id).subscribe(

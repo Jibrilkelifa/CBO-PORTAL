@@ -35,6 +35,17 @@ export class AuditFindingService {
     );
   }
 
+  
+
+  public addAttachement(finding: FindingDTO): Observable<any> {
+    this.init();
+    return this.http.post(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/attachEvidence/${finding.id}`,
+      this.httpOptions
+    );
+  }
+
+
 
 
   public addAuditFinding(finding: FindingDTO): Observable<any> {
@@ -45,6 +56,7 @@ export class AuditFindingService {
       this.httpOptions
     );
   }
+
 
   public updateAuditFinding(finding: FindingDTO): Observable<any> {
     this.init();
@@ -81,6 +93,17 @@ export class AuditFindingService {
       this.httpOptions
     ); 
   }
+
+  getPdf(name: string): Observable<Blob> {
+    this.init();
+    const httpOptions = {
+      responseType: 'blob' as 'json', // Set the response type to blob
+    };
+  
+    return this.http.get(`${this.apiServiceUrl}/ams/auditProgram/finding/getFileAttached/byFileName/${name}`, httpOptions) as Observable<Blob>;
+  }
+  
+  
 
 
 

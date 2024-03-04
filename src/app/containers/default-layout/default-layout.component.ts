@@ -31,7 +31,9 @@ import {
   navItemDelinquent,
   navItemAdmin,
   navItemWeeklyCheck,
-  complianceCheckMenu
+  complianceCheckMenu,
+  navItemsCISTAdmin,
+
 } from './_nav';
 
 @Component({
@@ -83,7 +85,7 @@ export class DefaultLayoutComponent {
       for (let i = 0; i <= totalModules; i++) {
         let moduleStatus = localStorage.getItem("module_" + i) === "true"
 
-        
+
         if (moduleStatus) {
           let supervisorMenuItemAdded = false;
           let role = localStorage.getItem("role_" + i);
@@ -108,8 +110,9 @@ export class DefaultLayoutComponent {
             }
           
             // Check if Compliance Check menu is already in the list before adding
-            if (!this.navItems.some(item => item.name === 'Compliance Check')) {
+            if (!this.navItems.some(item => item?.name === 'Compliance Check')) {
               this.navItems.push(complianceCheckMenu);
+            
             }
           }
           
@@ -172,6 +175,7 @@ export class DefaultLayoutComponent {
             //   break;
             case "ROLE_ICMS_ADMIN":
               this.navItems.push(navItemsICMSAdmin);
+             
               this.dashboardRoute = "icms_dashboard"
           
               break;
@@ -186,6 +190,7 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
+          
               this.dashboardRoute = "default_dashboard"
               break;
             // case "ROLE_SMS_ADMIN":
@@ -287,6 +292,7 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_AMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
+        
               this.dashboardRoute = "default_dashboard"
               break;
           }}

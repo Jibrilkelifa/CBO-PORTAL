@@ -9,6 +9,9 @@ interface NavItem {
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
 export let navItemsAMSAdmin: Object;
+export let navItemsAMSManager: Object;
+export let navItemsCISTAdmin: Object;
+
 export let navItemsAMSUser: Object;
 export let navItemsEMSAdmin: Object;
 export let navItemsEMSUser: Object;
@@ -111,6 +114,14 @@ navItemsAMSAdmin =  {
       url: '/ams/audit-engagement',
     },
     {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+    {
       name: 'Setting',
       url: '/ams',
       iconComponent: { name: 'cil-settings' },
@@ -135,15 +146,45 @@ navItemsAMSAdmin =  {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
-        {
-          name: 'Audit Program',
-          url: '/ams/audit-program',
-        },
+  
       ]
     },
   ],
   
 },
+
+
+
+navItemsCISTAdmin =  {
+  name: 'CIST',
+  url: '/cit',
+  iconComponent: { name: 'cil-copy' },
+  children: [
+
+    {
+      name: 'COB Issues List',
+      url: '/cit/cobIssuesList',
+    },
+
+    {
+      name: 'Cob Steps',
+      url: '/cit/cobSteps',
+    },
+    {
+      name: 'Cob Steps Copied',
+      url: '/cit/cobStepsCopiedList',
+    },
+  
+  ],
+  
+},
+
+
+
+
+
+
+
 
 navItemsICMSAdmin = {
   name: 'Internal Control',

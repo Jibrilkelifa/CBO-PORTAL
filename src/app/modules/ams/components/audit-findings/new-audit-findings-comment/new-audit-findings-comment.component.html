@@ -4,15 +4,21 @@
     <div class="row">
       <div class="col mb-4">
         <label for="originalfinding" class="block mb-2"> Original Finding : </label>
-        <input
-          pInputText
-          id="originalfinding"
-          [ngModel]="commentInfo?.originalfinding"
-          name="originalfinding"
-          [style]="{ width: '98%', height: '45px' }"
-          required
-          minlength="3"
-        />
+     
+        
+          
+         
+         
+  
+        <textarea
+        pInputText
+        id="originalfinding"
+        [ngModel]="commentInfo?.originalfinding"
+        name="originalfinding"
+        style="width: 98%; height: 150px; resize: none"
+        required
+        minlength="3">
+     </textarea>
       </div>
     </div> 
 

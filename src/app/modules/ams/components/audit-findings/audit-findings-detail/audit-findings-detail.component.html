@@ -1,5 +1,6 @@
 <p-toast position="top-right"></p-toast>
 
+ 
 <div class="card" >
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Audit Finding </h5>
   <p-table
@@ -156,4 +157,14 @@
     </ng-template>
   </p-table>
 </div>
-<br><br><br><br>
+<br><br>
+
+<h3 style="color: green">Add Evidence Attachement</h3>
+
+
+
+<p-messages [value]="messages"></p-messages>
+<p-fileUpload #fileUpload name="file" [url]="upload_url"   (onBeforeUpload)="onBeforeUpload()" (onError)="onUploadError()" (onUpload)="onUpload() " 
+></p-fileUpload>
+<br>
+<br> <br><br>

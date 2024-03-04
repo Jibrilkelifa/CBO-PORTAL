@@ -1,0 +1,64 @@
+<head>
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  table, th, td {
+    border: 1px solid #2ebbef;
+    padding: 15px;
+    text-align: left;
+  }
+  </style>
+  </head>
+  <body>
+  
+  <h2>COB Table</h2>
+  
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Cob Stage</th>
+ 
+      <th>Batch</th>
+      <th>Job Name</th>
+      <th>Job List Name</th>
+      <th>Branch Id</th>
+      <th>Tcsp Id</th>
+    </tr>
+    <tr>
+      <td>{{cobInfo.date}}</td>
+      <td>{{cobInfo.cobStage}}</td>
+     
+      <td>{{cobInfo.batch}}</td>
+      <td>{{cobInfo.jobName}}</td>
+      <td>{{cobInfo.jobListName}}</td>
+      <td>{{cobInfo.branchId}}</td>
+      <td>{{cobInfo.tcspId}}</td>
+    </tr>
+  </table>
+<br><br><br>
+
+<div class="container">
+
+<div class="left">
+
+<label for="detial">DETAIL:</label><br><br>
+  <textarea name="" id="detail" cols="30" rows="10" value="{{cobInfo.detail}}" disabled></textarea><br><br>
+
+</div>
+<div class="left">
+
+ <label for="error" style="color: rgb(200, 1, 1);">ERROR:</label><br><br>
+  <textarea disabled name="" id="error" cols="30" rows="10" value="{{cobInfo.error}}"></textarea><br><br>
+
+
+</div>
+  
+</div>
+
+
+
+ 
+
+  <p-button label="Cancel" (click)="closeDialog()"></p-button>

@@ -35,6 +35,7 @@ interface ExportColumn {
 export class Report {
   auditEngagements:AuditEngagementDTO[] = [];
   thebigjson:any;
+  thebigjsonForEditing:any;
   auditPrograms: AuditProgramDTO[] = [];
   auditFinding: FindingDTO[] = [];
   selectedFindings: FindingDTO[] = [];
@@ -45,6 +46,8 @@ export class Report {
   checkedIds: number[] = [];
   introInput: string;
   summaryInput: string;
+  public date: Date;
+  editMode:Boolean = false;
 
 
 
@@ -59,6 +62,19 @@ export class Report {
     if (localStorage.getItem("currentEngagement")) {
       this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
       this.getAuditProgram(this.auditEngagements[0].id);
+    }  
+
+    if (localStorage.getItem("editTheBigJson")) {
+      this.thebigjsonForEditing  =  JSON.parse(localStorage.getItem("editTheBigJson"));
+      this.introInput = this.thebigjsonForEditing.introduction;
+      this.summaryInput = this.thebigjsonForEditing.summary;
+      this.date = this.thebigjsonForEditing.dateGenerated;
+      console.log(this.thebigjsonForEditing, " check me i am the bigjson for editing");
+      this.selectedFindings = this.thebigjsonForEditing.findings;
+
+    
+   
+      this.editMode = true;
     }  
 
 
@@ -79,6 +95,27 @@ export class Report {
   }
   onSubmit():void {
 
+  if(this.editMode){
+       
+    this.thebigjsonForEditing.findings = this.selectedFindings;
+    this.thebigjsonForEditing.introduction = this.introInput;
+    this.thebigjsonForEditing.summary = this.summaryInput;
+    this.thebigjsonForEditing.dateGenerated = this.date;
+
+         console.log(this.thebigjsonForEditing.findings, " edited teh bigson data");
+       
+
+       this.auditReportService.registerReport(this.thebigjsonForEditing).subscribe(
+        (response: any) => {
+           console.log(response);
+           this.router.navigate(['ams/report-list']);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+       
+  } else {
     if (localStorage.getItem("thebigjson")) {
       this.thebigjson  =  JSON.parse(localStorage.getItem("thebigjson"));
       console.log(this.thebigjson,"hey yall this is the big json");
@@ -89,20 +126,25 @@ export class Report {
     this.thebigjson.result.findings = this.selectedFindings;
     this.thebigjson.result.introduction = this.introInput;
     this.thebigjson.result.summary = this.summaryInput;
+    this.thebigjson.result.dateGenerated = this.date;
 
  
-   console.log("sending the big json" , this.thebigjson.result.findings);
- 
-      this.auditReportService.registerReport(this.thebigjson.result).subscribe(
-        (response: any) => {
-           console.log(response);
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
+   console.log("sending the big json finding" , this.thebigjson.result.findings);
 
-      this.router.navigate(['ams/report-list']);
+   this.auditReportService.registerReport(this.thebigjson.result).subscribe(
+    (response: any) => {
+       console.log(response);
+       this.router.navigate(['ams/report-list']);
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error);
+    }
+  )
+  }
+ 
+
+
+    
 
   
   };
@@ -130,26 +172,24 @@ export class Report {
 
   }
 
-  onCheck(e,id){
+  onCheck(e, id) {
     const finding = this.auditFinding.find(f => f.id === id);
-
-
-      if (e.target.checked) {
+  
+    if (e.target.checked) {
       // Add finding to selectedFindings array
       if (finding && !this.selectedFindings.includes(finding)) {
         this.selectedFindings.push(finding);
       }
     } else {
       // Remove finding from selectedFindings array
-      const index = this.selectedFindings.indexOf(finding);
-      if (index !== -1) {
-        this.selectedFindings.splice(index, 1);
-      }
+      this.selectedFindings = this.selectedFindings.filter(f => f.id !== id);
     }
-
-  
   }
-
+  
+  isFindingSelected(id: number): boolean {
+    return this.selectedFindings.some(finding => finding.id === id);
+  }
+  
 
 
   ngOnDestroy() {
