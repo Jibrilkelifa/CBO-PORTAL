@@ -116,13 +116,13 @@ export class AuditProgramDetailComponent implements OnDestroy {
 
   getLeaderName(auditEngagement: AuditEngagementDTO): string {
     const leader = auditEngagement?.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
-    return leader?.auditStaffDTO?.user?.employee?.fullName || '';
+    return leader?.auditStaffDTO?.fullName || '';
   }
 
   getMemberNames(auditEngagement: AuditEngagementDTO): string {
     const members = auditEngagement.auditSchedule?.teamMembers
       .filter(member => member.teamRole === 'Member')
-      .map(member => member.auditStaffDTO?.user?.employee?.fullName);
+      .map(member => member.auditStaffDTO?.fullName);
     return members?.join('\n') || '';
   }
 

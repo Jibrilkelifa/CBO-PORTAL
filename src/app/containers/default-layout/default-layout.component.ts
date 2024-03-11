@@ -33,8 +33,14 @@ import {
   navItemWeeklyCheck,
   complianceCheckMenu,
   navItemsCISTAdmin,
+  navItemsAMSDirector,
+  navItemsAMSManager,
+  navItemsAMSTeamLeader
 
 } from './_nav';
+import { AuditStaffService } from 'src/app/modules/ams/services/audit-staff/audit-staff.service';
+import { audit } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-dashboard',
@@ -50,7 +56,7 @@ export class DefaultLayoutComponent {
     suppressScrollX: true,
   };
 
-  constructor() {
+  constructor( private auditStaffService: AuditStaffService) {
 
     addIndentClass(navItemsSuperAdmin);
     addIndentClass(navItemsEMSAdmin);
@@ -77,6 +83,8 @@ export class DefaultLayoutComponent {
     addIndentClass(navItemSupervisor);
     addIndentClass(navItemsAMSAdmin);
     addIndentClass(navCC);
+    addIndentClass(navItemsAMSDirector);
+    addIndentClass(navItemsAMSTeamLeader);
 
     this.navItems.push(navItemMenu);
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
@@ -115,6 +123,8 @@ export class DefaultLayoutComponent {
             
             }
           }
+
+     
           
    
           switch (role) {
@@ -292,9 +302,29 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_AMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
-        
               this.dashboardRoute = "default_dashboard"
               break;
+            case "ROLE_AMS_DIRECTOR":
+              this.navItems.push(navItemsAMSDirector);
+              this.dashboardRoute = "default_dashboard"
+              break;
+            case "ROLE_AMS_DIRECTOR_AUDITEE":
+              if (localStorage.getItem("supervisor") === "true") {
+                if (!this.navItems.includes(navItemSupervisor)) {
+                  this.navItems.push(navItemSupervisor);
+                }
+              }
+              this.dashboardRoute = "default_dashboard"
+              break;
+            case "ROLE_AMS_MANAGER":
+              this.navItems.push(navItemsAMSManager);
+              this.dashboardRoute = "default_dashboard"
+              break;
+            case "ROLE_AMS_TEAM_LEADER":
+                this.navItems.push(navItemsAMSTeamLeader);
+                this.dashboardRoute = "default_dashboard"
+                break;
+            
           }}
         }
       
@@ -315,3 +345,6 @@ function addIndentClass(obj: any, level: number = 0) {
     }
   }
 }
+
+
+

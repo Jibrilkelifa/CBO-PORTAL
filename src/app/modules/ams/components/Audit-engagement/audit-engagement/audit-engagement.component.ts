@@ -86,9 +86,9 @@ export class AuditEngagementComponent implements OnDestroy {
               ...auditEngagement,
               startOn: this.datePipe.transform(auditEngagement.auditSchedule.startOn, 'MMMM d, y'),
               endOn: this.datePipe.transform(auditEngagement.auditSchedule.endOn, 'MMMM d, y'),
-              leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
+              leaderName: leader?.auditStaffDTO?.fullName || '',
               status:auditEngagement.auditSchedule.status,
-              memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
+              memberNames: members.map(member => member.auditStaffDTO?.fullName).join(', ') || ''
             };
           });
           this.auditEngagementDisplay = this.auditEngagements.map((obj: any) => ({
@@ -299,13 +299,13 @@ export class AuditEngagementComponent implements OnDestroy {
 
   getLeaderName(auditEngagement: AuditEngagementDTO): string {
     const leader = auditEngagement?.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
-    return leader?.auditStaffDTO?.user?.employee?.fullName || '';
+    return leader?.auditStaffDTO?.fullName || '';
   }
 
   getMemberNames(auditEngagement: AuditEngagementDTO): string {
     const members = auditEngagement.auditSchedule?.teamMembers
       .filter(member => member.teamRole === 'Member')
-      .map(member => member.auditStaffDTO?.user?.employee?.fullName);
+      .map(member => member.auditStaffDTO?.fullName);
     return members?.join('\n') || '';
   }
 

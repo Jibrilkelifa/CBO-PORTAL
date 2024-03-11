@@ -3,31 +3,12 @@
     <div style="margin-top: 2em"></div>
     <div class="flex">
       <div class="col mb-4">
-        <label for="hex" class="block mb-2"> Select user: </label>
-        <p-dropdown
-          [disabled]="update"
-          [required]="true"
-          [options]="AMSUsers"
-          name="user"
-          [filter]="true"
-          [(ngModel)]="auditStaffInfo.user"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Choose user"
-          styleClass="p-password"
-          [style]="{ width: '300px', height: '45px' }"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="auditStaffInfo?.user">
-              <div>{{ auditStaffInfo.user.employee.fullName }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-user pTemplate="item">
+        <label for="hex" class="block mb-2"> Search Employee By Full Name </label>
             <div>
-              <div>{{ user?.employee?.fullName }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="employeeFullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}" (onSelect)="onEmployeeSelect($event)"></p-autoComplete>
+        </div>
       </div>
       <div class="flex flex-row">
         <div class="col mb-4 mr-2">

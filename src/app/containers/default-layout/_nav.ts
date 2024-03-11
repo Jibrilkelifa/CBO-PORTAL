@@ -10,6 +10,8 @@ export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
 export let navItemsAMSAdmin: Object;
 export let navItemsAMSManager: Object;
+export let navItemsAMSDirector: Object;
+export let navItemsAMSTeamLeader: Object;
 export let navItemsCISTAdmin: Object;
 
 export let navItemsAMSUser: Object;
@@ -151,7 +153,97 @@ navItemsAMSAdmin =  {
     },
   ],
   
-},
+}
+
+navItemsAMSManager =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Annual Plan',
+      url: '/ams/annual-plan',
+    },
+    {
+      name: 'Audit Schedule',
+      url: '/ams/audit-schedule',
+    },
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+    {
+      name: 'Setting',
+      url: '/ams',
+      iconComponent: { name: 'cil-settings' },
+      children: [
+        {
+          name: 'Auditors',
+          url: '/ams/audit-staff',
+        },
+        {
+          name: 'Audit universe',
+          url: '/ams/audit-universe',
+        },
+        {
+          name: 'Audit object',
+          url: '/ams/audit-object',
+        },
+        {
+          name: 'Audit team',
+          url: '/ams/audit-type',
+        },
+        {
+          name: 'Risk item',
+          url: '/ams/risk-item',
+        },
+  
+      ]
+    },
+  ],
+  
+}
+
+navItemsAMSTeamLeader =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    }
+  ],
+  
+}
+
+
+navItemsAMSDirector =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    }
+ 
+ 
+  ],
+  
+}
 
 
 
@@ -177,7 +269,7 @@ navItemsCISTAdmin =  {
   
   ],
   
-},
+}
 
 
 
