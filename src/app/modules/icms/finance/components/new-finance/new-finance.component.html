@@ -1,0 +1,140 @@
+<p-messages
+  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
+  [value]="msgs"
+></p-messages>
+<div>
+  <form #FinanceForm="ngForm" (ngSubmit)="submitFinance(FinanceForm)" required>
+    <div class="flex flex-wrap gap-3 mb-4">
+      <div class="flex-auto" *ngIf="!update">
+        <label for="alphabetic" class="block mb-2"> Case ID </label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          ngModel
+          [(ngModel)]="caseId"
+          name="caseId"
+          [style]="{ width: '30vw', height: '45px' }"
+          [readonly]="true"
+        />
+      </div>
+      <div class="flex-auto">
+        <label for="financeDate" class="block mb-2">Date </label>
+        <p-calendar
+          id="financeDate"
+          [(ngModel)]="Finance.financeDate"
+          name="financeDate"
+          [style]="{ width: '30vw', height: '45px' }"
+          [showIcon]="true"
+          [required]="true"
+        ></p-calendar>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="allCategory" class="block mb-2"> Category </label>
+        <p-dropdown
+          id="allCategory"
+          [(ngModel)]="Finance.allCategory"
+          name="allCategory"
+          [options]="categories"
+          optionLabel="name"
+          (onChange)="onCategoryChange($event)"
+          placeholder="Select a Category"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        ></p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="allSubCategory" class="block mb-2"> Sub Category </label>
+        <p-dropdown
+          id="allSubCategory"
+          [(ngModel)]="Finance.allSubCategory"
+          name="allSubCategory"
+          [options]="subCategories"
+          optionLabel="name"
+          placeholder="Select a Sub Category"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        ></p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="accountNumber" class="block mb-2"> Account Number </label>
+        <p-inputNumber
+          [(ngModel)]="Finance.accountNumber"
+          inputId="accountNumber"
+          [useGrouping]="false"
+          [style]="{ width: '30vw', height: '45px' }"
+          (keydown)="limitInput($event)"
+          name="accountNumber"
+        ></p-inputNumber>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="irregularity" class="block mb-2"> Irregularity </label>
+        <input
+          pInputText
+          id="irregularity"
+          [(ngModel)]="Finance.irregularity"
+          name="irregularity"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
+        <input
+          pInputText
+          id="amount"
+          [(ngModel)]="Finance.amount"
+          name="amount"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="responsiblePerson" class="block mb-2">
+          Responsible Person
+        </label>
+        <input
+          pInputText
+          id="responsiblePerson"
+          [(ngModel)]="Finance.responsiblePerson"
+          name="responsiblePerson"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+      <div class="flex-auto" *ngIf="update">
+        <label for="hex" class="block mb-2"> Status </label>
+        <p-dropdown
+          [options]="statuses"
+          name="status"
+          ngModel
+          [(ngModel)]="selectedstatus"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Select  Status"
+          class="w-full"
+          styleClass="p-password"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        >
+          (ngOnInit)="populateSelectedstatus(existingStatus)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
+              <div>{{ selectedstatus.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selectedstatuse pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedstatuse.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <p-button
+      [label]="update ? 'Update' : 'Create'"
+      type="submit"
+      [disabled]="FinanceForm.invalid"
+      class="createButton"
+    ></p-button>
+  </form>
+</div>

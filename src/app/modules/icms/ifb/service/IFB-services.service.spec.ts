@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AuditUniverseService } from './audit-universe.service';
+import { IFBService } from './IFB-services.service';
 
-describe('AuditUniverseService', () => {
-  let service: AuditUniverseService;
+describe('IFBService', () => {
+  let service: IFBService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(AuditUniverseService);
+    service = TestBed.inject(IFBService);
   });
 
   it('should be created', () => {
