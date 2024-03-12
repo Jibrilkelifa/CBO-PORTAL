@@ -20,7 +20,7 @@ export class AuthService {
   ssoBathPath = 'http://localhost:9081';
   //  ssoBathPath = 'http://10.1.125.58:9081';
   // emsBasePath = 'http://10.1.11.48:9082';
-  // just because
+
   emsBasePath = 'http://10.1.125.58:8082';
 
 
