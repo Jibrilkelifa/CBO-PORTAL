@@ -30,7 +30,7 @@ pipeline {
         stage('Build') {
             steps {
                 // Build Angular project in production mode
-                sh 'npm run build -- --prod'
+                sh 'npm run build --prod'
             }
         }
     }
