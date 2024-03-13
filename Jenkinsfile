@@ -48,14 +48,3 @@ pipeline {
     }
 }
 
-def fileExists(filePath) {
-    return file(filePath).exists()
-}
-
-def readFileIfExists(filePath) {
-    if (fileExists(filePath)) {
-        return readFile(filePath).trim()
-    } else {
-        return ''
-    }
-}
