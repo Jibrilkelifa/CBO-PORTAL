@@ -48,6 +48,8 @@ export class AuditScheduleComponent implements OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  public auditStaff:string;
+
   constructor(
     private auditPlanService: AnnualPlanService,
     private auditScheduleService: AuditScheduleService,
@@ -76,6 +78,8 @@ export class AuditScheduleComponent implements OnDestroy {
 
    
     this.getAuditStaffId(localStorage.getItem("id"));
+    console.log(localStorage.getItem("auditStaffId"), "here please")
+  
   }
 
 
