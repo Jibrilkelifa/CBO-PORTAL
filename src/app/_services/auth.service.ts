@@ -16,9 +16,9 @@ import { EMSService } from '../services/ems-services/ems-services.service';
 export class AuthService {
 
   // API path
-
-  ssoBathPath = 'http://localhost:9081';
-  //  ssoBathPath = 'http://10.1.125.58:9081';
+  //prodip
+  // ssoBathPath = 'http://localhost:9081';
+   ssoBathPath = 'http://10.1.125.58:9081';
   // emsBasePath = 'http://10.1.11.48:9082';
   // test jenkins
   emsBasePath = 'http://10.1.125.58:8082';

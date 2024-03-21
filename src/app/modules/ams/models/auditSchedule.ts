@@ -8,7 +8,7 @@ export class AuditScheduleDTO extends BaseModel {
     endOn: string;
     status: string;
     quarter: number;
-    auditeesOrganID:string;
+    auditeesOrganID:number;
     dateCompleted : Date;
     totalCost : number;
     involvesTravel: boolean;

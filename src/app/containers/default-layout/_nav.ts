@@ -266,7 +266,11 @@ navItemsAMSDirector =  {
     {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
-    }
+    },
+    {
+      name: 'Audit Schedule',
+      url: '/ams/audit-schedule',
+    },
  
  
   ],

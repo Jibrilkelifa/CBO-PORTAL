@@ -88,6 +88,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
   addAuditSchedule(addDivForm: NgForm): void {
     const auditSchedule: AuditScheduleDTO = addDivForm.value;
     auditSchedule.annualPlan = this.annualPlan;
+    auditSchedule.auditeesOrganID = 1;
     this.subscriptions.push(
       this.auditScheduleService.addAuditSchedule(auditSchedule).subscribe(
         (response: any) => {
