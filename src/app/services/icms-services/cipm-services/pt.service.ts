@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
-import { ProductType } from '../../../models/icms-models/cipm-models/Product-type';
+import { ProductType } from '../../../models/icms-models/cipm-models/product-type';
 
 @Injectable({
   providedIn: 'root'
