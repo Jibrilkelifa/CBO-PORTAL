@@ -35,7 +35,8 @@ import {
   navItemsCISTAdmin,
   navItemsAMSDirector,
   navItemsAMSManager,
-  navItemsAMSTeamLeader
+  navItemsAMSTeamLeader,
+  navItemsAMSAuditor
 
 } from './_nav';
 import { AuditStaffService } from 'src/app/modules/ams/services/audit-staff/audit-staff.service';
@@ -47,7 +48,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent {
-  
+
 
   public navItems = [];
   public dashboardRoute: string = ""
@@ -56,7 +57,7 @@ export class DefaultLayoutComponent {
     suppressScrollX: true,
   };
 
-  constructor( private auditStaffService: AuditStaffService) {
+  constructor(private auditStaffService: AuditStaffService) {
 
     addIndentClass(navItemsSuperAdmin);
     addIndentClass(navItemsEMSAdmin);
@@ -85,6 +86,7 @@ export class DefaultLayoutComponent {
     addIndentClass(navCC);
     addIndentClass(navItemsAMSDirector);
     addIndentClass(navItemsAMSTeamLeader);
+    addIndentClass(navItemsAMSAuditor)
 
     this.navItems.push(navItemMenu);
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
@@ -99,7 +101,7 @@ export class DefaultLayoutComponent {
           let role = localStorage.getItem("role_" + i);
           if (role.includes('CC')) {
             // ... other code ...
-          
+
             if (role.includes('ROLE_CC_USER_DELIQUENT')) {
               // Add Delinquent submenu
               if (!complianceCheckMenu.children.includes(navItemDelinquent)) {
@@ -110,29 +112,29 @@ export class DefaultLayoutComponent {
               if (!complianceCheckMenu.children.includes(navItemAdmin)) {
                 complianceCheckMenu.children.push(navItemAdmin);
               }
-          
+
               // // Add Weekly Check only for ROLE_CC_ADMIN
               // if (!complianceCheckMenu.children.some(item => item.name === 'Weekly Check')) {
               //   complianceCheckMenu.children.push(navItemWeeklyCheck);
               // }
             }
-          
+
             // Check if Compliance Check menu is already in the list before adding
             if (!this.navItems.some(item => item?.name === 'Compliance Check')) {
               this.navItems.push(complianceCheckMenu);
-            
+
             }
           }
 
-     
-          
-   
+
+
+
           switch (role) {
             case "ROLE_SUPER_ADMIN":
               this.navItems.push(navItemsSuperAdmin);
               this.dashboardRoute = "default_dashboard"
               if (localStorage.getItem("supervisor") === "true") {
-                
+
                 if (!this.navItems.includes(navItemSupervisor)) {
                   this.navItems.push(navItemSupervisor);
                 }
@@ -185,9 +187,9 @@ export class DefaultLayoutComponent {
             //   break;
             case "ROLE_ICMS_ADMIN":
               this.navItems.push(navItemsICMSAdmin);
-             
+
               this.dashboardRoute = "icms_dashboard"
-          
+
               break;
             case "ROLE_ICMS_DISTRICT_IC":
               this.navItems.push(navItemsICMSDistrict);
@@ -200,34 +202,34 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
-          
+
               this.dashboardRoute = "default_dashboard"
               break;
-            // case "ROLE_SMS_ADMIN":
-            //     this.navItems.push(navItemsSMSAdmin);
-            //     this.dashboardRoute = "default_dashboard"
-        
+              // case "ROLE_SMS_ADMIN":
+              //     this.navItems.push(navItemsSMSAdmin);
+              //     this.dashboardRoute = "default_dashboard"
+
               break;
             case "ROLE_ICMS_PROVISION":
               this.navItems.push(navItemsICMSProvision);
               this.dashboardRoute = "default_dashboard"
-          
+
               break;
             case "ROLE_ICMS_BRANCH_MANAGER":
               this.navItems.push(navItemsICMSBranchManager);
               this.dashboardRoute = "default_dashboard"
-         
+
               break;
-              case "ROLE_ICMS_BANKING_OPERATION":
-                this.navItems.push(navItemsICMSBankingOperation);
-                this.dashboardRoute = "default_dashboard"
-           
-                break;
-              case "ROLE_ICMS_DISTRICT_DIRECTOR":
-                this.navItems.push(navItemsICMSDistrictDirector);
-                this.dashboardRoute = "default_dashboard"
-           
-                break;
+            case "ROLE_ICMS_BANKING_OPERATION":
+              this.navItems.push(navItemsICMSBankingOperation);
+              this.dashboardRoute = "default_dashboard"
+
+              break;
+            case "ROLE_ICMS_DISTRICT_DIRECTOR":
+              this.navItems.push(navItemsICMSDistrictDirector);
+              this.dashboardRoute = "default_dashboard"
+
+              break;
             case "ROLE_SASV_ADMIN":
               this.navItems.push(navItemsSASVAdmin);
               this.dashboardRoute = "default_dashboard"
@@ -308,6 +310,10 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsAMSDirector);
               this.dashboardRoute = "default_dashboard"
               break;
+            case "ROLE_AMS_AUDITOR":
+              this.navItems.push(navItemsAMSAuditor);
+              this.dashboardRoute = "default_dashboard"
+              break;
             case "ROLE_AMS_DIRECTOR_AUDITEE":
               if (localStorage.getItem("supervisor") === "true") {
                 if (!this.navItems.includes(navItemSupervisor)) {
@@ -321,13 +327,14 @@ export class DefaultLayoutComponent {
               this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_AMS_TEAM_LEADER":
-                this.navItems.push(navItemsAMSTeamLeader);
-                this.dashboardRoute = "default_dashboard"
-                break;
-            
-          }}
+              this.navItems.push(navItemsAMSTeamLeader);
+              this.dashboardRoute = "default_dashboard"
+              break;
+
+          }
         }
-      
+      }
+
     }
   }
 }

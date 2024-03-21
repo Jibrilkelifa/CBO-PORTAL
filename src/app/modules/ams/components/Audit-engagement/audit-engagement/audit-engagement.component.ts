@@ -40,6 +40,9 @@ export class AuditEngagementComponent implements OnDestroy {
 
   public selectedOption: string;
   public dropdownOptions = [];
+  public isManager:boolean;
+  public isTeamLeader:boolean;
+
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -51,6 +54,7 @@ export class AuditEngagementComponent implements OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  private roles = JSON.parse(localStorage.getItem("allRoles"));
   constructor(
     private auditEngagementService: AuditEngagementService,
     private dialogService: DialogService,
@@ -60,6 +64,11 @@ export class AuditEngagementComponent implements OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
+    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
+    console.log("is manager" , this.isManager);
+    console.log(this.roles);
     this.getAllEngagementOfCurrentYear();
     this.cols = [
       { field: 'id', header: 'ID' },
@@ -73,6 +82,10 @@ export class AuditEngagementComponent implements OnDestroy {
       title: col.header,
       dataKey: col.field,
     }));
+
+    
+
+   
   }
 
   getAllEngagementOfCurrentYear(): void {

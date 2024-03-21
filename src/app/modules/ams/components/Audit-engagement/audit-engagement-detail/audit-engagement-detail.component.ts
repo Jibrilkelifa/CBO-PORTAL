@@ -43,7 +43,8 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   public auditPrograms: AuditProgramDTO[] = [];
   public auditWBS: WBS_DTO[] = [];
   public auditFinding: FindingDTO[] = [];
-
+  public isManager:boolean;
+  private roles = JSON.parse(localStorage.getItem("allRoles"));
 
 
   public dropdownOptions = [];
@@ -72,6 +73,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
       this.getAuditProgram(this.auditEngagements[0].id);
     }  
+    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
   }
   getAuditProgram(id:number): void {
     this.subscriptions.push(

@@ -38,7 +38,7 @@ export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
 export let navCC:NavItem;
-
+export let navItemsAMSAuditor:Object;
 
 
 
@@ -212,11 +212,39 @@ navItemsAMSManager =  {
   
 }
 
+navItemsAMSAuditor =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+
+  ],
+  
+}
+
+
 navItemsAMSTeamLeader =  {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
   children: [
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
     {
       name: 'Audit Program',
       url: '/ams/audit-program',
