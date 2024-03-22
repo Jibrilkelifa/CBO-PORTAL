@@ -4,7 +4,7 @@ import { ViewChecklistComponent } from './Check-List/view-checklist/view-checkli
 import { CreateComponent } from './Check-List/create/create.component';
 import { CADCLRoutingModule } from './cadcl-routing.module'
 import { MessagesModule } from 'primeng/messages';
-import { AccordionModule, BadgeModule, BreadcrumbModule, ButtonModule, CardModule, CarouselModule, CollapseModule, DropdownModule, FormModule, GridModule, ListGroupModule, NavModule, PaginationModule, PlaceholderModule, PopoverModule, ProgressModule, SpinnerModule, TabsModule, TooltipModule, UtilitiesModule } from '@coreui/angular';
+import { BadgeModule, BreadcrumbModule, ButtonModule, CardModule, CarouselModule, CollapseModule, FormModule, GridModule, ListGroupModule, NavModule, PaginationModule, PlaceholderModule, PopoverModule, ProgressModule, SpinnerModule, TabsModule, UtilitiesModule } from '@coreui/angular';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService, SharedModule } from 'primeng/api';
@@ -28,7 +28,10 @@ import { DetailComponent } from './Details-Page/detail/detail.component';
 import { ChecklistsComponent } from './Replay-Page/checklists/checklists.component';
 import { RespondePageComponent } from './Replay-Page/responde-page/responde-page.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import { DropdownModule } from 'primeng/dropdown';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { AccordionModule } from 'primeng/accordion';
+import { TooltipModule } from 'primeng/tooltip';
 @NgModule({
   declarations: [
     ViewChecklistComponent,
@@ -45,6 +48,7 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ToastModule,
     ProgressSpinnerModule,
     ConfirmDialogModule,
+    MultiSelectModule,
     CommonModule,
     FormsModule,
     AccordionModule,
@@ -59,7 +63,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ReactiveFormsModule,
     CommonModule,
     FormsModule,
-    AccordionModule,
     BadgeModule,
     BreadcrumbModule,
     AccountRoutingModule,
@@ -80,7 +83,6 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
     ConfirmPopupModule,
     CommonModule,
     FormsModule,
-    AccordionModule,
     BadgeModule,
     BreadcrumbModule,
     ButtonModule,

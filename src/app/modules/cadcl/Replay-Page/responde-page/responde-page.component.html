@@ -1,1 +1,248 @@
-<p>responde-page works!</p>
+<p-toast position="top-right"></p-toast>
+<div class=“caChecklist-details-container”>
+    <div class="details-partition">
+        <div class="col mb-4" style="display: flex; justify-content: space-between;">
+            <div style="width: 50%;">
+                <p>Created date: {{caChecklist?.inquiryReceived}}</p>
+            </div>
+            <div *ngIf="caChecklist?.closed">
+                <p style="color: red;">Closed</p>
+        </div>
+        </div>
+
+        <h2>Request Details</h2>
+        <div class="details-section">
+            <div class="column">
+                <p><strong>Inquiry Type:</strong> <span class="value">{{ caChecklist?.inquiryType || "unknown" }}</span>
+                </p>
+                <p><strong>Category:</strong> <span class="value">{{ caChecklist?.category ||
+                    "unknown" }}</span>
+                <p>
+                    <strong>Description:</strong>
+                    <span class="value-large" [title]="caChecklist?.description">{{
+                        caChecklist?.description ||
+                        "unknown" }}</span>
+                </p>
+                <p><strong>Requested Organ:</strong> <span class="value">{{ caChecklist?.requestedOrgan || "unknown"
+                        }}</span></p>
+                <p><strong>Inquiry Received:</strong> <span class="value">{{ caChecklist?.inquiryReceived || "unknown"
+                        }}</span></p>
+                <p><strong>Number of Accounts Searched:</strong> <span class="value">{{ caChecklist?.numAccountSearched
+                        || "unknown" }}</span></p>
+                <p><strong>Case Owner:</strong> <span class="value">{{ caChecklist?.caseOwner || "unknown" }}</span></p>
+            </div>
+            <div class="column">
+                <p><strong>Deadline:</strong> <span class="value">{{ caChecklist?.deadline || "unknown" }}</span></p>
+                <p><strong>Reference Number:</strong> <span class="value">{{ caChecklist?.referenceNum || "unknown"
+                        }}</span></p>
+                <p><strong>No_ Requested Organs:</strong> <span class="value">{{ caChecklist?.numRequestedOrgans ||
+                        "unknown" }}</span></p>
+                <p><strong>Urgency:</strong> <span class="value">{{ caChecklist?.urgency || "unknown" }}</span></p>
+                <p><strong>Impact:</strong> <span class="value">{{ caChecklist?.impact || "unknown" }}</span></p>
+                <div class="files" style="background-color: whitesmoke; padding: 20px; position: relative;">
+                    <p style="font-size: 1.0em; position: absolute; top: 0; left: 0;">
+                        <strong>Attachments:</strong>
+                    </p>
+                    <div class="col mb-0" style="margin-top: 10px;">
+                        <table class="files-table">
+                            <tbody>
+                                <tr *ngFor="let flink of fileLinks">
+                                    <td>{{ flink.split('/')[3] }}</td>
+                                    <td class="pl-4">
+                                        <button (click)="getFile(flink)" class="file-action-button view-button">
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col" style="text-align: right;">
+                <p-button [label]="buttonLabel" type="button" (click)="toggleForm()"></p-button>
+            </div>
+        </div>
+        <div *ngIf="showForm">
+            <hr>
+
+            <form #addDivForm="ngForm" (ngSubmit)="replay(addDivForm)">
+                
+                <div class="col" style="margin-top: 3em; display: flex; justify-content: space-between">
+                    
+                    <h4 style="text-decoration: underline;">Branch: {{replayChecklist?.branchName || "unknown" }}</h4>
+                    <div style="width: 30%;">
+                        <div *ngIf="replayChecklist?.accepted">
+                            <p style="color: green; font-size: 1rem; text-align: center;">Response accepted</p>
+                        </div>
+                        <div *ngIf="replayChecklist?.rejected">
+                            <p style="color: red; font-size: 1rem;">Response rejected</p>
+                    <p style="color: black; font-size: 1rem; margin: 5%; border: 2px dotted red; text-align: center;">{{replayChecklist?.rejectionReason}}</p>
+                            
+                        </div>
+                        <div
+                            *ngIf="replayChecklist.replayed && !replayChecklist?.rejected && !replayChecklist?.accepted">
+                            <p style="color: blue; font-size: 1rem;">Response under review</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" *ngIf="replayChecklist?.rejected" style="justify-content: center;">
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col mb-0">
+                            <label for="integer" class="block mb-0">Account Number: </label>
+                        </div>
+                        <div class="col mb-0">
+                            <label for="integer" class="block mb-0">Customer Name: </label>
+                        </div>
+                        <div class="col mb-0">
+                            <label for="integer" class="block mb-0">Amount: </label>
+                        </div>
+                        <div class="col mb-0" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
+                            <label for="integer" class="block mb-0"></label>
+                        </div>
+                    </div>
+                    <ul *ngIf="cusInfos">
+                        <li *ngFor="let cuInfo of cusInfos; let i = index">
+                            <div class="row">
+                                <div class="col mb-4">
+                                    <input disabled pInputText id="integer" type="number" pKeyFilter="int"
+                                        value="{{cuInfo.accountNumber}}" name="accountNumber"
+                                        [style]="{'width':'15vw','height':'45px'}" />
+                                </div>
+                                <div class="col mb-4">
+                                    <input disabled pInputText id="integer" pKeyFilter="int" value="{{cuInfo.customerName}}"
+                                        name="customerName" [style]="{'width':'15vw','height':'45px'}" />
+                                </div>
+                                <div class="col mb-3">
+                                    <input disabled pInputText id="integer" pKeyFilter="int" value="{{cuInfo.amount}}"
+                                        name="amount" [style]="{'width':'15vw','height':'45px'}" />
+                                </div>
+                                <div class="col mb-3" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
+                                    <button type="button" class="file-action-button rem-button" (click)="removeCusInfo(i)"
+                                        ><i class="pi pi-times"></i></button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
+                    <div class="col mb-4">
+
+                        <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.accountNumber"
+                            name="accountNumber" [style]="{'width':'15vw','height':'45px'}" />
+                    </div>
+                    <div class="col mb-4">
+                        <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.customerName"
+                            name="customerName" [style]="{'width':'15vw','height':'45px'}" />
+                    </div>
+                    <div class="col mb-3">
+                        <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.amount" name="amount"
+                            [style]="{'width':'15vw','height':'45px'}" />
+                    </div>
+                    <div class="col mb-3" >
+                        <p-button (click)="addCusInfo()" [style]="{'height':'45px'}"><i class="pi pi-plus"
+                                style="color: white"></i></p-button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="integer" class=" block mb-2">Description: </label>
+                        <textarea rows="1" cols="30" pInputTextarea [autoResize]="true"
+                            [ngModel]="replayChecklist.description" name="description"
+                            [style]="{'width':'20vw'}"></textarea>
+                    </div>
+                    <div class="col mb-3">
+                        
+                            <label for="integer" class=" block mb-2">Justification(if any): </label>
+                            <textarea rows="1" cols="30" pInputTextarea [autoResize]="true"
+                                [ngModel]="replayChecklist.justification" name="justification"
+                                [style]="{'width':'20vw'}"></textarea>
+                    </div>
+                    <div class="col mb-4">
+                        <label for="hex" class="block mb-2"> Action Taken:</label>
+                        <p-dropdown [options]="actionTaken" [(ngModel)]="replayChecklist.activityPerformed" name="activityPerformed"
+                            optionLabel="label" placeholder="Select action" [required]="true" (onChange)="onCategoryChange()">
+                        </p-dropdown>
+                        <input class="ml-2" *ngIf="other" pInputText id="action" [ngModel]="replayChecklist.otherActivityPerformed"
+                            name="otherActivityPerformed" placeholder="type here" [style]="{'width':'10vw','height':'45px'}" required />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col mb-3">
+                        <div *ngIf="replayChecklist.replayed" class="files"
+                                        style="background-color: whitesmoke; padding: 20px; position: relative;">
+                                        <p style="font-size: 1.0em; position: absolute; top: 0; left: 0;">
+                                                <strong>Attachments:</strong>
+                                        </p>
+                                        <div class="col mb-0" style="margin-top: 10px;">
+                                                <table class="files-table">
+                                                        <tbody>
+                                                                <tr *ngFor="let flink of replayFileLinks">
+                                                                        <td>{{flink.split("/")[4]}}</td>
+                                                                        <td class="pl-4">
+                                                                            <button type="button" (click)="getFile(flink)"
+                                                                                    class="file-action-button view-button">
+                                                                                    <i class="pi pi-eye"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                        <td class="pl-4" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
+                                                                            <button type="button" (click)="removeCheckListFile(flink)"
+                                                                                    class="file-action-button rem-button">
+                                                                                <i class="pi pi-times"></i>
+                                                                            </button>
+                                                                        </td>
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                                <button *ngIf="!replayChecklist?.accepted && !caChecklist?.closed" type="button" (click)="showFileDialog()" class="addFile">
+                                                        <i class="pi pi-plus"></i> Add File
+                                                </button>
+                                        </div>
+                                        <div *ngIf="showFilepop" class="card flex justify-content-center">
+                                            <p-dialog header="Choice and upload new file" [(visible)]="showFilepop">
+                                                <div class="mb-4 mt-4"
+                                                    style="width: 300px !important; height: 75px !important; text-align: center;">
+                                                    <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
+                                                        url="https://www.primefaces.org/cdn/api/upload.php"
+                                                        accept="image/*,.pdf,.docs,.txt"
+                                                        (onUpload)="onFileUpload($event)"></p-fileUpload>
+                                                </div>
+                                            </p-dialog>
+                                        </div>
+                            </div>
+                        <div *ngIf="!replayChecklist.replayed">
+                            <label for="integer" class="block mb-2 mt-3">Attachments: </label>
+                            <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                                (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
+                                <ng-template pTemplate="toolbar">
+                                    <div class="py-3">Upload 3 Files</div>
+                                </ng-template>
+                                <ng-template pTemplate="content">
+                                    <ul *ngIf="uploadedFiles.length">
+                                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes
+                                        </li>
+                                    </ul>
+                                </ng-template>
+                            </p-fileUpload>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col" style="text-align: right;">
+                    <p style="font-size: medium; font-style: italic;">Note: This response is official.</p>
+                    <div class="buttonDiv">
+                        <p-button *ngIf="newDiv && (!replayChecklist?.accepted && !caChecklist?.closed)" label="Submit" [disabled]="addDivForm.invalid!"
+                            type="submit"></p-button>
+                        <p-button *ngIf="!newDiv && (!replayChecklist?.accepted && !caChecklist?.closed)" label="Update"
+                            [disabled]="addDivForm.invalid!" type="submit"></p-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div #scrollTraget></div>
+</div>

@@ -12,5 +12,5 @@ describe('ChecklistService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-  });
+  });//getCaDailyChecklists
 });

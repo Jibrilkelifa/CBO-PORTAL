@@ -5,7 +5,14 @@ import { NgForm } from '@angular/forms';
 import { CADailyCheckList } from 'src/app/models/cadcl-models/ca-daily-checklist'
 import { ChecklistService } from 'src/app/services/cadcl-services/checklist.service';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { Branch } from 'src/app/modules/sasv/models/branch';
+import { BranchService } from 'src/app/modules/sasv/services/branch-service/branch.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
+interface UploadEvent {
+  originalEvent: Event;
+  files: File[];
+}
 
 @Component({
   selector: 'app-create',
@@ -14,28 +21,72 @@ import { ConfirmationService, MessageService } from 'primeng/api';
   providers: [MessageService, ConfirmationService],
 })
 export class CreateComponent {
-  public cDDailyCheckList:  CADailyCheckList = new CADailyCheckList();
+
+  categories = [
+    { label: 'Order given', value: 'order' },
+    { label: 'Activities', value: 'activities' },
+  ];
+
+  orderItems = [
+    { label: 'Blocking Account', value: 'Blocking Account' },
+    { label: 'Post no Debit', value: 'Post no Debit' },
+    { label: 'Release', value: 'Release' },
+    { label: 'Payment', value: 'Payment' },
+    { label: 'Information Request', value: 'Information Request' },
+    { label: 'Other if any specify', value: 'other' },
+  ];
+
+  activitieItems = [
+    { label: 'Account Opening', value: 'Account Opening' },
+    { label: 'Signatory Change', value: 'Signatory Change' },
+    { label: 'Balance Confirmation', value: 'Balance Confirmation' },
+    { label: 'Insufficient Fund check/NSF', value: 'Insufficient Fund check/NSF' },
+    { label: 'Disseminating  Information', value: 'Disseminating  Information' },
+    { label: 'Other if any specify', value: 'other' },
+  ];
+
+  inquryTypes = [
+    { label: 'Court', value: 'Court' },
+    { label: 'Ministry of Justice', value: 'Ministry of Justice' },
+    { label: 'NBE', value: 'NBE' },
+    { label: 'FIS', value: 'FIS' },
+    { label: 'ERCA', value: 'ERCA' },
+    { label: 'Police', value: 'Police' },
+    { label: 'Other', value: 'other' },
+  ];
+
+  selectedCategory: string;
+  selectedCatItem: string;
+  selectedCatItems: { label: string; value: string; }[];
+  public cDDailyCheckList: CADailyCheckList = new CADailyCheckList();
 
   selectedDDDailyCheckList: CADailyCheckList;
   cDDailyCheckListR: CADailyCheckList[] = [];
 
   update: boolean = false;
   newDiv: boolean = true;
+  other: boolean = false;
+  otherType: boolean = false;
   selectedFile: any;
   imageURL: string;
-
+  public branchList: Branch[] = [];
+  public selectedDropdown: string;
+  public selectedBranches: string[] = [];
   private subscriptions: Subscription[] = [];
 
+  todayDate: Date = new Date();
   constructor(
     private messageService: MessageService,
     private checklistService: ChecklistService,
     private ref: DynamicDialogRef,
-    private config: DynamicDialogConfig
+    private config: DynamicDialogConfig,
+    private branchService: BranchService,
   ) {
-    this.cDDailyCheckList.emails = [];
+    this.cDDailyCheckList.branches = [];
   }
 
   ngOnInit() {
+    this.getBranchList();
     if (this.config.data?.cAChecklist) {
       this.cDDailyCheckList = this.config.data.cAChecklist;
       this.update = true;
@@ -54,18 +105,63 @@ export class CreateComponent {
     }
   }
 
-
+  getBranchList(): void {
+    this.branchService.getBranchList().subscribe(
+      (response: any) => {
+        this.branchList = response.result;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    );
+  }
 
   public addcAChecklist(addDivForm: NgForm): void {
     const formData = new FormData();
-    formData.append('inquiryType', addDivForm?.value.inquiryType);
-    if (this.selectedFile) {
-      formData.append('attachement', this.selectedFile);
+    formData.append('referenceNum', addDivForm?.value.referenceNum);
+    formData.append('inquiryReceived', addDivForm?.value.inquiryReceived);
+    formData.append('deadline', addDivForm?.value.deadline);
+    formData.append('requestedOrgan', addDivForm?.value.requestedOrgan);
+    formData.append('numAccountSearched', addDivForm?.value.numAccountSearched);
+    formData.append('numRequestedOrgans', addDivForm?.value.requestedOrgans);
+    formData.append('numPersonSearched', addDivForm?.value.numPersonSearched)
+    formData.append('description', addDivForm?.value.description);
+    formData.append('caseOwner', localStorage.getItem('name'));
+    formData.append('position', localStorage.getItem('name'));
+    if(this.other){
+      formData.append('category', addDivForm?.value.category);
+    }else{
+      formData.append('category', addDivForm?.value.category.value);
     }
 
+    if (this.otherType) {
+      formData.append('inquiryType', addDivForm?.value.otherInquiryType)
+    }else{
+      formData.append('inquiryType', addDivForm?.value.inquiryType.value)
+    }
+
+    console.log(this.uploadedFiles);
+
+    for (let index = 0; index < this.uploadedFiles.length; index++) {
+      console.log(`file${index + 1}`, this.uploadedFiles[index]);
+
+      formData.append(`file${index + 1}`, this.uploadedFiles[index]);
+    }
+    console.log(addDivForm.value.branches);
+
+    var branches = '';
+    for (let index = 0; index < addDivForm.value.branches.length; index++) {
+      branches += `${addDivForm.value.branches[index].id}:${addDivForm.value.branches[index].name},`;
+    }
+
+    formData.append('branchIds', branches);
+
+    formData.forEach(function (value, key) {
+      console.log(key + ": " + value);
+    });
     this.subscriptions.push(
       this.checklistService
-        .addCaDailyChecklist(addDivForm.value)
+        .addCaDailyChecklist(formData)
         .subscribe((response: any) => {
           this.messageService.clear();
           this.ref.close(response);
@@ -112,19 +208,13 @@ export class CreateComponent {
     }
   }
 
-  email = '';
+  uploadedFiles: any[] = [];
 
-  addEmail() {
-    if (this.email && !this.cDDailyCheckList.emails.includes(this.email)) {
-        this.cDDailyCheckList.emails.push(this.email);
-        this.email = '';
+  onUpload(event: UploadEvent) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
     }
-    console.log(this.cDDailyCheckList.emails);
-    
-  }
-
-  removeEmail(index: number) {
-      this.cDDailyCheckList.emails.splice(index, 1);
+    console.log(this.uploadedFiles);
   }
 
   ngOnDestroy() {
@@ -135,5 +225,31 @@ export class CreateComponent {
 
   public closeDialog(): void {
     this.ref.close();
+  }
+
+  onCategoryChange() {
+    this.selectedCatItems = [];
+    if (this.cDDailyCheckList.catagoryMain['value'] == 'order') {
+      this.selectedCatItems = this.orderItems;
+      this.other = false;
+      if(this.cDDailyCheckList.category["value"] == 'other'){
+        this.cDDailyCheckList.category = '';
+        this.other = true;
+      }
+    } else {
+      this.selectedCatItems = this.activitieItems;
+      this.other = false;
+      if(this.cDDailyCheckList.category["value"] == 'other'){
+        this.cDDailyCheckList.category = '';
+        this.other = true;
+      }
+    }
+  }
+
+  onTypeChange() {
+    this.otherType = false;
+    if(this.cDDailyCheckList.inquiryType["value"] == 'other'){
+      this.otherType = true;
+    }
   }
 }

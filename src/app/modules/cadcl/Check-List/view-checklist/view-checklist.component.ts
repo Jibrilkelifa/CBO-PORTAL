@@ -44,17 +44,6 @@ export class ViewChecklistComponent {
 
   ngOnInit() {
     this.getcaChecklists();
-    this.cols = [
-      { field: 'id', header: 'ID' },
-      { field: 'name', header: 'Name' },
-      { field: 'description', header: 'Description' },
-      { field: 'auditableAreaName', header: 'Auditable area' },
-    ];
-
-    this.exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
   }
 
   getcaChecklists(): void {
@@ -75,7 +64,7 @@ export class ViewChecklistComponent {
 
   createNewcaChecklist(): void {
     const ref = this.dialogService.open(CreateComponent, {
-      header: 'Create a new CA Daily Checklist',
+      header: 'Create a new CAO Inquiry/Activity Checklist',
       width: '60%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
@@ -100,7 +89,7 @@ export class ViewChecklistComponent {
   }
 
   viewHistory(id: number) {
-    this.router.navigate(['cadcl/checklists/update/', id]);
+    this.router.navigate(['cao/checklists/update/', id]);
   }
 
   updatecaChecklist(id: number): void {

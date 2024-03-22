@@ -664,24 +664,17 @@ navItemsECXUser = {
 }
 
 navItemsCADCLAdmin = {
-  name: 'CADCL',
-  url: '/cadcl',
+  name: 'CAO',
+  url: '/cao',
   iconComponent: { name: 'cil-credit-card' },
   children: [
     {
-      name: 'Checklists',
-      url: '/cadcl/checklists',
-      iconComponent: { name: 'cil-wallet' },
-      children: [
-        {
-          name: 'View',
-          url: '/cadcl/checklists/checklist'
-        },
-        {
-          name: 'Summery',
-          url: '/cadcl/checklists/accountTable',
-        },
-      ]
+      name: 'View',
+      url: '/cao/checklists/checklist'
+    },
+    {
+      name: 'My Checklists',
+      url: '/cao/checklists/my-checklists',
     },
   ]
 }
