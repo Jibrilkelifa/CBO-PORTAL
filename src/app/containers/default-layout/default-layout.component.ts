@@ -32,7 +32,9 @@ import {
   navItemAdmin,
   navItemWeeklyCheck,
   complianceCheckMenu,
-  navItemsCADCLAdmin
+  navItemsCAOAdmin,
+  navItemsCAOUser
+
 } from './_nav';
 
 @Component({
@@ -41,7 +43,6 @@ import {
 })
 export class DefaultLayoutComponent {
   
-
   public navItems = [];
   public dashboardRoute: string = ""
 
@@ -252,7 +253,6 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ECX_ADMIN":
               this.navItems.push(navItemsECXAdmin);
-              this.navItems.push(navItemsCADCLAdmin);
               this.dashboardRoute = "default_dashboard"
               if (localStorage.getItem("supervisor") === "true") {
                 if (!this.navItems.includes(navItemSupervisor)) {
@@ -262,7 +262,6 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ECX_USER":
               this.navItems.push(navItemsECXUser);
-              this.navItems.push(navItemsCADCLAdmin);
               this.dashboardRoute = "default_dashboard"
               if (localStorage.getItem("supervisor") === "true") {
                 if (!this.navItems.includes(navItemSupervisor)) {
@@ -270,6 +269,25 @@ export class DefaultLayoutComponent {
                 }
               }
               break;
+            
+              case "ROLE_CAO_ADMIN":
+                this.navItems.push(navItemsCAOAdmin);
+                this.dashboardRoute = "default_dashboard"
+                if (localStorage.getItem("supervisor") === "true") {
+                  if (!this.navItems.includes(navItemSupervisor)) {
+                    this.navItems.push(navItemSupervisor);
+                  }
+                }
+                break;
+              case "ROLE_CAO_USER":
+                this.navItems.push(navItemsCAOUser);
+                this.dashboardRoute = "default_dashboard"
+                if (localStorage.getItem("supervisor") === "true") {
+                  if (!this.navItems.includes(navItemSupervisor)) {
+                    this.navItems.push(navItemSupervisor);
+                  }
+                }
+                break;
             case "ROLE_CMS_ADMIN":
               this.navItems.push(navItemsCMSAdmin);
               this.dashboardRoute = "cms_dashboard"

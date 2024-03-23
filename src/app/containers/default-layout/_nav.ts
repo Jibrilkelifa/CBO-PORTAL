@@ -28,7 +28,8 @@ export let navItemsSASVUser: Object;
 export let navItemsMemoAdmin: Object;
 export let navItemsMemoUser: Object;
 export let navItemsECXAdmin: Object;
-export let navItemsCADCLAdmin: object;
+export let navItemsCAOAdmin: object;
+export let navItemsCAOUser: object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
@@ -663,7 +664,7 @@ navItemsECXUser = {
 
 }
 
-navItemsCADCLAdmin = {
+navItemsCAOAdmin = {
   name: 'CAO',
   url: '/cao',
   iconComponent: { name: 'cil-credit-card' },
@@ -672,14 +673,19 @@ navItemsCADCLAdmin = {
       name: 'View',
       url: '/cao/checklists/checklist'
     },
+  ]
+}
+
+navItemsCAOUser = {
+  name: 'CAO',
+  url: '/cao',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
     {
       name: 'My Checklists',
       url: '/cao/checklists/my-checklists',
     },
   ]
-}
-navItemsECXUser = {
-
 }
 
 navItemsSASVAdmin = {
