@@ -68,7 +68,7 @@ export class RespondePageComponent {
     console.log('branch ',branch);
 
     this.subscriptions.push(
-      this.caResponseService.getBranchCaDailyChecklistById(id,"ET0010222").subscribe(
+      this.caResponseService.getBranchCaDailyChecklistById(id,branch).subscribe(
         (response: any) => {
           this.caChecklist = response;
           this.replayChecklist = this.caChecklist?.replyCheckLists[0];

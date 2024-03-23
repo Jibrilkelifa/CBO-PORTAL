@@ -33,7 +33,7 @@ export class ChecklistsComponent {
     console.log('branch ',branch);
     
     this.subscriptions.push(
-      this.caChecklistService.getCaDailyChecklistsOfBranch("ET0010222").subscribe(
+      this.caChecklistService.getCaDailyChecklistsOfBranch(branch).subscribe(
         (response: any) => {
           console.log(response);
           
