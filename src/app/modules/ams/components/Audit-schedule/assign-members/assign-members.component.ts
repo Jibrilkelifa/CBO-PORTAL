@@ -49,7 +49,7 @@ export class AssignMembersComponent {
 
   addRow() {
     const lastRow = this.rows[this.rows.length - 1];
-    if (!lastRow || (lastRow.auditStaffDTO && lastRow.auditStaffDTO.user && lastRow.teamRole)) {
+    if (!lastRow || (lastRow.auditStaffDTO && lastRow.auditStaffDTO.employeeId && lastRow.teamRole)) {
       this.rows.push(new TeamMemberDTO());
     }
   }
@@ -61,7 +61,8 @@ export class AssignMembersComponent {
   }
 
   areAllRowsFilled(): boolean {
-    return this.rows.every(row => row.auditStaffDTO && row.auditStaffDTO.user && row.teamRole);
+  
+    return this.rows.every(row => row.auditStaffDTO && row.auditStaffDTO.employeeId && row.teamRole);
   }
 
   getActiveAuditStaffs(): void {
@@ -69,6 +70,7 @@ export class AssignMembersComponent {
       this.auditStaffService.getActiveAuditStaff().subscribe(
         (response: any) => {
           this.auditStafflist = response.result;
+          console.log("these are auditstafdf", this.auditStafflist);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -80,7 +82,7 @@ export class AssignMembersComponent {
   saveAssignedRolesAndMembers() {
     this.savedAssignmembers = [];
     for (let row of this.rows) {
-      if (row.auditStaffDTO.user && row.teamRole) {
+      if (row.auditStaffDTO.employeeId && row.teamRole) {
         row.auditScheduleId = this.auditScheduleInfo.id;
         row.perdium = 1;
         this.savedAssignmembers.push(row);

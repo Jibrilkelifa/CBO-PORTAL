@@ -50,7 +50,7 @@
         <h6 class="font-bold text-lg underline text-blue-600">Assigned auditors</h6>
         <ng-container *ngFor="let teamMember of auditScheduleInfo?.teamMembers; let i = index">
           <div>
-            {{ i + 1 }}. {{ teamMember.auditStaffDTO?.user?.employee?.fullName }}
+            {{ i + 1 }}. {{ teamMember.auditStaffDTO?.fullName }}
           </div>
         </ng-container>
       </div>

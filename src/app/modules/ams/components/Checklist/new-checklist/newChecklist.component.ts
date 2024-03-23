@@ -40,8 +40,10 @@ export class NewCheckListComponent implements OnDestroy {
       this.update = true;
       this.newDiv = false;
     }
+
     if (this.config.data?.auditableArea) {
-      this.auditableArea = this.config.data.auditableArea;      
+      this.auditableArea = this.config.data.auditableArea;     
+   
     }
   }
 

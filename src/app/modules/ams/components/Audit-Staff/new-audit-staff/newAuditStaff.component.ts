@@ -11,6 +11,7 @@ import { UserDTO } from '../../../models/userDTO';
 import { AMSUsersService } from '../../../services/ams-users/ams-users.service';
 import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
 import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
+import { EmployeeService } from 'src/app/services/sso-services/employee.service';
 
 @Component({
   selector: 'newAuditStaff',
@@ -19,15 +20,21 @@ import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditT
   providers: [MessageService, ConfirmationService],
 })
 export class NewAuditStaffComponent implements OnDestroy {
+
+  previousTerm: string = "";
+  baseVariable: any;
   public auditTypes: AuditType[] = [];
   public AMSUsers: AuditStaffDTO[] = [];
   statusOptions: any;
+  selectedEmployee: any;
+
 
   public auditStaffInfo: AuditStaffDTO = new AuditStaffDTO();
   selectedUserInfo: UserDTO;
   public selectedAuditType: any;
 
   private subscriptions: Subscription[] = [];
+  searchedEmployees: any;
 
   update: boolean = false;
   newDiv: boolean = true;
@@ -40,6 +47,7 @@ export class NewAuditStaffComponent implements OnDestroy {
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
     private dialogService: DialogService,
+    private employeeService: EmployeeService,
   ) { }
 
   ngOnInit() {
@@ -80,6 +88,11 @@ export class NewAuditStaffComponent implements OnDestroy {
 
 
   submitAuditStaff(auditStaffForm: NgForm): void {
+    
+    auditStaffForm.value.employeeId = this.selectedEmployee.employeeId;
+    auditStaffForm.value.fullName = this.selectedEmployee.employeeFullName;
+    // console.log(auditStaffForm.value);
+    // console.log(this.selectedEmployee);
     if (this.update) {
       this.updateAMSStaff(auditStaffForm);
     } else {
@@ -136,6 +149,41 @@ export class NewAuditStaffComponent implements OnDestroy {
       }
     });
   }
+
+  getEmployeeData(event: any) {
+
+    const searchTerm = event.query;
+    if (searchTerm.length == 0) {
+      this.previousTerm = "";
+    }
+    if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+      this.employeeService.getEmployeesByName(searchTerm).subscribe(
+        (response: any) => {
+          this.searchedEmployees = response;
+          this.baseVariable = this.searchedEmployees;
+
+
+
+        }
+      )
+    }
+    if (searchTerm.length > 3) {
+      if (this.previousTerm.length > searchTerm.length) {
+        this.searchedEmployees = this.baseVariable;
+      }
+      this.searchedEmployees = this.searchedEmployees.filter(searchedEmployee => searchedEmployee.fullName.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    this.previousTerm = searchTerm;
+  }
+
+
+  onEmployeeSelect(event: any) {
+    // 'event' contains the selected employee object
+    this.selectedEmployee = event;
+    // You can perform additional actions if needed
+    console.log('Selected Employee:', this.selectedEmployee);
+  }
+
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

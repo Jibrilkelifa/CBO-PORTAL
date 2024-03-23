@@ -140,6 +140,7 @@ export class AuditObjectDetailComponent {
   }
 
   createNewChecklist(): void {
+
     const ref = this.dialogService.open(NewCheckListComponent, {
       header: 'Create a new checklist',
       width: '50%',

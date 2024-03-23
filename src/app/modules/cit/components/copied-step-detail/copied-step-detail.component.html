@@ -1,0 +1,46 @@
+<head>
+    <style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table, th, td {
+        border: 1px solid #2ebbef;
+        padding: 15px;
+        text-align: left;
+      }
+      </style>
+      </head>
+      <body>
+      
+      <h2>COB Step Copied</h2>
+      
+      <table>
+        <tr>
+          <th>Username</th>
+          <th>Date Time</th>
+     
+          <th>Command Copied</th>
+          <th>Type</th>
+          
+        </tr>
+        <tr>
+          <td>{{cobStepCopied.userName}}</td>
+          <td>{{cobStepCopied.dateTime}}</td>
+         
+          <td>{{cobStepCopied.commandCopied}}</td>
+          <td>{{cobStepCopied.type}}</td>
+          
+        </tr>
+      </table>
+    <br>
+    
+
+      
+
+    
+    
+    
+     
+    
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>

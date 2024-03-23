@@ -12,6 +12,7 @@ import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { DatePipe } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { NewAuditEngagementComponent } from '../../Audit-engagement/new-audit-engagement/newAuditEngagement.component';
+import { AuditStaffService } from '../../../services/audit-staff/audit-staff.service';
 
 interface ExportColumn {
   title: string;
@@ -47,12 +48,15 @@ export class AuditScheduleComponent implements OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  public auditStaff:string;
+
   constructor(
     private auditPlanService: AnnualPlanService,
     private auditScheduleService: AuditScheduleService,
     private dialogService: DialogService,
     private messageService: MessageService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private auditStaffService: AuditStaffService
   ) { }
 
   ngOnInit() {
@@ -71,6 +75,11 @@ export class AuditScheduleComponent implements OnDestroy {
       title: col.header,
       dataKey: col.field,
     }));
+
+   
+    this.getAuditStaffId(localStorage.getItem("id"));
+    console.log(localStorage.getItem("auditStaffId"), "here please")
+  
   }
 
 
@@ -85,8 +94,8 @@ export class AuditScheduleComponent implements OnDestroy {
               ...schedule,
               startOn: this.datePipe.transform(schedule.startOn, 'MMMM d, y'),
               endOn: this.datePipe.transform(schedule.endOn, 'MMMM d, y'),
-              leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
-              memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
+              leaderName: leader?.auditStaffDTO?.fullName || '',
+              memberNames: members.map(member => member.auditStaffDTO?.fullName).join(', ') || ''
             };
           });
 
@@ -164,8 +173,8 @@ export class AuditScheduleComponent implements OnDestroy {
                   ...schedule,
                   startOn: this.datePipe.transform(schedule.startOn, 'MMMM d, y'),
                   endOn: this.datePipe.transform(schedule.endOn, 'MMMM d, y'),
-                  leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
-                  memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
+                  leaderName: leader?.auditStaffDTO?.fullName || '',
+                  memberNames: members.map(member => member.auditStaffDTO?.fullName).join(', ') || ''
                 };
               });
             }
@@ -178,13 +187,13 @@ export class AuditScheduleComponent implements OnDestroy {
   }
   getLeaderName(auditSchedule: AuditScheduleDTO): string {
     const leader = auditSchedule?.teamMembers.find(member => member.teamRole === 'Leader');
-    return leader?.auditStaffDTO?.user?.employee?.fullName || '';
+    return leader?.auditStaffDTO?.fullName || '';
   }
 
   getMemberNames(auditSchedule: AuditScheduleDTO): string {
     const members = auditSchedule?.teamMembers
       .filter(member => member.teamRole === 'Member')
-      .map(member => member.auditStaffDTO?.user?.employee?.fullName);
+      .map(member => member.auditStaffDTO?.fullName);
     return members?.join('\n') || '';
   }
 
@@ -214,6 +223,20 @@ export class AuditScheduleComponent implements OnDestroy {
       }
     });
   }
+
+  getAuditStaffId(employeeId: string) {
+    
+    this.auditStaffService.getAuditStaffByEmployeeId(employeeId).subscribe(
+      (response: any) => {
+         localStorage.setItem("auditStaffId", response);
+     
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    )
+
+}
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

@@ -16,6 +16,8 @@ export class AuditStaffService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
+    //prodip
+    // this.apiServiceUrl = 'http://localhost:8099';
     this.apiServiceUrl = 'http://10.1.125.58:8099';
   }
 
@@ -34,6 +36,13 @@ export class AuditStaffService {
     return this.http.get<any>(
       `${this.apiServiceUrl}/ams/auditStaff/listActive`,
       this.httpOptions
+    );
+  }
+
+  public getAuditStaffByEmployeeId(employeeId: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditStaff/findByUserId/${employeeId}`, this.httpOptions
     );
   }
 

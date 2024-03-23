@@ -88,6 +88,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
   addAuditSchedule(addDivForm: NgForm): void {
     const auditSchedule: AuditScheduleDTO = addDivForm.value;
     auditSchedule.annualPlan = this.annualPlan;
+    auditSchedule.auditeesOrganID = 1;
     this.subscriptions.push(
       this.auditScheduleService.addAuditSchedule(auditSchedule).subscribe(
         (response: any) => {
@@ -123,6 +124,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
     this.assignMembersDialogRef.onClose.subscribe((teamMembers) => {
       if (teamMembers) {
         this.savedAssignmembers = teamMembers;
+        console.log(teamMembers);
         this.cdref.detectChanges();
       }
     });

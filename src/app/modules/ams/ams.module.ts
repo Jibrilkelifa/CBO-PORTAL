@@ -54,7 +54,7 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule,BadgeModule,BreadcrumbModule,CardModule,CollapseModule,GridModule,UtilitiesModule,SharedModule,ListGroupModule,PlaceholderModule,ProgressModule,SpinnerModule,TabsModule,NavModule, CarouselModule,FormModule,PaginationModule,PopoverModule} from '@coreui/angular';
 import { FileUploadModule } from "primeng/fileupload";
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
   declarations: [
@@ -94,6 +94,7 @@ import { FileUploadModule } from "primeng/fileupload";
     Report,
     ReportList,
     ReportDisplay,
+    
 
     
   ],
@@ -138,7 +139,8 @@ import { FileUploadModule } from "primeng/fileupload";
     CalendarModule,
     CheckboxModule,
     CKEditorModule,
-    FileUploadModule
+    FileUploadModule,
+    AutoCompleteModule
     
   ],
   providers: [ConfirmationService, MessageService, DialogService,DatePipe],

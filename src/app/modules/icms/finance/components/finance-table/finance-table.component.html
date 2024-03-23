@@ -1,0 +1,115 @@
+<p-toast position="top-right"></p-toast>
+<div class="flex justify-between mb-3">
+  <div class="flex">
+    <span class="p-input-icon-left ml-auto">
+      <input
+        pInputText
+        type="text"
+        (input)="dt.filterGlobal($any($event.target)?.value, 'contains')"
+        placeholder="Search here"
+      />
+    </span>
+  </div>
+</div>
+<div class="card">
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Finance Table</h5>
+  <p-table
+    #dt
+    [columns]="cols"
+    [value]="FinanceList"
+    [exportHeader]="'customExportHeader'"
+    selectionMode="single"
+    dataKey="id"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rows]="5"
+    [globalFilterFields]="[
+    'financeDate',
+    'caseId',
+    'accountNumber',
+    'productTypes.name',
+    'allCategory.name',
+    'allSubCategory.name',
+    'irregularity',
+    'amount',
+    'responsiblePerson',
+    'status.name',
+  ]"
+    [rowsPerPageOptions]="[5, 10, 15, 20]"
+    [paginator]="true"
+    stateStorage="session"
+    stateKey="statedemo-session"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id">ID</th>
+        <th pSortableColumn="financeDate">
+          Date
+          <p-sortIcon field="financeDate"></p-sortIcon>
+        </th>
+        <th pSortableColumn="caseId">
+          Case ID
+          <p-sortIcon field="caseId"></p-sortIcon>
+        </th>
+        <th pSortableColumn="accountNumber">
+          Account Number
+          <p-sortIcon field="accountNumber"></p-sortIcon>
+        </th>
+        <th pSortableColumn="allCategory.name">
+          Category
+          <p-sortIcon field="allCategory.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="allSubCategory.name">
+          Sub-category
+          <p-sortIcon field="allSubCategory.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="irregularity">
+          Irregularity
+          <p-sortIcon field="irregularity"></p-sortIcon>
+        </th>
+        <th pSortableColumn="amount">
+          Amount
+          <p-sortIcon field="amount"></p-sortIcon>
+        </th>
+        <th pSortableColumn="responsiblePerson">
+          Responsible Person
+          <p-sortIcon field="responsiblePerson"></p-sortIcon>
+        </th>
+        <th pSortableColumn="status.name">
+          Status
+          <p-sortIcon field="status.name"></p-sortIcon>
+        </th>
+        <th scope="col">Actions</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-FinanceList let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="FinanceList">
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ FinanceList?.financeDate }}</td>
+        <td>{{ FinanceList?.caseId }}</td>
+        <td>{{ FinanceList?.accountNumber }}</td>
+        <td>{{ FinanceList?.allCategory?.name }}</td>
+        <td>{{ FinanceList?.allSubCategory?.name }}</td>
+        <td>{{ FinanceList?.irregularity }}</td>
+        <td>{{ FinanceList?.amount }}</td>
+        <td>{{ FinanceList?.responsiblePerson }}</td>
+        <td>{{ FinanceList?.status?.name }}</td>
+        <td>
+          <div class="flex gap-2">
+            <button
+              pButton
+              (click)="updateFinace(FinanceList.id)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-20 h-10 p-2"
+              label="Update"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No records found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

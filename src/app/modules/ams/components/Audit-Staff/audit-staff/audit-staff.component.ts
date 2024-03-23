@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { AuditStaffDTO } from '../../../models/auditStaff';
 import { AuditStaffService } from '../../../services/audit-staff/audit-staff.service';
+import { EMSService } from 'src/app/services/ems-services/ems-services.service';
 
 interface ExportColumn {
   title: string;
@@ -37,11 +38,13 @@ export class AuditStaffComponent implements OnDestroy {
   constructor(
     private auditStaffService: AuditStaffService,
     private dialogService: DialogService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private emsService: EMSService
   ) { }
 
   ngOnInit() {
     this.getAuditStaffs();
+
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'fullName', header: 'Name' },
@@ -60,6 +63,7 @@ export class AuditStaffComponent implements OnDestroy {
       this.auditStaffService.getAllAuditStaff().subscribe(
         (response: any) => {
           this.auditStaff = response.result;
+          console.log(this.auditStaff);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -67,6 +71,22 @@ export class AuditStaffComponent implements OnDestroy {
       )
     );
   }
+  getName(id:string){
+    this.subscriptions.push(
+      this.emsService.getEmployeeByIdForStaff(id).subscribe(
+        (response: any) => {
+          this.auditStaff = response.result;
+          console.log(this.auditStaff);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+ 
+  }
+
+
 
   createNewAuditStaff(): void {
     const ref = this.dialogService.open(NewAuditStaffComponent, {
@@ -143,7 +163,7 @@ export class AuditStaffComponent implements OnDestroy {
         const doc = new jsPDF.default('p', 'px', 'a4');
         const data = this.auditStaff.map((staff, index) => ({
           ID: index + 1,
-          Name: staff.user.employee.fullName,
+          Name: staff?.fullName,
           'Audit Type': staff.auditType.name,
           Status: staff.status,
         }));
@@ -166,7 +186,7 @@ export class AuditStaffComponent implements OnDestroy {
 
     const data = this.auditStaff.map((staff, index) => ({
       ID: index + 1,
-      Name: staff.user.employee.fullName,
+      Name: staff.fullName,
       'Audit Type': staff.auditType.name,
       Status: staff.status,
     }));
@@ -200,7 +220,7 @@ export class AuditStaffComponent implements OnDestroy {
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
       const data = this.auditStaff.map((staff, index) => ({
         Id: index + 1,
-        'Employee Name': staff.user.employee.fullName,
+        'Employee Name': staff.fullName,
         Name: staff.auditType.name,
         Status: staff.status
       }));

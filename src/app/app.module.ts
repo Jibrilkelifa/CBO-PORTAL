@@ -54,6 +54,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { LoginComponent } from './modules/sso/login/login.component';
 
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };

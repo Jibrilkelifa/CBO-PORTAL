@@ -10,6 +10,7 @@ import * as FileSaver from 'file-saver';
 import { NewAuditScheduleComponent } from '../../Audit-schedule/new-audit-schedule/newAuditSchedule.component';
 import { NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+// import { AngleUpIcon } from 'primeng/icons/angleup';
 
 interface Column {
   field: string;
@@ -112,6 +113,9 @@ export class AnnualPlanComponent {
   }
 
   addToAuditSchedule(annualPlan: AnnualPlanDTO): void {
+ 
+ 
+  
     const ref = this.dialogService.open(NewAuditScheduleComponent, {
       header: 'Create a new audit schedule',
       draggable: true,
