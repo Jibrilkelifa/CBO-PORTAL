@@ -31,7 +31,7 @@ export class UploadComponent {
   placeHolderText:string;
   public date: Date;
   stateOptions: any[] = [{label: 'Id', value: true}, {label: 'Tin', value: false}];
-  
+
 
   IdSelected: boolean = true;
   Accortin: string;
@@ -139,8 +139,8 @@ export class UploadComponent {
 
   startDeleting(position: string,data:any) {
 
-   
-  
+
+
     this.position = position;
     if(this.isUserFound){
       this.acceptLabel = "Yes";
@@ -149,12 +149,12 @@ export class UploadComponent {
       } else if (this.type == "business"){
         this.ConfirmationMessage = "Do you want to delete "  + this.BusinessContinuityCustomerNameGotById
       }
-     
+
       this.rejectLabel = "No"
     }  else {
       this.ConfirmationMessage = "Sorry We can't find custer with that id"
       this.rejectLabel = "OK"
-     
+
     }
 
     this.confirmationService.confirm({
@@ -165,10 +165,10 @@ export class UploadComponent {
         rejectLabel:this.rejectLabel,
         acceptVisible:this.isUserFound,
         accept: () => {
-           
-         
+
+
               this.deleteCustomer(data);
-      
+
             this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record deleted' ,life:5000});
         },
         reject: (type: ConfirmEventType) => {
@@ -187,11 +187,11 @@ export class UploadComponent {
 public createCustomer(data:any){
   data.value.rlog_create_user_name = localStorage.getItem('username');
   if (this.type == 'deliquent') {
- 
+
 
     this.sanctionListService.postDeliquentCustomer(data.value).subscribe(
       (response:Deliquent_) => {
-  
+
         this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully' ,life:5000}];
 
       },
@@ -201,16 +201,16 @@ public createCustomer(data:any){
       }
    );
   } else if(this.type == 'business'){
-         
-        data.value.account_number = data.value.tin_Account;
-           
 
-   
+        data.value.account_number = data.value.tin_Account;
+
+
+
            this.sanctionListService.postBusinessContinuityCustomer(data.value).subscribe(
              (response:NbeBlackList) => {
-         
+
                this.messages = [{ severity: 'success', summary: 'Customer Add', detail: 'Customer Added Successfully' ,life:5000}];
-       
+
              },
              (error:HttpErrorResponse) => {
              //  alert(error.message);
@@ -228,9 +228,9 @@ public deleteCustomer(data:any){
          if(this.IdSelected){
           this.sanctionListService.deleteDeliquentCustomer(data).subscribe(
             (response:Deliquent_) => {
-        
-                 
-        
+
+
+
             },
             (error:HttpErrorResponse) => {
              alert(error.message);
@@ -239,9 +239,9 @@ public deleteCustomer(data:any){
          } else{
           this.sanctionListService.deleteDeliquentCustomerByTin(data).subscribe(
             (response:Deliquent_) => {
-        
-                 
-        
+
+
+
             },
             (error:HttpErrorResponse) => {
              alert(error.message);
@@ -252,17 +252,17 @@ public deleteCustomer(data:any){
 
     this.sanctionListService.deleteBusinessContinuityCustomer(data).subscribe(
       (response:NbeBlackList) => {
-  
-   
-  
+
+
+
       },
       (error:HttpErrorResponse) => {
        alert(error.message);
       }
    );
-    
+
   }
-  
+
 
 }
 
@@ -278,19 +278,19 @@ public deleteCustomer(data:any){
         console.log("got this by id");
         const response = await this.sanctionListService.getDeliquentCustomerById(data).toPromise();
         this.DeliquentCustomerNameGotById = response;
-      
+
         this.isUserFound = true;
         return this.DeliquentCustomerNameGotById;
       } else{
         console.log("got this by tin");
         const response = await this.sanctionListService.getDeliquentCustomerByTin(data).toPromise();
         this.DeliquentCustomerNameGotById = response;
-      
+
         this.isUserFound = true;
         return this.DeliquentCustomerNameGotById;
       }
-      
-     
+
+
     } catch (error) {
       console.log(error);
      this.isUserFound = false;
@@ -301,7 +301,7 @@ public deleteCustomer(data:any){
     try {
       const response = await this.sanctionListService.getBusinessContinuityById(data).toPromise();
       this.BusinessContinuityCustomerNameGotById = response;
-    
+
       this.isUserFound = true;
       return this.BusinessContinuityCustomerNameGotById;
     } catch (error) {

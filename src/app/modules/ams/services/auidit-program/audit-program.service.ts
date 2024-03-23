@@ -19,7 +19,9 @@ export class AuditProgramService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://10.1.125.58:8099';
+    this.apiServiceUrl = localStorage.getItem('url_9');
+       // prodip
+      //  this.apiServiceUrl = 'http://localhost:8099';
   }
 
   constructor(private http: HttpClient) {}
@@ -40,8 +42,6 @@ export class AuditProgramService {
     );
   }
 
-
-
   public addAuditProgram(auditProgram: AuditProgramDTO): Observable<any> {
     this.init();
     return this.http.post(
@@ -50,11 +50,6 @@ export class AuditProgramService {
       this.httpOptions
     );
   }
-
-  // public updateAuditUniverse(auditUniverse: AuditProgramDTO): Observable<any>{
-  //   this.init();
-  //   return this.http.post(`${this.apiServiceUrl}/ams/auditUniverse/update`, auditUniverse, this.httpOptions)
-  // }
 
   public loadAuditProgram(id: number): Observable<any> {
     const url = `${this.apiServiceUrl}/ams/auditProgram/changeStatus/findById/${id}`;

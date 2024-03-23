@@ -18,6 +18,7 @@ import { FindingDTO } from '../../../models/finding';
 import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
 import { NewAuditFindingsCommentComponent } from '../../audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
 import { Router } from '@angular/router';
+import { AuditReportService } from '../../../services/audit-report/audit-report.service';
 
 
 
@@ -37,11 +38,13 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
 
+
   public auditEngagements: AuditEngagementDTO[] = [];
   public auditPrograms: AuditProgramDTO[] = [];
   public auditWBS: WBS_DTO[] = [];
   public auditFinding: FindingDTO[] = [];
-
+  public isManager:boolean;
+  private roles = JSON.parse(localStorage.getItem("allRoles"));
 
 
   public dropdownOptions = [];
@@ -61,7 +64,8 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     private messageService: MessageService,
     private auditWBSService: AuditWBSService,
     private auditFindingService: AuditFindingService,
-    private router: Router
+    private router: Router,
+    private auditReportService: AuditReportService
   ) { }
 
   ngOnInit() {
@@ -69,6 +73,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
       this.getAuditProgram(this.auditEngagements[0].id);
     }  
+    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
   }
   getAuditProgram(id:number): void {
     this.subscriptions.push(
@@ -292,10 +297,32 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   }
 
   goToGenerateReport(auditEngagement: AuditEngagementDTO) {
+    
+    this.auditReportService.generateReport1(auditEngagement?.auditSchedule?.id).subscribe(data => {
+      
+      localStorage.setItem('thebigjson', JSON.stringify(data));
+    
+    }, error => {
+      console.error(error);
+    });
      
     localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
     this.router.navigate(['ams/report']);
   }
+  addAttachement(auditFinding: any) {
+  
+  
+    this.subscriptions.push(
+      this.auditFindingService.addAttachement(auditFinding).subscribe(
+        (response: any) => {
+          console.log("Successifully Added Attachement");
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+    }
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

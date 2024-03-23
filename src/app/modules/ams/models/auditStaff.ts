@@ -4,7 +4,10 @@ import { BaseModel } from "./base";
 
 export class AuditStaffDTO extends BaseModel {
     auditType : AuditType;
-    user : UserDTO;
+    employeeId : string;
+    fullName : string;
     status : string;
 }
+
+
  

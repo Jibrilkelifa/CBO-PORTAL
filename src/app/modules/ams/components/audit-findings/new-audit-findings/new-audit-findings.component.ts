@@ -12,6 +12,7 @@ import { FindingDTO } from '../../../models/finding';
 import { AuditableAreasDTO } from '../../../models/auditableAreas';
 import { AuditableAreasService } from '../../../services/auditableArea/auditableArea.service';
 import { AuditObjectDTO } from '../../../models/auditObject';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-audit-findings',
@@ -26,6 +27,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
   public auditProgram: AuditProgramDTO[] = [];
   datePipe: any;
   public isCreate:boolean = true;
+  isAreaSelected = false; // Initialize as false
 
   public programInfo: AuditProgramDTO = new AuditProgramDTO();
  
@@ -35,6 +37,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
     private config: DynamicDialogConfig,
     private dialogService: DialogService,
     private auditFindingService: AuditFindingService,
+    private router: Router,
     private auditableAreaService: AuditableAreasService
   ) { }
 
@@ -75,13 +78,16 @@ export class NewAuditFindingsComponent implements OnDestroy {
   }
 
   updateFinding(addDivForm: NgForm): void {
-    const finding: FindingDTO = this.findingInfo;
+    let finding: FindingDTO = this.findingInfo;
+    finding.cause = addDivForm.value.cause;
+    finding.finding = addDivForm.value.finding;
     console.log(finding);
     this.subscriptions.push(
       this.auditFindingService.updateAuditFinding(finding).subscribe(
         (response: any) => {
+          this.router.navigate(['ams/audit-engagement-details']);
           this.ref.close(response);
-     
+        
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -106,6 +112,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
       )
     );
   }
+
 
 
 

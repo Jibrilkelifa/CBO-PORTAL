@@ -33,6 +33,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
   display: boolean = false;
   roles = JSON.parse(localStorage.getItem("allRoles"));
 
+
   public openDialog(config: any) {
     this.display = true;
   }

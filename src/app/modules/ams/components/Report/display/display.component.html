@@ -1,47 +1,127 @@
 
-
-
-
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4 ">Introduction and Executive Summary</h5>
-  <div class="flex justify-center abdycustom">
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Report</h5>
+    <p-table
+      #dt
+      [columns]="cols"
+      [value]="auditReport"
+      selectionMode="single"
+      [tableStyle]="{ 'min-width': '50rem' }"
+    >
 
-    <div class="page" id="page2">
-      <h2>Get Started</h2>
-      <p>
-        When you log in you see dashboard. if you are allowed to use compliance
-        search module you should be able to see compliance check in side bar as
-        you see in the picture. inside it click on search to start using the
-        system
-      </p>
-      <img
-        width="90%"
-        src="../../../../assets/images/complance dashboard.png"
-        alt=""
-      />
-      <p>
-        when you start using the system for the first time the system takes some
-        time to load all the data. wait patiently and you can start searching
-        while it loads but make sure that you don't close the tab while it loads
-      </p>
-      <img
-        width="90%"
-        src="../../../../assets/images/compliance first time.png"
-        alt=""
-      />
-    </div>
-    <div class="page" id="page3">
-      <h2>To search for a user you type the name in search bar.</h2>
-      <img
-        width="90%"
-        src="../../../../assets/images/compliance search1.png"
-        alt=""
-      />
-    </div>
-    <p-button
-  
-      label="Download Report"
-      (click)="downloadPDF()"
-    ></p-button>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>No.</th>
+          <th>
+            Introduction 
+          </th>
+          <th class="flex">
+            Methodology 
+          </th> 
+          <th scope="col">Actions</th>
+        </tr>
+   
+      </ng-template>
+      <ng-template pTemplate="body" let-auditReport let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="auditReport" >
+          <td>{{ rowIndex + 1 }}</td>
+          <td [innerHTML]="introduction"></td>
+          <td [innerHTML]="auditReport?.methodology"></td>
+          <td class="flex gap-4">
+            <button
+            pButton
+            (click)="createPdf()"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="See Pdf"
+          ></button>
+          <button
+          pButton
+          (click)="goToGenerateReport()"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="Edit"
+        ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">No found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
-</div>
+
+  <br><br><br>
+
+  <div class="card" >
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4"> Findings </h5>
+    <p-table
+      #dt
+      [columns]="cols"
+      [value]="auditReport[0].findings"
+      selectionMode="single"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rows]="5"
+      [rowsPerPageOptions]="[5, 10, 15, 20]"
+      [paginator]="true"
+      stateStorage="session"
+      stateKey="statedemo-session"
+    >
+   
+  
+      <ng-template pTemplate="header">
+        <tr>
+          <th>No:</th>
+          <th pSortableColumn="area.name">
+            Area <p-sortIcon field="area.name"></p-sortIcon>
+          </th>
+          <th pSortableColumn="auditiees">
+            Auditees <p-sortIcon field="auditiees"></p-sortIcon>
+          </th>  
+          <th pSortableColumn="cause">
+            Cause <p-sortIcon field="cause"></p-sortIcon>
+          </th>   
+          <th pSortableColumn="justification">
+            Jusitification <p-sortIcon field="justification"></p-sortIcon>
+          </th>       
+          <th scope="col">Actions</th>
+        </tr>
+    
+      </ng-template>
+      <ng-template pTemplate="body" let-auditFinding let-rowIndex="rowIndex">
+        <tr [pSelectableRow]="auditFinding" >
+          <td>{{ rowIndex + 1 }}</td>
+          <td>{{ auditFinding.area.name}}</td>
+          <td>{{ auditFinding.auditees}}</td>
+          <td>{{ auditFinding.cause}}</td>
+          <td>{{ auditFinding.justifications}}</td>
+          <td class="flex gap-4">
+            <button
+            pButton
+            (click)="goToDetails(auditFinding)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm h-10 whitespace-nowrap"
+            label="Go To Detail"
+          ></button>
+          <button
+          pButton
+          (click)="getImage(auditFinding)"
+          [ngClass]="{ updateBlue: true }"
+          class="p-button-sm h-10 whitespace-nowrap"
+          label="View Evidence"
+        ></button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="5">No found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+<!-- your.component.html -->
+
+

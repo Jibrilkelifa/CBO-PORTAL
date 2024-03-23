@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { AuditEngagementDetailComponent } from '../../Audit-engagement/audit-engagement-detail/audit-engagement-detail.component';
 import { AuditEngagementDTO } from '../../../models/audit-engagement';
 import { NewAuditFindingsComponent } from '../../audit-findings/new-audit-findings/new-audit-findings.component';
+import { AuditReportService } from '../../../services/audit-report/audit-report.service';
 
 
 interface ExportColumn {
@@ -30,7 +31,7 @@ interface Column {
   styleUrls: ['./report-list.component.scss']
 })
 export class ReportList   {
-  public auditProgram: AuditProgramDTO[] = [];
+  public auditReport: any[] = [];
   public auditProgramDisplay: any[] = [];
 
   public programInfo: AuditProgramDTO;
@@ -45,21 +46,15 @@ export class ReportList   {
  
 
   constructor(
-    private auditProgramService: AuditProgramService,
+    private auditReportService: AuditReportService,
     private dialogService: DialogService,
     private messageService: MessageService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.getAuditPrograms();
-    this.cols = [
-      { field: 'id', header: 'ID' },
-      { field: 'annualPlan', header: 'Annual Plan' },
-      { field: 'name', header: 'Audit Object' }, // Add this line
-      { field: 'auditType', header: 'Auditable Type' },
-      { field: 'status', header: 'Status' },
-    ];
+    this.getAuditReport();
+
     
     this.exportColumns = this.cols.map((col) => ({
       title: col.header,
@@ -68,13 +63,12 @@ export class ReportList   {
 
   }
 
-  getAuditPrograms(): void {
+  getAuditReport(): void {
     this.subscriptions.push(
-      this.auditProgramService.getAuditPrograms().subscribe(
+      this.auditReportService.getAuditReports().subscribe(
         (response: any) => {
-          this.auditProgram = response.result;
-       
-      
+          this.auditReport = response.result;
+          console.log(this.auditReport, "report to work with")      
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -83,9 +77,18 @@ export class ReportList   {
     );
   }
 
-  goToDetails(auditEngagement: AuditEngagementDTO): void {
-    localStorage.setItem('currentEngagement', JSON.stringify(auditEngagement));
-    this.router.navigate(['ams/audit-engagement-details']);
+  goToDetails(auditReport: any): void {
+    localStorage.setItem('currentReport', JSON.stringify(auditReport));
+    this.router.navigate(['ams/report-detail']);
+  }
+
+  goToGenerateReport(auditEngagement) {
+    
+
+     
+    localStorage.setItem('currentAuditEngagement', JSON.stringify(auditEngagement));
+    localStorage.setItem('editTheBigJson', JSON.stringify(this.auditReport[0]));
+    this.router.navigate(['ams/report']);
   }
 
 
@@ -123,7 +126,7 @@ export class ReportList   {
     import('jspdf').then((jsPDF) => {
       import('jspdf-autotable').then((x) => {
         const doc = new jsPDF.default('p', 'px', 'a4');
-        const data = this.auditProgram.map((universe, index) => ({
+        const data = this.auditReport.map((universe, index) => ({
           id: index + 1,
           Name: " audit program",
           'Audit Object': universe.auditObject,
@@ -142,7 +145,7 @@ export class ReportList   {
     import('xlsx').then((xlsx) => {
       const EXCEL_TYPE =
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const data = this.auditProgram.map((universe, index) => ({
+      const data = this.auditReport.map((universe, index) => ({
         Id: index + 1,
         Name: 'universe',
         'Audit Object': universe.auditObject || 'N/A',
@@ -167,6 +170,9 @@ export class ReportList   {
       fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
     );
   }
+
+
+
 
 
 

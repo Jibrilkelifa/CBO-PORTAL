@@ -34,14 +34,21 @@ interface ExportColumn {
 })
 export class Report {
   auditEngagements:AuditEngagementDTO[] = [];
+  thebigjson:any;
+  thebigjsonForEditing:any;
   auditPrograms: AuditProgramDTO[] = [];
   auditFinding: FindingDTO[] = [];
+  selectedFindings: FindingDTO[] = [];
   exportColumns!: ExportColumn[];
   cols!: Column[];
   public Editor = ClassicEditor;
   private subscriptions: Subscription[] = [];
   checkedIds: number[] = [];
-  textInput: string;
+  introInput: string;
+  summaryInput: string;
+  public date: Date;
+  editMode:Boolean = false;
+
 
 
   constructor(
@@ -56,6 +63,21 @@ export class Report {
       this.auditEngagements[0]  =  JSON.parse(localStorage.getItem("currentEngagement"));
       this.getAuditProgram(this.auditEngagements[0].id);
     }  
+
+    if (localStorage.getItem("editTheBigJson")) {
+      this.thebigjsonForEditing  =  JSON.parse(localStorage.getItem("editTheBigJson"));
+      this.introInput = this.thebigjsonForEditing.introduction;
+      this.summaryInput = this.thebigjsonForEditing.summary;
+      this.date = this.thebigjsonForEditing.dateGenerated;
+      console.log(this.thebigjsonForEditing, " check me i am the bigjson for editing");
+      this.selectedFindings = this.thebigjsonForEditing.findings;
+
+    
+   
+      this.editMode = true;
+    }  
+
+
   }
 
   getAuditProgram(id:number): void {
@@ -72,21 +94,58 @@ export class Report {
     );
   }
   onSubmit():void {
-    let data = {
-      text: this.textInput,
-      numbers: this.checkedIds
-    }
-   console.log("sending" , data);
-    this.subscriptions.push(
-      this.auditReportService.generateReport(data).subscribe(
+
+  if(this.editMode){
+       
+    this.thebigjsonForEditing.findings = this.selectedFindings;
+    this.thebigjsonForEditing.introduction = this.introInput;
+    this.thebigjsonForEditing.summary = this.summaryInput;
+    this.thebigjsonForEditing.dateGenerated = this.date;
+
+         console.log(this.thebigjsonForEditing.findings, " edited teh bigson data");
+       
+
+       this.auditReportService.registerReport(this.thebigjsonForEditing).subscribe(
         (response: any) => {
-        
+           console.log(response);
+           this.router.navigate(['ams/report-list']);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
         }
       )
-    );
+       
+  } else {
+    if (localStorage.getItem("thebigjson")) {
+      this.thebigjson  =  JSON.parse(localStorage.getItem("thebigjson"));
+      console.log(this.thebigjson,"hey yall this is the big json");
+    } else{
+      console.log("i didn't get the bigjson from localstorage")
+    }
+
+    this.thebigjson.result.findings = this.selectedFindings;
+    this.thebigjson.result.introduction = this.introInput;
+    this.thebigjson.result.summary = this.summaryInput;
+    this.thebigjson.result.dateGenerated = this.date;
+
+ 
+   console.log("sending the big json finding" , this.thebigjson.result.findings);
+
+   this.auditReportService.registerReport(this.thebigjson.result).subscribe(
+    (response: any) => {
+       console.log(response);
+       this.router.navigate(['ams/report-list']);
+    },
+    (error: HttpErrorResponse) => {
+      console.log(error);
+    }
+  )
+  }
+ 
+
+
+    
+
   
   };
 
@@ -113,14 +172,24 @@ export class Report {
 
   }
 
-  onCheck(e,id){
-    if(e.target.checked){
-      this.checkedIds.push(id);
-    }else {
-      this.checkedIds = this.checkedIds.filter(a => a !== id);
+  onCheck(e, id) {
+    const finding = this.auditFinding.find(f => f.id === id);
+  
+    if (e.target.checked) {
+      // Add finding to selectedFindings array
+      if (finding && !this.selectedFindings.includes(finding)) {
+        this.selectedFindings.push(finding);
+      }
+    } else {
+      // Remove finding from selectedFindings array
+      this.selectedFindings = this.selectedFindings.filter(f => f.id !== id);
     }
   }
-
+  
+  isFindingSelected(id: number): boolean {
+    return this.selectedFindings.some(finding => finding.id === id);
+  }
+  
 
 
   ngOnDestroy() {

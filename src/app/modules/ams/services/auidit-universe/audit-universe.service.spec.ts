@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuditUniverseService } from './audit-universe.service';
 
-describe('AnnualPlanService', () => {
+describe('AuditUniverseService', () => {
   let service: AuditUniverseService;
 
   beforeEach(() => {

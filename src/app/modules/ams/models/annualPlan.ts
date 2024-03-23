@@ -12,5 +12,6 @@ export class AnnualPlanDTO extends BaseModel {
     rectificationStatus : string;
     auditUniverse : AuditUniverseDTO;
     riskScores : RistScoreDTO[];
+    auditeesOrganID:number;
 }
 

@@ -9,6 +9,11 @@ interface NavItem {
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
 export let navItemsAMSAdmin: Object;
+export let navItemsAMSManager: Object;
+export let navItemsAMSDirector: Object;
+export let navItemsAMSTeamLeader: Object;
+export let navItemsCISTAdmin: Object;
+
 export let navItemsAMSUser: Object;
 export let navItemsEMSAdmin: Object;
 export let navItemsEMSUser: Object;
@@ -28,12 +33,14 @@ export let navItemsSASVUser: Object;
 export let navItemsMemoAdmin: Object;
 export let navItemsMemoUser: Object;
 export let navItemsECXAdmin: Object;
+export let navItemsCAOAdmin: object;
+export let navItemsCAOUser: object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
 export let navCC:NavItem;
-
+export let navItemsAMSAuditor:Object;
 
 
 
@@ -111,6 +118,14 @@ navItemsAMSAdmin =  {
       url: '/ams/audit-engagement',
     },
     {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+    {
       name: 'Setting',
       url: '/ams',
       iconComponent: { name: 'cil-settings' },
@@ -135,15 +150,167 @@ navItemsAMSAdmin =  {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
-        {
-          name: 'Audit Program',
-          url: '/ams/audit-program',
-        },
+  
       ]
     },
   ],
   
-},
+}
+
+navItemsAMSManager =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Annual Plan',
+      url: '/ams/annual-plan',
+    },
+    {
+      name: 'Audit Schedule',
+      url: '/ams/audit-schedule',
+    },
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+    {
+      name: 'Setting',
+      url: '/ams',
+      iconComponent: { name: 'cil-settings' },
+      children: [
+        {
+          name: 'Auditors',
+          url: '/ams/audit-staff',
+        },
+        {
+          name: 'Audit universe',
+          url: '/ams/audit-universe',
+        },
+        {
+          name: 'Audit object',
+          url: '/ams/audit-object',
+        },
+        {
+          name: 'Audit team',
+          url: '/ams/audit-type',
+        },
+        {
+          name: 'Risk item',
+          url: '/ams/risk-item',
+        },
+  
+      ]
+    },
+  ],
+  
+}
+
+navItemsAMSAuditor =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+
+  ],
+  
+}
+
+
+navItemsAMSTeamLeader =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    }
+  ],
+  
+}
+
+
+navItemsAMSDirector =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Schedule',
+      url: '/ams/audit-schedule',
+    },
+ 
+ 
+  ],
+  
+}
+
+
+
+navItemsCISTAdmin =  {
+  name: 'CIST',
+  url: '/cit',
+  iconComponent: { name: 'cil-copy' },
+  children: [
+
+    {
+      name: 'COB Issues List',
+      url: '/cit/cobIssuesList',
+    },
+
+    {
+      name: 'Cob Steps',
+      url: '/cit/cobSteps',
+    },
+    {
+      name: 'Cob Steps Copied',
+      url: '/cit/cobStepsCopiedList',
+    },
+  
+  ],
+  
+}
+
+
+
+
+
+
+
 
 navItemsICMSAdmin = {
   name: 'Internal Control',
@@ -244,6 +411,48 @@ navItemsICMSBranch = {
         {
           name: 'View Data',
           url: '/ICMS/DCQ/viewDCQ'
+        },
+      ]
+    },
+    {
+      name: 'IFB',
+      url: '/ICMS/IFB',
+      children: [
+        {
+          name: 'Add data',
+          url: '/ICMS/IFB/addIFB',
+        },
+        {
+          name: 'View IFB',
+          url: '/ICMS/IFB/viewIFB'
+        },
+      ]
+    },
+    {
+      name: 'Finance',
+      url: '/ICMS/Finance',
+      children: [
+        {
+          name: 'Add data',
+          url: '/ICMS/Finance/addFinance',
+        },
+        {
+          name: 'View Finance',
+          url: '/ICMS/Finance/viewFinance'
+        },
+      ]
+    },
+    {
+      name: 'Fire Extinguisher',
+      url: '/ICMS/FireExtinguisher',
+      children: [
+        {
+          name: 'Add data',
+          url: '/ICMS/FireExtinguisher/addFireExtinguisher',
+        },
+        {
+          name: 'View Fire Extinguisher',
+          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
         },
       ]
     },
@@ -648,6 +857,30 @@ navItemsECXAdmin = {
 }
 navItemsECXUser = {
 
+}
+
+navItemsCAOAdmin = {
+  name: 'CAO',
+  url: '/cao',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
+    {
+      name: 'View',
+      url: '/cao/checklists/checklist'
+    },
+  ]
+}
+
+navItemsCAOUser = {
+  name: 'CAO',
+  url: '/cao',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
+    {
+      name: 'My Checklists',
+      url: '/cao/checklists/my-checklists',
+    },
+  ]
 }
 
 navItemsSASVAdmin = {

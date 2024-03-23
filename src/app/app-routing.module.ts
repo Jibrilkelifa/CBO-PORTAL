@@ -11,6 +11,9 @@ import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history
 import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
 import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
 import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
+import { DetailComponent } from './modules/cadcl/Details-Page/detail/detail.component';
+import { RespondePageComponent } from './modules/cadcl/Replay-Page/responde-page/responde-page.component';
+import { NewIFBComponent } from './modules/icms/ifb/components/new-ifb/new-ifb.component';
 
 const routes: Routes = [
   {
@@ -31,6 +34,12 @@ const routes: Routes = [
       },
       {
         path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: { title: 'History / Update History' }
+      },
+      {
+        path: 'cao/checklists/update/:id', component: DetailComponent, data: { title: 'Check List / Details' }
+      },
+      {
+        path: 'cao/checklists/replay/:id', component: RespondePageComponent, data: { title: 'Check List / Details' }
       },
       {
         path: 'updateCIPM/:id', component: NewCIPMComponent, data: { title: 'CIPM / Update CIPM' }
@@ -133,6 +142,13 @@ const routes: Routes = [
           import('./modules/ams/ams.module').then((m) => m.AmsModule),
       },
       {
+        path: 'cit',
+        loadChildren: () =>
+          import('./modules/cit/cit.module').then((m) => m.CitModule),
+      },
+
+    
+      {
         path: 'ICMS/CIPM',
         loadChildren: () =>
           import('./modules/icms/cipm/cipm.module').then((m) => m.CIPMModule)
@@ -141,6 +157,21 @@ const routes: Routes = [
         path: 'ICMS/DACGM',
         loadChildren: () =>
           import('./modules/icms/dacgm/dacgm.module').then((m) => m.DACGMModule)
+      },
+      {
+        path: 'ICMS/IFB',
+        loadChildren: () =>
+          import('./modules/icms/ifb/ifb.module').then((m) => m.IFBModule)
+      },
+      {
+        path: 'ICMS/Finance',
+        loadChildren: () =>
+          import('./modules/icms/finance/finance.module').then((m) => m.FinanceModule)
+      },
+      {
+        path: 'ICMS/FireExtinguisher',
+        loadChildren: () =>
+          import('./modules/icms/fire extinguisher/fire-extinguisher.module').then((m) => m.FireExtinguisherModule)
       },
       {
         path: 'ICMS/DCQ',
@@ -162,6 +193,11 @@ const routes: Routes = [
         path: 'ecx/account',
         loadChildren: () =>
           import('./modules/ecx/accounts/account.module').then((m) => m.AccountModule)
+      },
+      {
+        path: 'cao/checklists',
+        loadChildren: () =>
+          import('./modules/cadcl/cadcl.module').then((m) => m.CadclModule)
       },
       {
         path: 'ecx',

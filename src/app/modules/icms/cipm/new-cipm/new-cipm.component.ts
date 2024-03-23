@@ -62,14 +62,6 @@ export class NewCIPMComponent implements OnInit {
     this.primengConfig.ripple = true;
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
-    // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
-    //   (response: any) => {
-    //     this.selectedBranch = response;
-    //   },
-    //   (error: HttpErrorResponse) => {
-
-    //   }
-    // );
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
 
