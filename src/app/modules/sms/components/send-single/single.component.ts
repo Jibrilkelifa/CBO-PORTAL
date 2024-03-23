@@ -1,14 +1,13 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-// import { Memo } from '../../../services/memo-services/memo';
-// import { MemoService } from '../../../services/memo-services/memo.service';
-// import { Templates } from '../../../services/memo-services/Templates';
 import { ClassToggleService, HeaderComponent } from '@coreui/angular';
- import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import { EmployeeService } from '../../../services/sso-services/employee.service';
-// import { Employee } from '../../../models/sso-models/employee';
-// import { SubProcess } from '../../../models/sasv-models/subProcess';
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { EmployeeService } from 'src/app/services/sso-services/employee.service';
+import { EMSService } from 'src/app/services/ems-services/ems-services.service';
+import {SingleService} from '../../services/single-message/single.service'
+import { Message } from '../../models/message';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-memo',
@@ -19,6 +18,7 @@ import { ClassToggleService, HeaderComponent } from '@coreui/angular';
 export class SingleComponent extends HeaderComponent {
 
   @Input() sidebarId: string = "sidebar";
+  public Editor = ClassicEditor;
 
   public newMessages = new Array(4)
   public newTasks = new Array(5)
@@ -26,16 +26,23 @@ export class SingleComponent extends HeaderComponent {
   public employees: any[] = [];
   ldivision: string;
   selectedEmployee: any;
+  phoneNumber: string;
+  messageContent: string;
+
+
+
 
 
 
   postMemo = {} as  any;
+  employeesOfSelectedGroups: any[];
   ngOnInit() {
 
     this.ldivision = localStorage.getItem('division');
+
     // this.getAllSubProcess();
   }
-  constructor( private router: Router){
+  constructor( private router: Router, private http: HttpClient,private messageService: SingleService, private messagService:MessageService){
     
     super();
   };
@@ -46,66 +53,91 @@ export class SingleComponent extends HeaderComponent {
   selectedSubprocess: any;
   
   ckeditorContent: string;
-  public Editor = ClassicEditor;
+  body:string;
+
   public date: Date;
   public values = [];
+  msgs: Message[] = [];
   public nvalues = [];
+  public config = {
+    dataProcessor: {
+      toDataView: (editorData) => editorData,
+      toModel: (viewData) => viewData
+    }
+  };
   public dateTime = new Date();
 
   value;
+  selectedGroups: any[] = [];
   //Array of all available templates
   // tempArray = this.template.templateArray;
   addTemp(val: string) {
     this.ckeditorContent = val;
   }
-  // public getEmplloyees(): void {
-  //   this.employeeService.getEmployees().subscribe(
-  //     (response: any[]) => {
-  //       this.employees = response;
-  //     },
-  //     (errors: HttpErrorResponse) => {
+  message: Message = {
+    phoneNumber: '',
+    messageContent: '',
+    cost:undefined,
+    messageBatchDate: undefined,
+    id: 0,
+    Batch: undefined,
+    userName: '',
+    user: undefined,
+    status: 0,
+    sender:localStorage.getItem('name')
+  };
 
-  //     }
-  //   );
-  // }
-  // public getAllSubProcess(): void {
-  //   this.employeeService.getAllSubProcess().subscribe(
-  //     (response: any[]) => {
-  //       this.subprocesslist = response;
-  //     },
-  //     (errors: HttpErrorResponse) => {
-
-  //     }
-  //   );
-  // }
+  // Rest of your code...
 
   addMemo(data: any) {
-
-    // const now = new Date();
-    // data.value.sendate = now;
-    // data.value.toTo = data.value.toTo.name;
-    // data.value.fromFrom = localStorage.getItem("name");
-    // data.value.senderId =  localStorage.getItem('id');
-
-    // let carbonCopies: string = "";
-    // for (const element of data.value.ncarbonCopy) {
-    //   carbonCopies += element.name + " , ";
-    // }
-
-    // carbonCopies = carbonCopies.substring(0, carbonCopies.lastIndexOf(',')) + "" + carbonCopies.substring(carbonCopies.lastIndexOf(',') + 1);
-    // data.value.carbonCopy = carbonCopies;
-
-    // this.memoService.addMemos(data.value).subscribe(
-    //   (response: any) => {
-    //     this.memoService.getMemos();
-    //     this.memoService.memos = response;
-    //     this.router.navigate(['Memo/letter'],{state:{response}});
-    //   },
-    //   (error: HttpErrorResponse) => {
-
-    //   }
-    // );
+    this.message.phoneNumber = this.phoneNumber;
+    this.message.messageContent = this.messageContent;
+  
+    console.log('Sending message:', this.message);
+  
+    this.messageService.sendMessage(this.message).subscribe(
+      (response: any) => {
+        console.log('Response:', response);
+        const batchId = response.id;
+        console.log('BatchId:', batchId);
+        this.messageService.sendMessageByBatch(batchId).subscribe(
+          (response: any) => {
+            this.messagService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Message Sent Successfully!"
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+    
+          },
+          (error: any) => {
+            this.messagService.add({
+              severity: 'error',
+              summary: 'Failed',
+              detail: "Failed to send Message"
+            });
+            setTimeout(() => {
+            }, 1000);
+    
+          
+            // Handle any errors that occur during message sending
+            console.error('Error sending message:', error);
+            // You can also access the error response from the server
+            console.error('Error response:', error.response);
+          }
+        );
+      },
+      (error: any) => {
+        // Handle any errors that occur during message sending
+        console.error('Error sending message:', error);
+      }
+    );
   }
+  
+
+
 }
 
 

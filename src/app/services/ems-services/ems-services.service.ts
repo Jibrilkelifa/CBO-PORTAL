@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Employee } from 'src/app/models/sso-models/employee';
 
 @Injectable({
@@ -10,6 +10,8 @@ export class EMSService {
   private httpOptions;
   private httpOptions2;
   private apiServiceUrl;
+  private supervisorId = 10001434;
+
   
   private init() {
     this.httpOptions = {
@@ -45,5 +47,30 @@ export class EMSService {
     // return this.http.get<any>(`http://localhost:8082/ems/api/getEmployeeByName/${fullname}`, this.httpOptions2)
     return this.http.get<any>(`http://10.1.125.58:8082/ems/api/getEmployeeByName/${fullname}`, this.httpOptions2)
 
+  }
+
+  getEmployeesOfVicePresidents(): Observable<any> {
+    const url = `http://localhost:8082/ems/api/vice-presidents/${this.supervisorId}`;
+    return this.http.get<any>(url);
+  }
+  
+  getEmployeesOfHoDirectors(): Observable<any> {
+    const url = `http://localhost:8082/ems/api/ho_directors/${this.supervisorId}`;
+    return this.http.get<any>(url);
+  }
+  
+  getEmployeesOfDistrictDirectors(): Observable<any> {
+    const url = `http://localhost:8082/ems/api/district_directors/${this.supervisorId}`;
+    return this.http.get<any>(url);
+  }
+  
+  getEmployeesOfHoManagers(): Observable<any> {
+    const url = `http://localhost:8082/ems/api/ho-managers/${this.supervisorId}`;
+    return this.http.get<any>(url);
+  }
+  
+  getEmployeesOfBranchManagers(): Observable<any> {
+    const url = `http://localhost:8082/ems/api/branch-managers/${this.supervisorId}`;
+    return this.http.get<any>(url);
   }
 }

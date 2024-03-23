@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AllMessagesComponent } from './components/all-messages/all-messages.component';
+import { AllMessagesComponent } from './components/cost-messages/all-messages.component';
 import { AuditUniverseComponent } from '../ams/components/Audit-universe/audit-universe/audit-universe.component';
-import { SentMessagesComponent } from './components/sent-messages/sent-messages.component';
+import { SentMessagesComponent } from './components/excel-messages/sent-messages.component';
 import { SingleComponent } from './components/send-single/single.component';
+import { GroupComponent } from './components/send-group/group.component';
 import { BulkComponent } from './components/send-bulk/bulk.component';
+import{SingleMessagesComponent}from './components/single-messages/single-messages.component'
+import{GroupMessagesComponent} from './components/group-messages/group-messages.component'
+import { SmsDashboardComponent } from './components/dashboard/monthlySMSReport/smsDashboard.component';
+import { SMSHistoryComponent } from './components/dashboard/smsHistory/smsHistory.component';
+import { TableReportComponents } from './components/dashboard/tableReport/tableReport.component';
 const routes: Routes = [
   {
     path: '',
@@ -15,13 +21,27 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'all-messaages',
+        redirectTo: 'sms-history',
       },
       {
-        path: 'all-messages',
-        component: AllMessagesComponent,
+        path: 'monthly-report',
+        component: SmsDashboardComponent,
         data: {
-          title: 'All messages',
+          title: 'SMS-Dashboard',
+        },
+      },
+      {
+        path: 'sms-history',
+        component: SMSHistoryComponent,
+        data: {
+          title: 'SMS-D',
+        },
+      },
+      {
+        path: 'table-report',
+        component: TableReportComponents,
+        data: {
+          title: 'SMS-D',
         },
       },
       {
@@ -42,14 +62,14 @@ const routes: Routes = [
         path: 'bulks',
         component: SentMessagesComponent,
         data: {
-          title: 'bulSMSreport',
+          title: 'bulkSMSreport',
         },
       },
       {
-        path: 'customers',
-        component: AllMessagesComponent,
+        path: 'single-messages',
+        component: SingleMessagesComponent,
         data: {
-          title: 'customerReport',
+          title: 'report-Of-SingleMessages',
         },
       },
 
@@ -61,10 +81,10 @@ const routes: Routes = [
         },
       },
       {
-        path: 'customer',
-        component: SingleComponent,
+        path: 'group-messages',
+        component: GroupMessagesComponent,
         data: {
-          title: 'Customer Messaging',
+          title: 'Report-Of-GroupMessages',
         },
       },
       {
@@ -74,132 +94,14 @@ const routes: Routes = [
           title: 'Bulk Messaging',
         },
       },
-      {
-        path: 'template',
-        component:  BulkComponent,
-        data: {
-          title: 'Template Messaging',
-        },
-      },
+   
       {
         path: 'group',
-        component:  SingleComponent,
+        component:  GroupComponent,
         data: {
           title: 'Group Messaging',
         },
       },
-
-     
-
-      // {
-      //   path: 'audit-universe',
-      //   component: AuditUniverseComponent,
-      //   data: {
-      //     title: 'Audit Universe',
-      //   },
-      // },
-
-      // {
-      //   path: 'checklist',
-      //   component: CheckListComponent,
-      //   data: {
-      //     title: 'Checklist',
-      //   },
-      // },
-
-      // {
-      //   path: 'auditable-area',
-      //   component: AuditableAreaComponent,
-      //   data: {
-      //     title: 'Auditable Area',
-      //   },
-      // },
-
-      // {
-      //   path: 'annual-plan',
-      //   component: AnnualPlanComponent,
-      //   data: {
-      //     title: 'Annual Plan',
-      //   },
-      // },
-
-      // {
-      //   path: 'audit-schedule',
-      //   component: AuditScheduleComponent,
-      //   data: {
-      //     title: 'Audit Schedule',
-      //   },
-      // },
-      // {
-      //   path: 'audit-engagement',
-      //   component: AuditEngagementComponent,
-      //   data: {
-      //     title: 'Audit Engagement',
-      //   },
-      // },
-      // {
-      //   path: 'audit-engagement-details',
-      //   component: AuditEngagementDetailComponent,
-      //   data: {
-      //     title: 'Audit Engagement Details',
-      //   },
-      // },
-      // {
-      //   path: 'audit-findings-details',
-      //   component: AuditFindingsDetailComponent,
-      //   data: {
-      //     title: 'Audit Findings Details',
-      //   },
-      // },
-      // {
-      //   path: 'audit-program-details',
-      //   component: AuditProgramDetailComponent,
-      //   data: {
-      //     title: 'Audit Engagement Details',
-      //   },
-      // },
-      // {
-      //   path: 'audit-program',
-      //   component: AuditProgramComponent,
-      //   data: {
-      //     title: 'Audit Program',
-      //   },
-      // },
-      // {
-      //   path: 'audit-staff',
-      //   component: AuditStaffComponent,
-      //   data: {
-      //     title: 'Auditors',
-      //   },
-      // },
-      // {
-      //   path: 'audit-type',
-      //   component: AuditTypeComponent,
-      //   data: {
-      //     title: 'Audit Team',
-      //   },
-      // },
-      // {
-      //   path: 'risk-item',
-      //   component: RiskItemComponent,
-      //   data: {
-      //     title: 'Risk type',
-      //   },
-      // },
-      // {
-      //   path: 'report',
-      //   component: Report,
-      //   data: {
-      //     title: 'Report',
-      //   },
-      // },
-      // {
-      //   path: ' ',
-      //   component: AuditFindingsComponent,
-      //   data: {
-      //     title: 'Audit Finding',
-      //   },
-      // },
     ],
   },
 ];

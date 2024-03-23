@@ -188,9 +188,9 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsICMSBranch);
               this.dashboardRoute = "default_dashboard"
               break;
-            // case "ROLE_SMS_ADMIN":
-            //     this.navItems.push(navItemsSMSAdmin);
-            //     this.dashboardRoute = "default_dashboard"
+             case "ROLE_SMS_ADMIN":
+                this.navItems.push(navItemsSMSAdmin);
+                this.dashboardRoute = 'sms_dashboard'
         
               break;
             case "ROLE_ICMS_PROVISION":

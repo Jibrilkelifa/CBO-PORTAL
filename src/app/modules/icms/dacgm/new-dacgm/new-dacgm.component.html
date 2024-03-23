@@ -37,34 +37,6 @@
           </ng-template>
         </p-dropdown>
       </div>
-      <!-- <div class="flex-auto" *ngIf="selectedCategory">
-        <label for="alphabetic" class=" block mb-2"> Sub Category </label>
-        <p-dropdown [options]="subCategories" name="subCategory" ngModel [(ngModel)]="selectedSubCategory"
-          optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Select Sub Category"
-          class="w-full" styleClass="p-password" [style]="{'width':'30vw','height':'45px'}" [required]="true"
-          (onChange)="onSubCategoryChange($event)">
-          <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="selectedSubCategory">
-              <div>{{ selectedSubCategory.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-subCategory pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{subCategory.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class="flex-auto">
-        <label for="alphabetic" class="block mb-2">Account Number</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
-          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
-      </div>
-      <div class="flex-auto">
-        <label for="alphabetic" class="block mb-2">Account Name</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountName"
-          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="Optional" />
-      </div> -->
       <div class="flex-auto" *ngIf="selectedCategory">
         <label for="alphabetic" class="block mb-2">Sub Category</label>
         <p-dropdown [options]="subCategories" name="subCategory" [(ngModel)]="selectedSubCategory" optionLabel="name"
@@ -84,11 +56,6 @@
         </p-dropdown>
       </div>
       
-      <!-- <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
-        <label for="alphabetic" class="block mb-2">Account Number</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
-          [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="" />
-      </div> -->
       <div class="flex-auto" *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'">
         <label for="accountNumber" class="block mb-2">Account Number</label>
         <input pInputText id="accountNumber" ngModel name="accountNumber"

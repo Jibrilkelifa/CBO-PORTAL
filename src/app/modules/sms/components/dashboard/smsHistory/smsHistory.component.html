@@ -1,0 +1,37 @@
+<div class="block" >
+  <div class="box">Total Delivered Messages: <strong>{{summary?.success}}</strong></div>
+  <div class="box">Total Pending Messages: <strong>{{summary?.pending}}</strong></div>
+  <div class="box">Total Failed Messages: <strong>{{summary?.failed}}</strong></div>
+  <div class="box">Total Cost Of You: <strong>{{ summary?.cost | number: '1.2-2' }} birr</strong></div>
+</div>
+<c-row class="mt-4 mb-4">
+  <c-col>
+    <c-card>
+      <c-card-header class="graph-header">
+        Monthly SMS Report
+      </c-card-header>
+      <c-card-body>
+        <monthly-dashboard></monthly-dashboard>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<c-row class="mt-4 mb-4">
+  <c-col>
+    <c-card>
+      <c-card-header class="graph-header">
+           Table Report
+      </c-card-header>
+      <c-card-body>
+        <table-report></table-report>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- <div class="block" >
+  <div class="box">Earliest JT analyzed: <strong>{{cobHistory?.initialJTAnalyzed}}</strong></div>
+  <div class="box">Latest elapsed time: <strong>{{cobHistory?.latestRecordedJTAnalyzed}}</strong></div>
+  <div class="box">Total COB elapsed time: <strong>{{cobHistory?.totalCOBElapsedTime}}</strong></div>
+</div> -->

@@ -57,7 +57,8 @@ export class NewFraudComponent implements OnInit {
   public selectedBranch;
   public selectedTeam;
   public selectedSubProcess;
-  branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
+  // branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   fraudOccurrenceDate: Date;
   fraudDetectionDate: Date = new Date();
@@ -230,7 +231,7 @@ export class NewFraudComponent implements OnInit {
     this.selectedCaseStatus = existingCaseStatus;
   }
 
-  public getFrauds(branchId: number): void {
+  public getFrauds(branchId: string): void {
     this.fraudService.getFraudForBranch(branchId).subscribe(
       (response: IFR[]) => {
         this.frauds = response;

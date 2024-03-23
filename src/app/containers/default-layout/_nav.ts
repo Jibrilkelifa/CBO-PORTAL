@@ -329,71 +329,64 @@ navItemsICMSDistrict = {
       ]
     },
   ]
-  // name: 'SMS',
-  // url: '/sms',
-  // iconComponent: { name: 'cil-comment-square' },
-  // children: [
-  //   {
-  //     name: 'SMS Sending',
-  //     url: '/sms',
-  //     iconComponent: { name: 'cil-send' },
-  //     children: [
-  //       {
-  //         name: 'All Customer ',
-  //         url: '/sms/customer',
-  //       },
-  //       {
-  //         name: 'Bulk SMS ',
-  //         url: '/sms/bulk',
-  //       },
-  //       {
-  //         name: 'Single Messaging',
-  //         url: '/sms/single',
-  //       },
-  //       {
-  //         name: 'Group Messaging',
-  //         url: '/sms/group',
-  //       },
-  //       {
-  //           name: 'SMS Template',
-  //           url: '/sms/template',
-  //       },
+}
+
+  navItemsSMSAdmin = {
+  name: 'SMS',
+  url: '/sms',
+  iconComponent: { name: 'cil-comment-square' },
+  children: [
+    {
+      name: 'SMS Sending',
+      url: '/sms',
+      iconComponent: { name: 'cil-send' },
+      children: [
+        {
+          name: 'Excel Messaging ',
+          url: '/sms/bulk',
+        },
+        {
+          name: 'Single Messaging',
+          url: '/sms/single',
+        },
+        {
+          name: 'Group Messaging',
+          url: '/sms/group',
+        }
       
-  //     ]
-  //   },
-  //   {
-  //     name: 'Reports',
-  //     url: '/sms',
-  //     iconComponent: { name: 'cil-bar-chart' },
-  //     children: [
-  //       {
-  //         name: 'All messages',
-  //         url: '/sms/all-messages',
-  //       },
-  //       {
-  //         name: 'Sent messages',
-  //         url: '/sms/sent-messages',
-  //       },
-  //       {
-  //         name: 'Cutomer Messages',
-  //         url: '/sms/customers',
-  //       },
-  //       {
-  //         name: 'Bulk Messages',
-  //         url: '/sms/bulks',
-  //       },
-  //       {
-  //           name: 'Cost',
-  //           url: '/sms/cost',
-  //       },
+      ]
+    },
+    {
+      name: 'Reports',
+      url: '/sms',
+      iconComponent: { name: 'cil-bar-chart' },
+      children: [
+        // {
+        //   name: 'All messages',
+        //   url: '/sms/all-messages',
+        // },
+        {
+          name: 'Single messages',
+          url: '/sms/single-messages',
+        },
+        {
+          name: 'Group Messages',
+          url: '/sms/group-messages',
+        },
+        {
+          name: 'Excel Messages',
+          url: '/sms/bulks',
+        },
+        {
+            name: 'Cost',
+            url: '/sms/cost',
+        },
       
-  //     ]
-  //   },
+      ]
+    },
     
-    
-    
-   
-  // ],
+  ],
+ 
   
 }
 

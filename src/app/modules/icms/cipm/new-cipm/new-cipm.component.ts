@@ -40,7 +40,7 @@ export class NewCIPMComponent implements OnInit {
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
   
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   authorizedBy: string = "Not Authorized"
@@ -89,7 +89,7 @@ export class NewCIPMComponent implements OnInit {
     this.isOtherCollateralTypeSelected = (event.value.name === 'Other');
   }
 
-  public getCIPMs(branchId: number): void {
+  public getCIPMs(branchId: string): void {
     this.cipmService.getCIPMForBranch(branchId).subscribe(
       (response: CIPM[]) => {
         this.cipms = response;
