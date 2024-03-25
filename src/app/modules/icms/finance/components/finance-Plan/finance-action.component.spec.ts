@@ -4,17 +4,16 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AccordionModule, CardModule, GridModule } from '@coreui/angular';
 import { IconSetService } from '@coreui/icons-angular';
-import { iconSubset } from '../../../../icons/icon-subset';
-import { DACGMPlanComponent } from './finance-action.component';
+import { FinanceActionPlanComponent } from './finance-action.component';
 
 describe('AccordionsComponent', () => {
-  let component: DACGMPlanComponent;
-  let fixture: ComponentFixture<DACGMPlanComponent>;
+  let component: FinanceActionPlanComponent;
+  let fixture: ComponentFixture<FinanceActionPlanComponent>;
   let iconSetService: IconSetService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DACGMPlanComponent],
+      declarations: [FinanceActionPlanComponent],
       imports: [AccordionModule, NoopAnimationsModule, CardModule, GridModule, RouterTestingModule],
       providers: [IconSetService]
     })
@@ -23,9 +22,8 @@ describe('AccordionsComponent', () => {
 
   beforeEach(() => {
     iconSetService = TestBed.inject(IconSetService);
-    iconSetService.icons = { ...iconSubset };
 
-    fixture = TestBed.createComponent(DACGMPlanComponent);
+    fixture = TestBed.createComponent(FinanceActionPlanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
