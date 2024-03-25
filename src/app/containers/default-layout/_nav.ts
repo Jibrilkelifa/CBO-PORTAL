@@ -414,48 +414,48 @@ navItemsICMSBranch = {
         },
       ]
     },
-    {
-      name: 'IFB',
-      url: '/ICMS/IFB',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/IFB/addIFB',
-        },
-        {
-          name: 'View IFB',
-          url: '/ICMS/IFB/viewIFB'
-        },
-      ]
-    },
-    {
-      name: 'Finance',
-      url: '/ICMS/Finance',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/Finance/addFinance',
-        },
-        {
-          name: 'View Finance',
-          url: '/ICMS/Finance/viewFinance'
-        },
-      ]
-    },
-    {
-      name: 'Fire Extinguisher',
-      url: '/ICMS/FireExtinguisher',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/FireExtinguisher/addFireExtinguisher',
-        },
-        {
-          name: 'View Fire Extinguisher',
-          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-        },
-      ]
-    },
+    // {
+    //   name: 'IFB',
+    //   url: '/ICMS/IFB',
+    //   children: [
+    //     {
+    //       name: 'Add data',
+    //       url: '/ICMS/IFB/addIFB',
+    //     },
+    //     {
+    //       name: 'View IFB',
+    //       url: '/ICMS/IFB/viewIFB'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Finance',
+    //   url: '/ICMS/Finance',
+    //   children: [
+    //     {
+    //       name: 'Add data',
+    //       url: '/ICMS/Finance/addFinance',
+    //     },
+    //     {
+    //       name: 'View Finance',
+    //       url: '/ICMS/Finance/viewFinance'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Fire Extinguisher',
+    //   url: '/ICMS/FireExtinguisher',
+    //   children: [
+    //     {
+    //       name: 'Add data',
+    //       url: '/ICMS/FireExtinguisher/addFireExtinguisher',
+    //     },
+    //     {
+    //       name: 'View Fire Extinguisher',
+    //       url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+    //     },
+    //   ]
+    // },
     {
       name: 'IFR',
       url: '/ICMS/Fraud',
@@ -538,71 +538,64 @@ navItemsICMSDistrict = {
       ]
     },
   ]
-  // name: 'SMS',
-  // url: '/sms',
-  // iconComponent: { name: 'cil-comment-square' },
-  // children: [
-  //   {
-  //     name: 'SMS Sending',
-  //     url: '/sms',
-  //     iconComponent: { name: 'cil-send' },
-  //     children: [
-  //       {
-  //         name: 'All Customer ',
-  //         url: '/sms/customer',
-  //       },
-  //       {
-  //         name: 'Bulk SMS ',
-  //         url: '/sms/bulk',
-  //       },
-  //       {
-  //         name: 'Single Messaging',
-  //         url: '/sms/single',
-  //       },
-  //       {
-  //         name: 'Group Messaging',
-  //         url: '/sms/group',
-  //       },
-  //       {
-  //           name: 'SMS Template',
-  //           url: '/sms/template',
-  //       },
+}
+
+  navItemsSMSAdmin = {
+  name: 'SMS',
+  url: '/sms',
+  iconComponent: { name: 'cil-comment-square' },
+  children: [
+    {
+      name: 'SMS Sending',
+      url: '/sms',
+      iconComponent: { name: 'cil-send' },
+      children: [
+        {
+          name: 'Excel Messaging ',
+          url: '/sms/bulk',
+        },
+        {
+          name: 'Single Messaging',
+          url: '/sms/single',
+        },
+        {
+          name: 'Group Messaging',
+          url: '/sms/group',
+        }
       
-  //     ]
-  //   },
-  //   {
-  //     name: 'Reports',
-  //     url: '/sms',
-  //     iconComponent: { name: 'cil-bar-chart' },
-  //     children: [
-  //       {
-  //         name: 'All messages',
-  //         url: '/sms/all-messages',
-  //       },
-  //       {
-  //         name: 'Sent messages',
-  //         url: '/sms/sent-messages',
-  //       },
-  //       {
-  //         name: 'Cutomer Messages',
-  //         url: '/sms/customers',
-  //       },
-  //       {
-  //         name: 'Bulk Messages',
-  //         url: '/sms/bulks',
-  //       },
-  //       {
-  //           name: 'Cost',
-  //           url: '/sms/cost',
-  //       },
+      ]
+    },
+    {
+      name: 'Reports',
+      url: '/sms',
+      iconComponent: { name: 'cil-bar-chart' },
+      children: [
+        // {
+        //   name: 'All messages',
+        //   url: '/sms/all-messages',
+        // },
+        {
+          name: 'Single messages',
+          url: '/sms/single-messages',
+        },
+        {
+          name: 'Group Messages',
+          url: '/sms/group-messages',
+        },
+        {
+          name: 'Excel Messages',
+          url: '/sms/bulks',
+        },
+        {
+            name: 'Cost',
+            url: '/sms/cost',
+        },
       
-  //     ]
-  //   },
+      ]
+    },
     
-    
-    
-   
-  // ],
+  ],
+ 
   
 }
 
@@ -654,7 +647,37 @@ navItemsICMSBranchManager = {
           url: '/ICMS/DACGM/viewDACGM',
         },
       ]
-    }
+    },
+    // {
+    //   name: 'IFB',
+    //   url: '/ICMS/IFB',
+    //   children: [
+    //     {
+    //       name: 'View IFB',
+    //       url: '/ICMS/IFB/viewIFB'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Finance',
+    //   url: '/ICMS/Finance',
+    //   children: [
+    //     {
+    //       name: 'View Finance',
+    //       url: '/ICMS/Finance/viewFinance'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Fire Extinguisher',
+    //   url: '/ICMS/FireExtinguisher',
+    //   children: [
+    //     {
+    //       name: 'View Fire Extinguisher',
+    //       url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+    //     },
+    //   ]
+    // },
   ]
 }
 navItemsICMSBankingOperation = {

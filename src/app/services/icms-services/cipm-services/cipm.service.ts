@@ -42,7 +42,7 @@ export class CIPMService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/find/${id}`, this.httpOptions)
   }
-  public getCIPMForBranch(id: number): Observable<any> {
+  public getCIPMForBranch(id: string): Observable<any> {
     this.init();
 
     return this.http.get<any>(`${this.apiServiceUrl}/CIPM/findByOrganizationalUnitId/${id}`, this.httpOptions)

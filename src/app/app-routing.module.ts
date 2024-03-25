@@ -76,6 +76,11 @@ const routes: Routes = [
           import('./modules/cms/dashboard/dashboard.module').then((m) => m.DashboardModule)
       },
       {
+        path: 'sms_dashboard',
+        loadChildren: () =>
+          import('./modules/sms/sms.module').then((m) => m.SmsModule )
+      },
+      {
         path: 'default_dashboard',
         loadChildren: () =>
           import('./containers/default-layout/default-dashboard/default-dashboard.module').then((m) => m.DefaultDashboardModule)

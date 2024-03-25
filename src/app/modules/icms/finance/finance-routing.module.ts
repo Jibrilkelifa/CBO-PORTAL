@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NewFinanceComponent } from './components/new-finance/new-finance.component';
 import { FinanceTableComponent } from './components/finance-table/finance-table.component';
+import { FinanceActionPlanComponent } from './components/finance-Plan/finance-action.component';
 
 
 
@@ -24,6 +25,13 @@ const routes: Routes = [
           title: 'Add',
         },
       },
+      {
+        path: 'approveActionPlan',
+        component: FinanceActionPlanComponent,
+        data: {
+          title: 'Approve action plan due date',
+        },
+      },      
   
       {
         path: 'updateFinance/:id',

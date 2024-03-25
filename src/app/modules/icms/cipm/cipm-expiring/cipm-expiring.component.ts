@@ -177,8 +177,8 @@ export class CIPMExpiringComponent {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
-
-  branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
+  // branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   constructor(private filterService: FilterService, private cipmService: CIPMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,

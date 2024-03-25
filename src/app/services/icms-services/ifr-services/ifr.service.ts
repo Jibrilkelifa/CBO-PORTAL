@@ -87,7 +87,7 @@ export class IFRService {
 
 
 
-  public getFraudForBranch(id: number): Observable<any> {
+  public getFraudForBranch(id: string): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/incidentFraudReport/findByOrganizationalUnitId/${id}`, this.httpOptions)
   }

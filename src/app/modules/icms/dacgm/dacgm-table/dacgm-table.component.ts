@@ -174,8 +174,8 @@ export class DACGMTableComponent {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
-
-  branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
+  // branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   constructor(private filterService: FilterService, private dacgmService: DACGMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
@@ -282,10 +282,6 @@ export class DACGMTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-      //   console.log("branchId = " + this.branchId)
-      //   this.districtId = branch?.subProcess?.id
-      //   console.log("district = " + this.districtId)
         this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
           (response: DACGM[]) => {
             this.dacgms = response;

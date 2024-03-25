@@ -37,7 +37,7 @@ export class DCQService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/DCQ/find/${id}`, this.httpOptions)
   }
-  public getDCQForBranch(id: number): Observable<any>{
+  public getDCQForBranch(id: string): Observable<any>{
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/DCQ/findByOrganizationalUnitId/${id}`, this.httpOptions)
   }

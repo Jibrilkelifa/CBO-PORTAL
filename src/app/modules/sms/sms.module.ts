@@ -17,9 +17,9 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AccordionModule, BadgeModule, BreadcrumbModule, CardModule, CollapseModule, GridModule, UtilitiesModule, SharedModule, ListGroupModule, PlaceholderModule, ProgressModule, SpinnerModule, TabsModule, NavModule, CarouselModule, FormModule, PaginationModule, PopoverModule } from '@coreui/angular';
-import { AllMessagesComponent } from './components/all-messages/all-messages.component';
+import { AllMessagesComponent } from './components/cost-messages/all-messages.component';
 import { AnimateModule } from 'primeng/animate';
-import { SentMessagesComponent } from './components/sent-messages/sent-messages.component';
+import { SentMessagesComponent } from './components/excel-messages/sent-messages.component';
 import { MultiSelectModule as MultiSElectModule1, MultiSelectModule } from 'primeng/multiselect';
 
 import { BlockUIModule } from 'primeng/blockui';
@@ -33,6 +33,12 @@ import { SingleComponent } from './components/send-single/single.component';
 import { BulkComponent } from './components/send-bulk/bulk.component';
 import { FileUploadModule } from 'primeng/fileupload';
 import { DividerModule } from 'primeng/divider';
+import { GroupComponent } from './components/send-group/group.component';
+import{SingleMessagesComponent} from './components/single-messages/single-messages.component'
+import{GroupMessagesComponent} from './components/group-messages/group-messages.component'
+import{SmsDashboardComponent} from './components/dashboard/monthlySMSReport/smsDashboard.component'
+import{SMSHistoryComponent} from './components/dashboard/smsHistory/smsHistory.component'
+import{TableReportComponents} from './components/dashboard/tableReport/tableReport.component'
 
 
 
@@ -41,7 +47,13 @@ import { DividerModule } from 'primeng/divider';
     AllMessagesComponent,
     SentMessagesComponent,
     SingleComponent,
-    BulkComponent
+    GroupComponent,
+    BulkComponent,
+    SingleMessagesComponent,
+    GroupMessagesComponent,
+    SmsDashboardComponent,
+    SMSHistoryComponent,
+    TableReportComponents
   ],
   imports: [
     NgApexchartsModule,

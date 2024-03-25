@@ -266,13 +266,15 @@ export class SingleFraudCaseTableComponent {
   getSignatures() {
     this.emsService.getEmployeeByFullNameFromDB(this.authorizedBy).subscribe(
       (response1:Employee) => {
+        console.log("hiiiiii",this.authorizedBy);
+        
         console.log(`Fetching signature image for employee ${response1}...`);
         console.log(response1?.employeeId,"hgfjkhgjkh");
 
     
-        this.employeeService.getSignatureImage(response1[0]?.employeeId).subscribe(
+        this.signatureService.getSignatureImage(6625).subscribe(
           (response2: any) => {
-            console.log(`Fetching signature image: ${JSON.stringify(response2)}`);
+            console.log(`Fetching signature image for prepareer: ${JSON.stringify(response2)}`);
             const blob = new Blob([response2], { type: 'image/jpeg' });
             const url = URL.createObjectURL(blob);
             this.preparerImageData = this.sanitizer.bypassSecurityTrustUrl(url);
@@ -298,9 +300,9 @@ export class SingleFraudCaseTableComponent {
         console.log(response1[0]?.employeeId,"hgfjkhgjkh");
 
     
-        this.employeeService.getSignatureImage(response1[0]?.employeeId).subscribe(
+        this.signatureService.getSignatureImage(6625).subscribe(
           (response2: any) => {
-            console.log(`Fetching signature image: ${JSON.stringify(response2)}`);
+            console.log(`signature image: ${response2}`);
             const blob = new Blob([response2], { type: 'image/jpeg' });
             const url = URL.createObjectURL(blob);
             this.authorizerImageData = this.sanitizer.bypassSecurityTrustUrl(url);

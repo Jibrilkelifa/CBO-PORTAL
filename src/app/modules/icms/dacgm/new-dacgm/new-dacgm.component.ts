@@ -44,18 +44,14 @@ export class NewDACGMComponent implements OnInit {
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  branchId: number = Number(localStorage.getItem('branchId'));
+  // branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   isOtherIrregularitySelected: boolean = false;
   isOtherIPCTSelected: boolean = false;
   insuranceExpireDate: Date;
-  caseId: string;
-
-  categoryName: string;
-  categories: AllCategory[];
-  subCategories: AllSubCategory[];
-  irregularities: AllIrregularity[];
-  generateCaseId(): void {
+   caseId: string;
+   generateCaseId(): void {
     this.timeService.getDate().subscribe(
       (response: any) => {
         const dateParts = response.time.split('/'); // split the date string by '/'
@@ -86,6 +82,12 @@ export class NewDACGMComponent implements OnInit {
     )
   }
 
+  categoryName: string;
+  categories: AllCategory[];
+  subCategories: AllSubCategory[];
+  irregularities: AllIrregularity[];
+
+
   constructor(
     private timeService: TimeService,
     private filterService: FilterService,
@@ -106,6 +108,7 @@ export class NewDACGMComponent implements OnInit {
     this.getDACGMCategories();
     this.getActivityStatus();
     this.generateCaseId();
+    // this.generateCaseId();
     this.getDACGMs(this.branchId);
     // alert(this.branchId);
     this.primengConfig.ripple = true;
@@ -202,7 +205,7 @@ export class NewDACGMComponent implements OnInit {
     this.isOtherIrregularitySelected = (event.value.name === 'Other');
   }
 
-  public getDACGMs(branchId: number): void {
+  public getDACGMs(branchId: string): void {
     this.dacgmService.getDACGMForBranch(branchId).subscribe(
       (response: DACGM[]) => {
         this.dacgms = response;
@@ -226,32 +229,7 @@ export class NewDACGMComponent implements OnInit {
   }
 
   public addDACGM(addDACGMForm: NgForm): void {
-    this.timeService.getDate().subscribe(
-      (response: any) => {
-        const dateParts = response.time.split('/'); // split the date string by '/'
-        const year = dateParts[2];
-        const month = dateParts[0].padStart(2, "0");
-        const day = dateParts[1].padStart(2, "0");
-        const DatePresented = `${month}/${day}/${year}`; // format date as a string in MM/DD/YYYY format
-        this.dacgmService.getSize().subscribe(
-          (response: any) => {
-            if (response == 0) {
-              addDACGMForm.value.caseId = "0001/" + DatePresented;
-            }
-            else {
-              this.dacgmService.getDACGM(response).subscribe(
-                (response: any) => {
-                  if (response.caseId.slice(-4) === year) {
-                    const lastCaseId = parseInt(response.caseId.slice(0, 4));
-                    const nextCaseId = (lastCaseId + 1).toString().padStart(4, "0");
-                    addDACGMForm.value.caseId = nextCaseId + "/";
-                  } else {
-                    addDACGMForm.value.caseId = "0001/"+ DatePresented;
-                  }
-                }
-              )
-            }
-            this.dacgmService.addDACGM(addDACGMForm.value).subscribe(
+      this.dacgmService.addDACGM(addDACGMForm.value).subscribe(
               (response: any) => {
                 this.messageService.add({
                   severity: 'success',
@@ -268,9 +246,7 @@ export class NewDACGMComponent implements OnInit {
               }
             );
           }
-        )
-      }
-    )
+        
     
     // this.dacgmService.addDACGM(addDACGMForm.value).subscribe(
     //   (response: any) => {
@@ -296,7 +272,7 @@ export class NewDACGMComponent implements OnInit {
 
     //   }
     // );
-  }
+  
 
   public updateDACGM(updateDACGM: NgForm): void {
     if (updateDACGM.value.otherInsuranceCoverageType == undefined) {

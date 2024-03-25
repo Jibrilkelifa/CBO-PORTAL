@@ -8,6 +8,8 @@ export interface Message{
     userName: string;
     user: User;
     messageContent: string;
+    cost: number;
     status: number;
+    sender:string;
   }
   

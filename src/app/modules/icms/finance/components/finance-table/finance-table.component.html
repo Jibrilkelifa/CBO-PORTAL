@@ -23,21 +23,19 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     [rows]="5"
     [globalFilterFields]="[
-    'financeDate',
-    'caseId',
-    'accountNumber',
-    'productTypes.name',
-    'allCategory.name',
-    'allSubCategory.name',
-    'irregularity',
-    'amount',
-    'responsiblePerson',
-    'status.name',
-  ]"
+      'financeDate',
+      'caseId',
+      'accountNumber',
+      'productTypes.name',
+      'allCategory.name',
+      'allSubCategory.name',
+      'irregularity',
+      'amount',
+      'responsiblePerson',
+      'financeStatus.name'
+    ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
-    stateStorage="session"
-    stateKey="statedemo-session"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -74,30 +72,63 @@
           Responsible Person
           <p-sortIcon field="responsiblePerson"></p-sortIcon>
         </th>
-        <th pSortableColumn="status.name">
+        <th scope="col" pSortableColumn="actionPlanDueDate" style="width: 10%">
+          Action Plan Due Date<p-sortIcon></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="">Past Due</th>
+        <th pSortableColumn="financeStatus.name">
           Status
-          <p-sortIcon field="status.name"></p-sortIcon>
+          <p-sortIcon field="financeStatus.name"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-FinanceList let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="FinanceList">
+    <ng-template pTemplate="body" let-finance let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="finance">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ FinanceList?.financeDate }}</td>
-        <td>{{ FinanceList?.caseId }}</td>
-        <td>{{ FinanceList?.accountNumber }}</td>
-        <td>{{ FinanceList?.allCategory?.name }}</td>
-        <td>{{ FinanceList?.allSubCategory?.name }}</td>
-        <td>{{ FinanceList?.irregularity }}</td>
-        <td>{{ FinanceList?.amount }}</td>
-        <td>{{ FinanceList?.responsiblePerson }}</td>
-        <td>{{ FinanceList?.status?.name }}</td>
+        <td>{{ finance?.financeDate }}</td>
+        <td>{{ finance?.caseId }}</td>
+        <td>{{ finance?.accountNumber }}</td>
+        <td>{{ finance?.allCategory?.name }}</td>
+        <td>{{ finance?.allSubCategory?.name }}</td>
+        <td>{{ finance?.irregularity }}</td>
+        <td>{{ finance?.amount }}</td>
+        <td>{{ finance?.responsiblePerson }}</td>
+        <td>{{ finance?.actionPlanDueDate }}</td>
+        <td
+        [ngStyle]="{
+          color: (finance.daysPastDue > 0 && finance.financeStatus.name === 'Open') ? 'red' : ''
+        }"
+      >
+        {{ (finance.daysPastDue > 0 && finance.financeStatus.name === 'Open') ? finance.daysPastDue + ' days past due' : '' }}
+      </td>
+      
+
+        <td>{{ finance?.financeStatus?.name }}</td>
         <td>
-          <div class="flex gap-2">
+          <div
+            class="flex gap-2"
+            *ngIf="
+              this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') &&
+              !finance.actionTaken &&
+              finance.financeStatus.name === 'Open'
+            "
+          >
             <button
               pButton
-              (click)="updateFinace(FinanceList.id)"
+              (click)="approveActionPlan(finance)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-24 h-10 p-2"
+              label="Take action"
+            ></button>
+          </div>
+          <div
+            class="flex gap-2"
+            *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')"
+          >
+            <button
+              pButton
+              (click)="updateFinace(finance?.id)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
               label="Update"

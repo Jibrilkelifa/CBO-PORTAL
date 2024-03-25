@@ -1,0 +1,35 @@
+<p-messages
+  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
+  [value]="msgs"
+></p-messages>
+<div>
+  <form
+    #approveActionPlanForm="ngForm"
+    (ngSubmit)="approveActionPlan(approveActionPlanForm)"
+    required
+  >
+    <input type="hidden" name="id" ngModel [(ngModel)]="finance.id" />
+
+    <div class="flex flex-wrap gap-3 mb-2">
+      <div class="flex-auto">
+        <label for="actionPlanDueDate" class="block mb-2">
+          Action plan due date
+        </label>
+        <p-calendar
+          id="fraudOccurrenceDate"
+          [(ngModel)]="selectedDate"
+          name="actionPlanDueDate"
+          [style]="{ width: '30vw', height: '45px' }"
+          [showIcon]="true"
+        ></p-calendar>
+      </div>
+    </div>
+    <div class="mb-5"></div>
+    <p-button
+      label="Approve action plan"
+      type="submit"
+      [disabled]="approveActionPlanForm.invalid"
+      class="createButton mb-5"
+    ></p-button>
+  </form>
+</div>

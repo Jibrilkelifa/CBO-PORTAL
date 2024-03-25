@@ -134,8 +134,8 @@ export class DCQTableComponent {
     }
     return str;
   }
-
-  branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
+  // branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   roles: string[] = [];
 
