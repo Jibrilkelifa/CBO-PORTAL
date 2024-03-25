@@ -17,7 +17,7 @@ export class CaResponseService {
       })
     };
 
-    this.apiServiceUrl = 'http://10.1.125.58:8103';//localStorage.getItem('url_7');
+    this.apiServiceUrl = 'http://10.1.125.58:8095';//localStorage.getItem('url_7');
   }
 
   constructor(private http: HttpClient){}

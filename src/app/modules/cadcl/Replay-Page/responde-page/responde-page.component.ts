@@ -64,8 +64,8 @@ export class RespondePageComponent {
 
 
   getcaChecklist(id: number): void {
-    var branch = localStorage.getItem('branch');
-    console.log('branch ',branch);
+    var branch = localStorage.getItem('branchId');
+    console.log('branchId ',branch);
 
     this.subscriptions.push(
       this.caResponseService.getBranchCaDailyChecklistById(id,branch).subscribe(
