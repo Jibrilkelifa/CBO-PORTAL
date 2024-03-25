@@ -1,11 +1,14 @@
+import { Branch } from "src/app/models/sso-models/branch";
+import { SubProcess } from "src/app/models/sub-process";
+
 export class FireExtinguisherModel {
     id: number;
-    district: Date;
-    branch: string; 
+    branch:Branch;
+    subProcess:SubProcess;
     extinguisherSerialNumber: any; 
     size: any; 
     inspectionDate: Date; 
     nextInspectionDate: Date; 
-    daysLeftForInspection: string; 
+    daysLeftForInspection: number; 
     status: any; 
 }

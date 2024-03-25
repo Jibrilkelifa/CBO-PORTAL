@@ -30,6 +30,7 @@ import {
 
 import { NewFinanceComponent } from './components/new-finance/new-finance.component';
 import { FinanceTableComponent } from './components//finance-table/finance-table.component';
+import { FinanceActionPlanComponent } from './components/finance-Plan/finance-action.component';
 import { FinanceRoutingModule } from './finance-routing.module';
 import { IconModule } from '@coreui/icons-angular';
 
@@ -98,6 +99,7 @@ import { CalendarModule } from 'primeng/calendar';
   declarations: [
     NewFinanceComponent,
     FinanceTableComponent,
+    FinanceActionPlanComponent
   ],
   providers: [ConfirmationService, MessageService]
 })

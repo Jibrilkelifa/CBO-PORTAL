@@ -3,7 +3,11 @@
   [value]="msgs"
 ></p-messages>
 <div>
-  <form #FireExtinguisherForm="ngForm" (ngSubmit)="submitFireExtinguisher(FireExtinguisherForm)" required>
+  <form
+    #FireExtinguisherForm="ngForm"
+    (ngSubmit)="submitFireExtinguisher(FireExtinguisherForm)"
+    required
+  >
     <div class="flex flex-wrap gap-3 mb-4">
       <div class="flex-auto" *ngIf="!update">
         <label for="alphabetic" class="block mb-2"> Branch </label>
@@ -12,7 +16,7 @@
           pKeyFilter="alpha"
           id="alphabetic"
           ngModel
-          [(ngModel)]="FireExtinguisher.branch"
+          [(ngModel)]="FireExtinguisher.branch.name"
           name="branch"
           [style]="{ width: '30vw', height: '45px' }"
           [readonly]="true"
@@ -25,8 +29,8 @@
           pKeyFilter="alpha"
           id="alphabetic"
           ngModel
-          [(ngModel)]="FireExtinguisher.district"
-          name="branch"
+          [(ngModel)]="FireExtinguisher.subProcess.name"
+          name="subProcess"
           [style]="{ width: '30vw', height: '45px' }"
           [readonly]="true"
         />
@@ -53,7 +57,7 @@
           name="size"
         ></p-inputNumber>
       </div>
-      <div class="flex-auto">
+      <div class="flex-auto" *ngIf="!update">
         <label for="inspectionDate" class="block mb-2">Inspection Date </label>
         <p-calendar
           id="inspectionDate"
@@ -62,10 +66,13 @@
           [style]="{ width: '30vw', height: '45px' }"
           [showIcon]="true"
           [required]="true"
+          (ngModelChange)="calculateDaysLeft()"
         ></p-calendar>
       </div>
-      <div class="flex-auto">
-        <label for="nextInspectionDate" class="block mb-2">Next Inspection Date </label>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="nextInspectionDate" class="block mb-2"
+          >Next Inspection Date
+        </label>
         <p-calendar
           id="nextInspectionDate"
           [(ngModel)]="FireExtinguisher.nextInspectionDate"
@@ -73,47 +80,43 @@
           [style]="{ width: '30vw', height: '45px' }"
           [showIcon]="true"
           [required]="true"
+          (ngModelChange)="calculateDaysLeft()"
         ></p-calendar>
       </div>
       <div class="flex-auto" *ngIf="!update">
-        <label for="alphabetic" class="block mb-2">Days left for inspection</label>
+        <label for="daysLeftForInspection" class="block mb-2"
+          >Days left for inspection</label
+        >
         <input
           pInputText
-          pKeyFilter="alpha"
-          id="alphabetic"
-          ngModel
+          id="daysLeftForInspection"
           [(ngModel)]="FireExtinguisher.daysLeftForInspection"
-          name="branch"
+          name="daysLeftForInspection"
           [style]="{ width: '30vw', height: '45px' }"
           [readonly]="true"
         />
       </div>
-      <div class="flex-auto" *ngIf="update">
-        <label for="hex" class="block mb-2"> Status </label>
+      <div class="flex-auto">
+        <label for="status" class="block mb-2">Status</label>
         <p-dropdown
-          [options]="statuses"
+          [options]="[{ name: 'Working' }, { name: 'Damaged' }]"
           name="status"
-          ngModel
           [(ngModel)]="selectedstatus"
           optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
-          placeholder="Select  Status"
+          placeholder="Select Status"
           class="w-full"
           styleClass="p-password"
           [style]="{ width: '30vw', height: '45px' }"
           [required]="true"
         >
-          (ngOnInit)="populateSelectedstatus(existingStatus)">
           <ng-template pTemplate="selectedItem">
             <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
               <div>{{ selectedstatus.name }}</div>
             </div>
           </ng-template>
-          <ng-template let-selectedstatuse pTemplate="item">
+          <ng-template let-status pTemplate="item">
             <div class="flex align-items-center gap-2">
-              <div>{{ selectedstatuse.name }}</div>
+              <div>{{ status.name }}</div>
             </div>
           </ng-template>
         </p-dropdown>

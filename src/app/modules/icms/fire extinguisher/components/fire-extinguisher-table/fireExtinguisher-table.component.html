@@ -23,16 +23,14 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     [rows]="5"
     [globalFilterFields]="[
-    'financeDate',
-    'caseId',
-    'accountNumber',
-    'productTypes.name',
-    'allCategory.name',
-    'allSubCategory.name',
-    'irregularity',
-    'amount',
-    'responsiblePerson',
-    'status.name',
+    'branch.name',
+    'subProcess.name',
+    'extinguisherSerialNumber',
+    'size',
+    'inspectionDate',
+    'nextInspectionDate',
+    'daysLeftForInspection',
+    'status',
   ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
@@ -42,37 +40,33 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="financeDate">
-          Date
-          <p-sortIcon field="financeDate"></p-sortIcon>
+        <th pSortableColumn="branch.name">
+          Branch
+          <p-sortIcon field="branch.name"></p-sortIcon>
         </th>
-        <th pSortableColumn="caseId">
-          Case ID
-          <p-sortIcon field="caseId"></p-sortIcon>
+        <th pSortableColumn="subProcess.name">
+          District
+          <p-sortIcon field="subProcess.name"></p-sortIcon>
         </th>
-        <th pSortableColumn="accountNumber">
-          Account Number
-          <p-sortIcon field="accountNumber"></p-sortIcon>
+        <th pSortableColumn="extinguisherSerialNumber">
+          Extinguisher serial number
+          <p-sortIcon field="extinguisherSerialNumber"></p-sortIcon>
         </th>
-        <th pSortableColumn="allCategory.name">
-          Category
-          <p-sortIcon field="allCategory.name"></p-sortIcon>
+        <th pSortableColumn="size">
+          Size
+          <p-sortIcon field="size"></p-sortIcon>
         </th>
-        <th pSortableColumn="allSubCategory.name">
-          Sub-category
-          <p-sortIcon field="allSubCategory.name"></p-sortIcon>
+        <th pSortableColumn="inspectionDate">
+          Inspection Date
+          <p-sortIcon field="inspectionDate"></p-sortIcon>
         </th>
-        <th pSortableColumn="irregularity">
-          Irregularity
-          <p-sortIcon field="irregularity"></p-sortIcon>
+        <th pSortableColumn="nextInspectionDate">
+          Next Inspection Date
+          <p-sortIcon field="nextInspectionDate"></p-sortIcon>
         </th>
-        <th pSortableColumn="amount">
-          Amount
-          <p-sortIcon field="amount"></p-sortIcon>
-        </th>
-        <th pSortableColumn="responsiblePerson">
-          Responsible Person
-          <p-sortIcon field="responsiblePerson"></p-sortIcon>
+        <th pSortableColumn="daysLeftForInspection">
+          Days Left For Inspection
+          <p-sortIcon field="daysLeftForInspection"></p-sortIcon>
         </th>
         <th pSortableColumn="status.name">
           Status
@@ -81,23 +75,22 @@
         <th scope="col">Actions</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-FinanceList let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="FinanceList">
+    <ng-template pTemplate="body" let-fireExtinguisherList let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="fireExtinguisherList">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ FinanceList?.financeDate }}</td>
-        <td>{{ FinanceList?.caseId }}</td>
-        <td>{{ FinanceList?.accountNumber }}</td>
-        <td>{{ FinanceList?.allCategory?.name }}</td>
-        <td>{{ FinanceList?.allSubCategory?.name }}</td>
-        <td>{{ FinanceList?.irregularity }}</td>
-        <td>{{ FinanceList?.amount }}</td>
-        <td>{{ FinanceList?.responsiblePerson }}</td>
-        <td>{{ FinanceList?.status?.name }}</td>
+        <td>{{ fireExtinguisherList?.branch.name }}</td>
+        <td>{{ fireExtinguisherList?.subProcess.name }}</td>
+        <td>{{ fireExtinguisherList?.extinguisherSerialNumber }}</td>
+        <td>{{ fireExtinguisherList?.size }}</td>
+        <td>{{ fireExtinguisherList?.inspectionDate }}</td>
+        <td>{{ fireExtinguisherList?.nextInspectionDate }}</td>
+        <td>{{ fireExtinguisherList?.daysLeftForInspection }}</td>
+        <td>{{ fireExtinguisherList?.status }}</td>
         <td>
           <div class="flex gap-2">
             <button
               pButton
-              (click)="updateFinace(FinanceList.id)"
+              (click)="updateFireExtinguisher(fireExtinguisherList.id)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
               label="Update"
