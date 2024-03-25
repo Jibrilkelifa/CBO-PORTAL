@@ -1,0 +1,291 @@
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog></p-confirmDialog>
+<div class=“caChecklist-details-container”>
+
+        <div class="details-partition">
+                <div class="col mb-4" style="display: flex; justify-content: space-between;">
+                        <div style="width: 50%;">
+                                <p>Created date: {{caChecklist?.inquiryReceived}}</p>
+                        </div>
+                        <div *ngIf="!caChecklist?.closed" class="col" style="display: flex; justify-content: flex-end">
+                                <div>
+                                        <p class="pt-0 mr-3">Status: </p>
+                                </div>
+                                <div style="width: 50%;">
+                                        <p-progressBar [value]="caChecklist?.statusPercent"></p-progressBar>
+                                </div>
+                        </div>
+                        <div *ngIf="caChecklist?.closed">
+                                <p style="color: red;">Closed</p>
+                        </div>
+                </div>
+                <h2>Request Details</h2>
+                <div class="details-section">
+                        <div class="column">
+                                <p><strong>Inquiry Type:</strong> <span class="value">{{ caChecklist?.inquiryType ||
+                                                "unknown" }}</span>
+                                </p>
+                                <p><strong>Category:</strong> <span class="value">{{ caChecklist?.category ||
+                                                "unknown" }}</span>
+                                <p>
+                                        <strong>Description:</strong>
+                                        <span class="value-large" [title]="caChecklist?.description">{{
+                                                caChecklist?.description || "unknown" }}</span>
+                                </p>
+                                <p><strong>Requested Organ:</strong> <span class="value">{{ caChecklist?.requestedOrgan
+                                                || "unknown"
+                                                }}</span></p>
+                                <p><strong>Inquiry Received:</strong> <span class="value">{{
+                                                caChecklist?.inquiryReceived
+                                                || "unknown"
+                                                }}</span></p>
+                                <p><strong>Number of Accounts Searched:</strong> <span class="value">{{
+                                                caChecklist?.numAccountSearched
+                                                || "unknown" }}</span></p>
+                                <p><strong>Case Owner:</strong> <span class="value">{{ caChecklist?.caseOwner ||
+                                                "unknown" }}</span></p>
+                        </div>
+                        <div class="column">
+                                <p><strong>Deadline:</strong> <span class="value">{{ caChecklist?.deadline || "unknown"
+                                                }}</span></p>
+                                <p><strong>Reference Number:</strong> <span class="value">{{ caChecklist?.referenceNum
+                                                ||
+                                                "unknown"
+                                                }}</span></p>
+                                <p><strong>No_ Requested Organs:</strong> <span class="value">{{
+                                                caChecklist?.numRequestedOrgans ||
+                                                "unknown" }}</span></p>
+                                <p><strong>Urgency:</strong> <span class="value">{{ caChecklist?.urgency || "unknown"
+                                                }}</span></p>
+                                <p><strong>Impact:</strong> <span class="value">{{ caChecklist?.impact || "unknown"
+                                                }}</span></p>
+                                <div class="files"
+                                        style="background-color: whitesmoke; padding: 20px; position: relative;">
+                                        <p style="font-size: 1.0em; position: absolute; top: 0; left: 0;">
+                                                <strong>Attachments:</strong>
+                                        </p>
+                                        <div class="col mb-0" style="margin-top: 10px;">
+                                                <table class="files-table">
+                                                        <tbody>
+                                                                <tr *ngFor="let flink of fileLinks">
+                                                                        <td>{{ flink.split('/')[3] }}</td>
+                                                                        <td class="pl-4">
+                                                                                <button (click)="getFile(flink)"
+                                                                                        class="file-action-button view-button">
+                                                                                        <i class="pi pi-eye"></i>
+                                                                                </button>
+                                                                        </td>
+                                                                        <td class="pl-4" *ngIf="!caChecklist?.closed">
+                                                                                <button (click)="removeCheckListFile(flink)"
+                                                                                        class="file-action-button">
+                                                                                        <i class="pi pi-times"></i>
+                                                                                </button>
+                                                                        </td>
+                                                                </tr>
+                                                        </tbody>
+                                                </table>
+                                                <button *ngIf="!caChecklist?.closed" (click)="showFileDialog()"
+                                                        class="addFile">
+                                                        <i class="pi pi-plus"></i> Add File
+                                                </button>
+                                        </div>
+                                </div>
+
+                                <div *ngIf="showFilepop" class="card flex justify-content-center">
+                                        <p-dialog header="Choice and upload new file" [(visible)]="showFilepop">
+                                                <div class="mb-4 mt-4"
+                                                        style="width: 300px !important; height: 75px !important; text-align: center;">
+                                                        <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
+                                                                url="https://www.primefaces.org/cdn/api/upload.php"
+                                                                accept="image/*,.pdf,.docs,.txt"
+                                                                (onUpload)="onUpload($event)"></p-fileUpload>
+                                                </div>
+                                        </p-dialog>
+                                </div>
+
+                        </div>
+                </div>
+                <hr>
+                <br>
+                <div class="col" style="text-align: right;">
+                        <h2 class="col mb-4">Response Details</h2>
+                        <button *ngIf="!caChecklist?.closed" (click)="showDialog()" style="color: green;">+
+                                Branch</button>
+                        <div *ngIf="visible">
+                                <p-dialog header="Add new branch" [(visible)]="visible">
+
+                                        <form #addBranchForm="ngForm" (ngSubmit)="addBranch(addBranchForm)"
+                                                style="width: 300px !important; height: 150px !important; text-align: center;">
+                                                <div class="mb-4 mt-4">
+                                                        <p-dropdown [options]="branchList" [(ngModel)]="selectedBranche"
+                                                                optionLabel="name" [showClear]="true" name="branch"
+                                                                placeholder="Select a Branch"></p-dropdown>
+                                                </div>
+                                                <p-button type="submit" label="Add"></p-button>
+                                        </form>
+                                </p-dialog>
+                        </div>
+                </div>
+                <div>
+                        <div class="card flex justify-content-center" style="border: none;">
+                                <p-accordion *ngFor="let checklistItem of caChecklist?.replyCheckLists">
+                                        <p-accordionTab id="{{checklistItem?.id}}">
+                                                <ng-template pTemplate="header">
+                                                        <span class="flex align-items-center gap-1 w-full">
+                                                                <span class="font-bold white-space-nowrap">{{checklistItem?.branchName
+                                                                        || 'unknown'}}</span>
+                                                                <i class="pi {{ checklistItem.replayed ? 'pi-check' : 'pi-times' }}"
+                                                                        [ngStyle]="{'color': checklistItem.replayed ? 'green' : 'red'}"></i>
+                                                        </span>
+                                                </ng-template>
+
+                                                <div *ngIf="checklistItem.replayed">
+                                                        <div class="details-section">
+                                                                <div class="column">
+                                                                        <p><strong>Response Date:</strong> <span
+                                                                                        class="value">{{
+                                                                                        checklistItem?.responseDate ||
+                                                                                        "unknown"
+                                                                                        }}</span></p>
+                                                                        <p><strong>Response By:</strong> <span
+                                                                                        class="value">{{
+                                                                                        checklistItem?.replayedUser ||
+                                                                                        "unknown"
+                                                                                        }}</span></p>
+                                                                        <p><strong>Position:</strong> <span
+                                                                                        class="value">{{
+                                                                                        checklistItem?.userPosition ||
+                                                                                        "unknown"
+                                                                                        }}</span></p>
+                                                                        <div class="files"
+                                                                                style="background-color: whitesmoke; padding: 20px; position: relative;">
+                                                                                <p
+                                                                                        style="font-size: 1.0em; position: absolute; top: 0; left: 0;">
+                                                                                        <strong>Attachments:</strong>
+                                                                                </p>
+                                                                                <div class="col mb-0"
+                                                                                        style="margin-top: 10px;">
+                                                                                        <table class="files-table">
+                                                                                                <tbody>
+                                                                                                        <tr
+                                                                                                                *ngFor="let flink of checklistItem?.replayFileLinks">
+                                                                                                                <td>{{ flink.split('/')[4]
+                                                                                                                        }}
+                                                                                                                </td>
+                                                                                                                <td
+                                                                                                                        class="pl-4">
+                                                                                                                        <button (click)="getFile(flink)"
+                                                                                                                                class="file-action-button view-button">
+                                                                                                                                <!-- <i class="pi pi-eye"></i> -->
+                                                                                                                                View
+                                                                                                                        </button>
+                                                                                                                </td>
+                                                                                                        </tr>
+                                                                                                </tbody>
+                                                                                        </table>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="column">
+                                                                        <p>
+                                                                                <strong>Action Performed:</strong>
+                                                                                <span class="value-large"
+                                                                                        [title]="checklistItem?.description">{{
+                                                                                        checklistItem?.activityPerformed
+                                                                                        ||
+                                                                                        "unknown" }}</span>
+                                                                        </p>
+                                                                        <p>
+                                                                                <strong>Description:</strong>
+                                                                                <span class="value-large"
+                                                                                        [title]="checklistItem?.description">{{
+                                                                                        checklistItem?.description ||
+                                                                                        "unknown" }}</span>
+                                                                        </p>
+
+                                                                        <p>
+                                                                                <strong>Justification:</strong>
+                                                                                <span class="value-large"
+                                                                                        [title]="checklistItem?.justification">{{
+                                                                                        checklistItem?.justification ||
+                                                                                        "unknown" }}</span>
+                                                                        </p>
+                                                                </div>
+                                                        </div>
+                                                        <div class="row" *ngIf="checklistItem?.cusInfoRes">
+                                                                <div class="col mb-0">
+                                                                        <label
+                                                                                class="block mb-0"><strong>No_:</strong></label>
+                                                                </div>
+                                                                <div class="col mb-0">
+                                                                        <label class="block mb-0"><strong>Customer
+                                                                                        Name:</strong></label>
+                                                                </div>
+                                                                <div class="col mb-0">
+                                                                        <label class="block mb-0"><strong>Account
+                                                                                        Number: </strong></label>
+                                                                </div>
+                                                                <div class="col mb-0">
+                                                                        <label class="block mb-0"><strong>Amount:
+                                                                                </strong></label>
+                                                                </div>
+                                                        </div>
+                                                        <div class="row mt-2"
+                                                                *ngFor="let cuInfo of checklistItem?.cusInfoRes; let i = index">
+                                                                <p class="col mb-0"><span>{{ i + 1 }}</span></p>
+                                                                <p class="col mb-0"><span>{{ cuInfo?.customerName ||
+                                                                                "unknown" }}</span></p>
+                                                                <p class="col mb-0"><span>{{ cuInfo?.accountNumber ||
+                                                                                "unknown"
+                                                                                }}</span></p>
+                                                                <p class="col mb-0"><span>{{ cuInfo?.amount ||
+                                                                                "unknown" }}</span></p>
+                                                        </div>
+                                                        <div *ngIf="!caChecklist?.closed" class="col mb-0"
+                                                                style=" display: flex; justify-content: flex-end">
+                                                                <button *ngIf="!checklistItem?.accepted"
+                                                                        style="background: none; color: green; display: inline;"
+                                                                        (click)="confirm1($event, checklistItem.id)">Accept</button>
+                                                                <button *ngIf="!checklistItem?.rejected"
+                                                                        style="background: none; color: red; display: inline;"
+                                                                        (click)="rejectDialog()">Reject</button>
+                                                        </div>
+                                                        <div *ngIf="rejectVisible">
+                                                                <p-dialog header="Reason of rejection"
+                                                                        [(visible)]="rejectVisible">
+
+                                                                        <form #rejectForm="ngForm"
+                                                                                (ngSubmit)="rejectResponse(rejectForm,  checklistItem.id)"
+                                                                                style="width: 30% !important; height: 150px ">
+                                                                                <div class="mb-4 mt-4">
+                                                                                        <textarea rows="2" cols="30"
+                                                                                                pInputTextarea
+                                                                                                [autoResize]="true"
+                                                                                                [ngModel]="checklistItem?.rejectionReason"
+                                                                                                name="rejectionReason"
+                                                                                                [style]="{'width':'20vw'}" required></textarea>
+                                                                                </div>
+                                                                                <div class="flex align-items-center gap-5">
+                                                                                        <p-button label="Submit" [disabled]="rejectForm.invalid!" type="submit" class="w-full" ></p-button>
+                                                                                        <p-button label="Cancel" (click)="rejectDialog()"  class="w-full"></p-button>
+                                                                                </div>
+                                                                        </form>
+                                                                </p-dialog>
+                                                        </div>
+                                                </div>
+                                                <div *ngIf="!checklistItem.replayed" style="text-align: center;">
+                                                        <p style="color: red;">No response data found</p>
+                                                </div>
+                                                <button *ngIf="!caChecklist?.closed" style="font-size: 13px;"
+                                                        (click)="confirmBranchRemove($event, checklistItem?.id)">Remove
+                                                        this request</button>
+                                        </p-accordionTab>
+                                </p-accordion>
+                        </div>
+                </div>
+                <div *ngIf="!caChecklist?.closed" class="col" style="text-align: right;">
+                        <button (click)="confirmClose($event)">Close</button>
+                </div>
+        </div>
+
+</div>

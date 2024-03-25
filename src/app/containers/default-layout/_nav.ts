@@ -10,6 +10,8 @@ export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
 export let navItemsAMSAdmin: Object;
 export let navItemsAMSManager: Object;
+export let navItemsAMSDirector: Object;
+export let navItemsAMSTeamLeader: Object;
 export let navItemsCISTAdmin: Object;
 
 export let navItemsAMSUser: Object;
@@ -31,12 +33,14 @@ export let navItemsSASVUser: Object;
 export let navItemsMemoAdmin: Object;
 export let navItemsMemoUser: Object;
 export let navItemsECXAdmin: Object;
+export let navItemsCAOAdmin: object;
+export let navItemsCAOUser: object;
 export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
 export let navCC:NavItem;
-
+export let navItemsAMSAuditor:Object;
 
 
 
@@ -151,7 +155,129 @@ navItemsAMSAdmin =  {
     },
   ],
   
-},
+}
+
+navItemsAMSManager =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Annual Plan',
+      url: '/ams/annual-plan',
+    },
+    {
+      name: 'Audit Schedule',
+      url: '/ams/audit-schedule',
+    },
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+    {
+      name: 'Setting',
+      url: '/ams',
+      iconComponent: { name: 'cil-settings' },
+      children: [
+        {
+          name: 'Auditors',
+          url: '/ams/audit-staff',
+        },
+        {
+          name: 'Audit universe',
+          url: '/ams/audit-universe',
+        },
+        {
+          name: 'Audit object',
+          url: '/ams/audit-object',
+        },
+        {
+          name: 'Audit team',
+          url: '/ams/audit-type',
+        },
+        {
+          name: 'Risk item',
+          url: '/ams/risk-item',
+        },
+  
+      ]
+    },
+  ],
+  
+}
+
+navItemsAMSAuditor =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    },
+
+  ],
+  
+}
+
+
+navItemsAMSTeamLeader =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Program',
+      url: '/ams/audit-program',
+    },
+    {
+      name: 'Audit Reports',
+      url: '/ams/report-list',
+    }
+  ],
+  
+}
+
+
+navItemsAMSDirector =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    },
+    {
+      name: 'Audit Schedule',
+      url: '/ams/audit-schedule',
+    },
+ 
+ 
+  ],
+  
+}
 
 
 
@@ -177,7 +303,7 @@ navItemsCISTAdmin =  {
   
   ],
   
-},
+}
 
 
 
@@ -412,71 +538,64 @@ navItemsICMSDistrict = {
       ]
     },
   ]
-  // name: 'SMS',
-  // url: '/sms',
-  // iconComponent: { name: 'cil-comment-square' },
-  // children: [
-  //   {
-  //     name: 'SMS Sending',
-  //     url: '/sms',
-  //     iconComponent: { name: 'cil-send' },
-  //     children: [
-  //       {
-  //         name: 'All Customer ',
-  //         url: '/sms/customer',
-  //       },
-  //       {
-  //         name: 'Bulk SMS ',
-  //         url: '/sms/bulk',
-  //       },
-  //       {
-  //         name: 'Single Messaging',
-  //         url: '/sms/single',
-  //       },
-  //       {
-  //         name: 'Group Messaging',
-  //         url: '/sms/group',
-  //       },
-  //       {
-  //           name: 'SMS Template',
-  //           url: '/sms/template',
-  //       },
+}
+
+  navItemsSMSAdmin = {
+  name: 'SMS',
+  url: '/sms',
+  iconComponent: { name: 'cil-comment-square' },
+  children: [
+    {
+      name: 'SMS Sending',
+      url: '/sms',
+      iconComponent: { name: 'cil-send' },
+      children: [
+        {
+          name: 'Excel Messaging ',
+          url: '/sms/bulk',
+        },
+        {
+          name: 'Single Messaging',
+          url: '/sms/single',
+        },
+        {
+          name: 'Group Messaging',
+          url: '/sms/group',
+        }
       
-  //     ]
-  //   },
-  //   {
-  //     name: 'Reports',
-  //     url: '/sms',
-  //     iconComponent: { name: 'cil-bar-chart' },
-  //     children: [
-  //       {
-  //         name: 'All messages',
-  //         url: '/sms/all-messages',
-  //       },
-  //       {
-  //         name: 'Sent messages',
-  //         url: '/sms/sent-messages',
-  //       },
-  //       {
-  //         name: 'Cutomer Messages',
-  //         url: '/sms/customers',
-  //       },
-  //       {
-  //         name: 'Bulk Messages',
-  //         url: '/sms/bulks',
-  //       },
-  //       {
-  //           name: 'Cost',
-  //           url: '/sms/cost',
-  //       },
+      ]
+    },
+    {
+      name: 'Reports',
+      url: '/sms',
+      iconComponent: { name: 'cil-bar-chart' },
+      children: [
+        // {
+        //   name: 'All messages',
+        //   url: '/sms/all-messages',
+        // },
+        {
+          name: 'Single messages',
+          url: '/sms/single-messages',
+        },
+        {
+          name: 'Group Messages',
+          url: '/sms/group-messages',
+        },
+        {
+          name: 'Excel Messages',
+          url: '/sms/bulks',
+        },
+        {
+            name: 'Cost',
+            url: '/sms/cost',
+        },
       
-  //     ]
-  //   },
+      ]
+    },
     
-    
-    
-   
-  // ],
+  ],
+ 
   
 }
 
@@ -768,6 +887,30 @@ navItemsECXAdmin = {
 }
 navItemsECXUser = {
 
+}
+
+navItemsCAOAdmin = {
+  name: 'CAO',
+  url: '/cao',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
+    {
+      name: 'View',
+      url: '/cao/checklists/checklist'
+    },
+  ]
+}
+
+navItemsCAOUser = {
+  name: 'CAO',
+  url: '/cao',
+  iconComponent: { name: 'cil-credit-card' },
+  children: [
+    {
+      name: 'My Checklists',
+      url: '/cao/checklists/my-checklists',
+    },
+  ]
 }
 
 navItemsSASVAdmin = {

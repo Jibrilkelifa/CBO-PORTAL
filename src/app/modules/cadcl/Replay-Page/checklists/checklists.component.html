@@ -1,0 +1,59 @@
+<div class="card">
+    <h5 class="table-title">Check Lists</h5>
+    <p-table #dt1 [value]="caChecklists" [exportHeader]="'customExportHeader'" selectionMode="single" dataKey="id" [tableStyle]="{'min-width': '50rem'}"
+        [rows]="5" [rowsPerPageOptions]="[5,10,15,20]" [paginator]="true" stateStorage="session"
+        stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">ID </th>
+                <th pSortableColumn="inquiryType">Inquiry Type<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="requestedOrgan">Requested Organ <p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="description">Category<p-sortIcon field="description"></p-sortIcon></th>
+                <th pSortableColumn="taskStatus">Status<p-sortIcon field="taskStatus"></p-sortIcon></th>
+                <th scope="col">Actions</th>
+            </tr>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'inquiryType', 'contains')"
+                        [value]="$any(dt1.filters['inquiryType'])?.value" placeholder="Search by Inquiry" class="p-column-filter">
+                </th>
+                <th scope="col"> <input pInputText type="text"
+                        (input)="dt1.filter($any($event.target)?.value, 'requestedOrgan', 'contains')"
+                        [value]="$any(dt1.filters['requestedOrgan'])?.value" placeholder="Search by Organ"
+                        class="p-column-filter"></th>
+                <th scope="col"> <input pInputText type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'category', 'contains')"
+                    [value]="$any(dt1.filters['category'])?.value" placeholder="Search by Category"
+                    class="p-column-filter"></th>
+                <!-- <th scope="col"> <input pInputText type="text"
+                    (input)="dt1.filter($any($event.target)?.value, 'taskStatus', 'contains')"
+                    [value]="$any(dt1.filters['taskStatus'])?.value" placeholder="Search by Status"
+                    class="p-column-filter"></th> -->
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-caChecklists let-rowIndex="rowIndex">
+            <tr [pSelectableRow]="caChecklists">
+                <td>{{rowIndex + 1}}</td>
+                <td>{{caChecklists?.inquiryType}}</td>
+                <td>{{caChecklists?.requestedOrgan}}</td>
+                <td>{{caChecklists?.category}}</td>
+                <td *ngIf="caChecklists.replyCheckLists[0]?.accepted" style="color: green;">Accepted</td>
+                <td *ngIf="caChecklists.replyCheckLists[0]?.rejected" style="color: red;">Rejected</td>
+                <td *ngIf="caChecklists.replyCheckLists[0]?.replayed && !caChecklists.replyCheckLists[0]?.accepted && !caChecklists.replyCheckLists[0]?.rejected" style="color: blue;">Under Review</td>
+                <td *ngIf="!caChecklists.replyCheckLists[0]?.replayed && !caChecklists.replyCheckLists[0]?.accepted && !caChecklists.replyCheckLists[0]?.rejected" style="color: red;">Not Replayed</td>
+                <td>
+                    <button pButton (click)="viewHistory(caChecklists.id)" [ngClass]="{updateBlue: true}"
+                        class="p-button-sm" label="Replay"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

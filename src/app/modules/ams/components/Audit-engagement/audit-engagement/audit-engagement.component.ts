@@ -40,6 +40,9 @@ export class AuditEngagementComponent implements OnDestroy {
 
   public selectedOption: string;
   public dropdownOptions = [];
+  public isManager:boolean;
+  public isTeamLeader:boolean;
+
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -51,6 +54,7 @@ export class AuditEngagementComponent implements OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
+  private roles = JSON.parse(localStorage.getItem("allRoles"));
   constructor(
     private auditEngagementService: AuditEngagementService,
     private dialogService: DialogService,
@@ -60,6 +64,11 @@ export class AuditEngagementComponent implements OnDestroy {
   ) { }
 
   ngOnInit() {
+
+    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
+    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
+    console.log("is manager" , this.isManager);
+    console.log(this.roles);
     this.getAllEngagementOfCurrentYear();
     this.cols = [
       { field: 'id', header: 'ID' },
@@ -73,6 +82,10 @@ export class AuditEngagementComponent implements OnDestroy {
       title: col.header,
       dataKey: col.field,
     }));
+
+    
+
+   
   }
 
   getAllEngagementOfCurrentYear(): void {
@@ -86,9 +99,9 @@ export class AuditEngagementComponent implements OnDestroy {
               ...auditEngagement,
               startOn: this.datePipe.transform(auditEngagement.auditSchedule.startOn, 'MMMM d, y'),
               endOn: this.datePipe.transform(auditEngagement.auditSchedule.endOn, 'MMMM d, y'),
-              leaderName: leader?.auditStaffDTO?.user?.employee?.fullName || '',
+              leaderName: leader?.auditStaffDTO?.fullName || '',
               status:auditEngagement.auditSchedule.status,
-              memberNames: members.map(member => member.auditStaffDTO?.user?.employee?.fullName).join(', ') || ''
+              memberNames: members.map(member => member.auditStaffDTO?.fullName).join(', ') || ''
             };
           });
           this.auditEngagementDisplay = this.auditEngagements.map((obj: any) => ({
@@ -299,13 +312,13 @@ export class AuditEngagementComponent implements OnDestroy {
 
   getLeaderName(auditEngagement: AuditEngagementDTO): string {
     const leader = auditEngagement?.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
-    return leader?.auditStaffDTO?.user?.employee?.fullName || '';
+    return leader?.auditStaffDTO?.fullName || '';
   }
 
   getMemberNames(auditEngagement: AuditEngagementDTO): string {
     const members = auditEngagement.auditSchedule?.teamMembers
       .filter(member => member.teamRole === 'Member')
-      .map(member => member.auditStaffDTO?.user?.employee?.fullName);
+      .map(member => member.auditStaffDTO?.fullName);
     return members?.join('\n') || '';
   }
 

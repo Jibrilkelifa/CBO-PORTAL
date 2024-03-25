@@ -9,6 +9,8 @@ import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { EmployeeService } from '../../../services/sso-services/employee.service';
 import { Employee } from '../../../models/sso-models/employee';
 import { SubProcess } from '../../../models/sasv-models/subProcess';
+import {EWSService} from '../../../services/ews-services/ews-services.service'
+import { EwsSimpleMessage } from 'src/app/models/ews-models/ews_simple_message';
 
 @Component({
   selector: 'app-memo',
@@ -26,6 +28,11 @@ export class MemoComponent extends HeaderComponent {
   public employees: Employee[] = [];
   ldivision: string;
   selectedEmployee: Employee;
+  private sendMeIgo: EwsSimpleMessage  = {
+    email: [], // Initialize email as an empty array
+    subject: '',
+    body: ''
+  };
 
 
 
@@ -35,7 +42,14 @@ export class MemoComponent extends HeaderComponent {
     this.ldivision = localStorage.getItem('division');
     this.getAllSubProcess();
   }
-  constructor(private templates: Templates, private employeeService: EmployeeService, private memoService: MemoService, private router: Router, private template: Templates, private classToggler: ClassToggleService) { super() };
+  constructor(private templates: Templates, 
+    private employeeService: EmployeeService, 
+    private memoService: MemoService, 
+    private router: Router, 
+    private template: Templates, 
+    private classToggler: ClassToggleService,
+    private ewsService: EWSService) { super() };
+
   subprocesslist: SubProcess[] = [];
 
   selectedSubprocess: SubProcess;
@@ -75,7 +89,7 @@ export class MemoComponent extends HeaderComponent {
   }
 
   addMemo(data: any) {
-    alert(data.value.outlook);
+  
     const now = new Date();
     data.value.sendate = now;
     data.value.toTo = data.value.toTo.name;
@@ -89,16 +103,31 @@ export class MemoComponent extends HeaderComponent {
 
     carbonCopies = carbonCopies.substring(0, carbonCopies.lastIndexOf(',')) + "" + carbonCopies.substring(carbonCopies.lastIndexOf(',') + 1);
     data.value.carbonCopy = carbonCopies;
-
-    this.memoService.addMemos(data.value).subscribe(
-      (response: Memo) => {
-        this.memoService.getMemos();
-        this.memoService.memos = response;
-        this.router.navigate(['Memo/letter'],{state:{response}});
+    console.log(data.value);
+   
+    this.sendMeIgo.email.push(data.value.outlook)
+    this.sendMeIgo.subject = data.value.subject;
+    this.sendMeIgo.body = data.value.body;
+    console.log("sending" , this.sendMeIgo);
+    this.ewsService.sendThis(this.sendMeIgo).subscribe(
+      (response : any) => {
+        alert("sent successifully");
+        this.memoService.addMemos(data.value).subscribe(
+          (response: Memo) => {
+            this.memoService.getMemos();
+            this.memoService.memos = response;
+            this.router.navigate(['Memo/letter'],{state:{response}});
+          },
+          (error: HttpErrorResponse) => {
+          
+          }
+        );
       },
-      (error: HttpErrorResponse) => {
-
+      (error:HttpErrorResponse) => {
+        alert("Technical Difficulty occured to send Email");  
       }
-    );
+    )
+
+
   }
 }

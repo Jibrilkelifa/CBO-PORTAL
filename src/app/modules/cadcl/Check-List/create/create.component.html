@@ -1,0 +1,128 @@
+<div>
+    <form #addDivForm="ngForm" (ngSubmit)="submitcAChecklist(addDivForm)">
+        <div style="margin-top: 2em;"></div>
+        <div class="row">
+            <div class="col mb-4">
+                <label for="hex" class="block mb-2"> Inquiry Type:</label>
+                <p-dropdown [options]="inquryTypes" [(ngModel)]="cDDailyCheckList.inquiryType" name="inquiryType"
+                    optionLabel="label" placeholder="Select inquiry type" [required]="true" (onChange)="onTypeChange()">
+                </p-dropdown>
+
+                <input class="ml-3" *ngIf="otherType" pInputText id="action" [ngModel]="cDDailyCheckList.otherInquiryType"
+                    name="otherInquiryType" placeholder="type here" [style]="{'width':'12vw','height':'45px'}" required/>
+            </div>
+            <div class="col mb-4">
+                <label for="integer" class="block mb-2">Inquiry Reference Number: </label>
+                <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cDDailyCheckList.referenceNum"
+                    name="referenceNum" [style]="{'width':'20vw','height':'45px'}" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-4">
+                <div class="flex-auto">
+                    <label for="alphabetic" class=" block mb-2"> Inquiry Received Date: </label>
+                    <p-calendar id="alphabetic" dataType="string" [(ngModel)]="cDDailyCheckList.inquiryReceived"
+                        name="inquiryReceived" [style]="{'width':'20vw','height':'45px'}"
+                        [showIcon]="true"></p-calendar>
+                </div>
+            </div>
+            <div class="col mb-4">
+                <div class="flex-auto">
+                    <label for="alphabetic" class=" block mb-2"> Deadline: </label>
+                    <p-calendar id="alphabetic" dataType="string" ngModel [(ngModel)]="cDDailyCheckList.deadline"
+                        name="deadline" [style]="{'width':'20vw','height':'45px'}" [showIcon]="true" [minDate]="todayDate"></p-calendar>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-4">
+                <label for="integer" class=" block mb-2">Requested Organ/Person: </label>
+                <input pInputText id="integer" pKeyFilter="int" [ngModel]="cDDailyCheckList.requestedOrgan"
+                    name="requestedOrgan" [style]="{'width':'20vw','height':'45px'}" required />
+            </div>
+            <div class="col mb-4">
+                <label for="integer" class=" block mb-2">Num of Account Searched: </label>
+                <input pInputText id="integer" pKeyFilter="int" [ngModel]="cDDailyCheckList.numAccountSearched"
+                    name="numAccountSearched" [style]="{'width':'20vw','height':'45px'}" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-4">
+                <label for="integer" class=" block mb-2">Num of Person Searched: </label>
+                <input pInputText id="integer" pKeyFilter="int" [ngModel]="cDDailyCheckList.numPersonSearched"
+                    name="numPersonSearched" [style]="{'width':'20vw','height':'45px'}" required />
+            </div>
+            <div class="col mb-4">
+                <label for="integer" class="block mb-2">No. of Branches/HO organs requested: </label>
+                <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cDDailyCheckList.numRequestedOrgans"
+                    name="requestedOrgans" [style]="{'width':'20vw','height':'45px'}" required />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-4">
+                <div class="mb-4">
+                    <label for="hex" class="block mb-2"> Branches: </label>
+                    <p-multiSelect [options]="branchList" name="branches" optionLabel="name" [filter]="true"
+                        [(ngModel)]="selectedBranches" filterBy="name" [showClear]="true" placeholder="Choose branches"
+                        styleClass="p-password" [required]="true"
+                        class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap">
+                        <ng-template let-branch pTemplate="item">
+                            <div class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
+                                pTooltip="{{ branch.name }}" tooltipPosition="right">
+                                <div>{{ branch.name }}</div>
+                            </div>
+                        </ng-template>
+                    </p-multiSelect>
+                </div>
+                <div class="row">
+                    <div class="col mb-4">
+                        <label for="hex" class="block mb-2"> Category: </label>
+                        <p-dropdown [options]="categories" [(ngModel)]="cDDailyCheckList.catagoryMain" name="catagoryMain" optionLabel="label"
+                            placeholder="Select a category" (onChange)="onCategoryChange()" [required]="true">
+                        </p-dropdown>
+                    </div>
+                    <div class="col mb-4" *ngIf="!other">
+                        <label for="hex" class="block mb-2"> Category Items:</label>
+                        <p-dropdown [options]="selectedCatItems" [(ngModel)]="cDDailyCheckList.category" name="category"
+                            optionLabel="label" placeholder="Select a cat item" [required]="true" (onChange)="onCategoryChange()">
+                        </p-dropdown>
+                    </div>
+                    <div class="col mb-4" *ngIf="other">
+                        <label for="integer" class="block mb-2">Category Items: </label>
+                        <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cDDailyCheckList.category"
+                            name="category" [style]="{'width':'15vw','height':'45px'}" required (onChange)="onCategoryChange()"/>
+                    </div>
+                </div>
+                <div>
+                    <div class="col mb-4">
+                        <label for="integer" class=" block mb-2">Description: </label>
+                        <textarea rows="2" cols="30" pInputTextarea [autoResize]="true"
+                            [ngModel]="cDDailyCheckList.description" name="description" [style]="{'width':'20vw'}"
+                            ></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col mb-6">
+                <label for="integer" class="block mb-2 mt-3">Attachments: </label>
+                <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                    (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
+                    <ng-template pTemplate="toolbar">
+                        <div class="py-3">Upload 3 Files</div>
+                    </ng-template>
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                        </ul>
+                    </ng-template>
+                </p-fileUpload>
+            </div>
+        </div>
+        <div style="margin-top: 5em;"></div>
+        <div class="buttonDiv">
+            <p-button label="Cancel" (click)="closeDialog()"></p-button>
+            <p-button *ngIf="!update" label="Create Relation" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+            <p-button *ngIf="update" label="Update Relation" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+        </div>
+    </form>
+</div>

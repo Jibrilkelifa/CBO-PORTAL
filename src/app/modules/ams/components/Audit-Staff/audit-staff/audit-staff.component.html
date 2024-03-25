@@ -110,7 +110,7 @@
     <ng-template pTemplate="body" let-auditStaff let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditStaff">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ auditStaff?.user.employee.fullName }}</td>
+        <td>{{ auditStaff?.fullName }}</td>
         <td>{{ auditStaff?.auditType?.name }}</td>
         <td>{{ auditStaff?.status }}</td>
         <td>

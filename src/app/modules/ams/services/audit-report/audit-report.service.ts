@@ -18,6 +18,8 @@ export class AuditReportService {
       }),
     };
     this.apiServiceUrl = 'http://10.1.125.58:8099';
+       // prodip
+      //  this.apiServiceUrl = 'http://localhost:8099';
   }
 
   constructor(private http: HttpClient) { }

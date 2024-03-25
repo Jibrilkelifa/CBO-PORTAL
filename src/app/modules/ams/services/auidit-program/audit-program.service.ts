@@ -19,7 +19,9 @@ export class AuditProgramService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://192.168.137.224:8099';
+    this.apiServiceUrl = localStorage.getItem('url_9');
+       // prodip
+      //  this.apiServiceUrl = 'http://localhost:8099';
   }
 
   constructor(private http: HttpClient) {}

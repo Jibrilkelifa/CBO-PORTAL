@@ -35,7 +35,7 @@ export class DACGMService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/DACGM/find/${id}`, this.httpOptions)
   }
-  public getDACGMForBranch(id: number): Observable<any> {
+  public getDACGMForBranch(id: string): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/DACGM/findByOrganizationalUnitId/${id}`, this.httpOptions)
   }

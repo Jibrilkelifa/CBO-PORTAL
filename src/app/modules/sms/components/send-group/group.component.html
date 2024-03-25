@@ -1,0 +1,26 @@
+<div class="mcontainer">
+  <div class="secondItem">
+    <form #dataToBeSent="ngForm" name="dawholegadaymform" (ngSubmit)="addMemo(dataToBeSent)">
+      <div class="inputs">
+        <!-- <div class="group"> -->
+          <p-calendar [showIcon]="true" [style]="{'min-width':'500px', 'margin':'10px'}" id="curdateid" class="curdate"
+            placeholder="Date" name="curdate" [minDate]="dateTime" [(ngModel)]="date" ngModel
+            [required]="true"></p-calendar>
+          <br>
+          <div class="flex-auto">
+            <p-multiSelect [style]="{'min-width':'500px', 'margin':'10px' , 'height': '45px'}" [options]="groupOptions"
+              id="divisions" class="divisions" name="group" [(ngModel)]="selectedGroups" optionLabel="name"
+              placeholder="Select Group" [required]="true" (onChange)="fetchEmployeesByGroups()"></p-multiSelect>
+          </div>
+          
+        
+      </div>
+ 
+      <div class="mbody">
+        <ckeditor class="ckeditor" [editor]="Editor" name="body" [(ngModel)]="ckeditorContent" ngModel
+          [required]="true"></ckeditor>
+        <p-button label="Send" type="submit" [style]="{'margin-top':'10px'}"></p-button>
+      </div>
+    </form>
+  </div>
+</div>

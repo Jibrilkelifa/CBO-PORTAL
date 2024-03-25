@@ -95,7 +95,7 @@
           
           <button
             pButton
-            *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Draft'"
+            *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Draft' && isManager"
             (click)="ApproveProgram(auditProgram?.id)"
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm h-10 whitespace-nowrap"

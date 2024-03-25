@@ -16,11 +16,18 @@ import { EMSService } from '../services/ems-services/ems-services.service';
 export class AuthService {
 
   // API path
-
-  //ssoBathPath = 'http://localhost:9081';
+  //prodip
+  // ssoBathPath = 'http://localhost:9081';
    ssoBathPath = 'http://10.1.125.58:9081';
+
+//    //emsBasePath = 'http://localhost:8082';
+//    emsBasePath = 'http://10.1.125.58:8082';
+
   // emsBasePath = 'http://10.1.11.48:9082';
+  // test jenkins
   emsBasePath = 'http://10.1.125.58:8082';
+
+
 
 
   constructor(
@@ -86,8 +93,10 @@ export class AuthService {
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
+   
     localStorage.setItem('team', JSON.stringify(employee?.team));
     localStorage.setItem('supervisor', employee?.supervisor);
+    localStorage.setItem('title', employee?.job);
     localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
     //  localStorage.setItem('branch', JSON.stringify(employee?.branch));
@@ -143,7 +152,10 @@ export class AuthService {
         await this.router.navigate(['icms_dashboard']);
       } else if (this.checkModule(resp?.user, "CMS")) {
         await this.router.navigate(['cms_dashboard']);
-      } else {
+      } else if (this.checkModule(resp?.user, "SMS")) {
+        await this.router.navigate(['sms_dashboard']);
+      } 
+       else {
         await this.router.navigate(['default_dashboard']); // changed later
       }
     }

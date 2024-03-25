@@ -11,6 +11,8 @@ import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history
 import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
 import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
 import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
+import { DetailComponent } from './modules/cadcl/Details-Page/detail/detail.component';
+import { RespondePageComponent } from './modules/cadcl/Replay-Page/responde-page/responde-page.component';
 import { NewIFBComponent } from './modules/icms/ifb/components/new-ifb/new-ifb.component';
 
 const routes: Routes = [
@@ -32,6 +34,12 @@ const routes: Routes = [
       },
       {
         path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: { title: 'History / Update History' }
+      },
+      {
+        path: 'cao/checklists/update/:id', component: DetailComponent, data: { title: 'Check List / Details' }
+      },
+      {
+        path: 'cao/checklists/replay/:id', component: RespondePageComponent, data: { title: 'Check List / Details' }
       },
       {
         path: 'updateCIPM/:id', component: NewCIPMComponent, data: { title: 'CIPM / Update CIPM' }
@@ -66,6 +74,11 @@ const routes: Routes = [
         path: 'cms_dashboard',
         loadChildren: () =>
           import('./modules/cms/dashboard/dashboard.module').then((m) => m.DashboardModule)
+      },
+      {
+        path: 'sms_dashboard',
+        loadChildren: () =>
+          import('./modules/sms/sms.module').then((m) => m.SmsModule )
       },
       {
         path: 'default_dashboard',
@@ -180,6 +193,11 @@ const routes: Routes = [
         path: 'ecx/account',
         loadChildren: () =>
           import('./modules/ecx/accounts/account.module').then((m) => m.AccountModule)
+      },
+      {
+        path: 'cao/checklists',
+        loadChildren: () =>
+          import('./modules/cadcl/cadcl.module').then((m) => m.CadclModule)
       },
       {
         path: 'ecx',
