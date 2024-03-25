@@ -116,7 +116,6 @@ export class DACGMPlanComponent implements OnInit {
     this.dacgmService.getDACGM(id).subscribe(
       (response: DACGM) => {
         this.dacgm = response;
-        console.log(this.dacgm)
         this.selectedCaseId = this.dacgm.caseId;
        this.selectedBranch = this.dacgm.branch;
        this.selectedSubProcess =this.dacgm.subProcess;

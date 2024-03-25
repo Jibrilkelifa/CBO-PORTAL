@@ -528,7 +528,37 @@ navItemsICMSBranchManager = {
           url: '/ICMS/DACGM/viewDACGM',
         },
       ]
-    }
+    },
+    {
+      name: 'IFB',
+      url: '/ICMS/IFB',
+      children: [
+        {
+          name: 'View IFB',
+          url: '/ICMS/IFB/viewIFB'
+        },
+      ]
+    },
+    {
+      name: 'Finance',
+      url: '/ICMS/Finance',
+      children: [
+        {
+          name: 'View Finance',
+          url: '/ICMS/Finance/viewFinance'
+        },
+      ]
+    },
+    {
+      name: 'Fire Extinguisher',
+      url: '/ICMS/FireExtinguisher',
+      children: [
+        {
+          name: 'View Fire Extinguisher',
+          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+        },
+      ]
+    },
   ]
 }
 navItemsICMSBankingOperation = {

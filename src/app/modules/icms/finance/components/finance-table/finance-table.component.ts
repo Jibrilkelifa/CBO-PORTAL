@@ -4,6 +4,9 @@ import { FinanceService } from '../../service/finance-services.service';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { FinanceModel } from '../../models/finance-model';
+import { TimeService } from 'src/app/services/sso-services/time.service';
+import { ChangeDetectorRef } from '@angular/core';
 
 interface ExportColumn {
   title: string;
@@ -22,41 +25,129 @@ interface Column {
   styleUrls: ['./finance-table.component.scss'],
 })
 export class FinanceTableComponent implements OnDestroy {
-  public FinanceList: any[] = [];
+  public FinanceList: FinanceModel[] = [];
 
   approved: false;
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
+  roles: string[] = [];
+  escalatedByManager: boolean = false;
+  branchId: number = Number(localStorage.getItem('branchId'));
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
+  teamId: number = Number(localStorage.getItem('teamId'));
+
+  currentDate: Date;
 
   private subscriptions: Subscription[] = [];
 
   constructor(
     private financeService: FinanceService,
     private messageService: MessageService,
-    private router: Router
+    private timeService: TimeService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
-    this.getFinanceList();
+    this.populateRoles();
+    this.getCurrentDate();
+    this.getFinanceList(this.roles);
   }
 
-  getFinanceList(): void {
-    this.subscriptions.push(
+  populateRoles(): void {
+    let index = 0;
+    let cond = localStorage.getItem('role_' + index);
+    while (cond) {
+
+      this.roles.push(cond);
+      index++;
+      cond = localStorage.getItem('role_' + index);
+    }
+  }
+
+
+
+  public getFinanceList(roles: string[]): void {
+    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.financeService.getAllFinance().subscribe(
-        (response: any) => {
-          this.FinanceList = response;          
+        (response: FinanceModel[]) => {
+          this.FinanceList = response.map(finance => ({
+            ...finance,
+            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+          }));          
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+          // Handle error
         }
-      )
-    );
+      );
+    }
+    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
+      this.financeService.getFinanceForBranch(this.branchId).subscribe(
+        (response: FinanceModel[]) => {          
+          this.FinanceList = response.map(finance => ({
+            ...finance,
+            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+          }));
+        },
+        (error: HttpErrorResponse) => {
+          // Handle error
+        }
+      );
+    }
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
+      this.financeService.getFinanceForDistrict(this.subProcessId).subscribe(
+        (response: FinanceModel[]) => {
+          this.FinanceList = response.map(finance => ({
+            ...finance,
+            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+          }));
+        },
+        (error: HttpErrorResponse) => {
+          // Handle error
+        }
+      );
+    }
   }
+  
 
   updateFinace(id: number): void {
     this.router.navigate(['ICMS/Finance/updateFinance', id]); 
   }
+
+  approveActionPlan(finance: FinanceModel): void {    
+    this.router.navigate(['ICMS/Finance/approveActionPlan', { finance: JSON.stringify(finance) }]);
+  }
+  
+  public daysPastDue(dateString: string): number {
+    let dueDate = new Date(dateString);
+    let today = new Date();
+    let differenceInTime = dueDate.getTime() - today.getTime();
+    let differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+    return differenceInDays;
+  }
+  
+  
+  getCurrentDate() {
+    this.timeService.getDate().subscribe(
+      (response: any) => {
+
+        this.currentDate = new Date(response.time);
+
+      }
+    );
+  }
+
+  convertToLocalString(expiryDate: string): string {
+    let date = new Date(expiryDate);
+
+    return date.toLocaleDateString();
+  }
+
+  absoluteValue(number: number): number {
+    return Math.abs(number);
+  }
+  
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
