@@ -113,17 +113,6 @@ export class NewCIPMComponent implements OnInit {
       }
     );
   }
-  // public getStatus(): void {
-  //   this.statusService.getStatuses().subscribe(
-  //     (response: Status[]) => {
-  //       this.statuses = response;
-  //     },
-  //     (error: HttpErrorResponse) => {
-
-  //     }
-  //   );
-  // }
-  // public selectedActivityStatus: ActivityStatus; // Declare the selectedActivityStatus property
 
 public getStatus(): void {
   this.statusService.getStatuses().subscribe(
