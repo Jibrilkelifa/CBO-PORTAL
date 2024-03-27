@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MemoComponent } from './single.component';
+import { SingleComponent } from './single.component';
 
 describe('MemoComponent', () => {
-  let component: MemoComponent;
-  let fixture: ComponentFixture<MemoComponent>;
+  let component: SingleComponent;
+  let fixture: ComponentFixture<SingleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MemoComponent]
+      declarations: [SingleComponent]
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(MemoComponent);
+    fixture = TestBed.createComponent(SingleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

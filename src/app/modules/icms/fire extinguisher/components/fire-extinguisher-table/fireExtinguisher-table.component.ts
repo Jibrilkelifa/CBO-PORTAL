@@ -54,8 +54,8 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     );
   }
 
-  updateFinace(id: number): void {
-    this.router.navigate(['ICMS/Finance/updateFinance', id]); 
+  updateFireExtinguisher(id: number): void {
+    this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]); 
   }
 
   ngOnDestroy() {

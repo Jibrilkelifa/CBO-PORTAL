@@ -20,7 +20,7 @@ export class OrganizationalUnitService {
   }
   constructor(private http: HttpClient){}
 
-  public getOrganizationalUnit(id: number): Observable<any>{
+  public getOrganizationalUnit(id: string): Observable<any>{
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/organizationalUnit/find/${id}`, this.httpOptions)
   }

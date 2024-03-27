@@ -156,9 +156,9 @@ export class FraudTableComponent {
 
     return (this.calculateDaysSinceFraudDetection(fraudDetectionDate)).toString();
   }
+  branchId: string = localStorage.getItem('branchId');
 
-
-  branchId: number = Number(localStorage.getItem('branchId'));
+  // branchId: number = Number(localStorage.getItem('branchId'));
   // teamId: number = Number(localStorage.getItem('teamId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   roles: string[] = [];

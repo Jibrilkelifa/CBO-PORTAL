@@ -39,7 +39,8 @@ export class NewDCQComponent implements OnInit {
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  branchId: number = Number(localStorage.getItem('branchId'));
+  branchId: string = localStorage.getItem('branchId');
+  // branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   chequeNumber: string;
@@ -113,7 +114,7 @@ export class NewDCQComponent implements OnInit {
     );
   }
 
-  public getDCQs(branchId: number): void {
+  public getDCQs(branchId: string): void {
     this.DCQService.getDCQForBranch(branchId).subscribe(
       (response: DCQ[]) => {
         this.DCQs = response;

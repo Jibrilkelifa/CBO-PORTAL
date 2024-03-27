@@ -20,10 +20,10 @@ export class FinanceService {
     this.apiServiceUrl = 'http://localhost:8084';
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   public addFinance(financeModel: FinanceModel): Observable<any> {
-    this.init();    
+    this.init();
     return this.http.post(
       `${this.apiServiceUrl}/Finance/add`,
       financeModel,
@@ -41,6 +41,16 @@ export class FinanceService {
       `${this.apiServiceUrl}/Finance/getAll`,
       this.httpOptions
     );
+  }
+
+  public getFinanceForBranch(id: number): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/Finance/findByOrganizationalUnitId/${id}`, this.httpOptions)
+  }
+
+  public getFinanceForDistrict(id: number): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/Finance/findBySubProcessId/${id}`, this.httpOptions)
   }
 
   public updateFinance(financeModel: any): Observable<any> {
@@ -68,12 +78,25 @@ export class FinanceService {
     );
   }
 
+  public getStatuses(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/FinanceStatus/getAll`, this.httpOptions)
+  }
+
   public findAllFinanceBYBranch(branchId: number): Observable<any> {
     this.init();
     return this.http.get<any>(
       `${this.apiServiceUrl}/Finance/branch/${branchId}`,
       this.httpOptions
     );
+  }
+
+  public approveActionPlanDate(finance: FinanceModel): Observable<any> {
+    this.init();
+    const body = {
+      finance: finance
+    };
+    return this.http.patch<any>(`${this.apiServiceUrl}/Finance/approveActionPlan/${finance?.id}`, finance, this.httpOptions)
   }
 
   public findAllFinanceSubProcess(subProcessId: number): Observable<any> {

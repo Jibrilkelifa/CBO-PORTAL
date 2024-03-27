@@ -86,28 +86,25 @@ export class BulkComponent extends HeaderComponent {
     console.log("file ",this.uploadedFiles[0])
     formData.append('file', this.uploadedFiles[0]);
     const accessToken = localStorage.getItem('access_token');
+    const sender = localStorage.getItem('name');
   console.log('Access token:', accessToken);
-    this.bulkService.uploadFile(formData).subscribe(
+    this.bulkService.uploadFile(formData, sender).subscribe(
       response => {
         console.log('responsssssssssssss', response)
         const batchId = response.id;
         console.log('BatchId:', batchId);
         this.bulkService.sendMessageByBatch(batchId).subscribe(
           response => {
-            // Handle the response from the send message request
-            // This could include displaying a success message, updating the UI, etc.
           },
           error => {
-               // Handle any errors that occur during message sending
+         
                console.error('Error sending message:', error);
-               // You can also access the error response from the server
                console.error('Error response:', error.response);
           }
         );
       },
       error => {
         console.error('Error uploading file:', error);
-        // You can also access the error response from the server
         console.error('Error response:', error.response);
       }
     );

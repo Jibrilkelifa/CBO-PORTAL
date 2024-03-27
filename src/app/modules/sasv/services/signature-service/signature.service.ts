@@ -41,6 +41,8 @@ export class SignatureService {
       this.httpOptions
     );
   }
+  
+
   public getSignatureImageByEmployee(id : number): Observable<any> {
     this.init();
     return this.http.get<any>(

@@ -157,9 +157,9 @@ export class FraudNewComponent {
 
     return (this.calculateDaysSinceFraudDetection(fraudDetectionDate)).toString();
   }
+  branchId: string = localStorage.getItem('branchId');
 
-
-  branchId: number = Number(localStorage.getItem('branchId'));
+  // branchId: number = Number(localStorage.getItem('branchId'));
   roles: string[] = [];
 
   updateFrauds(id: number): void {

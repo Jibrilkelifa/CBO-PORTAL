@@ -19,9 +19,14 @@ export class AuthService {
   //prodip
   // ssoBathPath = 'http://localhost:9081';
    ssoBathPath = 'http://10.1.125.58:9081';
+
+//    //emsBasePath = 'http://localhost:8082';
+//    emsBasePath = 'http://10.1.125.58:8082';
+
   // emsBasePath = 'http://10.1.11.48:9082';
   // test jenkins
   emsBasePath = 'http://10.1.125.58:8082';
+
 
 
 
@@ -59,6 +64,9 @@ export class AuthService {
     const body = new HttpParams()
       .set('username', data.username)
       .set('password', data.password);
+
+    localStorage.setItem("un",data.username);
+    localStorage.setItem("ps",data.password);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -77,7 +85,6 @@ export class AuthService {
   async setUser(resp: JwtResponse) {
 
 
-    localStorage.clear();
 
     // Get employee by ID
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
@@ -147,7 +154,10 @@ export class AuthService {
         await this.router.navigate(['icms_dashboard']);
       } else if (this.checkModule(resp?.user, "CMS")) {
         await this.router.navigate(['cms_dashboard']);
-      } else {
+      } else if (this.checkModule(resp?.user, "SMS")) {
+        await this.router.navigate(['sms_dashboard']);
+      } 
+       else {
         await this.router.navigate(['default_dashboard']); // changed later
       }
     }

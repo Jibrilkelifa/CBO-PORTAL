@@ -22,7 +22,7 @@ export class FireExtinguisherService {
 
   constructor(private http: HttpClient) {}
 
-  public addFireExtinguisher(fireExtinguisherModel: FireExtinguisherModel): Observable<any> {
+  public addFireExtinguisher(fireExtinguisherModel: any): Observable<any> {
     this.init();    
     return this.http.post(
       `${this.apiServiceUrl}/FireExtinguisher/add`,

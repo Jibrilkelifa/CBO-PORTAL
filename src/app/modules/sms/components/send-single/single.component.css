@@ -11,6 +11,22 @@ label {
 
 }
 
+.custom-textarea {
+  width: 1000px;
+  height: 400px;
+  
+}
+textarea.custom-textarea {
+  border: 1px solid #ccc;
+  resize: none;
+}
+
+
+textarea.custom-textarea:focus {
+  border-color: #ccccccf6; /* Change the border color to your desired color */
+  outline: none; /* Optional: Remove the default focus outline */
+}
+
 #submit {
   background-color: #00AEEF;
 

@@ -1,3 +1,8 @@
+import { Branch } from "src/app/models/sso-models/branch";
+import { SubProcess } from "src/app/models/sso-models/sub-process";
+import { Team } from "src/app/models/sso-models/team";
+import { FinanceStatusModel} from "./finance-status-model"
+
 export class FinanceModel {
     id: number;
     financeDate: Date;
@@ -8,5 +13,10 @@ export class FinanceModel {
     irregularity: string; 
     amount: string; 
     responsiblePerson: string; 
-    status: any; 
+    subProcess:SubProcess;
+    branch: Branch;
+    team: Team;
+    financeStatus: FinanceStatusModel;
+    actionTaken:boolean;
+    actionPlanDueDate: string;
 }

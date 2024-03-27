@@ -19,7 +19,7 @@ export class SentMessagesComponent implements OnInit {
         this.fetchAllMessages();
     }
     fetchAllMessages() {
-        this.bulkService.getAllMessages().subscribe(
+        this.bulkService.getExcelMessages().subscribe(
           (response) => {
             this.messages = response;
             console.log('Messages:', this.messages);
@@ -115,7 +115,7 @@ export class SentMessagesComponent implements OnInit {
         case 16:
             return 'Non-Delivered to SMSC';
         case 8:
-            return 'Delivered to SMSC';
+            return 'Delivered to phone';
 
     
         default:
