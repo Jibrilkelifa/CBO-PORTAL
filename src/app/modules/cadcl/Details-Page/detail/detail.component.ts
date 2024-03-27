@@ -111,6 +111,20 @@ export class DetailComponent {
     })
   }
 
+  getFileCl(path: String){
+    this.caChecklistService.getFile(path).subscribe((response: any)  => {
+      console.log(response);
+      
+      const blob = new Blob([response], { type: response.type });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = path.split("/")[4];
+      link.click();
+      window.URL.revokeObjectURL(url);
+    })
+  }
+
   closeChecklist(){
     this.backToList();
     this.caChecklistService

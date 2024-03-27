@@ -126,6 +126,8 @@ export class CreateComponent {
     formData.append('numRequestedOrgans', addDivForm?.value.requestedOrgans);
     formData.append('numPersonSearched', addDivForm?.value.numPersonSearched)
     formData.append('description', addDivForm?.value.description);
+    formData.append('impact', addDivForm?.value.impact);
+    formData.append('urgency', addDivForm?.value.urgency);
     formData.append('caseOwner', localStorage.getItem('name'));
     formData.append('position', localStorage.getItem('name'));
     if(this.other){

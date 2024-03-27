@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 import * as FileSaver from 'file-saver';
 import { AnnualPlanDTO } from '../../../models/annualPlan';
 import { AutoGenerateAnnualPlanComponent } from '../../Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
+import { AuditObjectDTO } from '../../../models/auditObject';
 
 interface ExportColumn {
   title: string;
@@ -27,6 +28,7 @@ interface Column {
   styleUrls: ['./audit-universe.component.scss'],
 })
 export class AuditUniverseComponent implements OnDestroy {
+
   public auditUniverse: AuditUniverseDTO[] = [];
   public auditUniverseDisplay: any[] = [];
 
@@ -41,6 +43,7 @@ export class AuditUniverseComponent implements OnDestroy {
   cols!: Column[];
 
   private subscriptions: Subscription[] = [];
+  public selectedAuditUniverse:AuditObjectDTO[] = [];
 
   constructor(
     private auditUniverseService: AuditUniverseService,
@@ -150,6 +153,11 @@ export class AuditUniverseComponent implements OnDestroy {
         });
       }
     });
+  }
+
+  onRowSelect(auditUniverse:AuditUniverseDTO) {
+    console.log("i am clicked");
+    this.selectedAuditUniverse[0] = auditUniverse.auditObject;
   }
 
   updateAuditUniverse(id: number): void {
