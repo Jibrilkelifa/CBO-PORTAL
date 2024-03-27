@@ -10,6 +10,8 @@ import { AnnualPlanDTO } from 'src/app/modules/ams/models/annualPlan';
 import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
 import { TeamMemberDTO } from 'src/app/modules/ams/models/team-member';
 import { AssignMembersComponent } from './../assign-members/assign-members.component';
+import { EmployeeService } from 'src/app/services/sso-services/employee.service';
+import { SubProcess } from 'src/app/models/sasv-models/subProcess';
 
 @Component({
   selector: 'newAuditSchedule',
@@ -22,7 +24,9 @@ export class NewAuditScheduleComponent implements OnDestroy {
 
   assignMembersDialogRef: DynamicDialogRef;
   teamMembers: TeamMemberDTO[] = [];
+
   savedAssignmembers: TeamMemberDTO[] = [];
+  selec
 
 
   public scheduleInfo: AuditScheduleDTO = new AuditScheduleDTO();
@@ -30,6 +34,9 @@ export class NewAuditScheduleComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
   public dropdownOptions = ['1', '2', '3', '4'];
   public selectedDropdown: string;
+
+  public organOptions: SubProcess[] = [];
+  public selectedOrgan:SubProcess;
 
   update: boolean = false;
   newDiv: boolean = true;
@@ -47,7 +54,8 @@ export class NewAuditScheduleComponent implements OnDestroy {
     private config: DynamicDialogConfig,
     public dialogService: DialogService,
     private datePipe: DatePipe,
-    private cdref: ChangeDetectorRef
+    private cdref: ChangeDetectorRef,
+    private employeeService:EmployeeService
 
   ) { }
 
@@ -74,8 +82,22 @@ export class NewAuditScheduleComponent implements OnDestroy {
       this.update = true;
       this.newDiv = false;
     }
+
+    this.populateOrgan();
   }
   
+  populateOrgan(): void {
+    this.subscriptions.push(
+      this.employeeService.getAllSubProcess().subscribe(
+        (response: any) => {          
+           this.organOptions = response;
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
 
   submitAuditSchedule(auditableAreaForm: NgForm): void {
     if (this.update) {
@@ -88,7 +110,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
   addAuditSchedule(addDivForm: NgForm): void {
     const auditSchedule: AuditScheduleDTO = addDivForm.value;
     auditSchedule.annualPlan = this.annualPlan;
-    auditSchedule.auditeesOrganID = 1;
+    auditSchedule.auditeesOrganID = this.selectedOrgan.id;
     this.subscriptions.push(
       this.auditScheduleService.addAuditSchedule(auditSchedule).subscribe(
         (response: any) => {

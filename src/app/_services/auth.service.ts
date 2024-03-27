@@ -64,6 +64,9 @@ export class AuthService {
     const body = new HttpParams()
       .set('username', data.username)
       .set('password', data.password);
+
+    localStorage.setItem("un",data.username);
+    localStorage.setItem("ps",data.password);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -82,7 +85,6 @@ export class AuthService {
   async setUser(resp: JwtResponse) {
 
 
-    localStorage.clear();
 
     // Get employee by ID
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
