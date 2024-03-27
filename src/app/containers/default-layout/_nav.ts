@@ -869,7 +869,7 @@ navItemsECXUser = {
 navItemsCAOAdmin = {
   name: 'CAO',
   url: '/cao',
-  iconComponent: { name: 'cil-credit-card' },
+  iconComponent: { name: 'cib-openstreetmap' },
   children: [
     {
       name: 'View',
