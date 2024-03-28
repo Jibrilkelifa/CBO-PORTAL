@@ -104,9 +104,10 @@
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="accountNumber"
           [style]="{'width':'30vw','height':'45px'}" minlength="3" placeholder="" />
       </div> -->
+      <!-- *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'" -->
       <div
         class="flex-auto"
-        *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'"
+
       >
         <label for="accountNumber" class="block mb-2">Account Number</label>
         <input
@@ -118,10 +119,10 @@
           pattern="^(\d{13}|PL\d{5}|ETB\d{13})$"
         />
       </div>
-
+<!--  *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'" -->
       <div
         class="flex-auto"
-        *ngIf="selectedSubCategory && selectedSubCategory.name === 'Financial'"
+       
       >
         <label for="alphabetic" class="block mb-2">Account Name</label>
         <input
