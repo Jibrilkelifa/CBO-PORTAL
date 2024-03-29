@@ -31,7 +31,8 @@ export class MemoComponent extends HeaderComponent {
   private sendMeIgo: EwsSimpleMessage  = {
     email: [], // Initialize email as an empty array
     subject: '',
-    body: ''
+    body: '',
+    shortCircuit: true
   };
 
 

@@ -16,9 +16,9 @@ export class FindingDTO extends BaseModel {
         recommendations:String;
         //im not sure if user insert auditees, auditeesResponse
         // auditees:String;
-        // auditeesResponse:String;
+        auditeesResponse:String;
         justifications:String;
-        isVisibleToAuditees:String;
+        isVisibleToAuditees:boolean;
         // no user structure so i can't include registred by and approved by 
         //registeredBy       
         //approvedBY

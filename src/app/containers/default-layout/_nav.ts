@@ -41,6 +41,8 @@ export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
 export let navCC:NavItem;
 export let navItemsAMSAuditor:Object;
+export let navItemsAMSMember:Object;
+export let navItemsAMSAuditee:Object;
 
 
 
@@ -118,10 +120,6 @@ navItemsAMSAdmin =  {
       url: '/ams/audit-engagement',
     },
     {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
       name: 'Audit Reports',
       url: '/ams/report-list',
     },
@@ -175,10 +173,6 @@ navItemsAMSManager =  {
       url: '/ams/audit-engagement',
     },
     {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
       name: 'Audit Reports',
       url: '/ams/report-list',
     },
@@ -225,13 +219,39 @@ navItemsAMSAuditor =  {
       url: '/ams/audit-engagement',
     },
     {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
       name: 'Audit Reports',
       url: '/ams/report-list',
     },
+
+  ],
+  
+}
+
+navItemsAMSMember =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    }
+
+  ],
+  
+}
+
+navItemsAMSAuditee =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    }
 
   ],
   
@@ -247,10 +267,7 @@ navItemsAMSTeamLeader =  {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
     },
-    {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
+    
     {
       name: 'Audit Reports',
       url: '/ams/report-list',

@@ -37,6 +37,14 @@ export class AuditFindingService {
     );
   }
 
+
+  public makeVisible(id:number): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/makeVisible/ByFindingId/${id}`,
+      this.httpOptions
+    );
+  }
   
 
   public addAttachement(finding: FindingDTO): Observable<any> {
@@ -69,6 +77,14 @@ export class AuditFindingService {
     );
   }
 
+  public addResponse(finding: FindingDTO): Observable<any> {
+    this.init();
+    return this.http.post(
+      `${this.apiServiceUrl}/ams/auditProgram/finding/update`,
+      finding,
+      this.httpOptions
+    );
+  }
 
 
   public addComment(comment: AuditCommentDTO): Observable<any> {

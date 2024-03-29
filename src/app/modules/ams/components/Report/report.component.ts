@@ -129,7 +129,7 @@ export class Report {
     this.thebigjson.result.dateGenerated = this.date;
 
  
-   console.log("sending the big json finding" , this.thebigjson.result.findings);
+   console.log("generating report with this info" , this.thebigjson.result);
 
    this.auditReportService.registerReport(this.thebigjson.result).subscribe(
     (response: any) => {
