@@ -21,7 +21,7 @@ export class Ews {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       })
     };
-    // this.apiServiceUrl = localStorage.getItem('url_1');
+    this.apiServiceUrl = localStorage.getItem('url_1');
     // prodip
     //  this.apiServiceUrl = 'http://localhost:9081';
   }
