@@ -22,8 +22,8 @@ export class Ews {
       })
     };
     // this.apiServiceUrl = localStorage.getItem('url_1');
-    // testip
-     this.apiServiceUrl = 'http://localhost:9081';
+    // prodip
+    //  this.apiServiceUrl = 'http://localhost:9081';
   }
 
   constructor(private http: HttpClient) { }
