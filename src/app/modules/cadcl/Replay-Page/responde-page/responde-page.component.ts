@@ -64,8 +64,8 @@ export class RespondePageComponent {
 
 
   getcaChecklist(id: number): void {
-    var branch = localStorage.getItem('branch');
-    console.log('branch ',branch);
+    var branch = localStorage.getItem('branchId');
+    console.log('branchId ',branch);
 
     this.subscriptions.push(
       this.caResponseService.getBranchCaDailyChecklistById(id,branch).subscribe(
@@ -226,15 +226,29 @@ export class RespondePageComponent {
     this.backToList();
   }
 
-  getFile(link: String){
-    this.caChecklistService.getFile(link).subscribe((response: any)  => {
+  getFile(path: String){
+    this.caChecklistService.getFile(path).subscribe((response: any)  => {
       console.log(response);
       
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = "ecx_updated";
+      link.download = path.split("/")[3];;
+      link.click();
+      window.URL.revokeObjectURL(url);
+    })
+  }
+
+  getFileCl(path: String){
+    this.caChecklistService.getFile(path).subscribe((response: any)  => {
+      console.log(response);
+      
+      const blob = new Blob([response], { type: response.type });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = path.split("/")[4];;
       link.click();
       window.URL.revokeObjectURL(url);
     })
