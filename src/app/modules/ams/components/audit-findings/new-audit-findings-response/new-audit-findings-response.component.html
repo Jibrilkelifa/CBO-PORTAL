@@ -1,0 +1,33 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="addResponse(addDivForm)">
+    <div style="margin-top: 2em"></div>
+
+
+    <div class="row">
+      <div class="col mb-4">
+       <label for="response" class="block mb-2"> Response : </label>
+       <textarea
+         pInputText
+         id="response"
+         [ngModel]="response"
+         
+         name="response"
+         style="width: 98%; height: 150px; resize: none"
+         required
+         minlength="3">
+      </textarea>
+      </div>
+     </div>
+
+
+    <div style="margin-top: 10em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        label="Add Comment"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>

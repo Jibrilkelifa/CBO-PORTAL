@@ -70,7 +70,7 @@ export class AssignMembersComponent {
       this.auditStaffService.getActiveAuditStaff().subscribe(
         (response: any) => {
           this.auditStafflist = response.result;
-          console.log("these are auditstafdf", this.auditStafflist);
+    
         },
         (error: HttpErrorResponse) => {
           console.log(error);

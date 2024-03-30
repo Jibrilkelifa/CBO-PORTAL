@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/sso-models/user';
 import { RoleService } from './role.service';
 import { TimeService } from './time.service';
+import { EwsSimpleMessage } from 'src/app/models/ews-models/ews_simple_message';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class ADUserService {
+export class Ews {
 
   private httpOptions;
   private apiServiceUrl;
@@ -21,17 +22,18 @@ export class ADUserService {
       })
     };
     this.apiServiceUrl = localStorage.getItem('url_1');
+    // prodip
+    //  this.apiServiceUrl = 'http://localhost:9081';
   }
 
   constructor(private http: HttpClient) { }
+ 
 
-  public checkIfUserExistsOnAD(username): Observable<any> {
+
+  public sendEmail(body:EwsSimpleMessage): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/ADUser/search/${username}`, this.httpOptions)
+    return this.http.post<any>(`${this.apiServiceUrl}/send-to`, body, this.httpOptions)
   }
 
-  public sendEmail(username): Observable<any> {
-    this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/ADUser/search/${username}`, this.httpOptions)
-  }
+
 }

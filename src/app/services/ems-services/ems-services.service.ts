@@ -42,6 +42,12 @@ export class EMSService {
     return this.http.get<Employee>(`http://10.1.125.58:8082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
 
   }
+
+  getDirectorBySubProcessId(id: number): Observable<any> {
+    this.init();
+    return this.http.get<Employee>(`http://localhost:8082/ems/api/getDirectorBySubProcess/${id}`, this.httpOptions2)
+
+  }
   getEmployeeByIdForStaff(id: string): Observable<any> {
     this.init();
     return this.http.get<Employee>(`http://10.1.125.58:8082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
@@ -53,6 +59,8 @@ export class EMSService {
     return this.http.get<any>(`http://10.1.125.58:8082/ems/api/getEmployeeByName/${fullname}`, this.httpOptions2)
 
   }
+
+
 
   getEmployeesOfVicePresidents(): Observable<any> {
     const url = `http://localhost:8082/ems/api/vice-presidents/${this.supervisorId}`;

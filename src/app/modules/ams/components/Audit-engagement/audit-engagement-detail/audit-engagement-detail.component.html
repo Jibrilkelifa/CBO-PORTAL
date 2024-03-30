@@ -96,7 +96,7 @@
           <button
             pButton
             *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Draft' && isManager"
-            (click)="ApproveProgram(auditProgram?.id)"
+            (click)="ApproveProgram(auditProgram)"
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm h-10 whitespace-nowrap"
             label="Approve"
@@ -218,6 +218,7 @@
         <td class="flex gap-4">
           <button
           pButton
+          *ngIf="!isAuditee"
           (click)="addToComment(auditFinding)"
           [ngClass]="{ updateBlue: true }"
           class="p-button-sm h-10 whitespace-nowrap"
@@ -225,6 +226,7 @@
         ></button>
         <button
         pButton
+        *ngIf="!isAuditee"
         (click)="updateFinding(auditFinding)"
         [ngClass]="{ updateBlue: true }"
         class="p-button-sm h-10 whitespace-nowrap"
@@ -232,6 +234,7 @@
       ></button>
       <button
       pButton
+      *ngIf="!isAuditee"
       (click)="goToDetails(auditFinding)"
       [ngClass]="{ updateBlue: true }"
       class="p-button-sm h-10 whitespace-nowrap"
@@ -239,11 +242,29 @@
     ></button>
     <button
     pButton
+    *ngIf="!isAuditee"
     (click)="addAttachement(auditFinding)"
     [ngClass]="{ updateBlue: true }"
     class="p-button-sm h-10 whitespace-nowrap"
     label="Add Attachement"
   ></button>
+  <button
+  pButton
+  *ngIf="isAuditee"
+  (click)="addResponse(auditFinding)"
+  [ngClass]="{ updateBlue: true }"
+  class="p-button-sm h-10 whitespace-nowrap"
+  label="Add Response"
+></button>
+  <button
+  pButton
+  
+   *ngIf="auditFinding.isVisibleToAuditees == false && isLeader "
+  (click)="makeVisible(auditFinding)"
+  [ngClass]="{ updateBlue: true }"
+  class="p-button-sm h-10 whitespace-nowrap"
+  label="Make Visible to Auditees"
+></button>
         </td>
       </tr>
     </ng-template>

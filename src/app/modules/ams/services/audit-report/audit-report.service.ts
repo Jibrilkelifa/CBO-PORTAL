@@ -17,7 +17,7 @@ export class AuditReportService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://localhost:8099';
+    this.apiServiceUrl = 'http://10.1.125.58:8099';
        // prodip
       //  this.apiServiceUrl = 'http://localhost:8099';
   }
@@ -43,8 +43,8 @@ export class AuditReportService {
   
   public registerReport(theBigJson: any): Observable<any> {
     this.init();
-    const url = `http://10.1.125.58:8099/ams/report/register/byAuditSchedule`;
-    return this.http.post(url, theBigJson);
+    const url = `http://localhost/ams/report/register/byAuditSchedule`;
+    return this.http.post(this.apiServiceUrl+"/ams/report/register/byAuditSchedule", theBigJson);
   }
 
   public getAuditReports(): Observable<any> {

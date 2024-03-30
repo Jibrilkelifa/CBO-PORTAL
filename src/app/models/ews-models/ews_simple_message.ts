@@ -1,5 +1,6 @@
 export interface EwsSimpleMessage {
   email : string[],
   subject : string,
-  body: string
+  body: string,
+  shortCircuit:boolean
 }
