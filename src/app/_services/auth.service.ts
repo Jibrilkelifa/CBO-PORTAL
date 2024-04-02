@@ -90,15 +90,13 @@ export class AuthService {
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
-
-
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
    
     localStorage.setItem('team', JSON.stringify(employee?.team));
     localStorage.setItem('supervisor', employee?.supervisor);
-    localStorage.setItem('title', employee?.job);
+    localStorage.setItem('title', employee?.jobObject.title);
     localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
     //  localStorage.setItem('branch', JSON.stringify(employee?.branch));
