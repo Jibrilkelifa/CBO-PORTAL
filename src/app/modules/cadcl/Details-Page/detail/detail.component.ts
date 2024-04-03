@@ -10,10 +10,6 @@ import { BranchService } from 'src/app/modules/sasv/services/branch-service/bran
 import { Branch } from 'src/app/modules/sasv/models/branch';
 import { NgForm } from '@angular/forms';
 
-interface UploadEvent {
-  originalEvent: Event;
-  files: File[];
-}
 
 @Component({
   selector: 'app-detail',

@@ -98,7 +98,7 @@ export class AuthService {
    
     localStorage.setItem('team', JSON.stringify(employee?.team));
     localStorage.setItem('supervisor', employee?.supervisor);
-    localStorage.setItem('title', employee?.job);
+    localStorage.setItem('title', employee?.jobObject.title);
     localStorage.setItem('subordinates', JSON.stringify(employee?.subordinateIds));
     localStorage.setItem('branch', JSON.stringify(employee?.branch));
     //  localStorage.setItem('branch', JSON.stringify(employee?.branch));

@@ -57,7 +57,7 @@
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Insurance Expiry Date </label>
         <p-calendar id="alphabetic" dataType="string" ngModel [(ngModel)]="insuranceExpireDate"
-          name="insuranceExpireDate" [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"></p-calendar>
+          name="insuranceExpireDate"  [required]="true" [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"></p-calendar>
       </div>
       <div class="flex-auto">
         <label for="hex" class=" block mb-2"> Collatoral Type </label>

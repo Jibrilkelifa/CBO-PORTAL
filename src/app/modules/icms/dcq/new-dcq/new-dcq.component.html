@@ -5,7 +5,7 @@
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Date Presented (MM/DD/YYYY) </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="datePresented" name="datePresented"
-          [readonly]="true" [style]="{'width':'30vw','height':'45px'}">
+          [readonly]="true" [required]="true" [style]="{'width':'30vw','height':'45px'}">
       </div>
       <div class="flex-auto">
         <label for="amountInBirr" class="block mb-2">Amount In Birr</label>
