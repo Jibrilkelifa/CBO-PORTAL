@@ -8,6 +8,7 @@ interface NavItem {
 
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
+export let navItemsAdmin: Object;
 export let navItemsAMSAdmin: Object;
 export let navItemsAMSManager: Object;
 export let navItemsAMSDirector: Object;
@@ -51,6 +52,28 @@ navItemMenu = {
   name: 'Menu',
   title: true
 }
+navItemsAdmin = {
+  name: 'System Admin',
+  url: '/',
+  iconComponent: { name: 'cil-settings' },
+  children: [
+    {
+      name: 'User',
+      url: '/user',
+      children: [
+        {
+          name: 'Add Admin',
+          url: '/user/assignRole'
+        },
+        {
+          name: 'View All Admins',
+          url: '/user/viewAdmins'
+        },
+      ]
+    }
+  ]
+}
+
 navItemsSuperAdmin = {
   name: 'System Admin',
   url: '/',
@@ -76,7 +99,7 @@ navItemsSuperAdmin = {
       children: [
         {
           name: 'Add Admin',
-          url: '/user/addAdmin'
+          url: '/user/assignRole'
         },
         {
           name: 'View All Admins',

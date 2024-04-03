@@ -45,7 +45,7 @@ export class EMSService {
 
   getDirectorBySubProcessId(id: number): Observable<any> {
     this.init();
-    return this.http.get<Employee>(`http://localhost:8082/ems/api/getDirectorBySubProcess/${id}`, this.httpOptions2)
+    return this.http.get<Employee>(`http://10.1.125.58:8082/ems/api/getDirectorBySubProcess/${id}`, this.httpOptions2)
 
   }
   getEmployeeByIdForStaff(id: string): Observable<any> {

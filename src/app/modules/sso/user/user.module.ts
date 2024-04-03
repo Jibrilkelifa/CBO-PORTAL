@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { NewAdminComponent } from './new-admin/new-admin.component';
+import { AssignRole } from './assign-role/assign-role.component';
 import { AdminTableComponent } from './admin-table/admin-table.component';
 import { NewUserComponent } from './new-user/new-user.component';
 import { UserTableComponent } from './user-table/user-table.component';
@@ -101,7 +102,8 @@ import {
     NewAdminComponent,
     NewUserComponent,
     AdminTableComponent,
-    UserTableComponent
+    UserTableComponent,
+    AssignRole
   ],
   providers: [ConfirmationService, MessageService]
 })

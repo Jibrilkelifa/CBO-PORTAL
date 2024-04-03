@@ -40,7 +40,8 @@ import {
   navItemsAMSTeamLeader,
   navItemsAMSAuditor,
   navItemsAMSMember,
-  navItemsAMSAuditee
+  navItemsAMSAuditee,
+  navItemsAdmin
 
 } from './_nav';
 import { AuditStaffService } from 'src/app/modules/ams/services/audit-staff/audit-staff.service';
@@ -100,6 +101,7 @@ export class DefaultLayoutComponent {
     this.addIndentClass(navItemsAMSAuditor)
     this.addIndentClass(navItemsAMSMember);
     this.addIndentClass(navItemsAMSAuditee);
+    this.addIndentClass(navItemsAdmin);
 
     this.navItems.push(navItemMenu);
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
@@ -143,33 +145,33 @@ export class DefaultLayoutComponent {
 
 
           switch (role) {
-            case "ROLE_SUPER_ADMIN":
-              this.navItems.push(navItemsSuperAdmin);
+            // case "ROLE_SUPER_ADMIN":
+            //   this.navItems.push(navItemsAdmin);
+            //   this.dashboardRoute = "default_dashboard"
+            //   // if (localStorage.getItem("supervisor") === "true") {
+
+            //   //   if (!this.navItems.includes(navItemSupervisor)) {
+            //   //     this.navItems.push(navItemSupervisor);
+            //   //   }
+            //   // }
+            //   break;
+            case "ROLE_EMS_ADMIN":
+              this.navItems.push(navItemsEMSAdmin);
               this.dashboardRoute = "default_dashboard"
               // if (localStorage.getItem("supervisor") === "true") {
-
               //   if (!this.navItems.includes(navItemSupervisor)) {
               //     this.navItems.push(navItemSupervisor);
               //   }
               // }
               break;
-            case "ROLE_EMS_ADMIN":
-              this.navItems.push(navItemsEMSAdmin);
-              this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
-              break;
             case "ROLE_EMS_USER":
               this.navItems.push(navItemsEMSUser);
               this.dashboardRoute = "cc_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             // case "ROLE_CC_ADMIN":
             //   this.navItems.push(navItemsCCAdmin);
@@ -221,7 +223,6 @@ export class DefaultLayoutComponent {
              case "ROLE_SMS_ADMIN":
                 this.navItems.push(navItemsSMSAdmin);
                 this.dashboardRoute = 'sms_dashboard'
-        
               break;
             case "ROLE_ICMS_PROVISION":
               this.navItems.push(navItemsICMSProvision);
@@ -246,96 +247,96 @@ export class DefaultLayoutComponent {
             case "ROLE_SASV_ADMIN":
               this.navItems.push(navItemsSASVAdmin);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
-            case "ROLE_SASV_USER":
-              this.navItems.push(navItemsSASVUser);
-              this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
-              break;
+            // case "ROLE_SASV_USER":
+            //   this.navItems.push(navItemsSASVUser);
+            //   this.dashboardRoute = "default_dashboard"
+            //   if (localStorage.getItem("supervisor") === "true") {
+            //     if (!this.navItems.includes(navItemSupervisor)) {
+            //       this.navItems.push(navItemSupervisor);
+            //     }
+            //   }
+            //   break;
             case "ROLE_MEMO_ADMIN":
               this.navItems.push(navItemsMemoAdmin);
               this.dashboardRoute = "default_dashboard"
          
               this.authenticateAWS();
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             case "ROLE_MEMO_USER":
               this.navItems.push(navItemsMemoUser);
               this.dashboardRoute = "default_dashboard"
            
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             case "ROLE_ECX_ADMIN":
               this.navItems.push(navItemsECXAdmin);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             case "ROLE_ECX_USER":
               this.navItems.push(navItemsECXUser);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             
               case "ROLE_CAO_ADMIN":
                 this.navItems.push(navItemsCAOAdmin);
                 this.dashboardRoute = "default_dashboard"
-                if (localStorage.getItem("supervisor") === "true") {
-                  if (!this.navItems.includes(navItemSupervisor)) {
-                    this.navItems.push(navItemSupervisor);
-                  }
-                }
+                // if (localStorage.getItem("supervisor") === "true") {
+                //   if (!this.navItems.includes(navItemSupervisor)) {
+                //     this.navItems.push(navItemSupervisor);
+                //   }
+                // }
                 break;
               case "ROLE_CAO_USER":
-                this.navItems.push(navItemsCAOUser);
+                //this.navItems.push(navItemsCAOUser);
                 this.dashboardRoute = "default_dashboard"
-                if (localStorage.getItem("supervisor") === "true") {
-                  if (!this.navItems.includes(navItemSupervisor)) {
-                    this.navItems.push(navItemSupervisor);
-                  }
-                }
+                // if (localStorage.getItem("supervisor") === "true") {
+                //   if (!this.navItems.includes(navItemSupervisor)) {
+                //     this.navItems.push(navItemSupervisor);
+                //   }
+                // }
                 break;
             case "ROLE_CMS_ADMIN":
               this.navItems.push(navItemsCMSAdmin);
               this.dashboardRoute = "cms_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             case "ROLE_CMS_USER":
               this.navItems.push(navItemsCMSUser);
               this.dashboardRoute = "default_dashboard"
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               break;
             case "ROLE_AMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
@@ -359,11 +360,11 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_AMS_MANAGER":
               this.navItems.push(navItemsAMSManager);
-              if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
-                }
-              }
+              // if (localStorage.getItem("supervisor") === "true") {
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
               this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_AMS_TEAM_LEADER":
@@ -382,6 +383,11 @@ export class DefaultLayoutComponent {
                   this.navItems.push(navItemsCISTAdmin);
                   this.dashboardRoute = "default_dashboard"
                   break;
+          }
+
+          if(localStorage.getItem('title').includes('MANAGER') && (localStorage.getItem('branchId') != null)){
+            this.navItems.push(navItemsCAOUser);
+            this.dashboardRoute = "default_dashboard";
           }
         }
       }

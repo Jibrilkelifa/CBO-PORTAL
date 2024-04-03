@@ -19,6 +19,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
   [x: string]: any;
   user: string;
+  branch:string;
   imageData: any;
   defaultAvatarPath: string;
   cc:boolean;
@@ -47,7 +48,9 @@ export class DefaultHeaderComponent extends HeaderComponent {
 
     this.getDefaultAvatar();
     this.user = localStorage.getItem('name');
-
+        
+    this.branch  = JSON.parse(localStorage.getItem("branch")).name;
+  
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
 
     for (let i = 0; i <= totalModules; i++) {
@@ -117,6 +120,8 @@ export class DefaultHeaderComponent extends HeaderComponent {
         }
       }
     }
+
+
 
   
   }

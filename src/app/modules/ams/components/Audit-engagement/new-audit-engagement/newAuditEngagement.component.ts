@@ -36,6 +36,8 @@ export class NewAuditEngagementComponent implements OnDestroy {
   };
 
   auditSchedule: AuditScheduleDTO;
+  myAuditSchedule: AuditEngagementDTO;
+
 
   constructor(
     private messageService: MessageService,
@@ -54,7 +56,10 @@ export class NewAuditEngagementComponent implements OnDestroy {
         startOn: this.datePipe.transform(this.config.data.auditSchedule.startOn, 'MM/dd/yyyy'),
         endOn: this.datePipe.transform(this.config.data.auditSchedule.endOn, 'MM/dd/yyyy')
       };
+
+      this.myAuditSchedule = this.config.data.auditSchedule;
     }
+    console.log(this.myAuditSchedule);
     
     this.auditEngagementInfo.refNum = (Math.floor(Math.random() * 9000) + 1000).toString();
   }
@@ -73,6 +78,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
     const auditEngagement: AuditEngagementDTO = { ...addDivForm.value, auditSchedule: this.auditScheduleInfo };
     const employeeIds: string[] = [];
    
+    console.log(addDivForm);
 
      auditEngagement.auditSchedule.teamMembers.forEach(member => {
       const employeeId = member.auditStaffDTO.employeeId;
