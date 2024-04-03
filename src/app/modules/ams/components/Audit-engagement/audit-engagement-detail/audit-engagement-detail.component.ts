@@ -50,6 +50,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   public auditWBS: WBS_DTO[] = [];
   public auditFinding: FindingDTO[] = [];
   public recipents:string[] = [];
+  public members:string[] = [];
   public isManager: boolean;
   public isLeader: boolean;
   public isAuditee: boolean;
@@ -256,23 +257,34 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
 
-    // this.auditProgramService.loadAuditProgram(ap.id).subscribe(data => {
-    //   console.log(data);
-    //   this.getAuditProgram(this.auditEngagements[0].id);
-    // }, error => {
-    //   console.error(error);
-    // });
+    this.auditProgramService.loadAuditProgram(ap.id).subscribe(data => {
+      console.log(data);
+      this.getAuditProgram(this.auditEngagements[0].id);
+    }, error => {
+      console.error(error);
+    });
   }
 
   sendEmail(){
     this.recipents.push(localStorage.getItem("id"));
+   
+  
+    this.auditEngagements[0].auditSchedule.teamMembers.forEach(member => {
+      this.recipents.push(member.auditStaffDTO.employeeId);
+    }); 
+
+    this.auditEngagements[0].auditSchedule.teamMembers.forEach(member => {
+      this.members.push(member.auditStaffDTO.fullName);
+    }); 
+
+    console.log(this.recipents);
+
     console.log(this.recipents);
     this.sendMeIgo.email = this.recipents;
-    this.sendMeIgo.body = `
-    This is to inform you that we have scheduled to undertake IT audit we will come to your office for auditing purpose. Thus, we kindly request your office cooperate to provide them all necessary documents and necessary assistance pertaining their work and make the required interview for audit purpose.
-      	
-Regards,
-`;
+
+    this.sendMeIgo.body =`
+    This is to inform you that we have scheduled to undertake IT audit IT Auditors, ${this.members.map(member => member).join(', ')}, will come to your office for auditing purpose. Thus, we kindly request your office cooperate to provide them all necessary documents and necessary assistance pertaining their work and make the required interview for audit purpose.
+    `;
     this.sendMeIgo.shortCircuit = true;
     this.sendMeIgo.subject = "Engagement Letter";
     

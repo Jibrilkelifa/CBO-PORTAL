@@ -198,6 +198,7 @@ export class AuditScheduleComponent implements OnDestroy {
   }
 
   addToEngagement(auditSchedule: AuditScheduleDTO): void {
+    // console.log(auditSchedule)
     const ref = this.dialogService.open(NewAuditEngagementComponent, {
       header: 'Create a new engagement',
       draggable: true,
