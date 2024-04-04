@@ -52,6 +52,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   public recipents:string[] = [];
   public members:string[] = [];
   public isManager: boolean;
+  public isDirector:boolean;
   public isLeader: boolean;
   public isAuditee: boolean;
 
@@ -98,6 +99,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
     this.isLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
     this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
+    this.isDirector = this.roles.some(obj => obj.name === "ROLE_AMS_DIRECTOR");
 
    
 

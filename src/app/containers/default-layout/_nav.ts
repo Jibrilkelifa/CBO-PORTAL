@@ -53,25 +53,9 @@ navItemMenu = {
   title: true
 }
 navItemsAdmin = {
-  name: 'System Admin',
-  url: '/',
-  iconComponent: { name: 'cil-settings' },
-  children: [
-    {
-      name: 'User',
-      url: '/user',
-      children: [
-        {
-          name: 'Add Admin',
-          url: '/user/assignRole'
-        },
-        {
-          name: 'View All Admins',
-          url: '/user/viewAdmins'
-        },
-      ]
-    }
-  ]
+  name: 'Assign Role',
+  url: '/user/assignRole',
+  iconComponent: { name: 'cil-settings' }
 }
 
 navItemsSuperAdmin = {
@@ -308,11 +292,7 @@ navItemsAMSDirector =  {
     {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Schedule',
-      url: '/ams/audit-schedule',
-    },
+    }
  
  
   ],

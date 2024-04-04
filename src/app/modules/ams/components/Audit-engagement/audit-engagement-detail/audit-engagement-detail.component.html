@@ -69,9 +69,7 @@
         <th>
           Name
         </th>
-        <th>
-          Created User
-        </th>
+
         <th>
           Status
         </th>
@@ -87,7 +85,6 @@
     <ng-template pTemplate="body" let-auditProgram let-rowIndex="rowIndex">
       <tr >
         <td>{{ auditProgram.name}}</td>
-        <td>{{ auditProgram.createdUser }}</td>
         <td>{{ auditProgram.status }}</td>
         <td>{{ auditProgram.previousStatus}}</td>
        
@@ -95,7 +92,7 @@
           
           <button
             pButton
-            *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Draft' && isManager"
+            *ngIf="auditProgram?.engagementInfo?.auditSchedule?.status == 'Draft' && isDirector"
             (click)="ApproveProgram(auditProgram)"
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm h-10 whitespace-nowrap"
@@ -240,14 +237,7 @@
       class="p-button-sm h-10 whitespace-nowrap"
       label="Detail"
     ></button>
-    <button
-    pButton
-    *ngIf="!isAuditee"
-    (click)="addAttachement(auditFinding)"
-    [ngClass]="{ updateBlue: true }"
-    class="p-button-sm h-10 whitespace-nowrap"
-    label="Add Attachement"
-  ></button>
+
   <button
   pButton
   *ngIf="isAuditee"

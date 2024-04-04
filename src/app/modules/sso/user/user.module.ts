@@ -12,7 +12,6 @@ import { NewUserComponent } from './new-user/new-user.component';
 import { UserTableComponent } from './user-table/user-table.component';
 import { UserRoutingModule } from './user-routing.module';
 import { IconModule } from '@coreui/icons-angular';
-
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
