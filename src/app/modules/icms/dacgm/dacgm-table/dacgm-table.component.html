@@ -169,6 +169,12 @@
         <th scope="col" pSortableColumn="amountInvolved" style="width: 7%">
           Amount Involved
         </th>
+        <th scope="col" pSortableColumn="accountName" style="width: 10%">
+          Account Name
+        </th>
+        <th scope="col" pSortableColumn="accountNumber" style="width: 10%">
+          Account Number
+        </th>
         <th scope="col" pSortableColumn="responsiblePerson" style="width: 10%">
           Responsible Person
         </th>
@@ -224,6 +230,8 @@
           </ng-template>
         </td>
         <td>{{ dacgm?.amountInvolved }}</td>
+        <td>{{ dacgm?.accountName }}</td>
+        <td>{{ dacgm?.accountNumber }}</td>
         <td>{{ dacgm?.responsiblePerson }}</td>
         <td>{{ dacgm?.activityStatus.name }}</td>
         <td
