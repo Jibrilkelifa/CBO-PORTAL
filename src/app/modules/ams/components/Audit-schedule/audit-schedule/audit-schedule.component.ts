@@ -56,7 +56,7 @@ export class AuditScheduleComponent implements OnDestroy {
     private dialogService: DialogService,
     private messageService: MessageService,
     private datePipe: DatePipe,
-    private auditStaffService: AuditStaffService
+
   ) { }
 
   ngOnInit() {
@@ -77,8 +77,7 @@ export class AuditScheduleComponent implements OnDestroy {
     }));
 
    
-    this.getAuditStaffId(localStorage.getItem("id"));
-    console.log(localStorage.getItem("auditStaffId"), "here please")
+  
   
   }
 
@@ -87,6 +86,7 @@ export class AuditScheduleComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditScheduleService.getAuditSchedules().subscribe(
         (response: any) => {
+          console.log("schedules", response)
           this.auditSchedules = response.result.map((schedule: AuditScheduleDTO) => {
             const leader = schedule.teamMembers.find(member => member.teamRole === 'Leader');
             const members = schedule.teamMembers.filter(member => member.teamRole === 'Member');
@@ -198,6 +198,7 @@ export class AuditScheduleComponent implements OnDestroy {
   }
 
   addToEngagement(auditSchedule: AuditScheduleDTO): void {
+    // console.log(auditSchedule)
     const ref = this.dialogService.open(NewAuditEngagementComponent, {
       header: 'Create a new engagement',
       draggable: true,
@@ -224,19 +225,7 @@ export class AuditScheduleComponent implements OnDestroy {
     });
   }
 
-  getAuditStaffId(employeeId: string) {
-    
-    this.auditStaffService.getAuditStaffByEmployeeId(employeeId).subscribe(
-      (response: any) => {
-         localStorage.setItem("auditStaffId", response);
-     
-      },
-      (error: HttpErrorResponse) => {
-        console.log(error);
-      }
-    )
 
-}
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {

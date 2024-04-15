@@ -8,6 +8,8 @@ import { Subscription } from 'rxjs';
 import { AuditEngagementService } from 'src/app/modules/ams/services/audit-engagement/audit-engagement.service';
 import { AuditEngagementDTO } from 'src/app/modules/ams/models/audit-engagement';
 import { AuditScheduleDTO } from 'src/app/modules/ams/models/auditSchedule';
+import { EwsSimpleMessage } from 'src/app/models/ews-models/ews_simple_message';
+import { Ews } from 'src/app/services/sso-services/ews.service';
 
 @Component({
   selector: 'newAuditEngagement',
@@ -26,7 +28,16 @@ export class NewAuditEngagementComponent implements OnDestroy {
   update: boolean = false;
   newDiv: boolean = true;
 
+  private outlookMessage: EwsSimpleMessage  = {
+    email: [], 
+    subject: '',
+    body: '',
+    shortCircuit: true
+  };
+
   auditSchedule: AuditScheduleDTO;
+  myAuditSchedule: AuditEngagementDTO;
+
 
   constructor(
     private messageService: MessageService,
@@ -35,6 +46,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
     private config: DynamicDialogConfig,
     public dialogService: DialogService,
     private datePipe: DatePipe,
+    private ews:Ews
   ) { }
 
   ngOnInit() {
@@ -44,7 +56,10 @@ export class NewAuditEngagementComponent implements OnDestroy {
         startOn: this.datePipe.transform(this.config.data.auditSchedule.startOn, 'MM/dd/yyyy'),
         endOn: this.datePipe.transform(this.config.data.auditSchedule.endOn, 'MM/dd/yyyy')
       };
+
+      this.myAuditSchedule = this.config.data.auditSchedule;
     }
+    console.log(this.myAuditSchedule);
     
     this.auditEngagementInfo.refNum = (Math.floor(Math.random() * 9000) + 1000).toString();
   }
@@ -52,16 +67,49 @@ export class NewAuditEngagementComponent implements OnDestroy {
   submitAuditSchedule(auditableAreaForm: NgForm): void {
     if (this.update) {
       this.updateAuditEngagement(auditableAreaForm);
+
     } else {
+      
       this.addAuditEngagement(auditableAreaForm);
     }
   }
 
   addAuditEngagement(addDivForm: NgForm): void {
     const auditEngagement: AuditEngagementDTO = { ...addDivForm.value, auditSchedule: this.auditScheduleInfo };
+    const employeeIds: string[] = [];
+   
+    console.log(addDivForm);
+
+     auditEngagement.auditSchedule.teamMembers.forEach(member => {
+      const employeeId = member.auditStaffDTO.employeeId;
+      employeeIds.push(employeeId);
+    });
+
+
+     
+
+ 
+     this.outlookMessage.email = this.outlookMessage.email.concat(employeeIds);
+  
+     this.outlookMessage.body = "Engagement " + auditEngagement.auditSchedule.annualPlan.auditUniverse.name + " started";
+     this.outlookMessage.subject = "Notifying engagment start";
+     this.outlookMessage.shortCircuit = true;
+ 
+   
+
+
+      //  main addition  
     this.subscriptions.push(
       this.auditEngagementService.addToEngagement(auditEngagement).subscribe(
         (response: any) => {
+          this.ews.sendEmail(this.outlookMessage).subscribe(
+            (response: any) => {
+              this.ref.close(response);
+            },
+            (error: HttpErrorResponse) => {
+              console.log(error);
+            }
+          )
           this.ref.close(response);
         },
         (error: HttpErrorResponse) => {

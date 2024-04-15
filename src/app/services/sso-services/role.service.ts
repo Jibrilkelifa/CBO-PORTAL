@@ -17,7 +17,9 @@ export class RoleService {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       })
     };
+    // prodip
     this.apiServiceUrl = localStorage.getItem('url_1');
+    // this.apiServiceUrl = 'http://localhost:9081';
   }
 
   constructor(private http: HttpClient) { }

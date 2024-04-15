@@ -15,6 +15,7 @@ import { AuditEngagementDTO } from '../../../models/audit-engagement';
 import { AuditProgramDTO } from '../../../models/audit program';
 import { AuditScheduleDTO } from '../../../models/auditSchedule';
 import { Router } from '@angular/router';
+import { AuditStaffService } from '../../../services/audit-staff/audit-staff.service';
 
 interface ExportColumn {
   title: string;
@@ -40,8 +41,10 @@ export class AuditEngagementComponent implements OnDestroy {
 
   public selectedOption: string;
   public dropdownOptions = [];
-  public isManager:boolean;
-  public isTeamLeader:boolean;
+  public isManager: boolean;
+  public isTeamLeader: boolean;
+  public isAuditee: boolean;
+  public isMember:boolean;
 
 
   exportColumns!: ExportColumn[];
@@ -51,25 +54,37 @@ export class AuditEngagementComponent implements OnDestroy {
   memberSearchTerm: string = '';
 
   public selectedDropdown: string;
+  public staffId: number;
 
   private subscriptions: Subscription[] = [];
 
   private roles = JSON.parse(localStorage.getItem("allRoles"));
+  private subProcess = JSON.parse(localStorage.getItem("subProcess")).id;
+
+
+
   constructor(
     private auditEngagementService: AuditEngagementService,
     private dialogService: DialogService,
     private messageService: MessageService,
     private datePipe: DatePipe,
-    private router: Router
+    private router: Router,
+    private auditStaffService: AuditStaffService
   ) { }
 
   ngOnInit() {
 
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
-    this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
-    console.log("is manager" , this.isManager);
-    console.log(this.roles);
-    this.getAllEngagementOfCurrentYear();
+    this.isTeamLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
+    this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
+    this.isMember = this.roles.some(obj => obj.name === "ROLE_AMS_MEMBER")
+
+
+    this.getAuditStaffId(localStorage.getItem("id"));
+    console.log(this.subProcess);
+
+
+
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'startOn', header: 'Start on' },
@@ -83,15 +98,40 @@ export class AuditEngagementComponent implements OnDestroy {
       dataKey: col.field,
     }));
 
-    
 
-   
+
   }
 
   getAllEngagementOfCurrentYear(): void {
     this.subscriptions.push(
       this.auditEngagementService.getAllEngagementOfCurrentYear().subscribe(
-        (response: any) => {          
+        (response: any) => {
+          //if auditee filter by organization 
+          if (this.isAuditee) {
+
+
+            const targetSubProcess = this.subProcess.toString().trim();
+            response.result = response.result.filter((item) => {
+              return item.auditSchedule.auditeesOrganID === targetSubProcess;
+            });
+
+
+          }
+
+          if(this.isMember){
+            console.log(response.result);
+            const targetEmployeeId = localStorage.getItem("id").toString().trim();
+            console.log(targetEmployeeId);
+            response.result = response.result.filter((item) => {
+              return item.auditSchedule.teamMembers.some(member => member.auditStaffDTO.employeeId === targetEmployeeId);
+            });
+            console.log(response.result);
+          }
+
+    
+
+          // response.result = response.result.filter(item => item.auditeesOrganID === this.subProcess); 
+          // response.result = response.result.filter(item => item.auditSchedule.auditeesOrganID === this.subProcess);
           this.auditEngagements = response.result.map((auditEngagement: AuditEngagementDTO) => {
             const leader = auditEngagement.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');
             const members = auditEngagement.auditSchedule.teamMembers.filter(member => member.teamRole === 'Member');
@@ -100,7 +140,7 @@ export class AuditEngagementComponent implements OnDestroy {
               startOn: this.datePipe.transform(auditEngagement.auditSchedule.startOn, 'MMMM d, y'),
               endOn: this.datePipe.transform(auditEngagement.auditSchedule.endOn, 'MMMM d, y'),
               leaderName: leader?.auditStaffDTO?.fullName || '',
-              status:auditEngagement.auditSchedule.status,
+              status: auditEngagement.auditSchedule.status,
               memberNames: members.map(member => member.auditStaffDTO?.fullName).join(', ') || ''
             };
           });
@@ -110,6 +150,11 @@ export class AuditEngagementComponent implements OnDestroy {
               ? obj.auditSchedule.annualPlan.name
               : null,
           }));
+
+
+          console.log(this.auditEngagements);
+
+
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -147,7 +192,7 @@ export class AuditEngagementComponent implements OnDestroy {
     });
   }
   addToProgram(auditEngagement: AuditEngagementDTO): void {
-  
+
     const ref = this.dialogService.open(NewAuditProgramComponent, {
       header: 'Create a new program',
       draggable: true,
@@ -176,12 +221,12 @@ export class AuditEngagementComponent implements OnDestroy {
 
   goToDetails(auditEngagement: AuditEngagementDTO): void {
     console.log(auditEngagement);
-    
+
     localStorage.setItem('currentEngagement', JSON.stringify(auditEngagement));
     this.router.navigate(['ams/audit-engagement-details']);
 
   }
-  
+
   findAuditEngagementByStatus(addDivForm: NgForm): void {
     this.subscriptions.push(
       this.auditEngagementService
@@ -320,6 +365,23 @@ export class AuditEngagementComponent implements OnDestroy {
       .filter(member => member.teamRole === 'Member')
       .map(member => member.auditStaffDTO?.fullName);
     return members?.join('\n') || '';
+  }
+
+  getAuditStaffId(employeeId: string) {
+
+    this.auditStaffService.getAuditStaffByEmployeeId(employeeId).subscribe(
+      (response: any) => {
+        localStorage.setItem("auditStaffId", response);
+        this.staffId = response;
+        this.getAllEngagementOfCurrentYear();
+        console.log(localStorage.getItem("auditStaffId"), "here please");
+
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    )
+
   }
 
   ngOnDestroy() {

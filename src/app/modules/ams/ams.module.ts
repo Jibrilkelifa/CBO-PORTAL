@@ -46,6 +46,7 @@ import { NewAuditProgramComponent } from './components/audit-program/new-audit-p
 import { AuditFindingsComponent } from './components/audit-findings/audit-findings/audit-findings.component';
 import { NewAuditFindingsComponent } from './components/audit-findings/new-audit-findings/new-audit-findings.component';
 import { NewAuditFindingsCommentComponent } from './components/audit-findings/new-audit-findings-comment/new-audit-findings-comment.component';
+import { NewAuditFindingsResponseComponent } from './components/audit-findings/new-audit-findings-response/new-audit-findings-response.component';
 import { NewWBSComponent } from './components/audit-program/new-wbs/new-wbs.component';
 import { Report } from './components/Report/report.component';
 import { ReportList } from './components/Report/list/report-list.component';
@@ -89,6 +90,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     AuditFindingsComponent,
     NewAuditFindingsComponent,
     NewAuditFindingsCommentComponent,
+    NewAuditFindingsResponseComponent,
     NewWBSComponent,
     AuditFindingsDetailComponent,
     Report,

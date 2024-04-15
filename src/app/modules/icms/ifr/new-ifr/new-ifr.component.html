@@ -5,7 +5,7 @@
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Case ID </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel [(ngModel)]="caseId" name="caseId"
-          [style]="{'width':'30vw','height':'45px'}" [readonly]="true">
+          [style]="{'width':'30vw','height':'45px'}" [readonly]="true" [required]="true">
       </div>
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Reason For the Delay to Detect (If Any) </label>
@@ -144,7 +144,7 @@
     <div class="flex flex-wrap gap-3 mb-2">
       <div class="flex-auto">
         <label for="fraudOccurrenceDate" class="block mb-2"> Date of Occurrence of Fraud </label>
-        <p-calendar id="fraudOccurrenceDate" [(ngModel)]="fraudOccurrenceDate" name="fraudOccurrenceDate"
+        <p-calendar id="fraudOccurrenceDate" [required]="true" [(ngModel)]="fraudOccurrenceDate" name="fraudOccurrenceDate"
           [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" [maxDate]="fraudDetectionDate"></p-calendar>
       </div>
       <div class="flex-auto">
@@ -178,7 +178,7 @@
       <div class="flex-auto" >
         <label for="fraudDetectionDate" class="block mb-2"> Date of Detection of Fraud</label>
         <p-calendar id="fraudDetectionDate"  [(ngModel)]="fraudDetectionDate" name="fraudDetectionDate"
-          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"
+          [style]="{'width':'30vw','height':'45px'}" [showIcon]="true" [required]="true"
           [disabled]="!fraudOccurrenceDate || checkRole('ROLE_ICMS_PROVISION')"
           [minDate]="fraudOccurrenceDate"></p-calendar>
           

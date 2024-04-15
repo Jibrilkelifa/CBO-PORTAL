@@ -10,10 +10,6 @@ import { BranchService } from 'src/app/modules/sasv/services/branch-service/bran
 import { Branch } from 'src/app/modules/sasv/models/branch';
 import { NgForm } from '@angular/forms';
 
-interface UploadEvent {
-  originalEvent: Event;
-  files: File[];
-}
 
 @Component({
   selector: 'app-detail',
@@ -106,6 +102,20 @@ export class DetailComponent {
       const link = document.createElement('a');
       link.href = url;
       link.download = path.split("/")[3];
+      link.click();
+      window.URL.revokeObjectURL(url);
+    })
+  }
+
+  getFileCl(path: String){
+    this.caChecklistService.getFile(path).subscribe((response: any)  => {
+      console.log(response);
+      
+      const blob = new Blob([response], { type: response.type });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = path.split("/")[4];
       link.click();
       window.URL.revokeObjectURL(url);
     })

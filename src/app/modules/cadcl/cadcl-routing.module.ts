@@ -9,7 +9,7 @@ const routes: Routes = [
     {
       path: '',
       data: {
-        title: 'Account'
+        title: 'Checklist'
       },
       children: [
         {
@@ -21,14 +21,14 @@ const routes: Routes = [
           path: 'newAccount',
           component: CreateComponent,
           data: {
-            title: 'New Account'
+            title: 'New Checklist'
           }
         },
         {
           path: 'my-checklists',
           component: ChecklistsComponent,
           data: {
-            title: 'Account Table'
+            title: 'Checklist Table'
           },
         },
         {

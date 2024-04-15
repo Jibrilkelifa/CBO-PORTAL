@@ -29,8 +29,8 @@ export class ChecklistsComponent {
   }
 
   getcaChecklists(): void {
-    var branch = localStorage.getItem('branch');
-    console.log('branch ',branch);
+    var branch = localStorage.getItem('branchId');
+    console.log('branchId ',branch);
     
     this.subscriptions.push(
       this.caChecklistService.getCaDailyChecklistsOfBranch(branch).subscribe(

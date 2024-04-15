@@ -8,6 +8,7 @@ interface NavItem {
 
 export let navItemMenu: Object;
 export let navItemsSuperAdmin: Object;
+export let navItemsAdmin: Object;
 export let navItemsAMSAdmin: Object;
 export let navItemsAMSManager: Object;
 export let navItemsAMSDirector: Object;
@@ -41,6 +42,8 @@ export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
 export let navCC:NavItem;
 export let navItemsAMSAuditor:Object;
+export let navItemsAMSMember:Object;
+export let navItemsAMSAuditee:Object;
 
 
 
@@ -49,6 +52,12 @@ navItemMenu = {
   name: 'Menu',
   title: true
 }
+navItemsAdmin = {
+  name: 'Assign Role',
+  url: '/user/assignRole',
+  iconComponent: { name: 'cil-settings' }
+}
+
 navItemsSuperAdmin = {
   name: 'System Admin',
   url: '/',
@@ -74,7 +83,7 @@ navItemsSuperAdmin = {
       children: [
         {
           name: 'Add Admin',
-          url: '/user/addAdmin'
+          url: '/user/assignRole'
         },
         {
           name: 'View All Admins',
@@ -116,10 +125,6 @@ navItemsAMSAdmin =  {
     {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
     },
     {
       name: 'Audit Reports',
@@ -175,10 +180,6 @@ navItemsAMSManager =  {
       url: '/ams/audit-engagement',
     },
     {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
       name: 'Audit Reports',
       url: '/ams/report-list',
     },
@@ -225,13 +226,39 @@ navItemsAMSAuditor =  {
       url: '/ams/audit-engagement',
     },
     {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
-    {
       name: 'Audit Reports',
       url: '/ams/report-list',
     },
+
+  ],
+  
+}
+
+navItemsAMSMember =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    }
+
+  ],
+  
+}
+
+navItemsAMSAuditee =  {
+  name: 'AMS',
+  url: '/ams',
+  iconComponent: { name: 'cil-drop' },
+  children: [
+
+    {
+      name: 'Audit Engagement',
+      url: '/ams/audit-engagement',
+    }
 
   ],
   
@@ -247,10 +274,7 @@ navItemsAMSTeamLeader =  {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
     },
-    {
-      name: 'Audit Program',
-      url: '/ams/audit-program',
-    },
+    
     {
       name: 'Audit Reports',
       url: '/ams/report-list',
@@ -268,11 +292,7 @@ navItemsAMSDirector =  {
     {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Schedule',
-      url: '/ams/audit-schedule',
-    },
+    }
  
  
   ],
@@ -414,48 +434,48 @@ navItemsICMSBranch = {
         },
       ]
     },
-    {
-      name: 'IFB',
-      url: '/ICMS/IFB',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/IFB/addIFB',
-        },
-        {
-          name: 'View IFB',
-          url: '/ICMS/IFB/viewIFB'
-        },
-      ]
-    },
-    {
-      name: 'Finance',
-      url: '/ICMS/Finance',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/Finance/addFinance',
-        },
-        {
-          name: 'View Finance',
-          url: '/ICMS/Finance/viewFinance'
-        },
-      ]
-    },
-    {
-      name: 'Fire Extinguisher',
-      url: '/ICMS/FireExtinguisher',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/FireExtinguisher/addFireExtinguisher',
-        },
-        {
-          name: 'View Fire Extinguisher',
-          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-        },
-      ]
-    },
+    // {
+    //   name: 'IFB',
+    //   url: '/ICMS/IFB',
+    //   children: [
+    //     {
+    //       name: 'Add data',
+    //       url: '/ICMS/IFB/addIFB',
+    //     },
+    //     {
+    //       name: 'View IFB',
+    //       url: '/ICMS/IFB/viewIFB'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Finance',
+    //   url: '/ICMS/Finance',
+    //   children: [
+    //     {
+    //       name: 'Add data',
+    //       url: '/ICMS/Finance/addFinance',
+    //     },
+    //     {
+    //       name: 'View Finance',
+    //       url: '/ICMS/Finance/viewFinance'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Fire Extinguisher',
+    //   url: '/ICMS/FireExtinguisher',
+    //   children: [
+    //     {
+    //       name: 'Add data',
+    //       url: '/ICMS/FireExtinguisher/addFireExtinguisher',
+    //     },
+    //     {
+    //       name: 'View Fire Extinguisher',
+    //       url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+    //     },
+    //   ]
+    // },
     {
       name: 'IFR',
       url: '/ICMS/Fraud',
@@ -647,7 +667,37 @@ navItemsICMSBranchManager = {
           url: '/ICMS/DACGM/viewDACGM',
         },
       ]
-    }
+    },
+    // {
+    //   name: 'IFB',
+    //   url: '/ICMS/IFB',
+    //   children: [
+    //     {
+    //       name: 'View IFB',
+    //       url: '/ICMS/IFB/viewIFB'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Finance',
+    //   url: '/ICMS/Finance',
+    //   children: [
+    //     {
+    //       name: 'View Finance',
+    //       url: '/ICMS/Finance/viewFinance'
+    //     },
+    //   ]
+    // },
+    // {
+    //   name: 'Fire Extinguisher',
+    //   url: '/ICMS/FireExtinguisher',
+    //   children: [
+    //     {
+    //       name: 'View Fire Extinguisher',
+    //       url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+    //     },
+    //   ]
+    // },
   ]
 }
 navItemsICMSBankingOperation = {
@@ -862,7 +912,7 @@ navItemsECXUser = {
 navItemsCAOAdmin = {
   name: 'CAO',
   url: '/cao',
-  iconComponent: { name: 'cil-credit-card' },
+  iconComponent: { name: 'cib-openstreetmap' },
   children: [
     {
       name: 'View',

@@ -36,6 +36,18 @@
         </div>
         <div class="row">
             <div class="col mb-4">
+                <label for="integer" class=" block mb-2">Impact: </label>
+                <input pInputText id="integer" pKeyFilter="int" [ngModel]="cDDailyCheckList.impact"
+                    name="impact" [style]="{'width':'20vw','height':'45px'}" />
+            </div>
+            <div class="col mb-4">
+                <label for="integer" class="block mb-2">Urgency: </label>
+                <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cDDailyCheckList.urgency"
+                    name="urgency" [style]="{'width':'20vw','height':'45px'}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col mb-4">
                 <label for="integer" class=" block mb-2">Requested Organ/Person: </label>
                 <input pInputText id="integer" pKeyFilter="int" [ngModel]="cDDailyCheckList.requestedOrgan"
                     name="requestedOrgan" [style]="{'width':'20vw','height':'45px'}" required />
@@ -106,7 +118,7 @@
             <div class="col mb-6">
                 <label for="integer" class="block mb-2 mt-3">Attachments: </label>
                 <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
-                    (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
+                    (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docx,.txt">
                     <ng-template pTemplate="toolbar">
                         <div class="py-3">Upload 3 Files</div>
                     </ng-template>
@@ -121,8 +133,8 @@
         <div style="margin-top: 5em;"></div>
         <div class="buttonDiv">
             <p-button label="Cancel" (click)="closeDialog()"></p-button>
-            <p-button *ngIf="!update" label="Create Relation" [disabled]="addDivForm.invalid!" type="submit"></p-button>
-            <p-button *ngIf="update" label="Update Relation" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+            <p-button *ngIf="!update" label="Create Checklist" [disabled]="addDivForm.invalid!" type="submit"></p-button>
+            <p-button *ngIf="update" label="Update Checklist" [disabled]="addDivForm.invalid!" type="submit"></p-button>
         </div>
     </form>
 </div>

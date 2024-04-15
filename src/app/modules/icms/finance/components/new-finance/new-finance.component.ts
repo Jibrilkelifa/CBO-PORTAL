@@ -12,6 +12,7 @@ import { AllSubCategoryService } from 'src/app/services/icms-services/all-sub-ca
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusService } from 'src/app/services/icms-services/cipm-services/status.service';
 import { Status } from 'src/app/models/icms-models/cipm-models/status';
+import { FinanceStatusModel } from '../../models/finance-status-model';
 
 @Component({
   selector: 'new-finance',
@@ -30,10 +31,15 @@ export class NewFinanceComponent implements OnInit {
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: any[];
+  public statuses: FinanceStatusModel[];
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
+
+  public selectedBranch;
+  public selectedTeam;
+  public selectedSubProcess;
+
 
   generateCaseId(): void {
     this.timeService.getDate().subscribe(
@@ -88,9 +94,13 @@ export class NewFinanceComponent implements OnInit {
         this.getFinance(id);
         this.update = true;
       } else {
-        this.selectedstatus = this.statuses.find(status => status.name === 'Active');
+        this.selectedstatus = this.statuses.find(status => status.name === 'Open');
       }
     });
+
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
 
     this.getCategories();
     this.generateCaseId();
@@ -120,10 +130,10 @@ export class NewFinanceComponent implements OnInit {
   
 
   public getStatus(): void {
-    this.statusService.getStatuses().subscribe(
-      (response: Status[]) => {
-        this.statuses = response;
-        this.selectedstatus = this.statuses.find(status => status.name === "Active");
+    this.financeService.getStatuses().subscribe(
+      (response: FinanceStatusModel[]) => {
+        this.statuses = response;        
+        this.selectedstatus = this.statuses.find(status => status.name === "Open");
       },
       (error: HttpErrorResponse) => {
         // Handle error
@@ -161,18 +171,19 @@ export class NewFinanceComponent implements OnInit {
     )
   }
 
+
   submitFinance(form: NgForm) {    
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
         financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-        status: this.selectedstatus // Attach the status
+        financeStatus: this.selectedstatus // Attach the status
       };
       if (this.update) {
         let updatedValue = {
           ...this.Finance, 
           financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-          status: this.selectedstatus // Attach the status
+          financeStatus: this.selectedstatus // Attach the status
         }        
         this.financeService.updateFinance(updatedValue).subscribe(
           response => {
@@ -193,6 +204,8 @@ export class NewFinanceComponent implements OnInit {
       } else {
         this.financeService.addFinance(formValueWithDate).subscribe(
           response => {
+            console.log("create", formValueWithDate);
+            
             this.messageService.add({
               severity: 'success',
               summary: 'Success',

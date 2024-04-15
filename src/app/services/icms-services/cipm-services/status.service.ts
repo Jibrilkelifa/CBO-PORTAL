@@ -25,11 +25,7 @@ export class StatusService {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/Status/all`, this.httpOptions)
   }
-  public getStatus(id: number): Observable<any> {
-    this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/Status/find/${id}`, this.httpOptions)
 
-  }
   public addStatus(ct: NgForm): Observable<any> {
     this.init();
     return this.http.post<any>(`${this.apiServiceUrl}/Status/add`, ct, this.httpOptions)
