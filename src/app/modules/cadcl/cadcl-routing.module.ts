@@ -9,7 +9,7 @@ const routes: Routes = [
     {
       path: '',
       data: {
-        title: 'Checklist'
+        title: 'CAO Inquiry/Activity'
       },
       children: [
         {
@@ -28,14 +28,14 @@ const routes: Routes = [
           path: 'my-checklists',
           component: ChecklistsComponent,
           data: {
-            title: 'Checklist Table'
+            title: 'my checklists'
           },
         },
         {
           path: 'checklist',
           component: ViewChecklistComponent,
           data: {
-            title: 'Daily Checklist',
+            title: 'List',
           },
         },
       ]
