@@ -38,7 +38,10 @@
         />
       </div>
       <div>
-        <span>Welcome, {{ user }} </span>
+        <span>Welcome, {{ user + " " }} </span>
+      </div>
+      <div>
+        <span *ngIf="branch">{{" > " + branch }} </span>
       </div>
     </button>
     <ul cDropdownMenu class="pt-0 pr-4 w-auto">

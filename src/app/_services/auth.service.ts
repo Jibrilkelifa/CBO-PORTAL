@@ -90,6 +90,8 @@ export class AuthService {
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
+    
+    
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);

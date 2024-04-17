@@ -44,6 +44,7 @@ export class AuditEngagementComponent implements OnDestroy {
   public isManager: boolean;
   public isTeamLeader: boolean;
   public isAuditee: boolean;
+  public isMember:boolean;
 
 
   exportColumns!: ExportColumn[];
@@ -76,7 +77,8 @@ export class AuditEngagementComponent implements OnDestroy {
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
     this.isTeamLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
     this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
-    
+    this.isMember = this.roles.some(obj => obj.name === "ROLE_AMS_MEMBER")
+
 
     this.getAuditStaffId(localStorage.getItem("id"));
     console.log(this.subProcess);
@@ -107,20 +109,28 @@ export class AuditEngagementComponent implements OnDestroy {
           //if auditee filter by organization 
           if (this.isAuditee) {
 
-          
-           
+
             const targetSubProcess = this.subProcess.toString().trim();
             response.result = response.result.filter((item) => {
               return item.auditSchedule.auditeesOrganID === targetSubProcess;
             });
-          
-           
-
-      
 
 
-          }     
-           // response.result = response.result.filter(item => item.auditeesOrganID === this.subProcess); 
+          }
+
+          if(this.isMember){
+            console.log(response.result);
+            const targetEmployeeId = localStorage.getItem("id").toString().trim();
+            console.log(targetEmployeeId);
+            response.result = response.result.filter((item) => {
+              return item.auditSchedule.teamMembers.some(member => member.auditStaffDTO.employeeId === targetEmployeeId);
+            });
+            console.log(response.result);
+          }
+
+    
+
+          // response.result = response.result.filter(item => item.auditeesOrganID === this.subProcess); 
           // response.result = response.result.filter(item => item.auditSchedule.auditeesOrganID === this.subProcess);
           this.auditEngagements = response.result.map((auditEngagement: AuditEngagementDTO) => {
             const leader = auditEngagement.auditSchedule.teamMembers.find(member => member.teamRole === 'Leader');

@@ -1,0 +1,66 @@
+<div *ngIf="newDiv">
+  <!-- <div class="container" *ngIf="!userExists"> -->
+  <div class="container">
+    <div class="container">
+      <div *ngIf="selectedTab1" class="centered">
+        <h2>Search Employee</h2>
+        <div>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="employeeFullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <br>
+        <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
+          class="clickable-button"></button>
+      </div>
+    </div>
+  </div>
+
+
+  <form  #addUserForm="ngForm" >
+
+    <div *ngIf="selectedTab2">
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Employee ID: </label>
+          <input pInputText id="empId" ngModel [(ngModel)]="selectedEmployeeId" name="employeeId"
+            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Full Name: </label>
+          <input pInputText id="fullName" ngModel [(ngModel)]="selectedFullName" name="fullName"
+            [style]="{'width':'30vw','height':'45px'}" required  pKeyFilter="alpha" readonly />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label  class=" block mb-2"> AD username: </label>
+          <input pInputText  ngModel [(ngModel)]="selectedAdUser" name="adUserName"
+            [style]="{'width':'30vw','height':'45px'}"
+           required/>
+        </div>
+
+      </div>     
+      <div class="flex-auto">
+        <label for="hex" class=" block mb-2"> Select Module(s)</label>
+        <p-multiSelect [options]="roles" [(ngModel)]="selectedRole" name="modules"
+          defaultLabel="Select Module(s)" optionLabel="name" display="chip" class="custom-multiselect"
+          required></p-multiSelect>
+      </div>
+      <div>
+    
+    
+        <div class="button-container">
+          <div class="spacer"></div>
+         
+          <p-toast></p-toast>
+          <button pButton type="submit" [disabled]="addUserForm.invalid" label="Assign Role" (click)="updateUser(addUserForm)"></button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+

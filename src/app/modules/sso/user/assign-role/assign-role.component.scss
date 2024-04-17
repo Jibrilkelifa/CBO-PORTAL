@@ -1,0 +1,70 @@
+:host ::ng-deep .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+.custom-multiselect {
+  height: 45px;
+  width: 30vw;
+  align-items: stretch;
+}
+
+input[type="text"] {
+  padding: 0.5rem;
+  border: 1px solid #c8c8c8;
+  border-radius: 3px;
+}
+
+input[type="text"]:focus {
+  outline: none;
+  border-color: #007ad9;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.button-container {
+  margin-top: 50px;
+  margin-bottom: 40px;
+}
+
+.submit-button {
+  margin-top: 50px;
+  margin-bottom: 80px;
+}
+
+.spacer {
+  margin-top: 220px;
+}
+
+.container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.clickable-button {
+  pointer-events: auto;
+}
+
+.centered {
+  text-align: center;
+}
+
+.search-header {
+  margin-bottom: 40px;
+}
+
+h2 {
+  margin-bottom: 40px;
+}
+
+::ng-deep .p-autocomplete input {
+  text-align: center !important;
+}
