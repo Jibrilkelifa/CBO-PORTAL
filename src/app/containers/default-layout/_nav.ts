@@ -910,7 +910,7 @@ navItemsECXUser = {
 }
 
 navItemsCAOAdmin = {
-  name: 'CAO',
+  name: 'CAO Inquiry/Activity',
   url: '/cao',
   iconComponent: { name: 'cib-openstreetmap' },
   children: [
@@ -922,9 +922,9 @@ navItemsCAOAdmin = {
 }
 
 navItemsCAOUser = {
-  name: 'CAO',
+  name: 'CAO Inquiry/Activity',
   url: '/cao',
-  iconComponent: { name: 'cil-credit-card' },
+  iconComponent: { name: 'cib-openstreetmap' },
   children: [
     {
       name: 'My Checklists',
