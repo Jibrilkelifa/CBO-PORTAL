@@ -1,0 +1,81 @@
+<div *ngIf="newDiv">
+  <!-- <div class="container" *ngIf="!userExists"> -->
+  <div class="container">
+    <div class="container">
+      <div *ngIf="selectedTab1" class="centered">
+        <h2>Search Employee</h2>
+        <div>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="employeeFullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <br>
+        <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
+          class="clickable-button"></button>
+      </div>
+    </div>
+  </div>
+
+
+  <form #addUserForm="ngForm">
+    <div *ngIf="selectedTab2">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Employee ID: </label>
+          <input pInputText id="empId" ngModel [(ngModel)]="selectedEmployeeId" name="employeeId"
+            [style]="{'width':'30vw','height':'45px'}" required pKeyFilter="alpha" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Full Name: </label>
+          <input pInputText id="fullName" ngModel [(ngModel)]="selectedFullName" name="fullName"
+            [style]="{'width':'30vw','height':'45px'}" required pKeyFilter="alpha" readonly />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Job : </label>
+          <input pInputText id="jobTitle" ngModel [(ngModel)]="selectedJobTitle" name="jobTitle" type="text"
+            [style]="{'width':'30vw','height':'45px'}" required minlength="2" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphanumeric2" class=" block mb-2"> Sub Process: </label>
+          <p-autoComplete  id="subProcess"
+            [(ngModel)]="selectedSubProcess" 
+            placeholder="Search District By Name" 
+            name="subProcess"
+            [suggestions]="searchedSubProcess"
+            (completeMethod)="getSubProcess($event)"
+            field="name"
+            pKeyFilter="alpha"
+            [inputStyle]="{'width':'30vw'}"
+            >
+          </p-autoComplete>
+      
+        </div>
+
+      </div>
+
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"
+            (onChange)="onValueChange($event)"></p-selectButton>
+          <p-autoComplete [(ngModel)]="selectedOrganizationalUnit" placeholder="{{prompt}}" name="organizationalUnit"
+            [suggestions]="searchedOrganizationalUnit" (completeMethod)="getData($event)" field="{{field}}"
+            [(ngModel)]="selectedOrganizationalUnit" [required]="true" class="clickable-button"
+            [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <div class="flex-auto">
+          <label for="alphanumeric" class=" block mb-2"> Process: </label>
+          <input pInputText id="process" ngModel [(ngModel)]="selectedProcess" name="process"
+            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
+        </div>
+
+      </div>
+      <button pButton type="submit" [disabled]="addUserForm.invalid" label="Update User"
+        (click)="updateUser(addUserForm)"></button>
+    </div>
+
+  </form>
+</div>

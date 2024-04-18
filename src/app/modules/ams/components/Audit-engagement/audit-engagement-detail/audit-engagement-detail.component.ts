@@ -144,8 +144,17 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditFindingService.getAuditFindingByProgramId(id).subscribe(
         (response: any) => {
-          this.auditFinding = response.result;
-          console.log(this.auditFinding, "this is audit finding");
+          if(this.isAuditee){
+            this.auditFinding = response.result;
+            this.auditFinding = this.auditFinding.filter(auditFinding => auditFinding.isVisibleToAuditees)
+      
+          } else {
+            this.auditFinding = response.result;
+          }
+        
+      
+          
+        
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -433,7 +442,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditFindingService.makeVisible(auditFinding.id).subscribe(
         (response: any) => {
-      
+            auditFinding.isVisibleToAuditees = true;
         },
         (error: HttpErrorResponse) => {
           console.log(error);

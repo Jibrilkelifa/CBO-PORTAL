@@ -171,9 +171,9 @@ public populateSelectedStatus(existingStatus: Status): void {
   }
 
   public updateCIPM(updateCIPM: NgForm): void {
-    // if (updateCIPM.value.otherInsuranceCoverageType == undefined) {
-    //   updateCIPM.value.otherInsuranceCoverageType = "";
-    // }
+     if (updateCIPM.value.otherInsuranceCoverageType == undefined) {
+      updateCIPM.value.otherInsuranceCoverageType = "";
+    }
     this.cipmService.updateCIPM(updateCIPM.value).subscribe(
       (response: CIPM) => {
         this.cipm = response;

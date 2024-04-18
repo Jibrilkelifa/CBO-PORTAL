@@ -123,6 +123,7 @@ export class NewAdminComponent implements OnInit {
 
 
   populateEmployeeData() {
+  
  
     this.selectedTab1 = false;
     this.selectedTab2 = true;

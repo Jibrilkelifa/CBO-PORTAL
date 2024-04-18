@@ -237,7 +237,8 @@
         <td
           *ngIf="
             this.roles.includes('ROLE_ICMS_BRANCH_IC') ||
-            this.roles.includes('ROLE_ICMS_ADMIN')
+            this.roles.includes('ROLE_ICMS_ADMIN') ||
+            this.roles.includes('ROLE_ICMS_DISTRICT_IC')
           "
         >
           {{ dacgm?.actionPlanDueDate | date : "MM/dd/yyyy" }}

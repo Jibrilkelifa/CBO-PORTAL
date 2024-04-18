@@ -30,7 +30,7 @@ export class EmployeeService {
     }
 
     this.apiServiceUrl = localStorage.getItem('url_1');
-    this.emsAPIBaseUrl = localStorage.getItem('url_2');
+    this.emsAPIBaseUrl = "http://10.1.125.58:8082";
   }
 
   constructor(private http: HttpClient){}
@@ -49,6 +49,20 @@ export class EmployeeService {
   getEmployeesByName(name: string): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getEmployeeByName/${name}`, this.httpOptions)
+  }
+
+  getBranchByName(name: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getBranchByCode/${name}`, this.httpOptions)
+  }
+
+  getTeamByName(name: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getTeamByName/${name}`, this.httpOptions)
+  }
+  getSubProcessByName(name: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getSubProcessByName/${name}`, this.httpOptions)
   }
 
   getAvatarImage(id: number): Observable<any> {
@@ -95,9 +109,10 @@ export class EmployeeService {
     this.init();
     return this.http.post<any>(`${this.apiServiceUrl}/employee/add`, employee, this.formDataOptions)
   }
-  public updateEmployee(employee: FormData): Observable<any>{
+ 
+  public updateEmployee(data: FormData): Observable<any> {
     this.init();
-    return this.http.put(`${this.apiServiceUrl}/employee/update`,employee, this.formDataOptions)
+    return this.http.put(`${this.apiServiceUrl}/ems/api/updateEmployee`, data, this.formDataOptions)
   }
   public deleteEmployee(employeeId: number): Observable<any>{
     this.init();
