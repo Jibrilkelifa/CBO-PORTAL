@@ -53,9 +53,23 @@ navItemMenu = {
   title: true
 }
 navItemsAdmin = {
-  name: 'Assign Role',
-  url: '/user/assignRole',
-  iconComponent: { name: 'cil-settings' }
+  name: "System Admin",
+  url:'/user',
+  iconComponent: { name: 'cil-settings' },
+  children:[
+    {
+      name: 'Assign Role',
+      url: '/user/assignRole',
+     
+    }, 
+    {
+      name: 'Update User',
+      url: '/user/updateUser',
+  
+    }, 
+
+  ]
+
 }
 
 navItemsSuperAdmin = {

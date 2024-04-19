@@ -35,8 +35,19 @@
       <div class="flex flex-wrap gap-2 mb-4">
         <div class="flex-auto">
           <label for="alphabetic" class=" block mb-2"> Job : </label>
-          <input pInputText id="jobTitle" ngModel [(ngModel)]="selectedJobTitle" name="jobTitle" type="text"
-            [style]="{'width':'30vw','height':'45px'}" required minlength="2" readonly />
+         
+           
+            <p-autoComplete  id="jobTitle"
+            [(ngModel)]="selectedJob" 
+            placeholder="Search Job By Title" 
+            name="jobTitle"
+            [suggestions]="searchedJob"
+            (completeMethod)="getJob($event)"
+            field="title"
+            pKeyFilter="alpha"
+            [inputStyle]="{'width':'30vw'}"
+            >
+          </p-autoComplete>
         </div>
         <div class="flex-auto">
           <label for="alphanumeric2" class=" block mb-2"> Sub Process: </label>
@@ -63,13 +74,28 @@
             (onChange)="onValueChange($event)"></p-selectButton>
           <p-autoComplete [(ngModel)]="selectedOrganizationalUnit" placeholder="{{prompt}}" name="organizationalUnit"
             [suggestions]="searchedOrganizationalUnit" (completeMethod)="getData($event)" field="{{field}}"
-            [(ngModel)]="selectedOrganizationalUnit" [required]="true" class="clickable-button"
+            [(ngModel)]="selectedOrganizationalUnit" class="clickable-button"
             [inputStyle]="{'width':'30vw'}"></p-autoComplete>
         </div>
         <div class="flex-auto">
           <label for="alphanumeric" class=" block mb-2"> Process: </label>
-          <input pInputText id="process" ngModel [(ngModel)]="selectedProcess" name="process"
-            [style]="{'width':'30vw','height':'45px'}" pKeyFilter="alpha" readonly />
+  
+            <p-dropdown
+            [options]="allProcess"
+            name="process"
+            [filter]="true"
+            [(ngModel)]="selectedProcess"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Choose Process"
+            field="name"
+            [style]="{'width':'30vw','height':'45px'}"
+            optionLabel="name"
+          >
+          <ng-template let-item pTemplate="item">
+            {{ item.name }}
+        </ng-template>
+        </p-dropdown>
         </div>
 
       </div>

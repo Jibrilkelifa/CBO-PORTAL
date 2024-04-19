@@ -65,6 +65,15 @@ export class EmployeeService {
     return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getSubProcessByName/${name}`, this.httpOptions)
   }
 
+  getAllProcess(): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getAllProcessList`, this.httpOptions)
+  }
+  getJobByTitle(name: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getJobByTitle/${name}`, this.httpOptions)
+  }
+
   getAvatarImage(id: number): Observable<any> {
     this.init();
     return this.http.get(`${this.apiServiceUrl}/employee/avatarImagePath/${id}`, { responseType: 'blob' })
@@ -112,7 +121,8 @@ export class EmployeeService {
  
   public updateEmployee(data: FormData): Observable<any> {
     this.init();
-    return this.http.put(`${this.apiServiceUrl}/ems/api/updateEmployee`, data, this.formDataOptions)
+
+    return this.http.put(`${this.emsAPIBaseUrl}/ems/api/updateEmployee`, data, this.formDataOptions)
   }
   public deleteEmployee(employeeId: number): Observable<any>{
     this.init();

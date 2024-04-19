@@ -14,6 +14,7 @@ import { Module } from 'src/app/models/sso-models/module';
 import { RoleService } from 'src/app/services/sso-services/role.service';
 import { TimeService } from 'src/app/services/sso-services/time.service';
 import { ADUserService } from 'src/app/services/sso-services/ad-user.service';
+import { Process } from 'src/app/models/sso-models/process';
 
 
 
@@ -52,6 +53,7 @@ export class UpdateUserComponent implements OnInit {
   searchedEmployees: any;
   searchedOrganizationalUnit: any;
   searchedSubProcess: any;
+  searchedJob: any;
   selectedBranch: any;
   baseVariable: any;
   previousTerm: string = "";
@@ -69,6 +71,7 @@ export class UpdateUserComponent implements OnInit {
   selectedCompanyEmail: string;
   selectedDateOfBirth: string;
   selectedGender: boolean;
+  selectedJob: any;
   username: string;
   userExists: boolean = false;
   selectedTab1: boolean = true;
@@ -83,8 +86,8 @@ export class UpdateUserComponent implements OnInit {
   gender: string;
   maxDate: Date;
   stateOptions: any[] = [{ label: 'Branch', value: 'branch' }, { label: 'Team', value: 'team' }];
-
   value: string = 'branch';
+  allProcess: Process[] = [];
 
 
 
@@ -100,6 +103,8 @@ export class UpdateUserComponent implements OnInit {
 
     this.prompt = "Enter Branch Code"
     this.field = "name"
+    this.getAllProcess();
+
 
 
   }
@@ -125,11 +130,9 @@ export class UpdateUserComponent implements OnInit {
     this.selectedJobTitle = this.selectedEmployee.job.title;
     this.selectedGender = this.selectedEmployee.gender;
 
-    this.selectedSubProcess = this.selectedEmployee.subProcess.name;
-    this.selectedProcess = this.selectedEmployee.process.name;
+ 
 
     this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
-    this.selectedOrganizationalUnit = this.selectedEmployee.branch?.name ?? this.selectedEmployee.team?.externalName ?? "Elite";
 
   }
 
@@ -202,7 +205,7 @@ export class UpdateUserComponent implements OnInit {
     if (searchTerm.length == 0) {
       this.previousTerm = "";
     }
-    if (searchTerm.length >= 3) { 
+    if (searchTerm.length >= 3) {
       this.employeeService.getSubProcessByName(searchTerm.toUpperCase()).subscribe(
         (response: any) => {
           this.searchedSubProcess = response;
@@ -214,6 +217,43 @@ export class UpdateUserComponent implements OnInit {
 
 
   }
+
+  getAllProcess() {
+
+
+    this.employeeService.getAllProcess().subscribe(
+      (response: any) => {
+        this.allProcess = response;
+
+
+      }
+    )
+
+
+
+
+  }
+
+  getJob(event: any) {
+
+    const searchTerm = event.query;
+    if (searchTerm.length == 0) {
+      this.previousTerm = "";
+    }
+    if (searchTerm.length >= 5) {
+      this.employeeService.getJobByTitle(searchTerm.toUpperCase()).subscribe(
+        (response: any) => {
+          this.searchedJob = response;
+
+        }
+      )
+    }
+
+
+
+  }
+
+
 
 
 
@@ -241,9 +281,27 @@ export class UpdateUserComponent implements OnInit {
   public updateUser(addUserForm: NgForm): void {
     this.timeService.getDateTime().toPromise().then((response) => {
       let dataTosend: any = {};
-      // dataTosend.updatedAt = response.time;  send other request to change updatedAt to sso
       dataTosend.employeeId = addUserForm.value.employeeId;
-      dataTosend.branch = this.selectedBranch;
+      if (this.selectedProcess) {
+        dataTosend.process = this.selectedProcess;
+      }
+      if (this.selectedJob) {
+        dataTosend.job = this.selectedJob;
+      }
+      if(this.selectedOrganizationalUnit && this.value.includes("branch")){
+        dataTosend.branch = this.selectedOrganizationalUnit;
+      }
+      if(this.selectedOrganizationalUnit && this.value.includes("team")){
+        dataTosend.team = this.selectedOrganizationalUnit;
+      }
+      if(this.selectedSubProcess){ 
+        dataTosend.subProcess = this.selectedSubProcess;
+      }
+
+
+     
+
+
 
       console.log(dataTosend);
       return this.employeeService.updateEmployee(dataTosend).toPromise();
