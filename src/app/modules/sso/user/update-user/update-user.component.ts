@@ -149,8 +149,6 @@ export class UpdateUserComponent implements OnInit {
           this.searchedEmployees = response;
           this.baseVariable = this.searchedEmployees;
 
-
-
         }
       )
     }
@@ -171,8 +169,8 @@ export class UpdateUserComponent implements OnInit {
       if (searchTerm.length == 0) {
         this.previousTerm = "";
       }
-      if (searchTerm.length >= 8) { // Store search results locally for all search terms longer than or equal to 3 letters
-        this.employeeService.getBranchByName(searchTerm).subscribe(
+      if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+        this.employeeService.getBranchByName(searchTerm.toUpperCase()).subscribe(
           (response: any) => {
             this.searchedOrganizationalUnit = response;
 
@@ -296,10 +294,7 @@ export class UpdateUserComponent implements OnInit {
       }
       if(this.selectedSubProcess){ 
         dataTosend.subProcess = this.selectedSubProcess;
-      }
-
-
-     
+      }   
 
 
 

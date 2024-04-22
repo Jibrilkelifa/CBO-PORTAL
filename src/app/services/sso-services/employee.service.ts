@@ -31,6 +31,7 @@ export class EmployeeService {
 
     this.apiServiceUrl = localStorage.getItem('url_1');
     this.emsAPIBaseUrl = "http://10.1.125.58:8082";
+    // prodip
   }
 
   constructor(private http: HttpClient){}
