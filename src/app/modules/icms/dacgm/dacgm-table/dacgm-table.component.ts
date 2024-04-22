@@ -6,7 +6,18 @@ import { DACGM } from '../../../../models/icms-models/dacgm-models/dacgm';
 import { DACGMService } from '../../../../services/icms-services/dacgm-services/dacgm.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
-import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-accordions',
@@ -26,45 +37,15 @@ export class DACGMTableComponent {
   actionTaken: boolean = false;
   escalatedMap: { [dacgmId: string]: boolean } = {};
   actionTakenMap: { [dacgmId: string]: boolean } = {};
-  searchParameter: any[] =
-    [
-      { name: 'District Name', value: 'subProcess.name' },
-      { name: 'Branch Name', value: 'branch.name' },
-      { name: 'Date', value: 'date' },
-      { name: 'Case ID', value: 'caseId' },
-      { name: 'Category', value: 'irregularity.subCategory.category.name' },
-      { name: 'Sub Category', value: 'irregularity.subCategory.name' },
-      { name: 'Irregularity', value: 'irregularity.name' },
-      { name: 'Amount Involved', value: 'amountInvolved' },
-      { name: 'Responsible Person', value: 'responsiblePerson' },
-      { name: 'Status', value: 'activityStatus.name' },
-      { name: 'Action Plan Due Date', value: 'actionPlanDueDate' }
-    ];
-  selectedSearchParameter: any;
-  filterTable(target: any, dataTable: any) {
-    if (this.selectedSearchParameter) {
-      dataTable.filter(target?.value, this.selectedSearchParameter.value, 'contains');
-    }
-  }
-
-  downloadExcel(tableID: string) {
-
-    let table = document.getElementById(tableID);
-
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table, { raw: true });
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    XLSX.writeFile(wb, 'DACGM.xlsx');
-
-  }
 
   minDate: Date;
   maxDate: Date;
   currentDate: Date;
   roles: string[] = [];
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+
+
 
   ngOnInit() {
     this.populateRoles();
@@ -97,6 +78,23 @@ export class DACGMTableComponent {
       // if no dates are specified, return true for all values
       return true;
     });
+    
+    this.cols = [
+      { field: 'id', header: 'ID' },
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'caseId', header: 'Case ID' },
+      { field: 'irregularity.allSubCategory.allcategory.name', header: 'Category' },
+      { field: 'irregularity.allSubCategory.name', header: 'Sub category' },
+      { field: 'irregularity.name', header: 'Irregularity' },
+      { field: 'amountInvolved', header: 'Amount involved' },
+      { field: 'irregularity.name', header: 'Irregularity' },
+    ];
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
   }
 
   populateRoles(): void {
@@ -318,6 +316,58 @@ export class DACGMTableComponent {
       }
     );
     return this.dacgmR;
+  }
+
+
+
+  exportPdf() {
+    import('jspdf').then((jsPDF) => {
+      import('jspdf-autotable').then((x) => {
+        const doc = new jsPDF.default('p', 'px', 'a4');
+
+        const modifiedAnnualPlanDisplay = this.dacgms.map((plan, index) => ({
+          ...plan,
+          id: index + 1,
+        }));
+
+        (doc as any).autoTable(this.exportColumns, modifiedAnnualPlanDisplay);
+        doc.save('Daily activity gap.pdf');
+      });
+    });
+  }
+
+
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.dacgms.map((plan, index) => ({
+        Id: index + 1,
+        // Name: plan.name,
+        // Description: plan.description,
+        // Year: plan.year,
+        // 'Risk Score': plan.riskScore,
+        // 'Risk Level': plan.riskLevel,
+        // Status: plan.status
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, {
+        bookType: 'xlsx',
+        type: 'array',
+      });
+      const EXCEL_TYPE =
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+      const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
+      this.saveAsExcelFile(dataBlob, 'Daily activity gap');
+    });
+  }
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_EXTENSION = '.xlsx';
+    FileSaver.saveAs(
+      buffer,
+      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
+    );
   }
 }
 
