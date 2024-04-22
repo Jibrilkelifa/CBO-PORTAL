@@ -72,7 +72,7 @@
           Status
           <p-sortIcon field="status"></p-sortIcon>
         </th>
-        <th scope="col">Actions</th>
+        <th scope="col" *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-fireExtinguisherList let-rowIndex="rowIndex">
@@ -86,8 +86,8 @@
         <td>{{ fireExtinguisherList?.nextInspectionDate | date : "MM/dd/yyyy"}}</td>
         <td>{{ fireExtinguisherList?.daysLeftForInspection }}</td>
         <td>{{ fireExtinguisherList?.status }}</td>
-        <td>
-          <div class="flex gap-2">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')">
+          <div class="flex gap-2" >
             <button
               pButton
               (click)="updateFireExtinguisher(fireExtinguisherList.id)"

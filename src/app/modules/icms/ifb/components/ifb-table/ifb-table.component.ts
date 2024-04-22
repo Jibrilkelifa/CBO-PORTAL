@@ -33,6 +33,8 @@ export class IFBTableComponent implements OnDestroy {
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
+  roles: string[] = [];
+
 
   private subscriptions: Subscription[] = [];
 
@@ -43,14 +45,27 @@ export class IFBTableComponent implements OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.populateRoles();
     this.getIFBList();
+  }
+
+  populateRoles(): void {
+    let index = 0;
+    let cond = localStorage.getItem('role_' + index);
+    while (cond) {
+
+      this.roles.push(cond);
+      index++;
+      cond = localStorage.getItem('role_' + index);
+    }
   }
 
   getIFBList(): void {
     this.subscriptions.push(
       this.ifbService.getAllIFB().subscribe(
         (response: any) => {
-          this.IFBList = response;          
+          this.IFBList = response;   
+          console.log("ttt", response);       
         },
         (error: HttpErrorResponse) => {
           console.log(error);

@@ -38,7 +38,6 @@ export class BranchDashboardComponent {
       },
       
       (error) => {
-        console.log("kdfghdh", this.branchId);
         console.error('Failed to get dashboard data:', error);
       }
     );

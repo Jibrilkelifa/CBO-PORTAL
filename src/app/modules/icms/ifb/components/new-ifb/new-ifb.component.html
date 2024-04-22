@@ -29,14 +29,17 @@
           [required]="true"
         ></p-calendar>
       </div>
+      
       <div class="flex-auto" *ngIf="!update">
         <label for="accountNumber" class="block mb-2"> Account Number </label>
         <p-inputNumber
           [(ngModel)]="IFB.accountNumber"
           inputId="accountNumber"
+          name="accountNumber"
           [useGrouping]="false"
           [style]="{ width: '30vw', height: '45px' }"
           (keydown)="limitInput($event)"
+          [required]="true"
         ></p-inputNumber>
       </div>
       
@@ -48,6 +51,7 @@
           id="borrowerName"
           [(ngModel)]="IFB.borrowerName"
           name="borrowerName"
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
@@ -74,6 +78,7 @@
           id="otherProductTypes"
           [(ngModel)]="IFB.otherProductTypes"
           name="otherProductTypes"
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
@@ -112,6 +117,7 @@
           id="irregularity"
           [(ngModel)]="IFB.irregularity"
           name="irregularity"
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
@@ -122,6 +128,7 @@
           id="amountInvolved"
           [(ngModel)]="IFB.amountInvolved"
           name="amountInvolved"
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
@@ -134,6 +141,7 @@
           id="responsiblePerson"
           [(ngModel)]="IFB.responsiblePerson"
           name="responsiblePerson"
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>

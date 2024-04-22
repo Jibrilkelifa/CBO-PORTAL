@@ -16,6 +16,7 @@ import {
   navItemsICMSProvision,
   navItemsICMSBranchManager,
   navItemsICMSBankingOperation,
+  navItemsICMSIFB,
   navItemsSASVAdmin,
   navItemsSASVUser,
   navItemsMemoAdmin,
@@ -86,6 +87,7 @@ export class DefaultLayoutComponent {
     this.addIndentClass(navItemsICMSProvision);
     this.addIndentClass(navItemsICMSBranchManager);
     this.addIndentClass(navItemsICMSBankingOperation);
+    this.addIndentClass(navItemsICMSIFB);
     this.addIndentClass(navItemsSASVAdmin);
     this.addIndentClass(navItemsSASVUser);
     this.addIndentClass(navItemsMemoAdmin);
@@ -171,6 +173,10 @@ export class DefaultLayoutComponent {
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
               this.router.navigate(['icms_dashboard/branch']);
+              break;
+            case "ROLE_ICMS_IFB":
+              this.navItems.push(navItemsICMSIFB);
+              this.router.navigate(['default_dashboard']);
               break;
             case "ROLE_SMS_ADMIN":
               this.navItems.push(navItemsSMSAdmin);

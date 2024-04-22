@@ -25,6 +25,7 @@ export let navItemsICMSAdmin: Object;
 export let navItemsICMSDistrict: Object;
 export let navItemsICMSDistrictDirector: Object;
 export let navItemsICMSBranch: Object;
+export let navItemsICMSIFB: Object;
 export let navItemsSMSAdmin: Object;
 export let navItemsICMSProvision: Object;
 export let navItemsICMSBranchManager: Object;
@@ -431,6 +432,17 @@ navItemsICMSAdmin = {
         },
       ]
     },
+    {
+      name: 'IFB',
+      url: '/ICMS',
+      iconComponent: { name: 'cil-moon' },
+      children: [
+        {
+          name: 'View IFB',
+          url: '/ICMS/IFB/viewIFB'
+        }
+      ]
+    }
   ]
 }
 navItemsICMSBranch = {
@@ -469,20 +481,7 @@ navItemsICMSBranch = {
         },
       ]
     },
-    // {
-    //   name: 'IFB',
-    //   url: '/ICMS/IFB',
-    //   children: [
-    //     {
-    //       name: 'Add data',
-    //       url: '/ICMS/IFB/addIFB',
-    //     },
-    //     {
-    //       name: 'View IFB',
-    //       url: '/ICMS/IFB/viewIFB'
-    //     },
-    //   ]
-    // },
+
     // {
     //   name: 'Finance',
     //   url: '/ICMS/Finance',
@@ -605,6 +604,23 @@ navItemsICMSDistrict = {
   ]
 }
 
+navItemsICMSIFB = {
+  name: 'IFB',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-moon' },
+  children: [
+    {
+      name: 'Add data',
+      url: '/ICMS/IFB/addIFB',
+    },
+    {
+      name: 'View IFB',
+      url: '/ICMS/IFB/viewIFB'
+    }
+  ]
+}
+
+
 navItemsSMSAdmin = {
   name: 'SMS',
   url: '/sms',
@@ -713,16 +729,6 @@ navItemsICMSBranchManager = {
         },
       ]
     },
-    // {
-    //   name: 'IFB',
-    //   url: '/ICMS/IFB',
-    //   children: [
-    //     {
-    //       name: 'View IFB',
-    //       url: '/ICMS/IFB/viewIFB'
-    //     },
-    //   ]
-    // },
     // {
     //   name: 'Finance',
     //   url: '/ICMS/Finance',
