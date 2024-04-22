@@ -10,7 +10,7 @@ const routes: Routes = [
     data: {
       title: $localize`Dashboard`
     }
-  }
+  },
 ];
 
 @NgModule({

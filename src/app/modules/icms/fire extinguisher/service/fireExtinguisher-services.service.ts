@@ -68,10 +68,11 @@ export class FireExtinguisherService {
     );
   }
 
-  public findAllFireExtinguisherBYBranch(branchId: number): Observable<any> {
+  public findAllFireExtinguisherBYBranch(branchId: string): Observable<any> {
     this.init();
+    
     return this.http.get<any>(
-      `${this.apiServiceUrl}/FireExtinguisher/branch/${branchId}`,
+      `${this.apiServiceUrl}/FireExtinguisher/findByOrganizationalUnitId/${branchId}`,
       this.httpOptions
     );
   }
@@ -79,7 +80,7 @@ export class FireExtinguisherService {
   public findAllFireExtinguisherSubProcess(subProcessId: number): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/FireExtinguisher/subProcess/${subProcessId}`,
+      `${this.apiServiceUrl}/FireExtinguisher/findBySubProcessId/${subProcessId}`,
       this.httpOptions
     );
   }

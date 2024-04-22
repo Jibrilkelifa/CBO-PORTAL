@@ -30,28 +30,66 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   cols!: Column[];
 
   private subscriptions: Subscription[] = [];
-
+  roles: string[] = [];
+  branchId: string = localStorage.getItem('branchId');
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   constructor(
     private fireExtinguisherService: FireExtinguisherService,
     private messageService: MessageService,
     private router: Router
   ) { }
 
+
+
   ngOnInit() {
-    this.getFinanceList();
+    this.populateRoles();
+    this.getFireExtinguisherList(this.roles);
   }
 
-  getFinanceList(): void {
-    this.subscriptions.push(
+  populateRoles(): void {
+    let index = 0;
+    let cond = localStorage.getItem('role_' + index);
+    while (cond) {
+
+      this.roles.push(cond);
+      index++;
+      cond = localStorage.getItem('role_' + index);
+    }
+  }
+
+  public getFireExtinguisherList(roles: string[]): void {
+    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.fireExtinguisherService.getAllFireExtinguisher().subscribe(
-        (response: any) => {
-          this.fireExtinguisherList = response;          
+        (response: any[]) => {          
+          this.fireExtinguisherList = response;
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+
         }
-      )
-    );
+      );
+    }
+    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
+      this.fireExtinguisherService.findAllFireExtinguisherBYBranch(this.branchId).subscribe(
+        (response: any[]) => {
+          this.fireExtinguisherList = response;
+        },
+        (error: HttpErrorResponse) => {
+
+        }
+      );
+    }
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
+        this.fireExtinguisherService.findAllFireExtinguisherSubProcess(this.subProcessId).subscribe(
+          (response: any[]) => {
+            this.fireExtinguisherList = response;
+          },
+          (error: HttpErrorResponse) => {
+
+          }
+        );
+      
+
+    }
   }
 
   updateFireExtinguisher(id: number): void {

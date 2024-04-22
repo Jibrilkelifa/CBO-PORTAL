@@ -51,14 +51,12 @@ export class DACGMTableComponent {
 
     let table = document.getElementById(tableID);
 
-    // converts a DOM TABLE element to a worksheet
     const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table, { raw: true });
 
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
 
     XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-    // save to file
     XLSX.writeFile(wb, 'DACGM.xlsx');
 
   }
@@ -75,7 +73,6 @@ export class DACGMTableComponent {
     this.primengConfig.ripple = true;
 
     this.filterService.register('dateRange', (value: any, filter: any): boolean => {
-      // convert value and filter to date objects
       let dateValue = new Date(value);
       let minFilter = new Date(filter[0]);
       let maxFilter = new Date(filter[1]);
@@ -138,8 +135,7 @@ export class DACGMTableComponent {
   }
 
   customSort(event: SortEvent) {
-    // event.field is the field name to sort by // event.order is 1 for ascending and -1 for descending
-    // this.dacgms is your data array
+
 
     this.dacgms.sort((a, b) => {
       // check which field to sort by
@@ -186,13 +182,6 @@ export class DACGMTableComponent {
     this.router.navigate(['updateDACGM', id]);
   }
 
-  // approveDACGM(id: number): void {
-  //   this.dacgmService.approveDACGM(id).subscribe(
-  //     (response: any) => {
-  //       this.getDACGMs(this.roles);
-  //     }
-  //   );
-  // }
 
   escalateDACGM(id: number): void {
     this.dacgmService.escalateDACGM(id).subscribe(
@@ -264,6 +253,7 @@ export class DACGMTableComponent {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.dacgmService.getDACGMs().subscribe(
         (response: DACGM[]) => {
+          
           this.dacgms = response;
         },
         (error: HttpErrorResponse) => {
@@ -274,6 +264,7 @@ export class DACGMTableComponent {
     else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
       this.dacgmService.getDACGMForBranch(this.branchId).subscribe(
         (response: DACGM[]) => {
+          
           this.dacgms = response;
         },
         (error: HttpErrorResponse) => {
@@ -316,10 +307,6 @@ export class DACGMTableComponent {
   approveActionPlan(id: number): void {
     this.router.navigate(['ICMS/DACGM/approveActionPlan', id]);
   }
-
-
-
-// Function to handle the escalate action
 
   public getDACGM(id: number): DACGM[] {
     this.dacgmService.getDACGM(id).subscribe(

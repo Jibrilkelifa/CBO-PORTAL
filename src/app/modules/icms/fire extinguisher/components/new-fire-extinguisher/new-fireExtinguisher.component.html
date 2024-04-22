@@ -9,27 +9,27 @@
     required
   >
     <div class="flex flex-wrap gap-3 mb-4">
-      <div class="flex-auto" *ngIf="!update">
+      <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class="block mb-2"> Branch </label>
         <input
           pInputText
           pKeyFilter="alpha"
           id="alphabetic"
           ngModel
-          [(ngModel)]="FireExtinguisher.branch.name"
+          [(ngModel)]="selectedBranch"
           name="branch"
           [style]="{ width: '30vw', height: '45px' }"
           [readonly]="true"
         />
       </div>
-      <div class="flex-auto" *ngIf="!update">
+      <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class="block mb-2"> District </label>
         <input
           pInputText
           pKeyFilter="alpha"
           id="alphabetic"
           ngModel
-          [(ngModel)]="FireExtinguisher.subProcess.name"
+          [(ngModel)]="selectedSubProcess"
           name="subProcess"
           [style]="{ width: '30vw', height: '45px' }"
           [readonly]="true"

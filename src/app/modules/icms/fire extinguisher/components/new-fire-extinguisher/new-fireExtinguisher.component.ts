@@ -32,7 +32,8 @@ export class NewFireExtinguisherComponent implements OnInit {
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
-  
+  public selectedBranch;
+  public selectedSubProcess;
 
   constructor(
     private timeService: TimeService,
@@ -55,10 +56,9 @@ export class NewFireExtinguisherComponent implements OnInit {
       }
      
     });
-
-    this.FireExtinguisher.subProcess = JSON.parse(localStorage.getItem('subProcess'));
-    // this.FireExtinguisher.branch = JSON.parse(localStorage.getItem('branch'))?.name;
-    this.FireExtinguisher.branch = {id: 1, name: "Finfinee branch"};
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
+    
   }
 
   getFireExtinguisherService(id: number) {
@@ -97,8 +97,8 @@ export class NewFireExtinguisherComponent implements OnInit {
         let updatedValue = {
           ...this.FireExtinguisher, 
           status: this.selectedstatus.name,
-          subProcess: this.FireExtinguisher.subProcess,
-          branch: this.FireExtinguisher.branch
+          subProcess: this.selectedSubProcess,
+          branch: this.selectedBranch
         }                
         this.fireExtinguisherService.updateFireExtinguisher(updatedValue).subscribe(
           response => {
@@ -119,11 +119,11 @@ export class NewFireExtinguisherComponent implements OnInit {
       } else {
         let formattedValue = {
           ...this.FireExtinguisher, 
-          inspectionDate: this.formatDate(this.FireExtinguisher.inspectionDate),
-          nextInspectionDate: this.formatDate(this.FireExtinguisher.nextInspectionDate), 
+          inspectionDate: this.FireExtinguisher.inspectionDate,
+          nextInspectionDate: this.FireExtinguisher.nextInspectionDate, 
           status: this.selectedstatus.name,
-          subProcess: this.FireExtinguisher.subProcess,
-          branch: this.FireExtinguisher.branch
+          subProcess: this.selectedSubProcess,
+          branch: this.selectedBranch
         }  
         
         this.fireExtinguisherService.addFireExtinguisher(formattedValue).subscribe(
@@ -147,14 +147,6 @@ export class NewFireExtinguisherComponent implements OnInit {
     }
   }
   
-
-  formatDate(date: Date): string {
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
-
-    return `${year}-${month < 10 ? '0' + month : month}-${day < 10 ? '0' + day : day}`;
-  }
 
 
 }

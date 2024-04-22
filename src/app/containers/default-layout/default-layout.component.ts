@@ -47,6 +47,7 @@ import {
 import { AuditStaffService } from 'src/app/modules/ams/services/audit-staff/audit-staff.service';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 
@@ -67,7 +68,7 @@ export class DefaultLayoutComponent {
 
 
 
-  constructor(private auditStaffService: AuditStaffService,   private http: HttpClient) {
+  constructor(private auditStaffService: AuditStaffService, private http: HttpClient, private router: Router) {
 
 
 
@@ -127,11 +128,6 @@ export class DefaultLayoutComponent {
               if (!complianceCheckMenu.children.includes(navItemAdmin)) {
                 complianceCheckMenu.children.push(navItemAdmin);
               }
-
-              // // Add Weekly Check only for ROLE_CC_ADMIN
-              // if (!complianceCheckMenu.children.some(item => item.name === 'Weekly Check')) {
-              //   complianceCheckMenu.children.push(navItemWeeklyCheck);
-              // }
             }
 
             // Check if Compliance Check menu is already in the list before adding
@@ -145,84 +141,30 @@ export class DefaultLayoutComponent {
 
 
           switch (role) {
-            // case "ROLE_SUPER_ADMIN":
-            //   this.navItems.push(navItemsAdmin);
-            //   this.dashboardRoute = "default_dashboard"
-            //   // if (localStorage.getItem("supervisor") === "true") {
-
-            //   //   if (!this.navItems.includes(navItemSupervisor)) {
-            //   //     this.navItems.push(navItemSupervisor);
-            //   //   }
-            //   // }
-            //   break;
             case "ROLE_EMS_ADMIN":
               this.navItems.push(navItemsEMSAdmin);
               this.dashboardRoute = "default_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
             case "ROLE_EMS_USER":
               this.navItems.push(navItemsEMSUser);
               this.dashboardRoute = "cc_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
-            // case "ROLE_CC_ADMIN":
-            //   this.navItems.push(navItemsCCAdmin);
-            //   this.dashboardRoute = "cc_dashboard"
-            //   if (localStorage.getItem("supervisor") === "true") {
-            //     if (!this.navItems.includes(navItemSupervisor)) {
-            //       this.navItems.push(navItemSupervisor);
-            //     }
-            //   }
-            //   break;
-            // case "ROLE_CC_USER":
-            //   this.navItems.push(navItemsCCUser);
-            //   this.dashboardRoute = "cc_dashboard"
-            //   if (localStorage.getItem("supervisor") === "true") {
-            //     if (!this.navItems.includes(navItemSupervisor)) {
-            //       this.navItems.push(navItemSupervisor);
-            //     }
-            //   }
-            //   break;
-            // case "ROLE_CC_USER_DELIQUENT":
-            //   this.navItems.push(navItemsCCUserDeliquent);
-            //   this.dashboardRoute = "cc_dashboard"
-            //   if (localStorage.getItem("supervisor") === "true") {
-            //     if (!this.navItems.includes(navItemSupervisor)) {
-            //       this.navItems.push(navItemSupervisor);
-            //     }
-            //   }
-            //   break;
             case "ROLE_ICMS_ADMIN":
               this.navItems.push(navItemsICMSAdmin);
-
               this.dashboardRoute = "icms_dashboard"
-
               break;
             case "ROLE_ICMS_DISTRICT_IC":
               this.navItems.push(navItemsICMSDistrict);
               this.dashboardRoute = "default_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
+              //this.router.navigate(['icms_dashboard/district']);
               break;
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
-
-              this.dashboardRoute = "default_dashboard"
+              this.router.navigate(['icms_dashboard/branch']);
               break;
-             case "ROLE_SMS_ADMIN":
-                this.navItems.push(navItemsSMSAdmin);
-                this.dashboardRoute = 'sms_dashboard'
+            case "ROLE_SMS_ADMIN":
+              this.navItems.push(navItemsSMSAdmin);
+              this.dashboardRoute = 'sms_dashboard'
               break;
             case "ROLE_ICMS_PROVISION":
               this.navItems.push(navItemsICMSProvision);
@@ -237,6 +179,7 @@ export class DefaultLayoutComponent {
             case "ROLE_ICMS_BANKING_OPERATION":
               this.navItems.push(navItemsICMSBankingOperation);
               this.dashboardRoute = "default_dashboard"
+              //this.router.navigate(['icms_dashboard/bankingOperation']);
 
               break;
             case "ROLE_ICMS_DISTRICT_DIRECTOR":
@@ -247,96 +190,40 @@ export class DefaultLayoutComponent {
             case "ROLE_SASV_ADMIN":
               this.navItems.push(navItemsSASVAdmin);
               this.dashboardRoute = "default_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
-            // case "ROLE_SASV_USER":
-            //   this.navItems.push(navItemsSASVUser);
-            //   this.dashboardRoute = "default_dashboard"
-            //   if (localStorage.getItem("supervisor") === "true") {
-            //     if (!this.navItems.includes(navItemSupervisor)) {
-            //       this.navItems.push(navItemSupervisor);
-            //     }
-            //   }
-            //   break;
             case "ROLE_MEMO_ADMIN":
               this.navItems.push(navItemsMemoAdmin);
               this.dashboardRoute = "default_dashboard"
-         
+
               this.authenticateAWS();
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
             case "ROLE_MEMO_USER":
               this.navItems.push(navItemsMemoUser);
               this.dashboardRoute = "default_dashboard"
-           
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
             case "ROLE_ECX_ADMIN":
               this.navItems.push(navItemsECXAdmin);
               this.dashboardRoute = "default_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
             case "ROLE_ECX_USER":
               this.navItems.push(navItemsECXUser);
               this.dashboardRoute = "default_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
-            
-              case "ROLE_CAO_ADMIN":
-                this.navItems.push(navItemsCAOAdmin);
-                this.dashboardRoute = "default_dashboard"
-                // if (localStorage.getItem("supervisor") === "true") {
-                //   if (!this.navItems.includes(navItemSupervisor)) {
-                //     this.navItems.push(navItemSupervisor);
-                //   }
-                // }
-                break;
-              case "ROLE_CAO_USER":
-                //this.navItems.push(navItemsCAOUser);
-                this.dashboardRoute = "default_dashboard"
-                // if (localStorage.getItem("supervisor") === "true") {
-                //   if (!this.navItems.includes(navItemSupervisor)) {
-                //     this.navItems.push(navItemSupervisor);
-                //   }
-                // }
-                break;
+
+            case "ROLE_CAO_ADMIN":
+              this.navItems.push(navItemsCAOAdmin);
+              this.dashboardRoute = "default_dashboard"
+              break;
+            case "ROLE_CAO_USER":
+              this.dashboardRoute = "default_dashboard"
+              break;
             case "ROLE_CMS_ADMIN":
               this.navItems.push(navItemsCMSAdmin);
               this.dashboardRoute = "cms_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
             case "ROLE_CMS_USER":
               this.navItems.push(navItemsCMSUser);
               this.dashboardRoute = "default_dashboard"
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               break;
             case "ROLE_AMS_ADMIN":
               this.navItems.push(navItemsAMSAdmin);
@@ -360,11 +247,6 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_AMS_MANAGER":
               this.navItems.push(navItemsAMSManager);
-              // if (localStorage.getItem("supervisor") === "true") {
-              //   if (!this.navItems.includes(navItemSupervisor)) {
-              //     this.navItems.push(navItemSupervisor);
-              //   }
-              // }
               this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_AMS_TEAM_LEADER":
@@ -376,16 +258,16 @@ export class DefaultLayoutComponent {
               this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_AMS_AUDITEE":
-                this.navItems.push(navItemsAMSAuditee);
-                this.dashboardRoute = "default_dashboard"
-                break;
+              this.navItems.push(navItemsAMSAuditee);
+              this.dashboardRoute = "default_dashboard"
+              break;
             case "ROLE_CIST_ADMIN":
-                  this.navItems.push(navItemsCISTAdmin);
-                  this.dashboardRoute = "default_dashboard"
-                  break;
+              this.navItems.push(navItemsCISTAdmin);
+              this.dashboardRoute = "default_dashboard"
+              break;
           }
 
-          if(localStorage.getItem('title').includes('MANAGER') && (localStorage.getItem('branchId') != null)){
+          if (localStorage.getItem('title').includes('MANAGER') && (localStorage.getItem('branchId') != null)) {
             this.navItems.push(navItemsCAOUser);
             this.dashboardRoute = "default_dashboard";
           }
@@ -397,7 +279,7 @@ export class DefaultLayoutComponent {
 
 
 
-   addIndentClass(obj: any, level: number = 0) {
+  addIndentClass(obj: any, level: number = 0) {
     for (const key in obj) {
       if (key === 'name' && typeof obj[key] === 'string') {
         if (level === 1) {
@@ -414,27 +296,27 @@ export class DefaultLayoutComponent {
   authenticateAWS(): Observable<any> {
     console.log(" i started working");
     const body = new URLSearchParams()
-     body.set('username', localStorage.getItem("un"));
-     body.set('password', localStorage.getItem("ps"));
-     body.set('dontUseMe', 'false');
-  
+    body.set('username', localStorage.getItem("un"));
+    body.set('password', localStorage.getItem("ps"));
+    body.set('dontUseMe', 'false');
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
       })
     };
-  
+
     return this.http.post("http://localhost:9081/authenticate-ews", body.toString(), httpOptions)
       .pipe(
         retry(2),
         catchError(this.handleError)
       );
-    }
-    
-    handleError(error: any) {
-      console.error('An error occurred:', error);
-      return throwError(error);
-    }
+  }
+
+  handleError(error: any) {
+    console.error('An error occurred:', error);
+    return throwError(error);
+  }
 
 }
 

@@ -18,10 +18,10 @@ export class AuthService {
   // API path
   //prodip
   // ssoBathPath = 'http://localhost:9081';
-   ssoBathPath = 'http://10.1.125.58:9081';
+  ssoBathPath = 'http://10.1.125.58:9081';
 
-//    //emsBasePath = 'http://localhost:8082';
-//    emsBasePath = 'http://10.1.125.58:8082';
+  //    //emsBasePath = 'http://localhost:8082';
+  //    emsBasePath = 'http://10.1.125.58:8082';
 
   // emsBasePath = 'http://10.1.11.48:9082';
   // test jenkins
@@ -65,8 +65,8 @@ export class AuthService {
       .set('username', data.username)
       .set('password', data.password);
 
-    localStorage.setItem("un",data.username);
-    localStorage.setItem("ps",data.password);
+    localStorage.setItem("un", data.username);
+    localStorage.setItem("ps", data.password);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -90,12 +90,12 @@ export class AuthService {
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
-    
-    
+
+
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);
     localStorage.setItem('id', employee?.id);
-   
+
     localStorage.setItem('team', JSON.stringify(employee?.team));
     localStorage.setItem('supervisor', employee?.supervisor);
     localStorage.setItem('title', employee?.jobObject.title);
@@ -147,6 +147,7 @@ export class AuthService {
 
     const role = resp?.user?.roles[0]?.name;
 
+
     if (role) {
       if (this.checkModule(resp?.user, "CC")) {
         await this.router.navigate(['cc_dashboard']);
@@ -156,8 +157,7 @@ export class AuthService {
         await this.router.navigate(['cms_dashboard']);
       } else if (this.checkModule(resp?.user, "SMS")) {
         await this.router.navigate(['sms_dashboard']);
-      } 
-       else {
+      } else {
         await this.router.navigate(['default_dashboard']); // changed later
       }
     }

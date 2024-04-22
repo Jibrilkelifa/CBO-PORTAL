@@ -1,0 +1,377 @@
+<div class="flex flex-wrap pb-4">
+  <div class="flex-auto md:w-1/2 lg:w-1/3 p-2 min-w-[23rem]">
+    <div class="flex flex-col gap-4">
+      <!-- Total Outstanding Cases -->
+      <div class="flex flex-col gap-4">
+        <div class="bg-yellow-600 rounded shadow-md whitespace-nowrap">
+          <h2 class="text-lg font-bold text-black p-3 text-center">
+            Total Outstanding Cases
+          </h2>
+        </div>
+        <div class="flex flex-row gap-4">
+          <div
+            class="p-3 rounded shadow-md w-full flex flex-col justify-between bg-[#c5e0b4]"
+          >
+            <div class="pb-4 text-center">
+              <p class="text-lg text-black whitespace-nowrap">Financial</p>
+              <p class="text-lg text-black whitespace-nowrap">
+                (In Million Birr):
+              </p>
+              <p class="text-2xl font-bold text-black whitespace-nowrap">
+                Birr {{allDatas?.financialOutstandingCases}}
+            </p>
+            
+            </div>
+            <p class="text-xs text-center text-black mt-auto whitespace-nowrap">
+              {{allDatas?.financialChangePercentage}}% From last month
+            </p>
+          </div>
+          <div
+            class="bg-green-100 p-3 rounded shadow-md w-full flex flex-col justify-between bg-[#c5e0b4]"
+          >
+            <div class="pb-4 text-center">
+              <p class="text-lg text-black whitespace-nowrap">Non-Financial</p>
+              <p class="text-lg text-black whitespace-nowrap">(In Number):</p>
+              <p class="text-2xl font-bold text-black whitespace-nowrap">
+                {{allDatas?.nonFinancialOutstandingCases}}
+              </p>
+            </div>
+            <p class="text-xs text-center text-black mt-auto whitespace-nowrap">
+              {{allDatas?.nonFinancialChangePercentage}}% From last month
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Other boxes... -->
+    </div>
+  </div>
+
+  <div class="flex-auto md:w-1/2 lg:w-1/3 p-2 min-w-[23rem]">
+    <div class="flex flex-col gap-4">
+      <!-- Total Outstanding Cases -->
+      <div class="flex flex-col gap-4">
+        <div class="bg-[#8faadc] rounded shadow-md whitespace-nowrap">
+          <h2 class="text-lg font-bold text-center text-black p-3">
+            Identified Cases During The Month
+          </h2>
+        </div>
+        
+        <div class="flex flex-row gap-4">
+          <div
+            class="p-3 rounded shadow-md w-full flex flex-col justify-between bg-[#deebf7]"
+          >
+            <div class="pb-4 text-center">
+              <p class="text-lg text-black whitespace-nowrap">Financial</p>
+              <p class="text-lg text-black whitespace-nowrap">
+                (In Million Birr):
+              </p>
+              <p class="text-2xl font-bold text-black whitespace-nowrap">
+                Birr {{allDatas?.financialIdentifiedCases}}
+              </p>
+            </div>
+            <p class="text-xs text-center text-black mt-auto whitespace-nowrap">
+              {{allDatas?.financialChangePercentagei}}% From last month
+            </p>
+          </div>
+          <div
+            class="p-3 rounded shadow-md w-full flex flex-col justify-between bg-[#adb9ca]"
+          >
+            <div class="pb-4 text-center">
+              <p class="text-lg text-black whitespace-nowrap">Non-Financial</p>
+              <p class="text-lg text-black whitespace-nowrap">(In Number):</p>
+              <p class="text-2xl font-bold text-black whitespace-nowrap">
+                {{allDatas?.nonFinancialIdentifiedCases}}
+              </p>
+            </div>
+            <p class="text-xs text-center text-black mt-auto whitespace-nowrap">
+              {{allDatas?.nonFinancialChangePercentagei}}% From last month
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Other boxes... -->
+    </div>
+  </div>
+  
+  <div class="flex-auto md:w-1/2 lg:w-1/3 p-2 min-w-[23rem]">
+    <div class="flex flex-col gap-4">
+      <!-- Total Outstanding Cases -->
+      <div class="flex flex-col gap-4">
+        <div class=" rounded shadow-md bg-[#70ad47] whitespace-nowrap">
+          <h2 class="text-lg font-bold text-center text-black p-3">
+            Rectified Cases During The Month
+          </h2>
+        </div>
+        <div class="flex flex-row gap-4">
+          <div
+            class="p-3 rounded shadow-md w-full flex flex-col justify-between bg-[#ffc000]"
+          >
+            <div class="pb-4 text-center">
+              <p class="text-lg text-black whitespace-nowrap">Financial</p>
+              <p class="text-lg text-black whitespace-nowrap">
+                (In Million Birr):
+              </p>
+              <p class="text-2xl font-bold text-black whitespace-nowrap">
+                Birr {{allDatas?.financialRectifiedCases}}
+              </p>
+            </div>
+            <p class="text-xs text-center text-black mt-auto whitespace-nowrap">
+              {{allDatas?.financialChangePercentager}}% From last month
+            </p>
+          </div>
+          <div
+            class="p-3 rounded shadow-md w-full flex flex-col justify-between bg-[#fff2cc]"
+          >
+            <div class="pb-4 text-center">
+              <p class="text-lg text-black whitespace-nowrap">Non-Financial</p>
+              <p class="text-lg text-black whitespace-nowrap">(In Number):</p>
+              <p class="text-2xl font-bold text-black whitespace-nowrap">
+                {{allDatas?.nonFinancialRectifiedCases}}
+              </p>
+            </div>
+            <p class="text-xs text-center text-black mt-auto whitespace-nowrap">
+              {{allDatas?.nonFinancialChangePercentager}}% From last month
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- Other boxes... -->
+    </div>
+  </div>
+  
+</div>
+
+<div class="flex flex-wrap pb-4">
+  <div class="flex-auto md:w-1/2 lg:w-1/3 p-2 min-w-[23rem]">
+    <h1 class="text-2xl font-bold mb-4 text-center text-[#c45911]">
+      Insurance Policy
+    </h1>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#f5b094]  rounded-md"
+      >
+        Total No. of Active
+      </div>
+      <div
+        class="px-3 bg-[#f5b094] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center "
+      >
+      {{allDatas?.totalActivePolicies}}
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#f5b094] rounded-md"
+      >
+        To Be Expired in 30 Days
+      </div>
+      <div
+        class="px-3 bg-[#f5b094] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center "
+      >
+      {{allDatas?.expiringIn30Days}}
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#f5b094] rounded-md"
+      >
+        Expired Insurance
+      </div>
+      <div
+        class="px-3 bg-[#f5b094] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center "
+      >
+      {{allDatas?.expiredPolicies}}
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#ed7d31] rounded-md"
+      >
+        Estimated Loss
+      </div>
+      <div
+        class="px-3 bg-[#ed7d31] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center "
+      >
+        ETB {{allDatas?.estimatedLossAmount}}
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-auto md:w-1/2 lg:w-1/3 p-2 min-w-[23rem]">
+    <h1 class="text-2xl font-bold mb-4 text-center text-[#0070c0]">Fraud</h1>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#a5c2e5] rounded-md"
+      >
+        Total outstanding cases
+      </div>
+      <div
+        class="px-3 bg-[#a5c2e5] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+        1238
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#a5c2e5] rounded-md"
+      >
+        New cases<span class="text-xs">(During the Quarter)</span>
+      </div>
+      <div
+        class="px-3 bg-[#a5c2e5] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center "
+      >
+        10,000
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#a5c2e5] rounded-md"
+      >
+        Closed/written off<span class="text-xs">(During the Quarter)</span>
+      </div>
+      <div
+        class="px-3 bg-[#a5c2e5] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+        100
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#5b9bd5] rounded-md"
+      >
+        Outstanding in amount
+      </div>
+      <div
+        class="px-3 bg-[#5b9bd5] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+        ETB 100,000
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-auto md:w-1/2 lg:w-1/3 p-2 min-w-[23rem]">
+    <h1 class="text-2xl font-bold mb-4 text-center text-[#00b050]">
+      Fire Extinguisher
+    </h1>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#add09d] rounded-md"
+      >
+        Total No. of Extinguisher
+      </div>
+      <div
+        class="px-3 bg-[#add09d] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+      {{allDatas?.totalFireExtinguishers}}
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#add09d] rounded-md"
+      >
+        To Be Expired in 30 Days
+      </div>
+      <div
+        class="px-3 bg-[#add09d] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+      {{allDatas?.expiringIn30DaysExtinguishers}}
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#add09d] rounded-md"
+      >
+        Expired extinguisher
+      </div>
+      <div
+        class="px-3 bg-[#add09d] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+      {{allDatas?.expiredExtinguishers}}
+      </div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#70ad47] rounded-md"
+      >
+        Estimated fine
+      </div>
+      <div
+        class="px-3 bg-[#70ad47] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+        ETB {{allDatas?.estimatedFineAmount}}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-wrap pb-4">
+  <div class="flex-auto sm:w-1/3 p-2 bg-transparent min-w-[23rem] pb-8">
+    <h1
+      class="text-lg font-bold mb-2 rounded text-center bg-[#a5a5a5] p-3 text-black"
+    >
+      New Cases
+    </h1>
+    <div class="flex gap-2 py-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#c6c6c6] rounded-md"
+      >
+        New Cases
+      </div>
+      <div
+        class="px-3 bg-[#c6c6c6] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+      {{allDatas?.newCasesToday}}
+      </div>
+    </div>
+    <div class="flex gap-2 py-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#c6c6c6] rounded-md"
+      >
+        Due in 30 Days
+      </div>
+      <div
+        class="px-3 bg-[#c6c6c6] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+      {{allDatas?.dueIn30Days}}
+      </div>
+    </div>
+    <div class="flex gap-2 py-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#c6c6c6] rounded-md"
+      >
+        Due Cases
+      </div>
+      <div
+        class="px-3 bg-[#c6c6c6] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+      {{allDatas?.dueCases}}
+      </div>
+    </div>
+    <div class="flex gap-2 py-2">
+      <div
+        class="whitespace-nowrap text-lg font-medium w-full text-black p-2 bg-[#a5a5a5] rounded-md"
+      >
+        Oustanding Escalated Cases
+      </div>
+      <div
+        class="px-3 bg-[#a5a5a5] font-bold text-black rounded-md whitespace-nowrap flex items-center justify-center"
+      >
+        ETB {{allDatas?.outstandingCasesAmount
+        }}
+      </div>
+    </div>
+    <div class="flex flex-row justify-between items-center pt-5">
+      <div class="flex flex-col items-center">
+        <i class="pi pi-book text-6xl pb-2"></i>
+        <p class="text-xs">Directives, Policies and Procedures</p>
+      </div>
+      <div class="flex flex-col items-center">
+        <i class="pi pi-megaphone text-6xl pb-2"></i>
+        <p class="text-xs">Notifications</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-auto items-center sm:w-2/3 p-2 max-w-[45rem]" >
+    <ifbDonutChart></ifbDonutChart>
+  </div>
+</div>

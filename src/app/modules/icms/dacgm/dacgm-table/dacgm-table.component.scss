@@ -5,59 +5,39 @@
   }
 }
 
-button {
-  margin: 0 0.5em;
-  height: 2em;
+::ng-deep .p-dialog .p-dialog-header {
+  background: #3b82f6;
+  color: white;
+  font-size: 24px;
 }
 
-input {
-  height: 2em;
+::ng-deep .p-dialog {
+  border: 1px solid #3b82f6;
+  animation: fadeIn 0.5s, fadeOut 0.5s;
 }
 
-.spacer {
-  display: flex;
-  justify-content: space-between;
-}
-// .resize-button {
-//   width: 85px; /* Set the desired width */
-//   height: 40px; /* Set the desired height */
-//   /* Add any other desired styles */
-// }
-
-.spacer span {
-  padding: 1em;
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+  color: white;
 }
 
-h5 {
+p-button {
   padding: 0.5em;
 }
 
-.popmsg {
-  position: relative;
-  top: auto;
-  width: 25%;
+::ng-deep .p-tooltip {
+  max-width: 800px !important;
 }
 
-.auto-table table {
-  table-layout: auto !important;
+::ng-deep .p-datatable-tbody {
+  max-width: 10px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  //white-space: nowrap !important;
 }
 
-.black {
-  color: black;
-  font-weight: bolder;
-}
-
-.red {
-  color: red;
-  font-weight: bolder;
-}
-
-.yellow {
-  color: rgb(187, 187, 39);
-  font-weight: bolder;
-}
-
-.green {
-  color: green;
-  font-weight: bolder;
+::ng-deep .p-datatable-thead {
+  max-width: 10px !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  //white-space: nowrap !important;
 }

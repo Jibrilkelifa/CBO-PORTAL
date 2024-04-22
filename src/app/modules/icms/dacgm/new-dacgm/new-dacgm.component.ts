@@ -35,7 +35,6 @@ export class NewDACGMComponent implements OnInit {
   selectedActivityStatus: ActivityStatus;
 
   public selectedIrregularity: AllIrregularity;
-  // public selectedActivityStatus: ActivityStatus;
   public dacgmR: DACGM[] = [];
   public selectedDACGM: DACGM;
   
@@ -44,7 +43,6 @@ export class NewDACGMComponent implements OnInit {
   public idY: number;
   msgs: Message[] = [];
   value: string;
-  // branchId: number = Number(localStorage.getItem('branchId'));
   branchId: string = localStorage.getItem('branchId');
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   isOtherIrregularitySelected: boolean = false;
@@ -54,7 +52,7 @@ export class NewDACGMComponent implements OnInit {
    generateCaseId(): void {
     this.timeService.getDate().subscribe(
       (response: any) => {
-        const dateParts = response.time.split('/'); // split the date string by '/'
+        const dateParts = response.time.split('/'); 
         const year = dateParts[2];
         const month = dateParts[0].padStart(2, "0");
         const day = dateParts[1].padStart(2, "0");
@@ -108,30 +106,12 @@ export class NewDACGMComponent implements OnInit {
     this.getDACGMCategories();
     this.getActivityStatus();
     this.generateCaseId();
-    // this.generateCaseId();
     this.getDACGMs(this.branchId);
-    // alert(this.branchId);
     this.primengConfig.ripple = true;
     let x = this.activatedRoute.snapshot.paramMap.get("id");
     this.idY = +x;
-    // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(
-    //   (response: any) => {
-    //     this.selectedBranch = response;
-    //   },
-    //   (error: HttpErrorResponse) => {
-
-    //   }
-    // );
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
-    // this.activityStatusService.getActivityStatus(1).subscribe(
-    //   (response: any) => {
-    //     this.selectedActivityStatus = response;
-    //   },
-    //   (error: HttpErrorResponse) => {
-
-    //   }
-    // );
     
     if (this.idY) {
       this.getDACGM(this.idY);
@@ -162,11 +142,9 @@ export class NewDACGMComponent implements OnInit {
     this.activityStatusService.getActivityStatuses().subscribe(
       (response: ActivityStatus[]) => {
         this.activityStatuses = response;
-        // Set the initial selectedActivityStatus to "Open" when adding data
         this.selectedActivityStatus = this.activityStatuses.find(status => status.name === "Open");
       },
       (error: HttpErrorResponse) => {
-        // Handle error
       }
     );
   }
@@ -248,31 +226,6 @@ export class NewDACGMComponent implements OnInit {
           }
         
     
-    // this.dacgmService.addDACGM(addDACGMForm.value).subscribe(
-    //   (response: any) => {
-    //     this.getDACGMs(this.organizationalUnitId);
-    //     this.messageService.add({
-    //       severity: 'success',
-    //       summary: 'Success',
-    //       detail: "Daily Activity Gap added Successfully!"
-    //     });
-    //     setTimeout(() => {
-    //       window.location.reload();
-    //     }, 2000);
-
-    //   },
-    //   (error: HttpErrorResponse) => {
-    //     this.messageService.add({
-    //       severity: 'error',
-    //       summary: 'Failed',
-    //       detail: "Faled to create"
-    //     });
-    //     setTimeout(() => {
-    //     }, 1000);
-
-    //   }
-    // );
-  
 
   public updateDACGM(updateDACGM: NgForm): void {
     if (updateDACGM.value.otherInsuranceCoverageType == undefined) {

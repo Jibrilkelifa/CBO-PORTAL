@@ -40,10 +40,10 @@ export let navItemsECXUser: Object;
 export let navItemsCMSAdmin: Object;
 export let navItemsCMSUser: Object;
 export let navItemSupervisor: Object;
-export let navCC:NavItem;
-export let navItemsAMSAuditor:Object;
-export let navItemsAMSMember:Object;
-export let navItemsAMSAuditee:Object;
+export let navCC: NavItem;
+export let navItemsAMSAuditor: Object;
+export let navItemsAMSMember: Object;
+export let navItemsAMSAuditee: Object;
 
 
 
@@ -114,18 +114,18 @@ navItemSupervisor = {
   name: 'Supervisor',
   url: '/',
   children: [
-        {
-          name: 'Add User',
-          url: '/user/addUser'
-        },
-        {
-          name: 'View Users',
-          url: '/user/viewUsers'
-        },
-      ]
-    }
-  
-navItemsAMSAdmin =  {
+    {
+      name: 'Add User',
+      url: '/user/addUser'
+    },
+    {
+      name: 'View Users',
+      url: '/user/viewUsers'
+    },
+  ]
+}
+
+navItemsAMSAdmin = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -171,14 +171,14 @@ navItemsAMSAdmin =  {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
-  
+
       ]
     },
   ],
-  
+
 }
 
-navItemsAMSManager =  {
+navItemsAMSManager = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -224,14 +224,14 @@ navItemsAMSManager =  {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
-  
+
       ]
     },
   ],
-  
+
 }
 
-navItemsAMSAuditor =  {
+navItemsAMSAuditor = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -247,10 +247,10 @@ navItemsAMSAuditor =  {
     },
 
   ],
-  
+
 }
 
-navItemsAMSMember =  {
+navItemsAMSMember = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -262,10 +262,10 @@ navItemsAMSMember =  {
     }
 
   ],
-  
+
 }
 
-navItemsAMSAuditee =  {
+navItemsAMSAuditee = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -277,11 +277,11 @@ navItemsAMSAuditee =  {
     }
 
   ],
-  
+
 }
 
 
-navItemsAMSTeamLeader =  {
+navItemsAMSTeamLeader = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -290,17 +290,17 @@ navItemsAMSTeamLeader =  {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
     },
-    
+
     {
       name: 'Audit Reports',
       url: '/ams/report-list',
     }
   ],
-  
+
 }
 
 
-navItemsAMSDirector =  {
+navItemsAMSDirector = {
   name: 'AMS',
   url: '/ams',
   iconComponent: { name: 'cil-drop' },
@@ -313,15 +313,15 @@ navItemsAMSDirector =  {
       name: 'Audit Schedule',
       url: '/ams/audit-schedule',
     },
- 
- 
+
+
   ],
-  
+
 }
 
 
 
-navItemsCISTAdmin =  {
+navItemsCISTAdmin = {
   name: 'CIST',
   url: '/cit',
   iconComponent: { name: 'cil-copy' },
@@ -340,9 +340,9 @@ navItemsCISTAdmin =  {
       name: 'Cob Steps Copied',
       url: '/cit/cobStepsCopiedList',
     },
-  
+
   ],
-  
+
 }
 
 
@@ -422,7 +422,17 @@ navItemsICMSAdmin = {
           url: '/ICMS/DACGM/viewDACGM',
         },
       ]
-    }
+    },
+    {
+      name: 'Fire Extinguisher',
+      url: '/ICMS/FireExtinguisher',
+      children: [
+        {
+          name: 'View Fire Extinguisher',
+          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+        },
+      ]
+    },
   ]
 }
 navItemsICMSBranch = {
@@ -430,6 +440,13 @@ navItemsICMSBranch = {
   url: '/ICMS',
   iconComponent: { name: 'cil-chart' },
   children: [
+    // delete it later ////////////////////////////////////////////////
+    {
+      name: 'Dashboard',
+      url: 'icms_dashboard/branch',
+    },
+
+    ///////////////////////////////////////////////////////////////////
     {
       name: 'CIPM',
       url: '/ICMS/CIPM',
@@ -482,20 +499,20 @@ navItemsICMSBranch = {
     //     },
     //   ]
     // },
-    // {
-    //   name: 'Fire Extinguisher',
-    //   url: '/ICMS/FireExtinguisher',
-    //   children: [
-    //     {
-    //       name: 'Add data',
-    //       url: '/ICMS/FireExtinguisher/addFireExtinguisher',
-    //     },
-    //     {
-    //       name: 'View Fire Extinguisher',
-    //       url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-    //     },
-    //   ]
-    // },
+    {
+      name: 'Fire Extinguisher',
+      url: '/ICMS/FireExtinguisher',
+      children: [
+        {
+          name: 'Add data',
+          url: '/ICMS/FireExtinguisher/addFireExtinguisher',
+        },
+        {
+          name: 'View Fire Extinguisher',
+          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+        },
+      ]
+    },
     {
       name: 'IFR',
       url: '/ICMS/Fraud',
@@ -542,7 +559,7 @@ navItemsICMSDistrict = {
         },
       ]
     },
-   
+
     {
       name: 'DCQ',
       url: '/ICMS/DCQ',
@@ -577,10 +594,20 @@ navItemsICMSDistrict = {
         },
       ]
     },
+    {
+      name: 'Fire Extinguisher',
+      url: '/ICMS/FireExtinguisher',
+      children: [
+        {
+          name: 'View Fire Extinguisher',
+          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+        },
+      ]
+    },
   ]
 }
 
-  navItemsSMSAdmin = {
+navItemsSMSAdmin = {
   name: 'SMS',
   url: '/sms',
   iconComponent: { name: 'cil-comment-square' },
@@ -602,7 +629,7 @@ navItemsICMSDistrict = {
           name: 'Group Messaging',
           url: '/sms/group',
         }
-      
+
       ]
     },
     {
@@ -627,16 +654,16 @@ navItemsICMSDistrict = {
           url: '/sms/bulks',
         },
         {
-            name: 'Cost',
-            url: '/sms/cost',
+          name: 'Cost',
+          url: '/sms/cost',
         },
-      
+
       ]
     },
-    
+
   ],
- 
-  
+
+
 }
 
 navItemsICMSBranchManager = {
@@ -708,16 +735,16 @@ navItemsICMSBranchManager = {
     //     },
     //   ]
     // },
-    // {
-    //   name: 'Fire Extinguisher',
-    //   url: '/ICMS/FireExtinguisher',
-    //   children: [
-    //     {
-    //       name: 'View Fire Extinguisher',
-    //       url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-    //     },
-    //   ]
-    // },
+    {
+      name: 'Fire Extinguisher',
+      url: '/ICMS/FireExtinguisher',
+      children: [
+        {
+          name: 'View Fire Extinguisher',
+          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
+        },
+      ]
+    },
   ]
 }
 navItemsICMSBankingOperation = {
@@ -736,7 +763,7 @@ navItemsICMSBankingOperation = {
         }
       ]
     },
-   
+
   ]
 }
 
@@ -755,7 +782,7 @@ navItemsICMSDistrictDirector = {
         },
       ]
     },
-   
+
     {
       name: 'DCQ',
       url: '/ICMS/DCQ',
@@ -821,7 +848,7 @@ navItemsCCAdmin = {
     {
       name: 'Uploads',
       url: '/CC/upload',
-      children:[
+      children: [
         {
           name: 'UK',
           url: '/CC/upload/uk',
@@ -844,7 +871,7 @@ navItemsCCAdmin = {
       name: 'Weekly Check',
       url: '/CC/weeklyCheck'
     },
- 
+
 
   ]
 }
@@ -996,7 +1023,7 @@ navItemsSASVAdmin = {
 navItemsSASVUser = {
   name: 'Signature & Stamp',
   url: '/sasv/user-view',
- 
+
 }
 
 
@@ -1136,7 +1163,7 @@ export const navItemAdmin = {
     {
       name: 'PEP',
       url: '/CC/upload/pep',
-    },    
+    },
     // Add more items as needed
   ],
 };
@@ -1149,7 +1176,7 @@ export const navItemWeeklyCheck = {
 export const complianceCheckMenu = {
   name: 'Compliance Check',
   url: '/CC',
-  icon:'pi pi-check',
+  icon: 'pi pi-check',
   children: [
     navItemSearch, // Include Search submenu by default
   ],
