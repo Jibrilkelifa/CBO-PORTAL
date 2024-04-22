@@ -141,6 +141,19 @@ export class DefaultLayoutComponent {
 
 
           switch (role) {
+<<<<<<< HEAD
+=======
+            case "ROLE_SUPER_ADMIN":
+              this.navItems.push(navItemsAdmin);
+              this.dashboardRoute = "default_dashboard"
+              // if (localStorage.getItem("supervisor") === "true") {
+
+              //   if (!this.navItems.includes(navItemSupervisor)) {
+              //     this.navItems.push(navItemSupervisor);
+              //   }
+              // }
+              break;
+>>>>>>> d0b10ce69519161df048884619ae90469517f91c
             case "ROLE_EMS_ADMIN":
               this.navItems.push(navItemsEMSAdmin);
               this.dashboardRoute = "default_dashboard"
@@ -239,8 +252,8 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_AMS_DIRECTOR_AUDITEE":
               if (localStorage.getItem("supervisor") === "true") {
-                if (!this.navItems.includes(navItemSupervisor)) {
-                  this.navItems.push(navItemSupervisor);
+                if (!this.navItems.includes(navItemsAdmin)) {
+                  this.navItems.push(navItemsAdmin);
                 }
               }
               this.dashboardRoute = "default_dashboard"

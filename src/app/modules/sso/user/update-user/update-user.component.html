@@ -1,0 +1,107 @@
+<div *ngIf="newDiv">
+  <!-- <div class="container" *ngIf="!userExists"> -->
+  <div class="container">
+    <div class="container">
+      <div *ngIf="selectedTab1" class="centered">
+        <h2>Search Employee</h2>
+        <div>
+          <p-autoComplete [(ngModel)]="selectedEmployee" placeholder="Search Employee By Fullname"
+            [suggestions]="searchedEmployees" (completeMethod)="getEmployeeData($event)" field="employeeFullName"
+            [required]="true" class="clickable-button" [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <br>
+        <button pButton [disabled]="!selectedEmployee" (click)="populateEmployeeData()" label="Continue"
+          class="clickable-button"></button>
+      </div>
+    </div>
+  </div>
+
+
+  <form #addUserForm="ngForm">
+    <div *ngIf="selectedTab2">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Employee ID: </label>
+          <input pInputText id="empId" ngModel [(ngModel)]="selectedEmployeeId" name="employeeId"
+            [style]="{'width':'30vw','height':'45px'}" required pKeyFilter="alpha" readonly />
+        </div>
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Full Name: </label>
+          <input pInputText id="fullName" ngModel [(ngModel)]="selectedFullName" name="fullName"
+            [style]="{'width':'30vw','height':'45px'}" required pKeyFilter="alpha" readonly />
+        </div>
+      </div>
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <label for="alphabetic" class=" block mb-2"> Job : </label>
+         
+           
+            <p-autoComplete  id="jobTitle"
+            [(ngModel)]="selectedJob" 
+            placeholder="Search Job By Title" 
+            name="jobTitle"
+            [suggestions]="searchedJob"
+            (completeMethod)="getJob($event)"
+            field="title"
+            pKeyFilter="alpha"
+            [inputStyle]="{'width':'30vw'}"
+            >
+          </p-autoComplete>
+        </div>
+        <div class="flex-auto">
+          <label for="alphanumeric2" class=" block mb-2"> Sub Process: </label>
+          <p-autoComplete  id="subProcess"
+            [(ngModel)]="selectedSubProcess" 
+            placeholder="Search District By Name" 
+            name="subProcess"
+            [suggestions]="searchedSubProcess"
+            (completeMethod)="getSubProcess($event)"
+            field="name"
+            pKeyFilter="alpha"
+            [inputStyle]="{'width':'30vw'}"
+            >
+          </p-autoComplete>
+      
+        </div>
+
+      </div>
+
+
+      <div class="flex flex-wrap gap-2 mb-4">
+        <div class="flex-auto">
+          <p-selectButton [options]="stateOptions" [(ngModel)]="value" optionLabel="label" optionValue="value"
+            (onChange)="onValueChange($event)"></p-selectButton>
+          <p-autoComplete [(ngModel)]="selectedOrganizationalUnit" placeholder="{{prompt}}" name="organizationalUnit"
+            [suggestions]="searchedOrganizationalUnit" (completeMethod)="getData($event)" field="{{field}}"
+            [(ngModel)]="selectedOrganizationalUnit" class="clickable-button"
+            [inputStyle]="{'width':'30vw'}"></p-autoComplete>
+        </div>
+        <div class="flex-auto">
+          <label for="alphanumeric" class=" block mb-2"> Process: </label>
+  
+            <p-dropdown
+            [options]="allProcess"
+            name="process"
+            [filter]="true"
+            [(ngModel)]="selectedProcess"
+            filterBy="name"
+            [showClear]="true"
+            placeholder="Choose Process"
+            field="name"
+            [style]="{'width':'30vw','height':'45px'}"
+            optionLabel="name"
+          >
+          <ng-template let-item pTemplate="item">
+            {{ item.name }}
+        </ng-template>
+        </p-dropdown>
+        </div>
+
+      </div>
+      <button pButton type="submit" [disabled]="addUserForm.invalid" label="Update User"
+        (click)="updateUser(addUserForm)"></button>
+    </div>
+
+  </form>
+</div>

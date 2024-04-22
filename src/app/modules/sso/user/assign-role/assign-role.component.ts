@@ -93,7 +93,8 @@ export class AssignRole implements OnInit {
     private organizationalUnitService: OrganizationalUnitService,
     private roleService: RoleService,
     private adUserService: ADUserService,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService, 
+  
   ) { }
 
   ngOnInit() {
@@ -123,7 +124,7 @@ export class AssignRole implements OnInit {
 
 
   populateEmployeeData() {
- 
+    this.searchEmployeeFromSSO(this.selectedEmployee.employeeId);
     this.selectedTab1 = false;
     this.selectedTab2 = true;
     this.selectedEmployeeId = this.selectedEmployee.employeeId;
@@ -208,6 +209,21 @@ export class AssignRole implements OnInit {
     });
   }
 
+  public searchEmployeeFromSSO(id: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.userService.getUser(id).subscribe(
+        (response: any) => {
+         console.log(response);
+         this.selectedAdUser = response.username;
+          resolve();  // Resolve the promise
+        },
+        (error: HttpErrorResponse) => {
+          reject(error);  // Reject the promise
+        }
+      )
+    });
+  }
+
 
   public getModules(): void {
     this.moduleService.getModules().subscribe(
@@ -242,61 +258,10 @@ export class AssignRole implements OnInit {
     return result; // return the result at the end of the function
   }
 
-  async startAdding(addUserForm: NgForm): Promise<void> {
-    try {
-      await this.searchUsernameFromAD(addUserForm.value.adUserName);
-      let fromAd = [{name:this.fullName.toUpperCase()}];
 
-          // Fuse.js options
-    const options = {
-      includeScore: true,
-      findAllMatches: true,
-      threshold: 0.5, // This is your 50% likelihood
-      location: 0,
-      distance: 100,
-      maxPatternLength: 32,
-      minMatchCharLength: 1,
-      keys: ["name"]
-    };
-    
-      let fuse = new Fuse(fromAd, options);
-      let match = fuse.search(this.selectedFullName);
-   
-      let percentage = (1-match[0].score)*100;
-      let messageIfOk = " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName +  "  with similiarity of  " + percentage.toFixed(1) +"%";
-      let messageIfNotOk = "User doesn't match";
-      
+  
 
-      
-      this.confirmationService.confirm({
-        message: (percentage < 50)? messageIfNotOk:messageIfOk,
-        header: 'Confirm that these users are the same',
-        icon: 'pi pi-info-circle',
-        acceptLabel: " Yes",
-        rejectLabel: " No",
-        acceptVisible: percentage > 50,
-        accept: () => {
-          this.addUser(addUserForm);
-          this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record Created', life: 5000 });
-        },
-        reject: (type: ConfirmEventType) => {
-          switch (type) {
-            case ConfirmEventType.REJECT:
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 5000 });
-              break;
-            case ConfirmEventType.CANCEL:
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled', life: 5000 });
-              break;
-          }
-        },
-        key: 'positionDialog'
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  public addUser(addUserForm: NgForm): void {
+  public updateUser(addUserForm: NgForm): void {
     let time: string;
     let roles: any[];
     this.timeService.getDateTime().toPromise().then((dateTime) => {
@@ -304,36 +269,18 @@ export class AssignRole implements OnInit {
       return this.roleService.getRolesForModules(addUserForm.value.modules).toPromise();
     }).then((moduleRoles) => {
       roles = moduleRoles;
-      const filteredRoles = roles.filter(role => role.name.includes("ADMIN"));
+
       const formData = new FormData();
 
       formData.append('username', addUserForm.value.adUserName);
-      formData.append('active', 'true');
-      formData.append('createdAt', time);
-      formData.append('updatedAt', time);
-      formData.append('id', addUserForm.value.employeeId);
-
-      if (this.selectedFiles1) {
-        formData.append('employeeImage', this.selectedFiles1);
-        this.selectedFiles1 = undefined;
-      }
-
-      if (this.selectedFiles2) {
-        formData.append('signatureImage', this.selectedFiles2);
-        this.selectedFiles2 = undefined;
-      }
-      
-      console.log(filteredRoles);
-      console.log(roles);
-
       formData.append('roles', new Blob([JSON.stringify(this.selectedRole)], { type: 'application/json' }));
    
-      return this.userService.addUser(formData).toPromise();
+      return this.userService.updateUser(formData).toPromise();
     }).then((response: any) => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is created.' });
-      // setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Role Assigned.' });
+        setTimeout(() => { window.location.reload()}, 1000);
     }).catch((errors: HttpErrorResponse) => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: "Role Already Exist"});
     });
   }
 
@@ -351,18 +298,7 @@ export class AssignRole implements OnInit {
   }
 
 
-  public updateUser(updateUser: NgForm): void {
-    this.selectedEmployee = null;
-    this.selectedState = null;
-    this.userService.updateUser(updateUser.value).subscribe(
-      (response: User) => {
 
-      },
-      (error: HttpErrorResponse) => {
-
-      }
-    );
-  }
 
   onSelect1(event: any) {
     this.selectedFiles1 = event.files[0];

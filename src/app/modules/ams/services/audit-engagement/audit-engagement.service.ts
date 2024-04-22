@@ -18,9 +18,9 @@ export class AuditEngagementService {
       }),
     };
     // production
-    // this.apiServiceUrl = 'http://10.1.125.58:8099';
-    // testip
-    this.apiServiceUrl = 'http://localhost:8099';
+    this.apiServiceUrl = 'http://10.1.125.58:8099';
+    // prodip
+    // this.apiServiceUrl = 'http://localhost:8099';
   }
 
   constructor(private http: HttpClient) { }

@@ -7,12 +7,12 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { NewAdminComponent } from './new-admin/new-admin.component';
 import { AssignRole } from './assign-role/assign-role.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 import { AdminTableComponent } from './admin-table/admin-table.component';
 import { NewUserComponent } from './new-user/new-user.component';
 import { UserTableComponent } from './user-table/user-table.component';
 import { UserRoutingModule } from './user-routing.module';
 import { IconModule } from '@coreui/icons-angular';
-
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -29,6 +29,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { CalendarModule } from 'primeng/calendar';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { SelectButtonModule } from 'primeng/selectbutton';
+
 
 // CoreUI Modules
 import {
@@ -96,14 +98,16 @@ import {
     FileUploadModule,
     CalendarModule,
     RadioButtonModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    SelectButtonModule
   ],
   declarations: [
     NewAdminComponent,
     NewUserComponent,
     AdminTableComponent,
     UserTableComponent,
-    AssignRole
+    AssignRole,
+    UpdateUserComponent
   ],
   providers: [ConfirmationService, MessageService]
 })

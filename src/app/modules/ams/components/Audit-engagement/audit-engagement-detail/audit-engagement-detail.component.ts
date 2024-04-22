@@ -52,6 +52,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   public recipents:string[] = [];
   public members:string[] = [];
   public isManager: boolean;
+  public isDirector:boolean;
   public isLeader: boolean;
   public isAuditee: boolean;
 
@@ -98,6 +99,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
     this.isLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
     this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
+    this.isDirector = this.roles.some(obj => obj.name === "ROLE_AMS_DIRECTOR");
 
    
 
@@ -142,8 +144,17 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditFindingService.getAuditFindingByProgramId(id).subscribe(
         (response: any) => {
-          this.auditFinding = response.result;
-          console.log(this.auditFinding, "this is audit finding");
+          if(this.isAuditee){
+            this.auditFinding = response.result;
+            this.auditFinding = this.auditFinding.filter(auditFinding => auditFinding.isVisibleToAuditees)
+      
+          } else {
+            this.auditFinding = response.result;
+          }
+        
+      
+          
+        
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -431,7 +442,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditFindingService.makeVisible(auditFinding.id).subscribe(
         (response: any) => {
-      
+            auditFinding.isVisibleToAuditees = true;
         },
         (error: HttpErrorResponse) => {
           console.log(error);

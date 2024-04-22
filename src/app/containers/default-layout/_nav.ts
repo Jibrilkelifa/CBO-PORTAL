@@ -53,25 +53,23 @@ navItemMenu = {
   title: true
 }
 navItemsAdmin = {
-  name: 'System Admin',
-  url: '/',
+  name: "System Admin",
+  url:'/user',
   iconComponent: { name: 'cil-settings' },
-  children: [
+  children:[
     {
-      name: 'User',
-      url: '/user',
-      children: [
-        {
-          name: 'Add Admin',
-          url: '/user/assignRole'
-        },
-        {
-          name: 'View All Admins',
-          url: '/user/viewAdmins'
-        },
-      ]
-    }
+      name: 'Assign Role',
+      url: '/user/assignRole',
+     
+    }, 
+    {
+      name: 'Update User',
+      url: '/user/updateUser',
+  
+    }, 
+
   ]
+
 }
 
 navItemsSuperAdmin = {
@@ -308,6 +306,7 @@ navItemsAMSDirector = {
     {
       name: 'Audit Engagement',
       url: '/ams/audit-engagement',
+<<<<<<< HEAD
     },
     {
       name: 'Audit Schedule',
@@ -315,6 +314,11 @@ navItemsAMSDirector = {
     },
 
 
+=======
+    }
+ 
+ 
+>>>>>>> d0b10ce69519161df048884619ae90469517f91c
   ],
 
 }
@@ -957,7 +961,7 @@ navItemsECXUser = {
 }
 
 navItemsCAOAdmin = {
-  name: 'CAO',
+  name: 'CAO Inquiry/Activity',
   url: '/cao',
   iconComponent: { name: 'cib-openstreetmap' },
   children: [
@@ -969,9 +973,9 @@ navItemsCAOAdmin = {
 }
 
 navItemsCAOUser = {
-  name: 'CAO',
+  name: 'CAO Inquiry/Activity',
   url: '/cao',
-  iconComponent: { name: 'cil-credit-card' },
+  iconComponent: { name: 'cib-openstreetmap' },
   children: [
     {
       name: 'My Checklists',

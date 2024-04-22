@@ -5,6 +5,7 @@ import { UserTableComponent } from './user-table/user-table.component';
 import { NewAdminComponent } from './new-admin/new-admin.component';
 import { AdminTableComponent } from './admin-table/admin-table.component';
 import { AssignRole } from './assign-role/assign-role.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 const routes: Routes = [
   {
@@ -30,6 +31,13 @@ const routes: Routes = [
         component: AssignRole,
         data: {
           title: 'Assign Role',
+        },
+      },
+      {
+        path: 'updateUser',
+        component: UpdateUserComponent,
+        data: {
+          title: 'Update User',
         },
       },
       {

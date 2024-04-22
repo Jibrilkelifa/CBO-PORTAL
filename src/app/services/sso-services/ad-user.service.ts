@@ -30,6 +30,8 @@ export class ADUserService {
     return this.http.get<any>(`${this.apiServiceUrl}/ADUser/search/${username}`, this.httpOptions)
   }
 
+
+
   public sendEmail(username): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/ADUser/search/${username}`, this.httpOptions)

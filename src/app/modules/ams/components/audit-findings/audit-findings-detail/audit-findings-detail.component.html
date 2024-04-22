@@ -133,9 +133,7 @@
       <tr>
         <th>No:</th>
       
-        <th pSortableColumn="cause">
-          Created User <p-sortIcon field="cause"></p-sortIcon>
-        </th>   
+    
         <th pSortableColumn="justification">
           Finding Before Ammandements <p-sortIcon field="justification"></p-sortIcon>
         </th>       
@@ -146,7 +144,6 @@
     <ng-template pTemplate="body" let-ammendment let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditFinding">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ ammendment.createdUser}}</td>
         <td>{{ ammendment.findingBeforeAmendment}}</td>
       </tr>
     </ng-template>

@@ -45,7 +45,7 @@ export class AuditFindingsDetailComponent implements OnDestroy {
   cols!: Column[];
   file_type:string = ".pdf";
 
-  back_end_url:string = "http://192.168.137.224:8099";
+  back_end_url:string = "http://10.1.125.58:8099";
   upload_url: string;
   constructor(
     private auditProgramService: AuditProgramService,
