@@ -53,7 +53,9 @@
     (sortFunction)="customSort($event)"
     [customSort]="true"
   >
-  <ng-template pTemplate="caption">
+  <ng-template pTemplate="caption"  *ngIf="
+  this.roles.includes('ROLE_ICMS_ADMIN')
+">
     <div class="flex">
       <!-- <button
         type="button"
