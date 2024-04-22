@@ -44,6 +44,8 @@ export class DACGMTableComponent {
   roles: string[] = [];
   exportColumns!: ExportColumn[];
   cols!: Column[];
+  public dacgmDisplay: any[] = [];
+
 
 
 
@@ -81,14 +83,18 @@ export class DACGMTableComponent {
     
     this.cols = [
       { field: 'id', header: 'ID' },
-      { field: 'branch.name', header: 'Branch' },
-      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch?.name', header: 'Branch' },
+      { field: 'subprocess?.name', header: 'Sub process' },
       { field: 'caseId', header: 'Case ID' },
       { field: 'irregularity.allSubCategory.allcategory.name', header: 'Category' },
       { field: 'irregularity.allSubCategory.name', header: 'Sub category' },
       { field: 'irregularity.name', header: 'Irregularity' },
       { field: 'amountInvolved', header: 'Amount involved' },
-      { field: 'irregularity.name', header: 'Irregularity' },
+      { field: 'accountName', header: 'Account name' },
+      { field: 'accountNumber', header: 'Account number' },
+      { field: 'responsiblePerson', header: 'Responsible person' },
+      { field: 'activityStatus.name', header: 'Activity status' },
+      { field: 'actionPlanDueDate', header: 'Action plan due date' },
     ];
 
     this.exportColumns = this.cols.map((col) => ({
@@ -249,14 +255,29 @@ export class DACGMTableComponent {
 
   public getDACGMs(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.dacgmService.getDACGMs().subscribe(
-        (response: DACGM[]) => {
-          
-          this.dacgms = response;
-        },
-        (error: HttpErrorResponse) => {
-
-        }
+        this.dacgmService.getDACGMs().subscribe(
+          (response: any) => {
+            this.dacgms = response;
+            this.dacgmDisplay = this.dacgms.map((obj: any) => ({
+              id: obj.id,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              caseId: obj.caseId,
+              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
+              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
+              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+              amountInvolved: obj.amountInvolved,
+              accountName: obj.accountName,
+              accountNumber: obj.accountNumber,
+              responsiblePerson: obj.responsiblePerson,
+              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
+              actionPlanDueDate: obj.actionPlanDueDate
+            }));
+            console.log("aaaa", response);
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
       );
     }
     else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
@@ -322,53 +343,82 @@ export class DACGMTableComponent {
 
   exportPdf() {
     import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
-        const doc = new jsPDF.default('p', 'px', 'a4');
-
-        const modifiedAnnualPlanDisplay = this.dacgms.map((plan, index) => ({
-          ...plan,
-          id: index + 1,
-        }));
-
-        (doc as any).autoTable(this.exportColumns, modifiedAnnualPlanDisplay);
+      import('jspdf-autotable').then(() => {
+        const doc = new jsPDF.default('l', 'pt', 'a4'); // 'l' for landscape orientation, 'pt' for points unit, 'a4' for A4 page size
+        doc.setFontSize(6); // set the font size to 6 points
+        (doc as any).autoTable({
+          body: this.dacgmDisplay.map((row, index) => ({
+            Id: index + 1,
+            'Branch Name': row.branch ? row.branch.name : '',
+            'Sub Process': row.subProcess ? row.subProcess.name : '',
+            'Case ID': row.caseId,
+            Category: row.irregularity && row.irregularity.allSubCategory && row.irregularity.allSubCategory.allcategory ? row.irregularity.allSubCategory.allcategory.name : '',
+            'Sub Category': row.irregularity && row.irregularity.allSubCategory ? row.irregularity.allSubCategory.name : '',
+            Irregularity: row.irregularity ? row.irregularity.name : '',
+            'Amount Involved': row.amountInvolved,
+            'Account Name': row.accountName,
+            'Account Number': row.accountNumber,
+            'Responsible Person': row.responsiblePerson,
+            'Activity Status': row.activityStatus ? row.activityStatus.name : '',
+            'Action Plan Due Date': row.actionPlanDueDate
+          })),
+          columns: this.exportColumns,
+          styles: { fontSize: 6, cellWidth: 'wrap' }, // set the font size and cell width for the table
+          didDrawCell: (data) => {
+            if (data.column.index === 0 && data.cell.section === 'body') {
+              doc.setFontSize(6);
+            }
+          },
+        });
         doc.save('Daily activity gap.pdf');
       });
     });
   }
-
-
-
+  
+  
+  
+  
+  
   exportExcel() {
     import('xlsx').then((xlsx) => {
-      const data = this.dacgms.map((plan, index) => ({
+      const data = this.dacgmDisplay.map((plan, index) => ({
         Id: index + 1,
-        // Name: plan.name,
-        // Description: plan.description,
-        // Year: plan.year,
-        // 'Risk Score': plan.riskScore,
-        // 'Risk Level': plan.riskLevel,
-        // Status: plan.status
+        // Add the rest of the fields here
+        'Branch Name': plan['branch.name'],
+        'Sub Process': plan['subprocess.name'],
+        'Case ID': plan.caseId,
+        Category: plan['irregularity.allSubCategory.allcategory.name'],
+        'Sub Category': plan['irregularity.allSubCategory.name'],
+        Irregularity: plan['irregularity.name'],
+        'Amount Involved': plan.amountInvolved,
+        'Account Name': plan.accountName,
+        'Account Number': plan.accountNumber,
+        'Responsible Person': plan.responsiblePerson,
+        'Activity Status': plan['activityStatus.name'],
+        'Action Plan Due Date': plan.actionPlanDueDate
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array',
-      });
-      const EXCEL_TYPE =
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-      const dataBlob = new Blob([excelBuffer], { type: EXCEL_TYPE });
-      this.saveAsExcelFile(dataBlob, 'Daily activity gap');
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Daily activity gap');
     });
   }
-
+  
+  
   saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     let EXCEL_EXTENSION = '.xlsx';
-    FileSaver.saveAs(
-      buffer,
-      fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION
-    );
+    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+    const url= window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
+  
+  
 }
 
 

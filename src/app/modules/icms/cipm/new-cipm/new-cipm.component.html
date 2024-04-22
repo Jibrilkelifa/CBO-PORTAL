@@ -181,7 +181,7 @@
 
       <div class="flex-auto">
         <label for="alphabetic" class=" block mb-2"> Insurance Expiry Date </label>
-        <p-calendar id="alphabetic" dataType="string" ngModel name="insuranceExpireDate"
+        <p-calendar id="alphabetic" dataType="string"  [required]="true"  ngModel name="insuranceExpireDate"
           [style]="{'width':'30vw','height':'45px'}" [showIcon]="true"></p-calendar>
       </div>
     
