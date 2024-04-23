@@ -259,9 +259,8 @@ export class DACGMTableComponent {
         (response: any) => {
           this.dacgms = response;
           this.dacgmDisplay = this.dacgms.map((obj: any) => ({
-            id: obj.id,
-            'branch.name': obj.branch ? obj.branch.name : null,
             'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+            'branch.name': obj.branch ? obj.branch.name : null,
             date: obj.date,
             caseId: obj.caseId,
             'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
@@ -349,11 +348,10 @@ export class DACGMTableComponent {
         doc.setFontSize(6); // set the font size to 6 points
         (doc as any).autoTable({
           body: this.dacgmDisplay.map((row, index) => ({
-            Id: index + 1,
-            'Branch Name': row.branch ? row.branch.name : '',
             'Sub Process': row.subProcess ? row.subProcess.name : '',
-            'Case ID': row.caseId,
+            'Branch Name': row.branch ? row.branch.name : '',
             'Date': row.date,
+            'Case ID': row.caseId,
             Category: row.irregularity && row.irregularity.allSubCategory && row.irregularity.allSubCategory.allcategory ? row.irregularity.allSubCategory.allcategory.name : '',
             'Sub Category': row.irregularity && row.irregularity.allSubCategory ? row.irregularity.allSubCategory.name : '',
             Irregularity: row.irregularity ? row.irregularity.name : '',
@@ -381,10 +379,9 @@ export class DACGMTableComponent {
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const data = this.dacgmDisplay.map((plan, index) => ({
-        Id: index + 1,
         // Add the rest of the fields here
-        'Branch Name': plan['branch.name'],
         'Sub Process': plan['subprocess.name'],
+        'Branch Name': plan['branch.name'],
         'Date': plan.date,
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
