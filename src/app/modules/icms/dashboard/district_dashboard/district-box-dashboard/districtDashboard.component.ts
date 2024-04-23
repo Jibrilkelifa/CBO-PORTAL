@@ -28,9 +28,9 @@ export class DistrictDashboardComponent {
   getAllDistrictDashboardData(): void {
     this.subscription = this.icmsdashboardService.getDistrictDashboardDatas(this.districtId).subscribe(
       (response: any) => {
-        this.allDatas = response;
-        console.log("kkkk", this.allDatas);
-        
+        this.allDatas = response;  
+        console.log("district ", response);
+              
         // Format numbers with commas
         for (let key in this.allDatas) {
           if (typeof this.allDatas[key] === 'number') {

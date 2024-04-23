@@ -80,7 +80,7 @@ export class DACGMTableComponent {
       // if no dates are specified, return true for all values
       return true;
     });
-    
+
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'branch?.name', header: 'Branch' },
@@ -193,13 +193,13 @@ export class DACGMTableComponent {
         this.escalatedByManager = true;
         console.log('escalatedByManager:', this.escalatedByManager);
         this.getDACGMs(this.roles);
-  
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: "This Daily Activity Gap monitoring Escalated successfully!"
         });
-  
+
         setTimeout(() => {
           // Clear the success message after 5 seconds
           this.clearSuccessMessage();
@@ -210,7 +210,7 @@ export class DACGMTableComponent {
       }
     );
   }
-  
+
   clearSuccessMessage(): void {
     // Clear the success message
     this.messageService.clear();
@@ -255,35 +255,36 @@ export class DACGMTableComponent {
 
   public getDACGMs(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-        this.dacgmService.getDACGMs().subscribe(
-          (response: any) => {
-            this.dacgms = response;
-            this.dacgmDisplay = this.dacgms.map((obj: any) => ({
-              id: obj.id,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              caseId: obj.caseId,
-              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
-              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              amountInvolved: obj.amountInvolved,
-              accountName: obj.accountName,
-              accountNumber: obj.accountNumber,
-              responsiblePerson: obj.responsiblePerson,
-              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
-              actionPlanDueDate: obj.actionPlanDueDate
-            }));
-            console.log("aaaa", response);
-          },
-          (error: HttpErrorResponse) => {
-            console.log(error);
-          }
+      this.dacgmService.getDACGMs().subscribe(
+        (response: any) => {
+          this.dacgms = response;
+          this.dacgmDisplay = this.dacgms.map((obj: any) => ({
+            id: obj.id,
+            'branch.name': obj.branch ? obj.branch.name : null,
+            'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+            date: obj.date,
+            caseId: obj.caseId,
+            'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
+            'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
+            'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+            amountInvolved: parseFloat(obj.amountInvolved) || 0,
+            accountName: obj.accountName,
+            accountNumber: obj.accountNumber,
+            responsiblePerson: obj.responsiblePerson,
+            'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
+            actionPlanDueDate: obj.actionPlanDueDate
+          }));
+          console.log("aaaa", response);
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
       );
     }
     else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
       this.dacgmService.getDACGMForBranch(this.branchId).subscribe(
         (response: DACGM[]) => {
-          
+
           this.dacgms = response;
         },
         (error: HttpErrorResponse) => {
@@ -292,15 +293,15 @@ export class DACGMTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-        this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
-          (response: DACGM[]) => {
-            this.dacgms = response;
-          },
-          (error: HttpErrorResponse) => {
+      this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
+        (response: DACGM[]) => {
+          this.dacgms = response;
+        },
+        (error: HttpErrorResponse) => {
 
-          }
-        );
-      
+        }
+      );
+
 
     }
   }
@@ -352,6 +353,7 @@ export class DACGMTableComponent {
             'Branch Name': row.branch ? row.branch.name : '',
             'Sub Process': row.subProcess ? row.subProcess.name : '',
             'Case ID': row.caseId,
+            'Date': row.date,
             Category: row.irregularity && row.irregularity.allSubCategory && row.irregularity.allSubCategory.allcategory ? row.irregularity.allSubCategory.allcategory.name : '',
             'Sub Category': row.irregularity && row.irregularity.allSubCategory ? row.irregularity.allSubCategory.name : '',
             Irregularity: row.irregularity ? row.irregularity.name : '',
@@ -374,11 +376,8 @@ export class DACGMTableComponent {
       });
     });
   }
-  
-  
-  
-  
-  
+
+
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const data = this.dacgmDisplay.map((plan, index) => ({
@@ -386,11 +385,12 @@ export class DACGMTableComponent {
         // Add the rest of the fields here
         'Branch Name': plan['branch.name'],
         'Sub Process': plan['subprocess.name'],
+        'Date': plan.date,
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
         'Sub Category': plan['irregularity.allSubCategory.name'],
         Irregularity: plan['irregularity.name'],
-        'Amount Involved': plan.amountInvolved,
+        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
         'Account Name': plan.accountName,
         'Account Number': plan.accountNumber,
         'Responsible Person': plan.responsiblePerson,
@@ -403,13 +403,13 @@ export class DACGMTableComponent {
       this.saveAsExcelFile(excelBuffer, 'Daily activity gap');
     });
   }
-  
-  
+
+
   saveAsExcelFile(buffer: any, fileName: string): void {
     let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-    const url= window.URL.createObjectURL(data);
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
     const link = document.createElement('a');
     link.href = url;
     link.setAttribute('download', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
@@ -417,8 +417,8 @@ export class DACGMTableComponent {
     link.click();
     document.body.removeChild(link);
   }
-  
-  
+
+
 }
 
 

@@ -167,8 +167,8 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ICMS_DISTRICT_IC":
               this.navItems.push(navItemsICMSDistrict);
-              this.dashboardRoute = "default_dashboard"
-              //this.router.navigate(['icms_dashboard/district']);
+              //this.dashboardRoute = "default_dashboard"
+              this.router.navigate(['icms_dashboard/district']);
               break;
             case "ROLE_ICMS_BRANCH_IC":
               this.navItems.push(navItemsICMSBranch);
@@ -200,7 +200,8 @@ export class DefaultLayoutComponent {
               break;
             case "ROLE_ICMS_DISTRICT_DIRECTOR":
               this.navItems.push(navItemsICMSDistrictDirector);
-              this.dashboardRoute = "default_dashboard"
+              this.router.navigate(['icms_dashboard/district']);
+              //this.dashboardRoute = "default_dashboard"
 
               break;
             case "ROLE_SASV_ADMIN":
