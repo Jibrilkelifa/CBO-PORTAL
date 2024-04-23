@@ -102,5 +102,24 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     }
   }
 
+  deleteFireExtinguisher(id: number): void {
+    this.fireExtinguisherService.deleteFireExtinguisher(id).subscribe(
+      (response: void) => {
+        this.getFireExtinguisherList(this.roles);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: "Deleted Fire Extinguisher successfully"
+        });
+        setTimeout(() => {
+        }, 1000);
+      },
+      (error: HttpErrorResponse) => {
+
+      }
+    );
+
+  }
+
  
 }
