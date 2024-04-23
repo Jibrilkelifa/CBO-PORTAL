@@ -197,7 +197,7 @@
           ngModel
           name="responsiblePerson"
           [style]="{ width: '30vw', height: '45px' }"
-          required
+          pattern="^[A-Za-z\s]+$"
           minlength="3"
         />
       </div>

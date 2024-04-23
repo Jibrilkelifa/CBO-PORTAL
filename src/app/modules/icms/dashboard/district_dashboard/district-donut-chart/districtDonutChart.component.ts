@@ -6,6 +6,8 @@ import {
   ApexResponsive,
   ApexChart
 } from "ng-apexcharts";
+import { ICMSDashboardService } from "../../services/icms-dashboard.service";
+import { Subscription } from "rxjs";
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -22,10 +24,12 @@ export type ChartOptions = {
 export class DistrictDonutChartComponent {
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-
-  constructor() {
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
+  private subscription: Subscription;
+  public allDoughnutDatas: any;
+  constructor(private icmsdashboardService: ICMSDashboardService) {
     this.chartOptions = {
-      series: [44, 55, 13, 43, 5545, 45, 2, 2, 434, 2, 44, 55,100],
+      series: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10],
       chart: {
         type: "donut"
       },
@@ -42,5 +46,40 @@ export class DistrictDonutChartComponent {
         }
       ]
     };
+  }
+
+  ngOnInit() {
+    this.getDistrictDashboardDoughnutData();
+  }
+
+
+
+  getDistrictDashboardDoughnutData(): void {
+    this.subscription = this.icmsdashboardService.getDistrictDashboardDoughnutDatas(this.subProcessId).subscribe(
+      (response: any) => {
+        this.allDoughnutDatas = response;
+        console.log("gof", response);
+        console.log("fog", this.subProcessId);
+        
+
+        // Initialize an array with zeros
+        let seriesData = new Array(this.chartOptions.labels.length).fill(0);
+
+        // Update the values for the labels that exist in the response
+        for (let label in this.allDoughnutDatas) {
+          let index = this.chartOptions.labels.indexOf(label);
+          if (index !== -1) {
+            seriesData[index] = this.allDoughnutDatas[label];
+          }
+        }
+
+        // Update the chart series data
+        this.chartOptions.series = seriesData;
+      },
+      
+      (error) => {
+        console.error('Failed to get dashboard data:', error);
+      }
+    );
   }
 }

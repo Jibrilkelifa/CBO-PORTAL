@@ -23,10 +23,10 @@ export class DistrictDashboardComponent {
     this.subscription.unsubscribe();
   }
 
-  districtId: number =3;
+  subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   getAllDistrictDashboardData(): void {
-    this.subscription = this.icmsdashboardService.getDistrictDashboardDatas(this.districtId).subscribe(
+    this.subscription = this.icmsdashboardService.getDistrictDashboardDatas(this.subProcessId).subscribe(
       (response: any) => {
         this.allDatas = response;  
         console.log("district ", response);
