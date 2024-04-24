@@ -269,7 +269,7 @@ export class CIPMTableComponent {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR" ) || roles.indexOf("ROLE_ICMS_IFB") !==-1) {
       // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
       //   console.log("branchId = " + this.branchId)
       //   this.districtId = branch?.subProcess?.id
