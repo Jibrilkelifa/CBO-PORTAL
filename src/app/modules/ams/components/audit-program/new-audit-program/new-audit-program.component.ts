@@ -80,8 +80,12 @@ export class NewAuditProgramComponent implements OnDestroy {
     // if (this.update) {
       // this.updateAuditPrograms(auditProgramForm);
     // } else {
-      this.addAuditProgram(auditProgramForm);
+     
     // }
+
+    this.addAuditProgram(auditProgramForm);
+
+
   }
   
 
@@ -99,7 +103,7 @@ export class NewAuditProgramComponent implements OnDestroy {
     addDivForm.value.objectives = this.objectives;
    
     const auditProgram: AuditProgramDTO = { ...addDivForm.value, engagementInfo: this.engagementInfo };
-    console.log(auditProgram);
+    // console.log(auditProgram);
     this.subscriptions.push(
       this.auditProgramService.addAuditProgram(auditProgram).subscribe(
         (response: any) => {

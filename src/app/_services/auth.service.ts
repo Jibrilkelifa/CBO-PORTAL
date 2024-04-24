@@ -90,7 +90,7 @@ export class AuthService {
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
-    
+    localStorage.setItem("ams_ip", "http://192.168.137.241:8099")
     
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);

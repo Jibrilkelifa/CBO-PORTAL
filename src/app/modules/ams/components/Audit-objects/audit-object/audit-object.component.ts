@@ -130,6 +130,20 @@ export class AuditObjectComponent {
     });
   }
 
+  approveAuditObject(auditObject:AuditObjectDTO): void {
+    auditObject.status = "Approved"
+    console.log("sending" , auditObject);
+    this.subscriptions.push(
+      this.auditObjectService
+        .updateAuditObject(auditObject)
+        .subscribe((response: any) => {
+          this.messageService.clear();
+  
+        })
+    );
+  }
+
+
   detailAuditObject(auditObject: AuditObjectDTO) {
     if (auditObject && auditObject.id !== undefined) {
       this.auditObjectService.changeAuditObject(auditObject);

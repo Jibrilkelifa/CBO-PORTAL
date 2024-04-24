@@ -51,6 +51,10 @@
                         class="btns p-button-sm" label="Update"></button>
                     <button pButton (click)="detailAuditObject(auditObject)" [ngClass]="{updateBlue: true}"
                         class="p-button-sm" label="Detail"></button>
+
+                    <button pButton *ngIf="auditObject?.status != 'Approved'" (click)="approveAuditObject(auditObject)"
+                        [ngClass]="{ updateBlue: true }" class="p-button-sm w-20 h-10 p-2" label="Approve"></button>
+                    
                 </td>
             </tr>
         </ng-template>

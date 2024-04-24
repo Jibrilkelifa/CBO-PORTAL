@@ -162,7 +162,7 @@ navItemsAMSAdmin =  {
           url: '/ams/audit-object',
         },
         {
-          name: 'Audit team',
+          name: 'Audit Type',
           url: '/ams/audit-type',
         },
         {
@@ -215,7 +215,7 @@ navItemsAMSManager =  {
           url: '/ams/audit-object',
         },
         {
-          name: 'Audit team',
+          name: 'Audit Type',
           url: '/ams/audit-type',
         },
         {
