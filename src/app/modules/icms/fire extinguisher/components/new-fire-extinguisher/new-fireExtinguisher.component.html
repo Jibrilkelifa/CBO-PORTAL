@@ -45,7 +45,7 @@
           [(ngModel)]="FireExtinguisher.extinguisherSerialNumber"
           name="extinguisherSerialNumber"
           [style]="{ width: '30vw', height: '45px' }"
-          [readonly]="true"
+          [required]="true"
         />
       </div>
       <div class="flex-auto" *ngIf="!update">
@@ -56,7 +56,7 @@
           [useGrouping]="false"
           [style]="{ width: '30vw', height: '45px' }"
           name="size"
-          [readonly]="true"
+          [required]="true"
         ></p-inputNumber>
       </div>
       <div class="flex-auto" *ngIf="!update">
