@@ -65,6 +65,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
   }
   
   submitAuditSchedule(auditableAreaForm: NgForm): void {
+    console.log(auditableAreaForm)
     if (this.update) {
       this.updateAuditEngagement(auditableAreaForm);
 
@@ -77,8 +78,8 @@ export class NewAuditEngagementComponent implements OnDestroy {
   addAuditEngagement(addDivForm: NgForm): void {
     const auditEngagement: AuditEngagementDTO = { ...addDivForm.value, auditSchedule: this.auditScheduleInfo };
     const employeeIds: string[] = [];
-   
-    console.log(addDivForm);
+  
+  
 
      auditEngagement.auditSchedule.teamMembers.forEach(member => {
       const employeeId = member.auditStaffDTO.employeeId;
@@ -97,19 +98,19 @@ export class NewAuditEngagementComponent implements OnDestroy {
  
    
 
-
+    console.log(auditEngagement)
       //  main addition  
     this.subscriptions.push(
       this.auditEngagementService.addToEngagement(auditEngagement).subscribe(
         (response: any) => {
-          this.ews.sendEmail(this.outlookMessage).subscribe(
-            (response: any) => {
-              this.ref.close(response);
-            },
-            (error: HttpErrorResponse) => {
-              console.log(error);
-            }
-          )
+          // this.ews.sendEmail(this.outlookMessage).subscribe(
+          //   (response: any) => {
+          //     this.ref.close(response);
+          //   },
+          //   (error: HttpErrorResponse) => {
+          //     console.log(error);
+          //   }
+          // )
           this.ref.close(response);
         },
         (error: HttpErrorResponse) => {

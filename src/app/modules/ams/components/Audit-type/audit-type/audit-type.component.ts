@@ -72,7 +72,7 @@ export class AuditTypeComponent implements OnDestroy {
 
   createNewAuditType(): void {
     const ref = this.dialogService.open(NewAuditTypeComponent, {
-      header: 'Create a new audit team',
+      header: 'Create a new audit Type',
       draggable: true,
       width: '55%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
@@ -102,7 +102,7 @@ export class AuditTypeComponent implements OnDestroy {
       (auditype) => auditype.id === id
     );
     const ref = this.dialogService.open(NewAuditTypeComponent, {
-      header: 'Update audit team',
+      header: 'Update audit Type',
       draggable: true,
       width: '55%',
       data: { auditType },

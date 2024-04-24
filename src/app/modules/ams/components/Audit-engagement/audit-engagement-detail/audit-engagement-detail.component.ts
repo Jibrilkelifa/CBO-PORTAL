@@ -165,6 +165,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
   addToProgram(auditEngagement: AuditEngagementDTO): void {
+    console.log(auditEngagement)
 
     const ref = this.dialogService.open(NewAuditProgramComponent, {
       header: 'Create a new program',

@@ -155,10 +155,7 @@ export class AuditUniverseComponent implements OnDestroy {
     });
   }
 
-  onRowSelect(auditUniverse:AuditUniverseDTO) {
-    console.log("i am clicked");
-    this.selectedAuditUniverse[0] = auditUniverse.auditObject;
-  }
+
 
   updateAuditUniverse(id: number): void {
     const auditUniverse = this.auditUniverse.find(
@@ -222,8 +219,6 @@ export class AuditUniverseComponent implements OnDestroy {
       const data = this.auditUniverse.map((universe, index) => ({
         id: index + 1,
         'Audit universe': universe.name,
-        'Audit Object': universe.auditObject?.name,
-        'Audit type': universe.auditType,
         Status: universe.status
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);

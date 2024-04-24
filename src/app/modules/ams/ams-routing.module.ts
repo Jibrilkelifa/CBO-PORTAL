@@ -138,7 +138,7 @@ const routes: Routes = [
         path: 'audit-type',
         component: AuditTypeComponent,
         data: {
-          title: 'Audit Team',
+          title: 'Audit Type',
         },
       },
       {

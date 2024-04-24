@@ -62,7 +62,7 @@
           Name<p-sortIcon field="user.employee.fullName"></p-sortIcon>
         </th>
         <th pSortableColumn="auditType.name">
-          Audit Team<p-sortIcon field="auditType.name"></p-sortIcon>
+          Audit Type<p-sortIcon field="auditType.name"></p-sortIcon>
         </th>
         <th pSortableColumn="status">
           Status<p-sortIcon field="status"></p-sortIcon>
@@ -99,7 +99,7 @@
               )
             "
             [value]="$any(dt.filters['auditType'])?.value"
-            placeholder="Search by Audit Team"
+            placeholder="Search by Audit Type"
             class="p-column-filter"
           />
         </th>

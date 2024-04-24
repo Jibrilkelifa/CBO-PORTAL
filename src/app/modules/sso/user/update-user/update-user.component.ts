@@ -101,7 +101,7 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit() {
 
-    this.prompt = "Enter Branch Code"
+    this.prompt = "Enter Branch Code or Name"
     this.field = "name"
     this.getAllProcess();
 
@@ -112,7 +112,7 @@ export class UpdateUserComponent implements OnInit {
   onValueChange(event) {
     this.value = event.value
     if (event.value.includes("branch")) {
-      this.prompt = "Enter Branch Code"
+      this.prompt = "Enter Branch Code or Name"
       this.field = "name"
     } else {
       this.prompt = "Search Team By Name"

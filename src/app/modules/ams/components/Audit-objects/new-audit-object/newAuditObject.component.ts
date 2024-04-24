@@ -9,6 +9,8 @@ import { AuditType } from 'src/app/modules/ams/models/auditType';
 import { DialogService, DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { Subscription } from 'rxjs';
 import { NewAuditTypeComponent } from '../../Audit-type/new-audit-type/newAuditType.component';
+import { AuditUniverseDTO } from '../../../models/auditUniverse';
+import { AuditUniverseService } from '../../../services/auidit-universe/audit-universe.service';
 
 @Component({
   selector: 'newAuditObject',
@@ -20,7 +22,8 @@ export class NewAuditObjectComponent implements OnDestroy {
   public auditTypes: AuditType[] = [];
   public auditType: AuditType;
   public auditObjectInfo: AuditObjectDTO = new AuditObjectDTO();
-
+  public auditUniverse: AuditUniverseDTO[] = []
+  public universeInfo: AuditUniverseDTO = new AuditUniverseDTO();
   private subscriptions: Subscription[] = [];
 
   update: boolean = false;
@@ -29,6 +32,7 @@ export class NewAuditObjectComponent implements OnDestroy {
   constructor(
     private messageService: MessageService,
     private auditObjectService: AuditObjectService,
+    private auditUniverseService:AuditUniverseService,
     private auditTypeService: AuditTypeService,
     private ref: DynamicDialogRef,
     private config: DynamicDialogConfig,
@@ -37,6 +41,7 @@ export class NewAuditObjectComponent implements OnDestroy {
 
   ngOnInit() {
     this.getAuditTypes();
+    this.getAuditUniverse();
     if (this.config.data?.auditObject) {
       this.auditObjectInfo = this.config.data.auditObject;
       this.update = true;
@@ -100,6 +105,17 @@ export class NewAuditObjectComponent implements OnDestroy {
         this.messageService.clear();
         this.ref.close(response);
       }));
+  }
+    getAuditUniverse(): void {
+    this.subscriptions.push(
+      this.auditUniverseService.getAuditUniverse().subscribe(
+      (response: any) => {
+        this.auditUniverse = response.result;
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error);
+      }
+    ));
   }
 
   updateAuditObjects(addDivForm: NgForm): void {
