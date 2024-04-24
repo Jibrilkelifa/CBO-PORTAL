@@ -82,25 +82,27 @@ export class DACGMTableComponent {
     });
 
     this.cols = [
-      { field: 'subprocess?.name', header: 'Sub process' },
-      { field: 'branch?.name', header: 'Branch' },
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch' },
       { field: 'date', header: 'Date' },
       { field: 'caseId', header: 'Case ID' },
-      { field: 'irregularity?.allSubCategory?.allcategory?.name', header: 'Category' },
-      { field: 'irregularity?.allSubCategory?.name', header: 'Sub category' },
-      { field: 'irregularity?.name', header: 'Irregularity' },
+      { field: 'irregularity.allSubCategory.allcategory.name', header: 'Category' },
+      { field: 'irregularity.allSubCategory.name', header: 'Sub category' },
+      { field: 'irregularity.name', header: 'Irregularity' },
       { field: 'amountInvolved', header: 'Amount involved' },
       { field: 'accountName', header: 'Account name' },
       { field: 'accountNumber', header: 'Account number' },
       { field: 'responsiblePerson', header: 'Responsible person' },
-      { field: 'activityStatus?.name', header: 'Activity status' },
+      { field: 'activityStatus.name', header: 'Activity status' },
       { field: 'actionPlanDueDate', header: 'Action plan due date' },
     ];
 
+
     this.exportColumns = this.cols.map((col) => ({
       title: col.header,
-      dataKey: col.field,
+      dataKey: col.field.replace(/\?/g, ''),
     }));
+    
   }
 
   populateRoles(): void {
@@ -261,10 +263,10 @@ export class DACGMTableComponent {
           this.dacgmDisplay = this.dacgms.map((obj: any) => {
             let date = new Date(obj.date);
             let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
-            
+
             let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
             let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-  
+
             return {
               'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
               'branch.name': obj.branch ? obj.branch.name : null,
@@ -281,7 +283,6 @@ export class DACGMTableComponent {
               actionPlanDueDate: formattedActionPlanDueDate
             };
           });
-          console.log("aaaa", response);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -347,50 +348,13 @@ export class DACGMTableComponent {
     return this.dacgmR;
   }
 
-
-
-  exportPdf() {
-    import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then(() => {
-        const doc = new jsPDF.default('l', 'pt', 'a4'); // 'l' for landscape orientation, 'pt' for points unit, 'a4' for A4 page size
-        doc.setFontSize(6); // set the font size to 6 points
-        (doc as any).autoTable({
-          body: this.dacgmDisplay.map((row, index) => ({
-            'Sub Process': row.subProcess ? row.subProcess.name : '',
-            'Branch Name': row.branch ? row.branch.name : '',
-            'Date': row.date,
-            'Case ID': row.caseId,
-            Category: row.irregularity && row.irregularity.allSubCategory && row.irregularity.allSubCategory.allcategory ? row.irregularity.allSubCategory.allcategory.name : '',
-            'Sub Category': row.irregularity && row.irregularity.allSubCategory ? row.irregularity.allSubCategory.name : '',
-            Irregularity: row.irregularity ? row.irregularity.name : '',
-            'Amount Involved': row.amountInvolved,
-            'Account Name': row.accountName,
-            'Account Number': row.accountNumber,
-            'Responsible Person': row.responsiblePerson,
-            'Activity Status': row.activityStatus ? row.activityStatus.name : '',
-            'Action Plan Due Date': row.actionPlanDueDate
-          })),
-          columns: this.exportColumns,
-          styles: { fontSize: 6, cellWidth: 'wrap' }, // set the font size and cell width for the table
-          didDrawCell: (data) => {
-            if (data.column.index === 0 && data.cell.section === 'body') {
-              doc.setFontSize(6);
-            }
-          },
-        });
-        doc.save('Daily activity gap.pdf');
-      });
-    });
-  }
-
-
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const data = this.dacgmDisplay.map((plan, index) => ({
         // Add the rest of the fields here
         'Sub Process': plan['subprocess.name'],
         'Branch Name': plan['branch.name'],
-        'Date': plan.date ,
+        'Date': plan.date,
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
         'Sub Category': plan['irregularity.allSubCategory.name'],
@@ -417,7 +381,7 @@ export class DACGMTableComponent {
     const url = window.URL.createObjectURL(data);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('Daily activity gap ', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
