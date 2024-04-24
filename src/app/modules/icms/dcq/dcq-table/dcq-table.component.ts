@@ -8,6 +8,18 @@ import { TimeService } from '../../../../services/sso-services/time.service';
 import { DCQ } from '../../../../models/icms-models/dcq-models/dcq';
 import * as XLSX from 'xlsx';
 
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
+
+
 @Component({
   selector: 'app-accordions',
   templateUrl: './dcq-table.component.html',
@@ -21,43 +33,12 @@ export class DCQTableComponent {
   msgs: Message[] = [];
   position: string;
   currentDate: Date;
-  searchParameter: any[] =
-    [
-      { name: 'Date Presented', value: 'datePresented' },
-      { name: 'Branch Name', value: 'branch.name' },
-      { name: 'District Name', value: 'subProcess.name' },
-      { name: 'Full Name of Drawer', value: 'fullNameOfDrawer' },
-      { name: 'Account Number', value: 'accountNumber' },
-      { name: 'TIN Number', value: 'tin' },
-      { name: 'Drawer Address', value: 'drawerAddress' },
-      { name: 'Amount in Birr', value: 'amountInBirr' },
-      { name: 'Cheque Number', value: 'chequeNumber' },
-      { name: 'Cheque Type', value: 'chequeType' },
-      { name: 'Name of Beneficiary', value: 'nameOfBeneficiary' },
-      { name: 'Frequency', value: 'frequency' }
-    ];
-  selectedSearchParameter: any;
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+
   primengConfig: any;
-  filterTable(target: any, dataTable: any) {
-    if (this.selectedSearchParameter) {
-      dataTable.filter(target?.value, this.selectedSearchParameter.value, 'contains');
-    }
-  }
-  downloadExcel(tableID: string) {
 
-    let table = document.getElementById(tableID);
-
-    // converts a DOM TABLE element to a worksheet
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table, { raw: true });
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    // save to file
-    XLSX.writeFile(wb, 'DCQs.xlsx');
-
-  }
+  public dcqDisplay: any[] = [];
 
   minDate: Date;
   maxDate: Date;
@@ -66,6 +47,29 @@ export class DCQTableComponent {
     this.populateRoles();
     this.getDCQs(this.roles);
     this.getCurrentDate();
+
+    this.cols = [
+      { field: 'datePresented', header: 'Date presented' },
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'fullNameOfDrawer', header: 'Full name of drawer' },
+      { field: 'accountNumber', header: 'Account number' },
+      { field: 'tin', header: 'Tin number' },
+      { field: 'drawerAddress', header: 'Drawer address' },
+      { field: 'amountInBirr', header: 'Amount in bumber' },
+      { field: 'chequeNumber', header: 'Cheque Number' },
+      { field: 'chequeType.name', header: 'Cheque type' },
+      { field: 'nameOfBeneficiary', header: 'Name of beneficiary' },
+      { field: 'frequency', header: 'Frequency' },
+      { field: 'actionTaken.name', header: 'Action taken' },
+    ];
+
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
+
   }
 
   populateRoles(): void {
@@ -192,9 +196,30 @@ export class DCQTableComponent {
       this.DCQService.getDCQs().subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
+          this.dcqDisplay = this.DCQs.map((obj: any) => {
+            let date = new Date(obj.date);
+            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
+            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
+            console.log("ttt", formattedDatePresented);
+
+            return {
+              'Date presented': formattedDatePresented,
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              fullNameOfDrawer: obj.fullNameOfDrawer,
+              accountNumber: obj.accountNumber,
+              tin: obj.tin,
+              drawerAddress: obj.drawerAddress,
+              amountInBirr: obj.amountInBirr,
+              chequeNumber: obj.chequeNumber,
+              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
+              nameOfBeneficiary: obj.nameOfBeneficiary,
+              frequency: obj.frequency,
+              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
+            };
+          });
         },
         (error: HttpErrorResponse) => {
-
 
         }
       );
@@ -257,6 +282,46 @@ export class DCQTableComponent {
       }
     );
     return this.DCQR;
+  }
+
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.dcqDisplay.map((plan, index) => ({
+        // Add the rest of the fields here
+        'Date presented': plan['Date presented'],
+        'Sub Process': plan['subprocess.name'],
+        'Branch Name': plan['branch.name'],
+        'Full name of drawer': plan.fullNameOfDrawer,
+        'Account Number': plan.accountNumber,
+        'Tin': plan.tin,
+        'Drawer address': plan.drawerAddress,
+        'Amount in birr': plan.amountInBirr !== null ? plan.amountInBirr : null,
+        'Cheque number': plan.chequeNumber,
+        'Check type': plan['chequeType.name'],
+        'Name of beneficiary': plan.nameOfBeneficiary,
+        'Frequency': plan.frequency,
+        'Action taken': plan['actionTaken.name'],
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Dishounered cheque');
+    });
+  }
+
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
 

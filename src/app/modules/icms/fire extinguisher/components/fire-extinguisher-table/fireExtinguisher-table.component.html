@@ -49,7 +49,7 @@
           <p-sortIcon field="subProcess.name"></p-sortIcon>
         </th>
         <th pSortableColumn="extinguisherSerialNumber">
-          Extinguisher serial number
+          Extinguisher Tag number
           <p-sortIcon field="extinguisherSerialNumber"></p-sortIcon>
         </th>
         <th pSortableColumn="size">
@@ -68,9 +68,9 @@
           Days Left For Inspection
           <p-sortIcon field="daysLeftForInspection"></p-sortIcon>
         </th>
-        <th pSortableColumn="status.name">
+        <th pSortableColumn="status">
           Status
-          <p-sortIcon field="status.name"></p-sortIcon>
+          <p-sortIcon field="status"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
@@ -78,23 +78,30 @@
     <ng-template pTemplate="body" let-fireExtinguisherList let-rowIndex="rowIndex">
       <tr [pSelectableRow]="fireExtinguisherList">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ fireExtinguisherList?.branch.name }}</td>
-        <td>{{ fireExtinguisherList?.subProcess.name }}</td>
+        <td>{{ fireExtinguisherList?.branch?.name }}</td>
+        <td>{{ fireExtinguisherList?.subProcess?.name }}</td>
         <td>{{ fireExtinguisherList?.extinguisherSerialNumber }}</td>
         <td>{{ fireExtinguisherList?.size }}</td>
-        <td>{{ fireExtinguisherList?.inspectionDate }}</td>
-        <td>{{ fireExtinguisherList?.nextInspectionDate }}</td>
+        <td>{{ fireExtinguisherList?.inspectionDate | date : "MM/dd/yyyy"}}</td>
+        <td>{{ fireExtinguisherList?.nextInspectionDate | date : "MM/dd/yyyy"}}</td>
         <td>{{ fireExtinguisherList?.daysLeftForInspection }}</td>
         <td>{{ fireExtinguisherList?.status }}</td>
         <td>
-          <div class="flex gap-2">
-            <button
+          <div class="flex gap-2" >
+            <button  *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')"
               pButton
               (click)="updateFireExtinguisher(fireExtinguisherList.id)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
               label="Update"
             ></button>
+            <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+            pButton
+            (click)="deleteFireExtinguisher(fireExtinguisherList.id)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm w-20 h-10 p-2"
+            label="Delete"
+          ></button>
           </div>
         </td>
       </tr>

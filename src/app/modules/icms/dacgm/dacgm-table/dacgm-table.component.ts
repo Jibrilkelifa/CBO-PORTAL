@@ -6,7 +6,18 @@ import { DACGM } from '../../../../models/icms-models/dacgm-models/dacgm';
 import { DACGMService } from '../../../../services/icms-services/dacgm-services/dacgm.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
-import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 @Component({
   selector: 'app-accordions',
@@ -26,47 +37,17 @@ export class DACGMTableComponent {
   actionTaken: boolean = false;
   escalatedMap: { [dacgmId: string]: boolean } = {};
   actionTakenMap: { [dacgmId: string]: boolean } = {};
-  searchParameter: any[] =
-    [
-      { name: 'District Name', value: 'subProcess.name' },
-      { name: 'Branch Name', value: 'branch.name' },
-      { name: 'Date', value: 'date' },
-      { name: 'Case ID', value: 'caseId' },
-      { name: 'Category', value: 'irregularity.subCategory.category.name' },
-      { name: 'Sub Category', value: 'irregularity.subCategory.name' },
-      { name: 'Irregularity', value: 'irregularity.name' },
-      { name: 'Amount Involved', value: 'amountInvolved' },
-      { name: 'Responsible Person', value: 'responsiblePerson' },
-      { name: 'Status', value: 'activityStatus.name' },
-      { name: 'Action Plan Due Date', value: 'actionPlanDueDate' }
-    ];
-  selectedSearchParameter: any;
-  filterTable(target: any, dataTable: any) {
-    if (this.selectedSearchParameter) {
-      dataTable.filter(target?.value, this.selectedSearchParameter.value, 'contains');
-    }
-  }
-
-  downloadExcel(tableID: string) {
-
-    let table = document.getElementById(tableID);
-
-    // converts a DOM TABLE element to a worksheet
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table, { raw: true });
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    // save to file
-    XLSX.writeFile(wb, 'DACGM.xlsx');
-
-  }
 
   minDate: Date;
   maxDate: Date;
   currentDate: Date;
   roles: string[] = [];
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+  public dacgmDisplay: any[] = [];
+
+
+
 
   ngOnInit() {
     this.populateRoles();
@@ -75,7 +56,6 @@ export class DACGMTableComponent {
     this.primengConfig.ripple = true;
 
     this.filterService.register('dateRange', (value: any, filter: any): boolean => {
-      // convert value and filter to date objects
       let dateValue = new Date(value);
       let minFilter = new Date(filter[0]);
       let maxFilter = new Date(filter[1]);
@@ -100,6 +80,29 @@ export class DACGMTableComponent {
       // if no dates are specified, return true for all values
       return true;
     });
+
+    this.cols = [
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'date', header: 'Date' },
+      { field: 'caseId', header: 'Case ID' },
+      { field: 'irregularity.allSubCategory.allcategory.name', header: 'Category' },
+      { field: 'irregularity.allSubCategory.name', header: 'Sub category' },
+      { field: 'irregularity.name', header: 'Irregularity' },
+      { field: 'amountInvolved', header: 'Amount involved' },
+      { field: 'accountName', header: 'Account name' },
+      { field: 'accountNumber', header: 'Account number' },
+      { field: 'responsiblePerson', header: 'Responsible person' },
+      { field: 'activityStatus.name', header: 'Activity status' },
+      { field: 'actionPlanDueDate', header: 'Action plan due date' },
+    ];
+
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field.replace(/\?/g, ''),
+    }));
+    
   }
 
   populateRoles(): void {
@@ -138,8 +141,7 @@ export class DACGMTableComponent {
   }
 
   customSort(event: SortEvent) {
-    // event.field is the field name to sort by // event.order is 1 for ascending and -1 for descending
-    // this.dacgms is your data array
+
 
     this.dacgms.sort((a, b) => {
       // check which field to sort by
@@ -186,13 +188,6 @@ export class DACGMTableComponent {
     this.router.navigate(['updateDACGM', id]);
   }
 
-  // approveDACGM(id: number): void {
-  //   this.dacgmService.approveDACGM(id).subscribe(
-  //     (response: any) => {
-  //       this.getDACGMs(this.roles);
-  //     }
-  //   );
-  // }
 
   escalateDACGM(id: number): void {
     this.dacgmService.escalateDACGM(id).subscribe(
@@ -200,13 +195,13 @@ export class DACGMTableComponent {
         this.escalatedByManager = true;
         console.log('escalatedByManager:', this.escalatedByManager);
         this.getDACGMs(this.roles);
-  
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: "This Daily Activity Gap monitoring Escalated successfully!"
         });
-  
+
         setTimeout(() => {
           // Clear the success message after 5 seconds
           this.clearSuccessMessage();
@@ -217,7 +212,7 @@ export class DACGMTableComponent {
       }
     );
   }
-  
+
   clearSuccessMessage(): void {
     // Clear the success message
     this.messageService.clear();
@@ -263,17 +258,41 @@ export class DACGMTableComponent {
   public getDACGMs(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.dacgmService.getDACGMs().subscribe(
-        (response: DACGM[]) => {
+        (response: any) => {
           this.dacgms = response;
+          this.dacgmDisplay = this.dacgms.map((obj: any) => {
+            let date = new Date(obj.date);
+            let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+
+            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
+            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
+
+            return {
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              date: formattedDate,
+              caseId: obj.caseId,
+              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
+              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
+              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+              amountInvolved: parseFloat(obj.amountInvolved) || 0,
+              accountName: obj.accountName,
+              accountNumber: obj.accountNumber,
+              responsiblePerson: obj.responsiblePerson,
+              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
+              actionPlanDueDate: formattedActionPlanDueDate
+            };
+          });
         },
         (error: HttpErrorResponse) => {
-
+          console.log(error);
         }
       );
     }
     else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
       this.dacgmService.getDACGMForBranch(this.branchId).subscribe(
         (response: DACGM[]) => {
+
           this.dacgms = response;
         },
         (error: HttpErrorResponse) => {
@@ -282,15 +301,15 @@ export class DACGMTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-        this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
-          (response: DACGM[]) => {
-            this.dacgms = response;
-          },
-          (error: HttpErrorResponse) => {
+      this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
+        (response: DACGM[]) => {
+          this.dacgms = response;
+        },
+        (error: HttpErrorResponse) => {
 
-          }
-        );
-      
+        }
+      );
+
 
     }
   }
@@ -317,10 +336,6 @@ export class DACGMTableComponent {
     this.router.navigate(['ICMS/DACGM/approveActionPlan', id]);
   }
 
-
-
-// Function to handle the escalate action
-
   public getDACGM(id: number): DACGM[] {
     this.dacgmService.getDACGM(id).subscribe(
       (response: DACGM) => {
@@ -332,6 +347,47 @@ export class DACGMTableComponent {
     );
     return this.dacgmR;
   }
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.dacgmDisplay.map((plan, index) => ({
+        // Add the rest of the fields here
+        'Sub Process': plan['subprocess.name'],
+        'Branch Name': plan['branch.name'],
+        'Date': plan.date,
+        'Case ID': plan.caseId,
+        Category: plan['irregularity.allSubCategory.allcategory.name'],
+        'Sub Category': plan['irregularity.allSubCategory.name'],
+        Irregularity: plan['irregularity.name'],
+        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
+        'Account Name': plan.accountName,
+        'Account Number': plan.accountNumber,
+        'Responsible Person': plan.responsiblePerson,
+        'Activity Status': plan['activityStatus.name'],
+        'Action Plan Due Date': plan.actionPlanDueDate
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Daily activity gap');
+    });
+  }
+
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+
 }
 
 

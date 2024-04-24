@@ -87,13 +87,13 @@
           Status
           <p-sortIcon field="status.name"></p-sortIcon>
         </th>
-        <th scope="col">Actions</th>
+        <th scope="col" *ngIf="this.roles.includes('ROLE_ICMS_IFB')">Actions</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-IFBList let-rowIndex="rowIndex">
       <tr [pSelectableRow]="IFBList">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ IFBList?.ifbDate }}</td>
+        <td>{{ IFBList?.ifbDate | date : "MM/dd/yyyy" }}</td>
         <td>{{ IFBList?.caseId }}</td>
         <td>{{ IFBList?.accountNumber }}</td>
         <td>{{ IFBList?.borrowerName }}</td>
@@ -104,8 +104,8 @@
         <td>{{ IFBList?.amountInvolved }}</td>
         <td>{{ IFBList?.responsiblePerson }}</td>
         <td>{{ IFBList?.status?.name }}</td>
-        <td>
-          <div class="flex gap-2">
+        <td *ngIf="this.roles.includes('ROLE_ICMS_IFB')">
+          <div class="flex gap-2" >
             <button
               pButton
               (click)="updateIFB(IFBList.id)"

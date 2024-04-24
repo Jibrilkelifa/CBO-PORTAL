@@ -17,7 +17,8 @@ export class FireExtinguisherService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://localhost:8084';
+    this.apiServiceUrl = 'http://10.1.125.58:8084';
+    //this.apiServiceUrl = 'http://localhost:8084';
   }
 
   constructor(private http: HttpClient) {}
@@ -68,10 +69,11 @@ export class FireExtinguisherService {
     );
   }
 
-  public findAllFireExtinguisherBYBranch(branchId: number): Observable<any> {
+  public findAllFireExtinguisherBYBranch(branchId: string): Observable<any> {
     this.init();
+    
     return this.http.get<any>(
-      `${this.apiServiceUrl}/FireExtinguisher/branch/${branchId}`,
+      `${this.apiServiceUrl}/FireExtinguisher/findByOrganizationalUnitId/${branchId}`,
       this.httpOptions
     );
   }
@@ -79,7 +81,7 @@ export class FireExtinguisherService {
   public findAllFireExtinguisherSubProcess(subProcessId: number): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/FireExtinguisher/subProcess/${subProcessId}`,
+      `${this.apiServiceUrl}/FireExtinguisher/findBySubProcessId/${subProcessId}`,
       this.httpOptions
     );
   }

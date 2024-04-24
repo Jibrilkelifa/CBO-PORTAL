@@ -108,6 +108,7 @@ export class NewIFBComponent implements OnInit {
       (response: IFB) => {
         response.ifbDate = new Date(response.ifbDate); 
         this.IFB = response;
+        
       },
       error => {
         // handle error
@@ -183,13 +184,11 @@ export class NewIFBComponent implements OnInit {
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
-        ifbDate: this.formatDate(this.IFB.ifbDate), // Convert date to string
         status: this.selectedstatus // Attach the status
       };
       if (this.update) {
         let updatedValue = {
           ...this.IFB, 
-          ifbDate: this.formatDate(this.IFB.ifbDate), // Convert date to string
           status: this.selectedstatus // Attach the status
         }        
         this.IFBService.updateIFB(updatedValue).subscribe(

@@ -1,0 +1,23 @@
+:host .accordion-custom {
+  .accordion-button {
+    background-color: var(--cui-dark);
+    color: var(--cui-white);
+  }
+}
+
+.watermark {
+  position: absolute;
+  top: 10px; /* Adjust this value to move the text to the top */
+  left: 50%;
+  transform: translate(-50%, 0); /* This line makes the text horizontal */
+  font-size: 15px; /* Adjust font size as needed */
+  color: #616668; /* This line makes the text black */
+  font-weight: bold;
+  text-align: center;
+  z-index: 1;
+}
+
+#chart {
+  position: relative;
+}
+
