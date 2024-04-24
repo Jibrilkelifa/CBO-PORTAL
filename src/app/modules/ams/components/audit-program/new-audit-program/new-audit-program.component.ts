@@ -103,17 +103,17 @@ export class NewAuditProgramComponent implements OnDestroy {
     addDivForm.value.objectives = this.objectives;
    
     const auditProgram: AuditProgramDTO = { ...addDivForm.value, engagementInfo: this.engagementInfo };
-    // console.log(auditProgram);
-    this.subscriptions.push(
-      this.auditProgramService.addAuditProgram(auditProgram).subscribe(
-        (response: any) => {
-          this.ref.close(response);
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      )
-    );
+    console.log(auditProgram);
+    // this.subscriptions.push(
+    //   this.auditProgramService.addAuditProgram(auditProgram).subscribe(
+    //     (response: any) => {
+    //       this.ref.close(response);
+    //     },
+    //     (error: HttpErrorResponse) => {
+    //       console.log(error);
+    //     }
+    //   )
+    // );
   }
 
   // updateAuditPrograms(addDivForm: NgForm): void {
