@@ -275,6 +275,7 @@ export class DACGMTableComponent {
               'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
               'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
               'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+              'otherIrregularity': obj.otherIrregularity,
               amountInvolved: parseFloat(obj.amountInvolved) || 0,
               accountName: obj.accountName,
               accountNumber: obj.accountNumber,
@@ -358,8 +359,7 @@ export class DACGMTableComponent {
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
         'Sub Category': plan['irregularity.allSubCategory.name'],
-        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'], // Modified this line
-        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
+        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'],        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
         'Account Name': plan.accountName,
         'Account Number': plan.accountNumber,
         'Responsible Person': plan.responsiblePerson,
