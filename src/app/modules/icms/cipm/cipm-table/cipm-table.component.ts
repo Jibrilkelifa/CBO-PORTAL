@@ -60,13 +60,14 @@ export class CIPMTableComponent {
       { field: 'collateralType.name', header: 'Collateral Type' },
       { field: 'mortgagorName', header: 'Mortgagor Name' },
       { field: 'insuranceCoverageType.name', header: 'Insurance Policy Coverage Type' },
-      { field: 'mortgagorName', header: 'Mortgagor Name' },
-      { field: 'collateralEstimationValue', header: 'Mortgagor Name' },
-      { field: 'mortgagorName', header: 'Mortgagor Name' },
-      { field: 'insuredName', header: 'Cheque type' },
+      { field: 'collateralEstimationValue', header: 'Collateral Estimation Value' },
+      { field: 'sumInsured', header: 'Sum insured' },
+      { field: 'policyNumber', header: 'Policy number' },
+      { field: 'referenceNumber', header: 'Reference number' },
+      { field: 'insuredName', header: 'Insured name' },
       { field: 'status.name', header: 'Status' },
-      { field: 'insuranceExpireDate', header: 'Insurance expiry date' },
-      { field: 'actionTaken.name', header: 'Action taken' },
+      { field: 'insuranceExpireDate', header: 'Insurance expire date' },
+      { field: 'daysLeftToExpire', header: 'Days left to expire' },
     ];
 
 
@@ -112,33 +113,7 @@ export class CIPMTableComponent {
     return (this.calculateDaysLeftToExpire(expiryDate)).toString();
   }
 
-  customSort(event: SortEvent) {
-    // event.field is the field name to sort by // event.order is 1 for ascending and -1 for descending
-    // this.cipms is your data array
 
-    this.cipms.sort((a, b) => {
-      // check which field to sort by
-      if (event.field === "insuranceExpireDate") {
-        // convert strings to dates
-        let dateA = new Date(a[event.field]);
-        let dateB = new Date(b[event.field]);
-        // compare dates
-        return (dateA.getTime() - dateB.getTime()) * event.order;
-      } else if (event.field === "daysLeftToExpire") {
-        // get days difference using absoluteValue and calculateDaysLeftToExpire
-        let diffA = (this.calculateDaysLeftToExpire(a["insuranceExpireDate"]));
-        let diffB = (this.calculateDaysLeftToExpire(b["insuranceExpireDate"]));
-        // compare differences
-        return (diffA - diffB) * event.order;
-      } else {
-        // use default sorting logic
-        let valueA = a[event.field];
-        let valueB = b[event.field];
-        return (valueA < valueB ? -1 : valueA > valueB ? 1 : 0) * event.order;
-      }
-    });
-
-  }
 
   convertToLocalString(expiryDate: string): string {
     let date = new Date(expiryDate);
@@ -213,30 +188,32 @@ export class CIPMTableComponent {
         (response: CIPM[]) => {
           this.cipms = response;
           this.cipmDisplay = this.cipms.map((obj: any) => {
-            let date = new Date(obj.date);
-            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
-            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
-            console.log("ttt", formattedDatePresented);
-
+            let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
+            let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
+          
             return {
-              'Date presented': formattedDatePresented,
               'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
               'branch.name': obj.branch ? obj.branch.name : null,
-              fullNameOfDrawer: obj.fullNameOfDrawer,
-              accountNumber: obj.accountNumber,
-              tin: obj.tin,
-              drawerAddress: obj.drawerAddress,
-              amountInBirr: obj.amountInBirr,
-              chequeNumber: obj.chequeNumber,
-              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
-              nameOfBeneficiary: obj.nameOfBeneficiary,
-              frequency: obj.frequency,
-              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
+              borrowerName: obj.borrowerName,
+              loanAccount: obj.loanAccount,
+              loanType: obj.loanType,
+              'collateralType.name': obj.collateralType ? obj.collateralType.name : null,
+              mortgagorName: obj.mortgagorName,
+              'insuranceCoverageType.name': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,
+              collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
+              sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
+              policyNumber: obj.policyNumber,
+              referenceNumber: obj.referenceNumber,
+              insuredName: obj.insuredName,
+              'status.name': obj.status ? obj.status.name : null,
+              insuranceExpireDate: formattedInsuranceExpireDate,
+              daysLeftToExpire: this.calculateDaysLeftToExpire(obj.insuranceExpireDate), // Added this line
             };
           });
+          
         },
         (error: HttpErrorResponse) => {
-
+          console.log(error);
         }
       );
     }
@@ -299,27 +276,30 @@ export class CIPMTableComponent {
   exportExcel() {
     import('xlsx').then((xlsx) => {
       const data = this.cipmDisplay.map((plan, index) => ({
-        // Add the rest of the fields here
-        'Date presented': plan['Date presented'],
         'Sub Process': plan['subprocess.name'],
         'Branch Name': plan['branch.name'],
-        'Full name of drawer': plan.fullNameOfDrawer,
-        'Account Number': plan.accountNumber,
-        'Tin': plan.tin,
-        'Drawer address': plan.drawerAddress,
-        'Amount in birr': plan.amountInBirr !== null ? plan.amountInBirr : null,
-        'Cheque number': plan.chequeNumber,
-        'Check type': plan['chequeType.name'],
-        'Name of beneficiary': plan.nameOfBeneficiary,
-        'Frequency': plan.frequency,
-        'Action taken': plan['actionTaken.name'],
+        'Borrower Name': plan.borrowerName,
+        'Loan Account': plan.loanAccount,
+        'Loan Type': plan.loanType,
+        'Collateral Type': plan['collateralType.name'],
+        'Mortgagor Name': plan.mortgagorName,
+        'Insurance Policy Coverage Type': plan['insuranceCoverageType.name'],
+        'Collateral Estimation Value': plan.collateralEstimationValue,
+        'Sum insured': plan.sumInsured,
+        'Policy number': plan.policyNumber,
+        'Reference number': plan.referenceNumber,
+        'Insured name': plan.insuredName,
+        'Status': plan['status.name'],
+        'Insurance expire date': plan.insuranceExpireDate,
+        'Days left to expire': plan.daysLeftToExpire, // This line will add 'Days left to expire' to the Excel sheet
       }));
       const worksheet = xlsx.utils.json_to_sheet(data);
       const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
       const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'Dishounered cheque');
+      this.saveAsExcelFile(excelBuffer, 'Insurance Policy');
     });
   }
+  
 
 
   saveAsExcelFile(buffer: any, fileName: string): void {

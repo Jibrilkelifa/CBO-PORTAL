@@ -48,8 +48,6 @@
       'activityStatus.name',
       'actionPlanDueDate'
     ]"
-    (sortFunction)="customSort($event)"
-    [customSort]="true"
   >
   <ng-template pTemplate="caption"  *ngIf="
   this.roles.includes('ROLE_ICMS_ADMIN')

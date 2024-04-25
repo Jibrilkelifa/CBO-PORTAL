@@ -26,7 +26,7 @@ export class DistrictDashboardComponent {
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   getAllDistrictDashboardData(): void {
-    this.subscription = this.icmsdashboardService.getDistrictDashboardDatas(4).subscribe(
+    this.subscription = this.icmsdashboardService.getDistrictDashboardDatas(this.subProcessId).subscribe(
       (response: any) => {
         this.allDatas = response;  
         console.log("district ", response);

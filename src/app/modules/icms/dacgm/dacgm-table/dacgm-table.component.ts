@@ -55,32 +55,6 @@ export class DACGMTableComponent {
     this.getDACGMs(this.roles);
     this.primengConfig.ripple = true;
 
-    this.filterService.register('dateRange', (value: any, filter: any): boolean => {
-      let dateValue = new Date(value);
-      let minFilter = new Date(filter[0]);
-      let maxFilter = new Date(filter[1]);
-      if (this.minDate == undefined && this.maxDate == undefined) {
-        return true;
-      }
-      // if both min and max dates are specified, check if value is between them
-      if (filter[0] && filter[1]) {
-        return dateValue >= minFilter && dateValue <= maxFilter;
-      }
-
-      // if only min date is specified, check if value is greater than or equal to it
-      if (filter[0] && !filter[1]) {
-        return dateValue >= minFilter;
-      }
-
-      // if only max date is specified, check if value is less than or equal to it
-      if (!filter[0] && filter[1]) {
-        return dateValue <= maxFilter;
-      }
-
-      // if no dates are specified, return true for all values
-      return true;
-    });
-
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
       { field: 'branch.name', header: 'Branch' },
@@ -140,32 +114,6 @@ export class DACGMTableComponent {
     return (this.calculatePastDue(expiryDate)).toString();
   }
 
-  customSort(event: SortEvent) {
-
-
-    this.dacgms.sort((a, b) => {
-      // check which field to sort by
-      if (event.field === "actionPlanDueDate") {
-        // convert strings to dates
-        let dateA = new Date(a[event.field]);
-        let dateB = new Date(b[event.field]);
-        // compare dates
-        return (dateA.getTime() - dateB.getTime()) * event.order;
-      } else if (event.field === "pastDue") {
-        // get days difference using absoluteValue and calculateDaysLeftToExpire
-        let diffA = (this.calculatePastDue(a["actionPlanDueDate"]));
-        let diffB = (this.calculatePastDue(b["actionPlanDueDate"]));
-        // compare differences
-        return (diffA - diffB) * event.order;
-      } else {
-        // use default sorting logic
-        let valueA = a[event.field];
-        let valueB = b[event.field];
-        return (valueA < valueB ? -1 : valueA > valueB ? 1 : 0) * event.order;
-      }
-    });
-
-  }
 
   convertToLocalString(expiryDate: string): string {
     let date = new Date(expiryDate);
@@ -193,7 +141,6 @@ export class DACGMTableComponent {
     this.dacgmService.escalateDACGM(id).subscribe(
       (response: any) => {
         this.escalatedByManager = true;
-        console.log('escalatedByManager:', this.escalatedByManager);
         this.getDACGMs(this.roles);
 
         this.messageService.add({
