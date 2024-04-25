@@ -28,18 +28,18 @@ export class CIPMTableComponent {
   public cipms: CIPM[] = [];
   public cipme: CIPM[] = [];
   public cipmR: CIPM[] = [];
-  
+
   selectedCIPM: CIPM;
   deleteId: number = 0;
   msgs: Message[] = [];
   position: string;
   districtId: number;
- 
+
   exportColumns!: ExportColumn[];
   cols!: Column[];
   public cipmDisplay: any[] = [];
 
-  
+
   minDate: Date;
   maxDate: Date;
   currentDate: Date;
@@ -50,7 +50,7 @@ export class CIPMTableComponent {
     this.getCurrentDate();
     this.getCIPMs(this.roles);
     this.primengConfig.ripple = true;
-    
+
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
       { field: 'branch.name', header: 'Branch' },
@@ -103,10 +103,13 @@ export class CIPMTableComponent {
   }
 
   calculateDaysLeftToExpire(expiryDate: string): number {
+    if (!expiryDate) return null; // Add this line to handle null or undefined expiryDate
     let date = new Date(expiryDate);
+    if (isNaN(date.getTime())) return null; // Add this line to handle invalid dates
     let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
     return Math.ceil(daysLeftToExpire);
   }
+  
 
   millisFromNowTo(expiryDate: string): string {
 
@@ -125,7 +128,7 @@ export class CIPMTableComponent {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
- 
+
   branchId: string = localStorage.getItem('branchId');
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
@@ -190,16 +193,16 @@ export class CIPMTableComponent {
           this.cipmDisplay = this.cipms.map((obj: any) => {
             let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
             let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
-          
+
             return {
               'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
               'branch.name': obj.branch ? obj.branch.name : null,
               borrowerName: obj.borrowerName,
               loanAccount: obj.loanAccount,
               loanType: obj.loanType,
-              'collateralType.name': obj.collateralType ? obj.collateralType.name : null,
+              'Collateral Type': obj.collateralType && obj.collateralType.name === 'Other' ? obj.otherCollateralType : obj.collateralType ? obj.collateralType.name : null,              'otherCollateralType': obj.otherCollateralType,
               mortgagorName: obj.mortgagorName,
-              'insuranceCoverageType.name': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,
+              'Insurance Policy Coverage Type': obj.insuranceCoverageType && obj.insuranceCoverageType.name === 'Other' ? obj.otherInsuranceCoverageType : obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
               collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
               sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
               policyNumber: obj.policyNumber,
@@ -207,10 +210,10 @@ export class CIPMTableComponent {
               insuredName: obj.insuredName,
               'status.name': obj.status ? obj.status.name : null,
               insuranceExpireDate: formattedInsuranceExpireDate,
-              daysLeftToExpire: this.calculateDaysLeftToExpire(obj.insuranceExpireDate), // Added this line
+              daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
             };
           });
-          
+
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -221,23 +224,23 @@ export class CIPMTableComponent {
       this.cipmService.getCIPMForBranch(this.branchId).subscribe(
         (response: CIPM[]) => {
           this.cipms = response;
-        //      alert(this.subProcessId);
+          //      alert(this.subProcessId);
         },
         (error: HttpErrorResponse) => {
 
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR" ) || roles.indexOf("ROLE_ICMS_IFB") !==-1) {
-        this.cipmService.getCIPMForDistrict(this.subProcessId).subscribe(
-          
-          (response: CIPM[]) => {
-            this.cipms = response;
-          },
-          (error: HttpErrorResponse) => {
+    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") || roles.indexOf("ROLE_ICMS_IFB") !== -1) {
+      this.cipmService.getCIPMForDistrict(this.subProcessId).subscribe(
 
-          }
-        );
+        (response: CIPM[]) => {
+          this.cipms = response;
+        },
+        (error: HttpErrorResponse) => {
+
+        }
+      );
 
     }
   }
@@ -281,9 +284,10 @@ export class CIPMTableComponent {
         'Borrower Name': plan.borrowerName,
         'Loan Account': plan.loanAccount,
         'Loan Type': plan.loanType,
-        'Collateral Type': plan['collateralType.name'],
+        'Collateral Type': plan['collateralType.name'] === 'Other' ? plan['otherCollateralType'] : plan['collateralType.name'],
+        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
         'Mortgagor Name': plan.mortgagorName,
-        'Insurance Policy Coverage Type': plan['insuranceCoverageType.name'],
+        'Insurance Policy Coverage Type': plan['insuranceCoverageType.name'] === 'Other' ? plan['otherInsuranceCoverageType'] : plan['insuranceCoverageType.name'],
         'Collateral Estimation Value': plan.collateralEstimationValue,
         'Sum insured': plan.sumInsured,
         'Policy number': plan.policyNumber,
@@ -299,7 +303,7 @@ export class CIPMTableComponent {
       this.saveAsExcelFile(excelBuffer, 'Insurance Policy');
     });
   }
-  
+
 
 
   saveAsExcelFile(buffer: any, fileName: string): void {
@@ -309,7 +313,7 @@ export class CIPMTableComponent {
     const url = window.URL.createObjectURL(data);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    link.setAttribute('CIPM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

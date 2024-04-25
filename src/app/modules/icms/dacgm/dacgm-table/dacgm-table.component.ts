@@ -329,7 +329,7 @@ export class DACGMTableComponent {
     const url = window.URL.createObjectURL(data);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
