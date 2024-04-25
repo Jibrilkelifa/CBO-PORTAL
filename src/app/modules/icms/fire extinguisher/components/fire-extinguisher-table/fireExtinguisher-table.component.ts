@@ -65,7 +65,7 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   public getFireExtinguisherList(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.fireExtinguisherService.getAllFireExtinguisher().subscribe(
-        (response: any[]) => {          
+        (response: any[]) => {
           this.fireExtinguisherList = response;
         },
         (error: HttpErrorResponse) => {
@@ -84,28 +84,26 @@ export class FireExtinguisherTableComponent implements OnDestroy {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-        this.fireExtinguisherService.findAllFireExtinguisherSubProcess(this.subProcessId).subscribe(
-          (response: any[]) => {
-            this.fireExtinguisherList = response;
-          },
-          (error: HttpErrorResponse) => {
+      this.fireExtinguisherService.findAllFireExtinguisherSubProcess(this.subProcessId).subscribe(
+        (response: any[]) => {
+          this.fireExtinguisherList = response;
+        },
+        (error: HttpErrorResponse) => {
 
-          }
-        );
-      
+        }
+      );
+
 
     }
   }
 
   updateFireExtinguisher(id: number): void {
-    this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]); 
+    this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]);
   }
 
   calculateDaysLeft(expiryDate: string): number {
     let date = new Date(expiryDate);
     let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
-    console.log("ppp",  Math.ceil(daysLeftToExpire));
-    
     return Math.ceil(daysLeftToExpire);
   }
 
@@ -144,5 +142,5 @@ export class FireExtinguisherTableComponent implements OnDestroy {
 
   }
 
- 
+
 }
