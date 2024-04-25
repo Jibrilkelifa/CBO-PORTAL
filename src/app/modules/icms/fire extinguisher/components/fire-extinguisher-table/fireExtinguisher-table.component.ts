@@ -103,9 +103,16 @@ export class FireExtinguisherTableComponent implements OnDestroy {
 
   calculateDaysLeft(expiryDate: string): number {
     let date = new Date(expiryDate);
-    let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
-    return Math.ceil(daysLeftToExpire);
+    date.setUTCHours(0, 0, 0, 0); // Set time to start of the day for expiryDate in UTC
+  
+    let currentDate = new Date();
+    currentDate.setUTCHours(0, 0, 0, 0); // Set time to start of the day for currentDate in UTC
+  
+    let daysLeftToExpire = (date.getTime() - currentDate.getTime()) / (1000 * 3600 * 24);
+    return Math.floor(daysLeftToExpire);
   }
+  
+  
 
   getCurrentDate() {
     this.timeService.getDate().subscribe(

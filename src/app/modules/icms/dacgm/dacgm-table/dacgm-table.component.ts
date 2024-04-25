@@ -358,7 +358,7 @@ export class DACGMTableComponent {
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
         'Sub Category': plan['irregularity.allSubCategory.name'],
-        Irregularity: plan['irregularity.name'],
+        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'], // Modified this line
         'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
         'Account Name': plan.accountName,
         'Account Number': plan.accountNumber,
@@ -372,6 +372,7 @@ export class DACGMTableComponent {
       this.saveAsExcelFile(excelBuffer, 'Daily activity gap');
     });
   }
+  
 
 
   saveAsExcelFile(buffer: any, fileName: string): void {
