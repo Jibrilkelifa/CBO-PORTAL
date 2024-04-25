@@ -4,6 +4,7 @@ import { FireExtinguisherService } from '../../service/fireExtinguisher-services
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { TimeService } from 'src/app/services/sso-services/time.service';
 
 interface ExportColumn {
   title: string;
@@ -28,6 +29,8 @@ export class FireExtinguisherTableComponent implements OnDestroy {
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
+  currentDate: Date;
+
 
   private subscriptions: Subscription[] = [];
   roles: string[] = [];
@@ -36,13 +39,15 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   constructor(
     private fireExtinguisherService: FireExtinguisherService,
     private messageService: MessageService,
-    private router: Router
+    private router: Router,
+    private timeService: TimeService
   ) { }
 
 
 
   ngOnInit() {
     this.populateRoles();
+    this.getCurrentDate();
     this.getFireExtinguisherList(this.roles);
   }
 
@@ -94,6 +99,24 @@ export class FireExtinguisherTableComponent implements OnDestroy {
 
   updateFireExtinguisher(id: number): void {
     this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]); 
+  }
+
+  calculateDaysLeft(expiryDate: string): number {
+    let date = new Date(expiryDate);
+    let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
+    console.log("ppp",  Math.ceil(daysLeftToExpire));
+    
+    return Math.ceil(daysLeftToExpire);
+  }
+
+  getCurrentDate() {
+    this.timeService.getDate().subscribe(
+      (response: any) => {
+
+        this.currentDate = new Date(response.time);
+
+      }
+    );
   }
 
   ngOnDestroy() {

@@ -8,6 +8,17 @@ import { OrganizationalUnitService } from '../../../../services/sso-services/org
 import { TimeService } from '../../../../services/sso-services/time.service';
 import * as XLSX from 'xlsx';
 
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
+
 @Component({
   selector: 'app-accordions',
   templateUrl: './cipm-table.component.html',
@@ -23,49 +34,12 @@ export class CIPMTableComponent {
   msgs: Message[] = [];
   position: string;
   districtId: number;
-  searchParameter: any[] =
-    [
-      { name: 'District Name', value: 'subProcess.name' },
-      { name: 'Branch Name', value: 'branch.name' },
-      { name: 'Borrower Name', value: 'borrowerName' },
-      { name: 'Loan Account', value: 'loanAccount' },
-      { name: 'Loan Type', value: 'loanType' },
-      { name: 'Collateral Type', value: 'collateralType.name' },
-      { name: 'Mortgagor Name', value: 'mortgagorName' },
-      { name: 'Other Collateral Type', value: 'otherCollateralType' },
-      { name: 'Insurance Policy Coverage Type', value: 'insuranceCoverageType.name' },
-      { name: 'Other Insurance Policy Coverage Type', value: 'otherInsuranceCoverageType' },
-      { name: 'Collateral Estimation Value', value: 'collateralEstimationValue' },
-      { name: 'sum Insured', value: 'sumInsured' },
-      { name: 'policy number', value: 'policy number' },
-      { name: 'reference number', value: 'reference number' },
-      { name: 'Insured Name', value: 'insuredName' },
-      { name: 'Status', value: 'status.name' },
-      { name: 'Insurance Expiry Date', value: 'insuranceExpireDate' },
-    ];
-  selectedSearchParameter: any;
-  filterTable(target: any, dataTable: any) {
-    if (this.selectedSearchParameter) {
-      dataTable.filter(target?.value, this.selectedSearchParameter.value, 'contains');
-    }
-  }
+ 
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+  public cipmDisplay: any[] = [];
 
-  downloadExcel(tableID: string) {
-
-    let table = document.getElementById(tableID);
-
-    // converts a DOM TABLE element to a worksheet
-    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(table, { raw: true });
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    // save to file
-    XLSX.writeFile(wb, 'CIPM.xlsx');
-
-  }
-
+  
   minDate: Date;
   maxDate: Date;
   currentDate: Date;
@@ -76,34 +50,30 @@ export class CIPMTableComponent {
     this.getCurrentDate();
     this.getCIPMs(this.roles);
     this.primengConfig.ripple = true;
-    // this.getCIPMsExpiringWithin30Days();
+    
+    this.cols = [
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'borrowerName', header: 'Borrower Name' },
+      { field: 'loanAccount', header: 'Loan Account' },
+      { field: 'loanType', header: 'Loan Type' },
+      { field: 'collateralType.name', header: 'Collateral Type' },
+      { field: 'mortgagorName', header: 'Mortgagor Name' },
+      { field: 'insuranceCoverageType.name', header: 'Insurance Policy Coverage Type' },
+      { field: 'mortgagorName', header: 'Mortgagor Name' },
+      { field: 'collateralEstimationValue', header: 'Mortgagor Name' },
+      { field: 'mortgagorName', header: 'Mortgagor Name' },
+      { field: 'insuredName', header: 'Cheque type' },
+      { field: 'status.name', header: 'Status' },
+      { field: 'insuranceExpireDate', header: 'Insurance expiry date' },
+      { field: 'actionTaken.name', header: 'Action taken' },
+    ];
 
-    this.filterService.register('dateRange', (value: any, filter: any): boolean => {
-      // convert value and filter to date objects
-      let dateValue = new Date(value);
-      let minFilter = new Date(filter[0]);
-      let maxFilter = new Date(filter[1]);
-      if (this.minDate == undefined && this.maxDate == undefined) {
-        return true;
-      }
-      // if both min and max dates are specified, check if value is between them
-      if (filter[0] && filter[1]) {
-        return dateValue >= minFilter && dateValue <= maxFilter;
-      }
 
-      // if only min date is specified, check if value is greater than or equal to it
-      if (filter[0] && !filter[1]) {
-        return dateValue >= minFilter;
-      }
-
-      // if only max date is specified, check if value is less than or equal to it
-      if (!filter[0] && filter[1]) {
-        return dateValue <= maxFilter;
-      }
-
-      // if no dates are specified, return true for all values
-      return true;
-    });
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
   }
 
   populateRoles(): void {
@@ -191,16 +161,6 @@ export class CIPMTableComponent {
     this.getCIPM(id);
     this.router.navigate(['updateCIPM', id]);
   }
-  // getCIPMsExpiringWithin30Days(): void {
-  //   this.cipmService.geExpiringWithIn30DaysCIPMs().subscribe(
-  //     (response: CIPM[]) => {
-  //       this.cipme = response;
-  //     },
-  //     (error: any) => {
-  //       // Handle error
-  //     }
-  //   );
-  // }
 
   authorizeCIPM(id: number): void {
     this.cipmService.authorizeCIPM(id).subscribe(
@@ -252,6 +212,28 @@ export class CIPMTableComponent {
       this.cipmService.getCIPMs().subscribe(
         (response: CIPM[]) => {
           this.cipms = response;
+          this.cipmDisplay = this.cipms.map((obj: any) => {
+            let date = new Date(obj.date);
+            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
+            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
+            console.log("ttt", formattedDatePresented);
+
+            return {
+              'Date presented': formattedDatePresented,
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              fullNameOfDrawer: obj.fullNameOfDrawer,
+              accountNumber: obj.accountNumber,
+              tin: obj.tin,
+              drawerAddress: obj.drawerAddress,
+              amountInBirr: obj.amountInBirr,
+              chequeNumber: obj.chequeNumber,
+              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
+              nameOfBeneficiary: obj.nameOfBeneficiary,
+              frequency: obj.frequency,
+              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
+            };
+          });
         },
         (error: HttpErrorResponse) => {
 
@@ -270,10 +252,6 @@ export class CIPMTableComponent {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR" ) || roles.indexOf("ROLE_ICMS_IFB") !==-1) {
-      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-      //   console.log("branchId = " + this.branchId)
-      //   this.districtId = branch?.subProcess?.id
-      //   console.log("district = " + this.districtId)
         this.cipmService.getCIPMForDistrict(this.subProcessId).subscribe(
           
           (response: CIPM[]) => {
@@ -316,6 +294,45 @@ export class CIPMTableComponent {
       }
     );
     return this.cipmR;
+  }
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.cipmDisplay.map((plan, index) => ({
+        // Add the rest of the fields here
+        'Date presented': plan['Date presented'],
+        'Sub Process': plan['subprocess.name'],
+        'Branch Name': plan['branch.name'],
+        'Full name of drawer': plan.fullNameOfDrawer,
+        'Account Number': plan.accountNumber,
+        'Tin': plan.tin,
+        'Drawer address': plan.drawerAddress,
+        'Amount in birr': plan.amountInBirr !== null ? plan.amountInBirr : null,
+        'Cheque number': plan.chequeNumber,
+        'Check type': plan['chequeType.name'],
+        'Name of beneficiary': plan.nameOfBeneficiary,
+        'Frequency': plan.frequency,
+        'Action taken': plan['actionTaken.name'],
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Dishounered cheque');
+    });
+  }
+
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
 

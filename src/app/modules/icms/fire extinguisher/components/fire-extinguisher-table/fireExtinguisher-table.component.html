@@ -84,7 +84,7 @@
         <td>{{ fireExtinguisherList?.size }}</td>
         <td>{{ fireExtinguisherList?.inspectionDate | date : "MM/dd/yyyy"}}</td>
         <td>{{ fireExtinguisherList?.nextInspectionDate | date : "MM/dd/yyyy"}}</td>
-        <td>{{ fireExtinguisherList?.daysLeftForInspection }}</td>
+        <td>{{calculateDaysLeft(fireExtinguisherList?.nextInspectionDate)}}</td>
         <td>{{ fireExtinguisherList?.status }}</td>
         <td>
           <div class="flex gap-2" >
