@@ -8,9 +8,7 @@
     id="DCQTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local2"
     [customSort]="true">
-    <ng-template pTemplate="caption"  *ngIf="
-    this.roles.includes('ROLE_ICMS_ADMIN')
-  ">
+    <ng-template pTemplate="caption">
       <div class="flex">
         <button
           type="button"
