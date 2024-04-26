@@ -1,4 +1,5 @@
 <p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog>
 <div class="flex justify-between mb-3">
   <div class="flex">
     <span class="p-input-icon-left ml-auto">
@@ -37,6 +38,23 @@
     stateStorage="session"
     stateKey="statedemo-session"
   >
+  <ng-template
+  pTemplate="caption"
+  *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+>
+  <div class="flex">
+    <button
+      type="button"
+      pButton
+      pRipple
+      icon="pi pi-file-excel"
+      (click)="exportExcel()"
+      class="p-button-success m-2"
+      pTooltip="XLS"
+      tooltipPosition="bottom"
+    ></button>
+  </div>
+</ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>

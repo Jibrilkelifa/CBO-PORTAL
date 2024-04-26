@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { FireExtinguisherService } from '../../service/fireExtinguisher-services.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { TimeService } from 'src/app/services/sso-services/time.service';
@@ -30,6 +30,8 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   exportColumns!: ExportColumn[];
   cols!: Column[];
   currentDate: Date;
+  public fireExtinguisherDisplay: any[] = [];
+
 
 
   private subscriptions: Subscription[] = [];
@@ -40,7 +42,8 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     private fireExtinguisherService: FireExtinguisherService,
     private messageService: MessageService,
     private router: Router,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private confirmationService: ConfirmationService
   ) { }
 
 
@@ -49,6 +52,23 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     this.populateRoles();
     this.getCurrentDate();
     this.getFireExtinguisherList(this.roles);
+
+    this.cols = [
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'extinguisherSerialNumber', header: 'Extinguisher serial number' },
+      { field: 'size', header: 'Size' },
+      { field: 'inspectionDate', header: 'Inspection date' },
+      { field: 'nextInspectionDate', header: 'Next inpection date' },
+      { field: 'daysLeftForInspection', header: 'Days left for inspection' },
+      { field: 'status', header: 'Status' },
+    ];
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
+
   }
 
   populateRoles(): void {
@@ -62,11 +82,48 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     }
   }
 
+  calculateDaysLeftToExpire(expiryDate: string): number {
+    if (!expiryDate) return null; // Add this line to handle null or undefined expiryDate
+    let date = new Date(expiryDate);
+    if (isNaN(date.getTime())) return null; // Add this line to handle invalid dates
+    let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
+    return Math.ceil(daysLeftToExpire);
+  }
+  
+
   public getFireExtinguisherList(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.fireExtinguisherService.getAllFireExtinguisher().subscribe(
         (response: any[]) => {
           this.fireExtinguisherList = response;
+          if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
+            this.fireExtinguisherService.getAllFireExtinguisher().subscribe(
+              (response: any[]) => {
+                this.fireExtinguisherList = response;
+                this.fireExtinguisherDisplay = this.fireExtinguisherList.map((obj: any) => {
+                  let inspectionDate = obj.inspectionDate ? new Date(obj.inspectionDate) : null;
+                  let formattedInspectionDate = inspectionDate ? (inspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + inspectionDate.getDate().toString().padStart(2, '0') + '/' + inspectionDate.getFullYear() : null;
+          
+                  let nextInspectionDate = obj.nextInspectionDate ? new Date(obj.nextInspectionDate) : null;
+                  let formattedNextInspectionDate = nextInspectionDate ? (nextInspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + nextInspectionDate.getDate().toString().padStart(2, '0') + '/' + nextInspectionDate.getFullYear() : null;
+          
+                  return {
+                    'branch.name': obj.branch ? obj.branch.name : null,
+                    'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+                    extinguisherSerialNumber: obj.extinguisherSerialNumber,
+                    size: obj.size,
+                    inspectionDate: formattedInspectionDate,
+                    nextInspectionDate: formattedNextInspectionDate,
+                    daysLeftForInspection: obj.nextInspectionDate ? this.calculateDaysLeftToExpire(obj.nextInspectionDate) : null, // Added this line
+                    status: obj.status,
+                  };
+                });
+              },
+              (error: HttpErrorResponse) => {
+                console.log(error);
+              }
+            );
+          }
         },
         (error: HttpErrorResponse) => {
 
@@ -131,22 +188,69 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   }
 
   deleteFireExtinguisher(id: number): void {
-    this.fireExtinguisherService.deleteFireExtinguisher(id).subscribe(
-      (response: void) => {
-        this.getFireExtinguisherList(this.roles);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: "Deleted Fire Extinguisher successfully"
-        });
-        setTimeout(() => {
-        }, 1000);
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.fireExtinguisherService.deleteFireExtinguisher(id).subscribe(
+          (response: void) => {
+            this.getFireExtinguisherList(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted Fire Extinguisher successfully"
+            });
+            setTimeout(() => {
+            }, 1000);
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
       },
-      (error: HttpErrorResponse) => {
-
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
       }
-    );
+    });
+  }
+  
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.fireExtinguisherDisplay.map((plan, index) => ({
+        'Branch': plan['branch.name'],
+        'Sub process': plan['subprocess.name'],
+        'Extinguisher serial number': plan.extinguisherSerialNumber,
+        'Size': plan.size,
+        'Inspection date': plan.inspectionDate,
+        'Next inpection date': plan.nextInspectionDate,
+        'Days left for inspection': plan.daysLeftForInspection, // This line will add 'Days left for inspection' to the Excel sheet
+        'Status': plan.status,
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Extinguisher Inspection');
+    });
+  }
 
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
 
