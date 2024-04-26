@@ -224,6 +224,30 @@ export class CIPMTableComponent {
       this.cipmService.getCIPMForBranch(this.branchId).subscribe(
         (response: CIPM[]) => {
           this.cipms = response;
+          this.cipmDisplay = this.cipms.map((obj: any) => {
+            let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
+            let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
+
+            return {
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              borrowerName: obj.borrowerName,
+              loanAccount: obj.loanAccount,
+              loanType: obj.loanType,
+              'Collateral Type': obj.collateralType && obj.collateralType.name === 'Other' ? obj.otherCollateralType : obj.collateralType ? obj.collateralType.name : null,              'otherCollateralType': obj.otherCollateralType,
+              mortgagorName: obj.mortgagorName,
+              'Insurance Policy Coverage Type': obj.insuranceCoverageType && obj.insuranceCoverageType.name === 'Other' ? obj.otherInsuranceCoverageType : obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
+              collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
+              sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
+              policyNumber: obj.policyNumber,
+              referenceNumber: obj.referenceNumber,
+              insuredName: obj.insuredName,
+              'status.name': obj.status ? obj.status.name : null,
+              insuranceExpireDate: formattedInsuranceExpireDate,
+              daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
+            };
+          });
+
           //      alert(this.subProcessId);
         },
         (error: HttpErrorResponse) => {
@@ -236,6 +260,30 @@ export class CIPMTableComponent {
 
         (response: CIPM[]) => {
           this.cipms = response;
+          this.cipmDisplay = this.cipms.map((obj: any) => {
+            let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
+            let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
+
+            return {
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              borrowerName: obj.borrowerName,
+              loanAccount: obj.loanAccount,
+              loanType: obj.loanType,
+              'Collateral Type': obj.collateralType && obj.collateralType.name === 'Other' ? obj.otherCollateralType : obj.collateralType ? obj.collateralType.name : null,              'otherCollateralType': obj.otherCollateralType,
+              mortgagorName: obj.mortgagorName,
+              'Insurance Policy Coverage Type': obj.insuranceCoverageType && obj.insuranceCoverageType.name === 'Other' ? obj.otherInsuranceCoverageType : obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
+              collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
+              sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
+              policyNumber: obj.policyNumber,
+              referenceNumber: obj.referenceNumber,
+              insuredName: obj.insuredName,
+              'status.name': obj.status ? obj.status.name : null,
+              insuranceExpireDate: formattedInsuranceExpireDate,
+              daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
+            };
+          });
+
         },
         (error: HttpErrorResponse) => {
 
