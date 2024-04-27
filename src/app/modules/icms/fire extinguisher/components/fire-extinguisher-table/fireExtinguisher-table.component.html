@@ -13,7 +13,22 @@
   </div>
 </div>
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Fire Extinguisher Table</h5>
+  <div class="flex justify-between">
+    <div class="spacer">
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Fire Extinguisher Table</h5>
+    </div>
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="exportExcel()"
+        class="p-button text-blue-600 text-white m-2 p-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      > Download as excel</button>
+    </div>
+  </div>
   <p-table
     #dt
     [columns]="cols"
@@ -38,22 +53,6 @@
     stateStorage="session"
     stateKey="statedemo-session"
   >
-  <ng-template
-  pTemplate="caption"
->
-  <div class="flex">
-    <button
-      type="button"
-      pButton
-      pRipple
-      icon="pi pi-file-excel"
-      (click)="exportExcel()"
-      class="p-button-success m-2"
-      pTooltip="XLS"
-      tooltipPosition="bottom"
-    ></button>
-  </div>
-</ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>

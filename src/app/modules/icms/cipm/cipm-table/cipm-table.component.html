@@ -16,9 +16,22 @@
 </div>
 <div class="card">
   <div class="graph-header">
-    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">
-      Collateral Insurance Policy Monitoring Table
-    </h5>
+    <div class="flex justify-between">
+      <div class="spacer">
+        <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Collateral Insurance Policy Monitoring Table</h5>
+      </div>
+      <div class="flex">
+        <button
+          type="button"
+          pButton
+          pRipple
+          (click)="exportExcel()"
+          class="p-button text-blue-600 text-white m-2 p-2"
+          pTooltip="XLS"
+          tooltipPosition="bottom"
+        > Download as excel</button>
+      </div>
+    </div>
   </div>
 
   <p-table
@@ -28,8 +41,8 @@
     dataKey="id"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[8, 16, 25, 50]"
-    [rows]="8"
+    [rowsPerPageOptions]="[5, 10, 15, 25, 50,100]"
+    [rows]="5"
     [paginator]="true"
     [globalFilterFields]="[
       'subprocess.name',
@@ -49,22 +62,6 @@
     stateStorage="local"
     stateKey="statedemo-local1"
   >
-    <ng-template
-      pTemplate="caption"
-    >
-      <div class="flex">
-        <button
-          type="button"
-          pButton
-          pRipple
-          icon="pi pi-file-excel"
-          (click)="exportExcel()"
-          class="p-button-success m-2"
-          pTooltip="XLS"
-          tooltipPosition="bottom"
-        ></button>
-      </div>
-    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <!-- <th scope="col" pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th> -->

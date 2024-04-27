@@ -5,7 +5,7 @@
   <p-table #dt1 [value]="fileUpdateHistory" selectionMode="single" [tableStyle]="{'min-width': '50rem'}" dataKey="id" [(selection)]="selectedCustomer1"
    styleClass="p-datatable-customers" [showCurrentPageReport]="true" sortField="id"
    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
-      [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local">
+      [rows]="5" [paginator]="true" stateStorage="local" stateKey="statedemo-local">
       <ng-template pTemplate="header">
           <tr>
               <th scope="col" pSortableColumn="fileName" style="width:20%">File Name <p-sortIcon field="fileName"></p-sortIcon></th>
