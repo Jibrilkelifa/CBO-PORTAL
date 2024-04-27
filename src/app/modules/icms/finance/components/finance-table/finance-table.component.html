@@ -36,6 +36,8 @@
     ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
   >
     <ng-template pTemplate="header">
       <tr>
@@ -96,13 +98,19 @@
         <td>{{ finance?.responsiblePerson }}</td>
         <td>{{ finance?.actionPlanDueDate }}</td>
         <td
-        [ngStyle]="{
-          color: (finance.daysPastDue > 0 && finance.financeStatus.name === 'Open') ? 'red' : ''
-        }"
-      >
-        {{ (finance.daysPastDue > 0 && finance.financeStatus.name === 'Open') ? finance.daysPastDue + ' days past due' : '' }}
-      </td>
-      
+          [ngStyle]="{
+            color:
+              finance.daysPastDue > 0 && finance.financeStatus.name === 'Open'
+                ? 'red'
+                : ''
+          }"
+        >
+          {{
+            finance.daysPastDue > 0 && finance.financeStatus.name === "Open"
+              ? finance.daysPastDue + " days past due"
+              : ""
+          }}
+        </td>
 
         <td>{{ finance?.financeStatus?.name }}</td>
         <td>

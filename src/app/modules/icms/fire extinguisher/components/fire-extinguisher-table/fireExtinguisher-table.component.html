@@ -49,6 +49,8 @@
     'status',
   ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
     [paginator]="true"
     stateStorage="session"
     stateKey="statedemo-session"
