@@ -59,6 +59,7 @@ export class NewCheckListComponent implements OnDestroy {
     let checkList: CkeckListItemDTO = addDivForm.value;
     checkList.auditableArea = new AuditableAreasDTO();
     checkList.auditableArea.id = this.auditableArea.id;
+    checkList.createdUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.checkListService
         .addCheckList(checkList)
@@ -73,6 +74,7 @@ export class NewCheckListComponent implements OnDestroy {
   public updateChecklist(updateDivForm: NgForm): void {
     const checkList: CkeckListItemDTO = updateDivForm.value;
     checkList.id = this.checklistInfo.id;
+    checkList.modifiedUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.checkListService
         .updateCheckList(checkList)

@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Subscription } from 'rxjs';
+import { Subscription, audit } from 'rxjs';
 import { AuditObjectDTO } from 'src/app/modules/ams/models/auditObject';
 import { AuditType } from 'src/app/modules/ams/models/auditType';
 import { AuditTypeService } from '../../../services/audit-type/audit-type.service';
@@ -49,6 +49,8 @@ export class NewAuditTypeComponent implements OnDestroy {
   }
 
   addAuditType(addDivForm: NgForm): void {
+    addDivForm.value.createdUser = localStorage.getItem('id')
+
     this.subscriptions.push(
       this.auditTypeService
         .addAuditType(addDivForm.value)
@@ -62,6 +64,7 @@ export class NewAuditTypeComponent implements OnDestroy {
   updateAuditType(addDivForm: NgForm): void {
     let auditType: AuditType = { ...this.auditTypeInfo };
     auditType = { ...auditType, ...addDivForm.value };
+    auditType.modifiedUser = localStorage.getItem('id');
 
     this.subscriptions.push(
       this.auditTypeService

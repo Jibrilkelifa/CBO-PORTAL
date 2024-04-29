@@ -142,6 +142,8 @@ export class NewAuditUniverseComponent implements OnDestroy {
   }
 
   addAuditUniverse(addDivForm: NgForm): void {
+    addDivForm.value.createdUser = localStorage.getItem('id')
+
     this.subscriptions.push(
       this.auditUniverseService
         .addAuditUniverse(addDivForm.value)
@@ -155,6 +157,9 @@ export class NewAuditUniverseComponent implements OnDestroy {
   updateAuditUniverses(addDivForm: NgForm): void {
     let auditUniverse: AuditUniverseDTO = addDivForm.value;
     auditUniverse = this.universeInfo;
+    auditUniverse.modifiedUser = localStorage.getItem('id')
+
+  
     this.subscriptions.push(
       this.auditUniverseService
         .updateAuditUniverse(auditUniverse)

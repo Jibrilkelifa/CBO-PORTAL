@@ -68,6 +68,9 @@ export class NewRiskItemComponent implements OnDestroy {
   }
 
   addRiskItem(addDivForm: NgForm): void {
+ 
+    addDivForm.value.createdUser = localStorage.getItem('id')
+
     this.subscriptions.push(
       this.riskItemService
         .addRiskItem(addDivForm.value)
@@ -81,7 +84,8 @@ export class NewRiskItemComponent implements OnDestroy {
   updateRiskItem(addDivForm: NgForm): void {
     let riskItem: RiskItemDTO = { ...this.riskItemInfo };
     riskItem = { ...riskItem, ...addDivForm.value };
-
+    riskItem.modifiedUser = localStorage.getItem('id') 
+  
     this.subscriptions.push(
       this.riskItemService
         .updateRiskItem(riskItem)
