@@ -109,7 +109,7 @@ export class CIPMTableComponent {
     let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
     return Math.ceil(daysLeftToExpire);
   }
-  
+
 
   millisFromNowTo(expiryDate: string): string {
 
@@ -189,6 +189,8 @@ export class CIPMTableComponent {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.cipmService.getCIPMs().subscribe(
         (response: CIPM[]) => {
+          console.log("ggg", response);
+          
           this.cipms = response;
           this.cipmDisplay = this.cipms.map((obj: any) => {
             let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
@@ -200,9 +202,11 @@ export class CIPMTableComponent {
               borrowerName: obj.borrowerName,
               loanAccount: obj.loanAccount,
               loanType: obj.loanType,
-              'Collateral Type': obj.collateralType && obj.collateralType.name === 'Other' ? obj.otherCollateralType : obj.collateralType ? obj.collateralType.name : null,              'otherCollateralType': obj.otherCollateralType,
+              'Collateral Type': obj.collateralType ? obj.collateralType.name: null, 
+              'otherCollateralType': obj.otherCollateralType,
               mortgagorName: obj.mortgagorName,
-              'Insurance Policy Coverage Type': obj.insuranceCoverageType && obj.insuranceCoverageType.name === 'Other' ? obj.otherInsuranceCoverageType : obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
+              'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null, 
+              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
               collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
               sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
               policyNumber: obj.policyNumber,
@@ -234,9 +238,11 @@ export class CIPMTableComponent {
               borrowerName: obj.borrowerName,
               loanAccount: obj.loanAccount,
               loanType: obj.loanType,
-              'Collateral Type': obj.collateralType && obj.collateralType.name === 'Other' ? obj.otherCollateralType : obj.collateralType ? obj.collateralType.name : null,              'otherCollateralType': obj.otherCollateralType,
+              'Collateral Type': obj.collateralType ? obj.collateralType.name: null, 
+              'otherCollateralType': obj.otherCollateralType,
               mortgagorName: obj.mortgagorName,
-              'Insurance Policy Coverage Type': obj.insuranceCoverageType && obj.insuranceCoverageType.name === 'Other' ? obj.otherInsuranceCoverageType : obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
+              'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null, 
+              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
               collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
               sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
               policyNumber: obj.policyNumber,
@@ -270,9 +276,11 @@ export class CIPMTableComponent {
               borrowerName: obj.borrowerName,
               loanAccount: obj.loanAccount,
               loanType: obj.loanType,
-              'Collateral Type': obj.collateralType && obj.collateralType.name === 'Other' ? obj.otherCollateralType : obj.collateralType ? obj.collateralType.name : null,              'otherCollateralType': obj.otherCollateralType,
+              'Collateral Type': obj.collateralType ? obj.collateralType.name: null, 
+              'otherCollateralType': obj.otherCollateralType,
               mortgagorName: obj.mortgagorName,
-              'Insurance Policy Coverage Type': obj.insuranceCoverageType && obj.insuranceCoverageType.name === 'Other' ? obj.otherInsuranceCoverageType : obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
+              'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null, 
+              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
               collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
               sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
               policyNumber: obj.policyNumber,
@@ -332,10 +340,9 @@ export class CIPMTableComponent {
         'Borrower Name': plan.borrowerName,
         'Loan Account': plan.loanAccount,
         'Loan Type': plan.loanType,
-        'Collateral Type': plan['collateralType.name'] === 'Other' ? plan['otherCollateralType'] : plan['collateralType.name'],
-        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
+        'Collateral Type': plan['Collateral Type'] === 'Other' ? plan['otherCollateralType'] : plan['Collateral Type'],
         'Mortgagor Name': plan.mortgagorName,
-        'Insurance Policy Coverage Type': plan['insuranceCoverageType.name'] === 'Other' ? plan['otherInsuranceCoverageType'] : plan['insuranceCoverageType.name'],
+        'Insurance Policy Coverage Type': plan['Insurance Policy Coverage Type'] === 'Other' ? plan['otherInsuranceCoverageType'] : plan['Insurance Policy Coverage Type'],
         'Collateral Estimation Value': plan.collateralEstimationValue,
         'Sum insured': plan.sumInsured,
         'Policy number': plan.policyNumber,
@@ -351,6 +358,7 @@ export class CIPMTableComponent {
       this.saveAsExcelFile(excelBuffer, 'Insurance Policy');
     });
   }
+  
 
 
 
