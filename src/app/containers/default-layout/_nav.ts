@@ -617,6 +617,21 @@ navItemsICMSIFB = {
       name: 'View IFB',
       url: '/ICMS/IFB/viewIFB'
     }
+    ,
+    {
+      name: 'CIPM',
+      url: '/ICMS/CIPM',
+      children: [
+        {
+          name: 'Add Data',
+          url: '/ICMS/CIPM/addCIPM',
+        },
+        {
+          name: 'View History',
+          url: '/ICMS/CIPM/viewCIPM',
+        },
+      ]
+    },
   ]
 }
 

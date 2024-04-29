@@ -228,6 +228,28 @@ export class DCQTableComponent {
       this.DCQService.getDCQForBranch(this.branchId).subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
+          this.dcqDisplay = this.DCQs.map((obj: any) => {
+            let date = new Date(obj.date);
+            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
+            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
+            console.log("ttt", formattedDatePresented);
+
+            return {
+              'Date presented': formattedDatePresented,
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              fullNameOfDrawer: obj.fullNameOfDrawer,
+              accountNumber: obj.accountNumber,
+              tin: obj.tin,
+              drawerAddress: obj.drawerAddress,
+              amountInBirr: obj.amountInBirr,
+              chequeNumber: obj.chequeNumber,
+              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
+              nameOfBeneficiary: obj.nameOfBeneficiary,
+              frequency: obj.frequency,
+              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
+            };
+          });
         },
         (error: HttpErrorResponse) => {
 
@@ -242,6 +264,27 @@ export class DCQTableComponent {
       this.DCQService.getDCQForDistrict(this.subProcessId).subscribe(
         (response: DCQ[]) => {
           this.DCQs = response;
+          this.dcqDisplay = this.DCQs.map((obj: any) => {
+            let date = new Date(obj.date);
+            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
+            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
+
+            return {
+              'Date presented': formattedDatePresented,
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              fullNameOfDrawer: obj.fullNameOfDrawer,
+              accountNumber: obj.accountNumber,
+              tin: obj.tin,
+              drawerAddress: obj.drawerAddress,
+              amountInBirr: obj.amountInBirr,
+              chequeNumber: obj.chequeNumber,
+              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
+              nameOfBeneficiary: obj.nameOfBeneficiary,
+              frequency: obj.frequency,
+              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
+            };
+          });
 
         },
         (error: HttpErrorResponse) => {

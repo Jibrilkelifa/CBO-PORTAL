@@ -5,64 +5,43 @@
   }
 }
 
-button {
-  margin: 0 0.5em;
-  height: 2em;
+::ng-deep .p-dialog .p-dialog-header {
+  background: #3b82f6;
+  color: white;
+  font-size: 24px;
 }
 
-input {
-  height: 2em;
+::ng-deep .p-dialog {
+  border: 1px solid #3b82f6;
+  animation: fadeIn 0.5s, fadeOut 0.5s;
 }
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 200px; /* Adjust the value as needed */
-}
-// .truncate:hover {
-//   font-size: 16px;
-//   color: red; /* Adjust the font size as needed */
-// }
 
-h5 {
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
+  color: white;
+}
+
+th input {
   padding: 0.5em;
 }
 
-.popmsg {
-  position: relative;
-  top: auto;
-  width: 25%;
+p-button {
+  padding: 0.5em;
 }
 
-.spacer {
-  display: flex;
-  justify-content: space-between;
+.card {
+  margin-top: 10px;
 }
 
-.spacer span {
-  padding: 1em;
+.graph-header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #00adef;
 }
 
-.auto-table table {
-  table-layout: auto !important;
+.table-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin: 15px;
 }
 
-.black {
-  color: black;
-  font-weight: bolder;
-}
-
-.red {
-  color: red;
-  font-weight: bolder;
-}
-
-.yellow {
-  color: rgb(187, 187, 39);
-  font-weight: bolder;
-}
-
-.green {
-  color: green;
-  font-weight: bolder;
-}

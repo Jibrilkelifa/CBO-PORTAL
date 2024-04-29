@@ -39,6 +39,8 @@
     [paginator]="true"
     stateStorage="session"
     stateKey="statedemo-session"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [showCurrentPageReport]="true"
   >
     <ng-template pTemplate="header">
       <tr>

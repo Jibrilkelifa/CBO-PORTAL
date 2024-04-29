@@ -4,7 +4,7 @@
   <p-table #dt0 [value]="filteredUsers" dataKey="id" selectionMode="single" [tableStyle]="{'min-width': '50rem'}"
     [(selection)]="selectedCustomer1" styleClass="p-datatable-customers" [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[8,16,25,50]"
-    [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local0" *ngIf="filteredUsers.length !== 0">
+    [rows]="5" [paginator]="true" stateStorage="local" stateKey="statedemo-local0" *ngIf="filteredUsers.length !== 0">
     <ng-template pTemplate="header">
       <tr>
         <th scope="col" pSortableColumn="no" style="width:8%">No.<p-sortIcon field="id"></p-sortIcon></th>
