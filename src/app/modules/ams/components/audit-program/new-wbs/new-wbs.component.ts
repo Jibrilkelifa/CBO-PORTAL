@@ -75,7 +75,7 @@ export class NewWBSComponent implements OnDestroy {
 
   addAuditWbs(addDivForm: NgForm): void {
     const wbs: WBS_DTO = { ...addDivForm.value, auditProgram: this.programInfo };
-    console.log(wbs);
+    wbs.createdUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditWbsService.addAuditWBS(wbs).subscribe(
         (response: any) => {

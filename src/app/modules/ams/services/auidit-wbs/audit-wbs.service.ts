@@ -29,7 +29,7 @@ export class AuditWBSService {
   public getAuditWBSByProgramId(id:number): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/ams/auditProgram/wbs/findById//${id}`,
+      `${this.apiServiceUrl}/ams/auditProgram/wbs/findById/${id}`,
       this.httpOptions
     );
   }

@@ -92,14 +92,14 @@ export class NewAuditEngagementComponent implements OnDestroy {
  
      this.outlookMessage.email = this.outlookMessage.email.concat(employeeIds);
   
-     this.outlookMessage.body = "Engagement " + auditEngagement.auditSchedule.annualPlan.auditUniverse.name + " started";
+     this.outlookMessage.body = "Engagement " + auditEngagement.auditSchedule.annualPlan.auditObject.name + " started";
      this.outlookMessage.subject = "Notifying engagment start";
      this.outlookMessage.shortCircuit = true;
- 
+     console.log(auditEngagement)
+     auditEngagement.createdUser = localStorage.getItem('id')
    
 
-    console.log(auditEngagement)
-      //  main addition  
+
     this.subscriptions.push(
       this.auditEngagementService.addToEngagement(auditEngagement).subscribe(
         (response: any) => {
@@ -123,6 +123,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
   updateAuditEngagement(updateDivForm: NgForm): void {
     let auditEngagement: AuditEngagementDTO = { ...this.auditEngagementInfo };
     auditEngagement = { ...auditEngagement, ...updateDivForm.value, auditSchedule: this.auditScheduleInfo };
+    auditEngagement.modifiedUser = localStorage.getItem('id')
     this.subscriptions.push(
         this.auditEngagementService.addToEngagement(auditEngagement).subscribe((response: any) => {
         this.messageService.clear();

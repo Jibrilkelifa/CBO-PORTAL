@@ -61,6 +61,7 @@ export class AssignRole implements OnInit {
   selectedPhoneNumber: string;
   selectedPersonalEmail: string;
   selectedAdUser: string;
+  rolesOfUser: any[] = [];
   fullName: string;
   selectedCompanyEmail: string;
   selectedDateOfBirth: string;
@@ -215,6 +216,8 @@ export class AssignRole implements OnInit {
         (response: any) => {
          console.log(response);
          this.selectedAdUser = response.username;
+         this.rolesOfUser = response.roles
+
           resolve();  // Resolve the promise
         },
         (error: HttpErrorResponse) => {

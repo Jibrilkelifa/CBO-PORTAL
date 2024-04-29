@@ -57,6 +57,7 @@ export class NewAuditableAreaComponent implements OnDestroy {
     const auditableArea: AuditableAreasDTO = addDivForm.value;
     auditableArea.auditObject = new AuditObjectDTO();
     auditableArea.auditObject.id = this.auditObject.id;
+    auditableArea.createdUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditableAreaService
         .addAuditableArea(auditableArea) // Pass the updated auditableArea object
@@ -71,6 +72,7 @@ export class NewAuditableAreaComponent implements OnDestroy {
   updateAuditableArea(updateDivForm: NgForm): void {
     const auditableArea: AuditableAreasDTO = updateDivForm.value;
     auditableArea.id = this.auditAreaInfo.id;
+    auditableArea.modifiedUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditableAreaService
         .updateAuditableAreas(auditableArea)

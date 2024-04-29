@@ -44,7 +44,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
   ngOnInit() {
     if (this.config.data?.auditProgram) {
       this.programInfo = this.config.data.auditProgram;
-      this.getAuditableAreas(this.config.data.auditProgram.engagementInfo.auditSchedule.annualPlan.auditUniverse.auditObject.id);
+      this.getAuditableAreas(this.config.data.auditProgram.engagementInfo.auditSchedule.annualPlan.auditObject.id);
     }
 
     if (this.config.data?.auditFinding) {
@@ -63,7 +63,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
   }
   addFinding(addDivForm: NgForm): void {
     const finding: FindingDTO = { ...addDivForm.value, auditProgram: this.programInfo };
-    console.log(finding);
+    finding.createdUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditFindingService.addAuditFinding(finding).subscribe(
         (response: any) => {
@@ -81,7 +81,7 @@ export class NewAuditFindingsComponent implements OnDestroy {
     let finding: FindingDTO = this.findingInfo;
     finding.cause = addDivForm.value.cause;
     finding.finding = addDivForm.value.finding;
-    console.log(finding);
+    finding.modifiedUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditFindingService.updateAuditFinding(finding).subscribe(
         (response: any) => {

@@ -93,7 +93,7 @@ export class ReportDisplay implements OnInit {
           style: 'mainTitle'
         },
         {
-          text: this.auditReport[0].auditSchedule.annualPlan.auditUniverse.auditObject.auditType + " Report on " + this.auditReport[0].auditSchedule.annualPlan.name,
+          text: this.auditReport[0].auditSchedule.annualPlan.auditObject.auditType + " Report on " + this.auditReport[0].auditSchedule.annualPlan.name,
           style: 'mainText'
         },
         {
