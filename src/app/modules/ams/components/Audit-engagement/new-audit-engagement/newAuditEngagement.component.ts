@@ -92,7 +92,7 @@ export class NewAuditEngagementComponent implements OnDestroy {
  
      this.outlookMessage.email = this.outlookMessage.email.concat(employeeIds);
   
-     this.outlookMessage.body = "Engagement " + auditEngagement.auditSchedule.annualPlan.auditUniverse.name + " started";
+     this.outlookMessage.body = "Engagement " + auditEngagement.auditSchedule.annualPlan.auditObject.name + " started";
      this.outlookMessage.subject = "Notifying engagment start";
      this.outlookMessage.shortCircuit = true;
      console.log(auditEngagement)
