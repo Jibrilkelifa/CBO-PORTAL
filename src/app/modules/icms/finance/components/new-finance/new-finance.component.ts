@@ -44,7 +44,7 @@ export class NewFinanceComponent implements OnInit {
   generateCaseId(): void {
     this.timeService.getDate().subscribe(
       (response: any) => {
-        const dateParts = response.time.split('/');
+        const dateParts = response.time.split('/'); 
         const year = dateParts[2];
         const month = dateParts[0].padStart(2, "0");
         const day = dateParts[1].padStart(2, "0");
@@ -102,8 +102,8 @@ export class NewFinanceComponent implements OnInit {
     this.selectedTeam = JSON.parse(localStorage.getItem("team"));
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
 
-    this.getCategories();
     this.generateCaseId();
+    this.getCategories();
     this.getStatus();
 
   }
@@ -163,7 +163,11 @@ export class NewFinanceComponent implements OnInit {
     this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("FPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
+        console.log(this.categoryName);
+        
         this.subCategories = response;
+        console.log(response);
+
       },
       (error: HttpErrorResponse) => {
 

@@ -26,6 +26,7 @@ export let navItemsICMSDistrict: Object;
 export let navItemsICMSDistrictDirector: Object;
 export let navItemsICMSBranch: Object;
 export let navItemsICMSIFB: Object;
+export let navItemsICMSFinance: Object;
 export let navItemsSMSAdmin: Object;
 export let navItemsICMSProvision: Object;
 export let navItemsICMSBranchManager: Object;
@@ -635,6 +636,22 @@ navItemsICMSIFB = {
   ]
 }
 
+navItemsICMSFinance = {
+  name: 'FInance',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-dollar' },
+  children: [
+    {
+      name: 'Add data',
+      url: '/ICMS/Finance/addFinance',
+    },
+    {
+      name: 'View Finance',
+      url: '/ICMS/Finance/viewFinance'
+    }
+  ]
+}
+
 
 navItemsSMSAdmin = {
   name: 'SMS',
@@ -744,16 +761,16 @@ navItemsICMSBranchManager = {
         },
       ]
     },
-    // {
-    //   name: 'Finance',
-    //   url: '/ICMS/Finance',
-    //   children: [
-    //     {
-    //       name: 'View Finance',
-    //       url: '/ICMS/Finance/viewFinance'
-    //     },
-    //   ]
-    // },
+    {
+      name: 'Finance',
+      url: '/ICMS/Finance',
+      children: [
+        {
+          name: 'View Finance',
+          url: '/ICMS/Finance/viewFinance'
+        },
+      ]
+    },
     {
       name: 'Fire Extinguisher',
       url: '/ICMS/FireExtinguisher',
