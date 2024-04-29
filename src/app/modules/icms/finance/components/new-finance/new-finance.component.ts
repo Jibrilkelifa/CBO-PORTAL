@@ -99,7 +99,9 @@ export class NewFinanceComponent implements OnInit {
     });
 
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedTeam = JSON.parse(localStorage.getItem("team")).id;
+    console.log("hhhh", this.selectedTeam);
+    
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
 
     this.generateCaseId();
@@ -163,10 +165,8 @@ export class NewFinanceComponent implements OnInit {
     this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("FPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
-        console.log(this.categoryName);
         
         this.subCategories = response;
-        console.log(response);
 
       },
       (error: HttpErrorResponse) => {
@@ -176,13 +176,18 @@ export class NewFinanceComponent implements OnInit {
   }
 
 
-  submitFinance(form: NgForm) {    
+  submitFinance(form: NgForm) {   
+    console.log("eeee", form.valid);
+     
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
         financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-        financeStatus: this.selectedstatus // Attach the status
+        financeStatus: this.selectedstatus ,// Attach the status
+        selectedTeam: this.selectedTeam.id
+        
       };
+      
       if (this.update) {
         let updatedValue = {
           ...this.Finance, 
@@ -208,8 +213,7 @@ export class NewFinanceComponent implements OnInit {
       } else {
         this.financeService.addFinance(formValueWithDate).subscribe(
           response => {
-            console.log("create", formValueWithDate);
-            
+            console.log("aaaa", formValueWithDate);
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
