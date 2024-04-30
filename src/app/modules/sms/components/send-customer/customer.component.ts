@@ -38,14 +38,23 @@ export class CustomerComponent extends HeaderComponent {
   postMemo = {} as  any;
   employeesOfSelectedGroups: any[];
   ngOnInit() {
-
+    this.fetchCategories();
+  }
+  fetchCategories() {
+    this.singleService.fetchCategories().subscribe(
+      (response: any) => {
+        this.groupOptions = response; 
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+        
+      }
+    );
   }
   constructor( private router: Router, private http: HttpClient, private singleService: SingleService){
     
     super();
   };
-  // , private classToggler: ClassToggleService
-  // private templates: any, private employeeService: any, private memoService: any,
   subprocesslist: any[] = [];
 
   selectedSubprocess: any;
@@ -64,36 +73,33 @@ export class CustomerComponent extends HeaderComponent {
     this.ckeditorContent = val;
   }
 
-  
-  
  
   addMemo(formData: any) {
     const messageData: Msg_to_sent = {
-      id: 0, 
+     
       messageContent: formData.value.messageContent,
       expiryDate: formData.value.curdate, 
-      listOfCategory: this.selectedGroups, 
+      listOfCategory: formData.value.group,
       processOfSender: JSON.parse(localStorage.getItem('process')), 
       subProcessOfSender: JSON.parse(localStorage.getItem("subProcess")), 
       employee: localStorage.getItem('id'), 
       isAuthorized: false 
-    
     };
     console.log('Message Data:', messageData); 
 
-    formData.resetForm();
-//     this.singleService.sendMessage(messageData)
-//     .subscribe({
-//       next: response => {
-//         console.log('Message sent successfully:', response);
-//         formData.resetForm();
-//       },
-//       error: error => {
-//         console.error('Error sending message:', error);
-//       }
-//     });
+   
+    this.singleService.saveeMessage(messageData).subscribe(
+      (response) => {
+        console.log('Message saved successfully:', response);
+      },
+      (error) => {
+        console.error('Error saving message:', error);
+  
+      }
+    );
 
-}
+    formData.resetForm();
+  }
 
 }
 
