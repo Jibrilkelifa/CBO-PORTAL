@@ -99,9 +99,7 @@ export class NewFinanceComponent implements OnInit {
     });
 
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedTeam = JSON.parse(localStorage.getItem("team")).id;
-    console.log("hhhh", this.selectedTeam);
-    
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));    
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
 
     this.generateCaseId();
@@ -176,23 +174,21 @@ export class NewFinanceComponent implements OnInit {
   }
 
 
-  submitFinance(form: NgForm) {   
-    console.log("eeee", form.valid);
-     
+  submitFinance(form: NgForm) {        
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
         financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
         financeStatus: this.selectedstatus ,// Attach the status
-        selectedTeam: this.selectedTeam.id
-        
+        team: this.selectedTeam
       };
       
       if (this.update) {
         let updatedValue = {
           ...this.Finance, 
           financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-          financeStatus: this.selectedstatus // Attach the status
+          financeStatus: this.selectedstatus, // Attach the status
+          team: this.selectedTeam
         }        
         this.financeService.updateFinance(updatedValue).subscribe(
           response => {
@@ -213,7 +209,6 @@ export class NewFinanceComponent implements OnInit {
       } else {
         this.financeService.addFinance(formValueWithDate).subscribe(
           response => {
-            console.log("aaaa", formValueWithDate);
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
