@@ -657,6 +657,9 @@ navItemsSMSAdmin = {
         {
           name: 'Group Messaging',
           url: '/sms/group',
+        },  {
+          name: 'Customer Messaging',
+          url: '/sms/customer',
         }
 
       ]

@@ -11,6 +11,7 @@ import{GroupMessagesComponent} from './components/group-messages/group-messages.
 import { SmsDashboardComponent } from './components/dashboard/monthlySMSReport/smsDashboard.component';
 import { SMSHistoryComponent } from './components/dashboard/smsHistory/smsHistory.component';
 import { TableReportComponents } from './components/dashboard/tableReport/tableReport.component';
+import { CustomerComponent } from './components/send-customer/customer.component';
 const routes: Routes = [
   {
     path: '',
@@ -87,6 +88,7 @@ const routes: Routes = [
           title: 'Report-Of-GroupMessages',
         },
       },
+  
       {
         path: 'bulk',
         component: BulkComponent,
@@ -100,6 +102,13 @@ const routes: Routes = [
         component:  GroupComponent,
         data: {
           title: 'Group Messaging',
+        },
+      },
+      {
+        path: 'customer',
+        component:  CustomerComponent,
+        data: {
+          title: 'Customer Messaging',
         },
       },
     ],

@@ -38,14 +38,16 @@ import{SingleMessagesComponent} from './components/single-messages/single-messag
 import{GroupMessagesComponent} from './components/group-messages/group-messages.component'
 import{SmsDashboardComponent} from './components/dashboard/monthlySMSReport/smsDashboard.component'
 import{SMSHistoryComponent} from './components/dashboard/smsHistory/smsHistory.component'
-import{TableReportComponents} from './components/dashboard/tableReport/tableReport.component'
-
+import{TableReportComponents} from './components/dashboard/tableReport/tableReport.component';
+import {CustomerMessagesComponent}from './components/customer-messages/customer-messages.component';
+import{CustomerComponent} from './components/send-customer/customer.component';
 
 
 @NgModule({
   declarations: [
     AllMessagesComponent,
     SentMessagesComponent,
+    CustomerMessagesComponent,
     SingleComponent,
     GroupComponent,
     BulkComponent,
@@ -53,7 +55,8 @@ import{TableReportComponents} from './components/dashboard/tableReport/tableRepo
     GroupMessagesComponent,
     SmsDashboardComponent,
     SMSHistoryComponent,
-    TableReportComponents
+    TableReportComponents,
+    CustomerComponent
   ],
   imports: [
     NgApexchartsModule,
