@@ -15,6 +15,13 @@
   border: 1px solid #3b82f6;
   animation: fadeIn 0.5s, fadeOut 0.5s;
 }
+.truncat {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50px; 
+}
+
 
 ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon {
   color: white;
@@ -32,11 +39,7 @@ p-button {
   margin-top: 10px;
 }
 
-.graph-header {
-  font-size: 20px;
-  font-weight: bold;
-  color: #00adef;
-}
+
 
 .table-title {
   font-size: 24px;
@@ -44,26 +47,4 @@ p-button {
   color: #333;
   margin: 15px;
 }
-
-/* CSS for Black Color */
-/* CSS for Black Color */
-.black {
-  color: black;
-}
-
-/* CSS for Red Color */
-.red {
-  color: red;
-}
-
-/* CSS for Yellow Color */
-.yellow {
-  color: #ffd700; /* Brighter shade of yellow */
-}
-
-/* CSS for Green Color */
-.green {
-  color: green;
-}
-
 

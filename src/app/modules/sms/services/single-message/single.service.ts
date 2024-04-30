@@ -42,5 +42,12 @@ export class SingleService {
   sendMessageByBatch(batchId: number) {
     return this.http.get<any>(`${this.apiServiceUrl}/batch_id?id=${batchId}`,this.httpOptions);
   }
+  fetchCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiServiceUrl}/categories`);
+  }
+
+  saveeMessage(messageData: any): Observable<any> {
+    return this.http.post<any>(`${this.apiServiceUrl}/messages/save`, messageData);
+  }
 
 }
