@@ -78,8 +78,8 @@ export class AnnualPlanComponent {
           this.annualPlans = response.result;
           this.annualPlanDisplay = this.annualPlans.map((obj: any) => ({
             ...obj,
-            auditaUniverseName: obj.auditUniverse
-              ? obj.auditUniverse.name
+            auditObjectName: obj.auditObect
+              ? obj.auditObject.name
               : null,
           }));
         },

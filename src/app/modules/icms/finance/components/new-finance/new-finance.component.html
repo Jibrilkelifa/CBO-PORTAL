@@ -56,7 +56,7 @@
           [required]="true"
         ></p-dropdown>
       </div>
-      <div class="flex-auto" *ngIf="Finance.allSubCategory?.name === 'Financial' && !update">
+      <div class="flex-auto" *ngIf="!update">
         <label for="accountNumber" class="block mb-2"> Account Number </label>
         <p-inputNumber
           [(ngModel)]="Finance.accountNumber"
@@ -65,6 +65,7 @@
           [style]="{ width: '30vw', height: '45px' }"
           (keydown)="limitInput($event)"
           name="accountNumber"
+          [required]="true"
         ></p-inputNumber>
     </div>
     
@@ -75,10 +76,11 @@
           id="irregularity"
           [(ngModel)]="Finance.irregularity"
           name="irregularity"
-          required
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
+      
       <div class="flex-auto" *ngIf="!update">
         <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
         <input
@@ -86,7 +88,7 @@
           id="amount"
           [(ngModel)]="Finance.amount"
           name="amount"
-          required
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
@@ -99,18 +101,11 @@
           id="responsiblePerson"
           [(ngModel)]="Finance.responsiblePerson"
           name="responsiblePerson"
-          required
+          [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
 
-      <!-- Delete this later -->
-
-      <!-- <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Branch </label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch"
-          name="branch" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
-      </div> -->
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class=" block mb-2"> Team</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedTeam"

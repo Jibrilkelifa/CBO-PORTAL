@@ -1,4 +1,5 @@
 import { RistScoreDTO } from "./RiskScoreDTO";
+import { AuditObjectDTO } from "./auditObject";
 import { AuditUniverseDTO } from "./auditUniverse";
 import { BaseModel } from "./base";
 
@@ -10,8 +11,9 @@ export class AnnualPlanDTO extends BaseModel {
     riskScore : number;
     status : string;
     rectificationStatus : string;
-    auditUniverse : AuditUniverseDTO;
+    auditObject : AuditObjectDTO;
     riskScores : RistScoreDTO[];
     auditeesOrganID:number;
+
 }
 

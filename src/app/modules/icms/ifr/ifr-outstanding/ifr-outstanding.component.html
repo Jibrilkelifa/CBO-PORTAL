@@ -45,7 +45,7 @@
   <p-table #dt4 [value]="fraudo" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
     [(selection)]="selectedFraud" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
     id="fraudTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local4">
+    [rowsPerPageOptions]="[8,16,25,50]" [rows]="5" [paginator]="true" stateStorage="local" stateKey="statedemo-local4">
     <ng-template pTemplate="header">
       <tr>
         <th scope="col" pSortableColumn="branch.subProcess.name" style="width:8%">District Name</th>

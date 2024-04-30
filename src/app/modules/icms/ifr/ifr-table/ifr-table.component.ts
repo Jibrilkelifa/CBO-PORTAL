@@ -11,6 +11,18 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { SingleFraudCaseTableComponent } from '../ifr-single-case/ifr-single-case-table.component';
 import { ShowIFRComponent } from '../show/show-ifr.component';
 
+
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+
 @Component({
   selector: 'app-accordions',
   templateUrl: './ifr-table.component.html',
@@ -19,24 +31,10 @@ import { ShowIFRComponent } from '../show/show-ifr.component';
 })
 export class FraudTableComponent {
 
-  constructor( private filterService: FilterService, private dialogService: DialogService, private fraudService: IFRService, private router: Router, private confirmationService: ConfirmationService,
+  constructor(private filterService: FilterService, private dialogService: DialogService, private fraudService: IFRService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService, private organizationalUnitService: OrganizationalUnitService) { }
 
-  downloadExcel(tableID: string) {
 
-    let table = document.getElementById(tableID);
-
-    // converts a DOM TABLE element to a worksheet
-    const ws: XLSX.WorkSheet=XLSX.utils.table_to_sheet(table, {raw:true});
-
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-
-    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
-
-    // save to file
-    XLSX.writeFile(wb, 'IncidentFraudReport.xlsx');
-
-  }
   daysSinceFraudDetection: number;
   public frauds: IFR[] = [];
   public fraudR: IFR[] = [];
@@ -47,40 +45,11 @@ export class FraudTableComponent {
   position: string;
   districtId: number;
   currentDate: Date;
- 
-  searchParameter: any[] =
-    [
-      { name: 'Case ID', value: 'caseId' },
-      { name: 'Case Status', value: 'caseStatus.name' },
-      { name: 'Fraud Cause', value: 'fraudCause' },
-      { name: 'Fraud Amount', value: 'fraudAmount' },
-      { name: 'Fraud Category', value: 'fraudCategory.name' },
-      { name: 'Other Fraud Category', value: 'otherFraudCategory' },
-      { name: 'Fraud Type', value: 'fraudType.name' },
-      { name: 'Other Fraud Type', value: 'otherFraudType' },
-      { name: 'Fraud Occurance Date', value: 'fraudOccurrenceDate' },
-      { name: 'Fraud Detection Date', value: 'fraudDetectionDate' },
-      { name: 'Fraud Occurance Place', value: 'fraudOccurrencePlace' },
-      { name: 'Fraud Commting Technique', value: 'fraudCommittingTechnique' },
-      { name: 'Delay Reason', value: 'reasonForDelay' },
-      { name: 'Failed Attempt Reason', value: 'reasonForFailedFraudAttempt' },
-      { name: 'Amount Recovered', value: 'amountRecovered' },
-      { name: 'Action Taken', value: 'actionTaken' },
-      { name: 'Fraudster Address', value: 'suspectedFraudsterAddress' },
-      { name: 'Fraudster Name', value: 'suspectedFraudsterName' },
-      { name: 'Fraudster Profession', value: 'suspectedFraudsterProfession.name' },
-      { name: 'Other Fraudster Profession', value: 'otherSuspectedFraudsterProfession' },
-      { name: 'Other Information', value: 'otherComment' },
-      { name: 'incaseOfClosedOrWrittenOff', value: 'incaseOfClosedOrWrittenOff' },
-      { name: 'Branch Name', value: 'branch.name' },
-      { name: 'District Name', value: 'subProcess.name' }
-    ];
-  selectedSearchParameter: any;
-  filterTable(target: any, dataTable: any) {
-    if (this.selectedSearchParameter) {
-      dataTable.filter(target?.value, this.selectedSearchParameter.value, 'contains');
-    }
-  }
+
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+  public IFRDisplay: any[] = [];
+
 
   minDate: Date;
   maxDate: Date;
@@ -91,16 +60,49 @@ export class FraudTableComponent {
 
     this.getCurrentDate();
     this.primengConfig.ripple = true;
+
+    this.cols = [
+      { field: 'subProcess.name', header: 'Name' },
+      { field: 'branch.name', header: 'Name' },
+      { field: 'caseId', header: 'CaseId' },
+      { field: 'suspectedFraudsterName', header: 'Suspected Fraudster Name' },
+      { field: 'suspectedFraudsterAddress', header: 'Suspected Fraudster Address' },
+      { field: 'fraudType.name', header: 'Name' },
+      { field: 'fraudCause', header: 'Fraud Cause' },
+      { field: 'suspectedFraudsterProfession.name', header: 'Name' },
+      { field: 'fraudAmount', header: 'Fraud Amount' },
+      { field: 'fraudOccurrenceDate', header: 'FraudOccurrence Date' },
+      { field: 'fraudDetectionDate', header: 'FraudDetection Date' },
+      { field: 'reasonForDelay', header: 'Reason For Delay' },
+      { field: 'fraudOccurrencePlace', header: 'Fraud Occurrence Place' },
+      { field: 'fraudCommittingTechnique', header: 'Fraud Committing Technique' },
+      { field: 'fraudCategory.name', header: 'Name' },
+      { field: 'actionTaken', header: 'Action Taken' },
+      { field: 'amountRecovered', header: 'Amount Recovered' },
+      { field: 'provisionHeld', header: 'Provision Held' },
+      { field: 'reasonForFailedFraudAttempt', header: 'Reason For Failed Fraud Attempt' },
+      { field: 'otherComment', header: 'Other Comment' },
+      { field: 'caseStatus.name', header: 'Name' },
+      { field: 'daysSinceFraudDetection', header: 'Days Since Fraud Detection' },
+      { field: 'isAuthorized', header: 'Is Authorized' },
+    ];
+
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
+
   }
 
   populateRoles(): void {
     let index = 0;
-    let cond = localStorage.getItem('role_'+index);
-    while(cond) {
+    let cond = localStorage.getItem('role_' + index);
+    while (cond) {
 
       this.roles.push(cond);
       index++;
-      cond = localStorage.getItem('role_'+index);
+      cond = localStorage.getItem('role_' + index);
     }
   }
 
@@ -148,7 +150,7 @@ export class FraudTableComponent {
 
   calculateDaysSinceFraudDetection(fraudDetectionDate: string): number {
     let date = new Date(fraudDetectionDate);
-    let daysSinceFraudDetection= (this.currentDate.getTime() - date.getTime() ) / (1000 * 3600 * 24);
+    let daysSinceFraudDetection = (this.currentDate.getTime() - date.getTime()) / (1000 * 3600 * 24);
     return Math.ceil(daysSinceFraudDetection);
   }
 
@@ -228,6 +230,45 @@ export class FraudTableComponent {
       this.fraudService.getFrauds().subscribe(
         (response: IFR[]) => {
           this.frauds = response;
+          this.IFRDisplay = this.frauds.map((obj: any) => {
+            let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
+            let formattedFraudOccurrenceDate = fraudOccurrenceDate ? (fraudOccurrenceDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getDate().toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getFullYear() : null;
+
+            let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
+            let formattedFraudDetectionDate = fraudDetectionDate ? (fraudDetectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudDetectionDate.getDate().toString().padStart(2, '0') + '/' + fraudDetectionDate.getFullYear() : null;
+
+            return {
+              'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              'team.externalName': obj.team ? obj.team.externalName : null,
+              'caseId': obj.caseId,
+              'suspectedFraudsterName': obj.suspectedFraudsterName,
+              'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
+              'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
+              'otherFraudType': obj.otherFraudType,
+              'fraudCause': obj.fraudCause,
+              'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
+              'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
+              'fraudAmount': parseFloat(obj.fraudAmount) || 0,
+              'fraudOccurrenceDate': formattedFraudOccurrenceDate,
+              'fraudDetectionDate': formattedFraudDetectionDate,
+              'reasonForDelay': obj.reasonForDelay,
+              'fraudOccurrencePlace': obj.fraudOccurrencePlace,
+              'fraudCommittingTechnique': obj.fraudCommittingTechnique,
+              'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name, 'otherFraudCategory': obj.otherFraudCategory,
+              'actionTaken': obj.actionTaken,
+              'amountRecovered': parseFloat(obj.amountRecovered) || 0,
+              'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
+              'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
+              'otherComment': obj.otherComment,
+              'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
+              // 'daysSinceFraudDetection': obj.daysSinceFraudDetection,
+              'daysSinceFraudDetection': obj.formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(obj.formattedFraudDetectionDate) : null, // Added this line
+              'isAuthorized': obj.isAuthorized,
+            };
+          });
+
+
         },
         (error: HttpErrorResponse) => {
 
@@ -239,6 +280,43 @@ export class FraudTableComponent {
       this.fraudService.getFraudForBranch(this.branchId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;
+          this.IFRDisplay = this.frauds.map((obj: any) => {
+            let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
+            let formattedFraudOccurrenceDate = fraudOccurrenceDate ? (fraudOccurrenceDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getDate().toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getFullYear() : null;
+
+            let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
+            let formattedFraudDetectionDate = fraudDetectionDate ? (fraudDetectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudDetectionDate.getDate().toString().padStart(2, '0') + '/' + fraudDetectionDate.getFullYear() : null;
+
+            return {
+              'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              'team.externalName': obj.team ? obj.team.externalName : null,
+              'caseId': obj.caseId,
+              'suspectedFraudsterName': obj.suspectedFraudsterName,
+              'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
+              'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
+              'otherFraudType': obj.otherFraudType,
+              'fraudCause': obj.fraudCause,
+              'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
+              'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
+              'fraudAmount': parseFloat(obj.fraudAmount) || 0,
+              'fraudOccurrenceDate': formattedFraudOccurrenceDate,
+              'fraudDetectionDate': formattedFraudDetectionDate,
+              'reasonForDelay': obj.reasonForDelay,
+              'fraudOccurrencePlace': obj.fraudOccurrencePlace,
+              'fraudCommittingTechnique': obj.fraudCommittingTechnique,
+              'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name, 'otherFraudCategory': obj.otherFraudCategory,
+              'actionTaken': obj.actionTaken,
+              'amountRecovered': parseFloat(obj.amountRecovered) || 0,
+              'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
+              'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
+              'otherComment': obj.otherComment,
+              'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
+              'daysSinceFraudDetection': obj.formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(obj.formattedFraudDetectionDate) : null, // Added this line
+              'isAuthorized': obj.isAuthorized,
+            };
+          });
+
         },
         (error: HttpErrorResponse) => {
 
@@ -246,13 +324,50 @@ export class FraudTableComponent {
         }
       );
     }
-    else if (roles.includes("ROLE_ICMS_DISTRICT_IC")|| roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
+    else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
       // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
       //   this.districtId = branch?.subProcess?.id
       // });
       this.fraudService.getFraudForDistrict(this.subProcessId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;
+          this.IFRDisplay = this.frauds.map((obj: any) => {
+            let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
+            let formattedFraudOccurrenceDate = fraudOccurrenceDate ? (fraudOccurrenceDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getDate().toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getFullYear() : null;
+
+            let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
+            let formattedFraudDetectionDate = fraudDetectionDate ? (fraudDetectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudDetectionDate.getDate().toString().padStart(2, '0') + '/' + fraudDetectionDate.getFullYear() : null;
+
+            return {
+              'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              'team.externalName': obj.team ? obj.team.externalName : null,
+              'caseId': obj.caseId,
+              'suspectedFraudsterName': obj.suspectedFraudsterName,
+              'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
+              'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
+              'otherFraudType': obj.otherFraudType,
+              'fraudCause': obj.fraudCause,
+              'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
+              'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
+              'fraudAmount': parseFloat(obj.fraudAmount) || 0,
+              'fraudOccurrenceDate': formattedFraudOccurrenceDate,
+              'fraudDetectionDate': formattedFraudDetectionDate,
+              'reasonForDelay': obj.reasonForDelay,
+              'fraudOccurrencePlace': obj.fraudOccurrencePlace,
+              'fraudCommittingTechnique': obj.fraudCommittingTechnique,
+              'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name, 'otherFraudCategory': obj.otherFraudCategory,
+              'actionTaken': obj.actionTaken,
+              'amountRecovered': parseFloat(obj.amountRecovered) || 0,
+              'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
+              'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
+              'otherComment': obj.otherComment,
+              'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
+              'daysSinceFraudDetection': obj.formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(obj.formattedFraudDetectionDate) : null, // Added this line
+              'isAuthorized': obj.isAuthorized,
+            };
+          });
+
         },
         (error: HttpErrorResponse) => {
 
@@ -316,6 +431,54 @@ export class FraudTableComponent {
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
+  }
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.IFRDisplay.map((plan, index) => ({
+        'Sub Process Name': plan['subProcess.name'],
+        'Branch/Team Name': plan['team.externalName'] ? plan['team.externalName'] : plan['branch.name'],
+        'Case Id': plan.caseId,
+        'Suspected Fraudster Name': plan.suspectedFraudsterName,
+        'Suspected Fraudster Address': plan.suspectedFraudsterAddress,
+        'Fraud Type Name': plan['fraudType.name'] === 'Other' ? plan['otherFraudType'] : plan['fraudType.name'],
+        'Fraud Cause': plan.fraudCause,
+        'Suspected Fraudster Profession Name': plan['suspectedFraudsterProfession.name'] === 'Other' ? plan['otherSuspectedFraudsterProfession'] : plan['suspectedFraudsterProfession.name'],
+        'Fraud Amount': plan.fraudAmount,
+        'Fraud Occurrence Date': plan.fraudOccurrenceDate,
+        'Fraud Detection Date': plan.fraudDetectionDate,
+        'Reason For Delay': plan.reasonForDelay,
+        'Fraud Occurrence Place': plan.fraudOccurrencePlace,
+        'Fraud Committing Technique': plan.fraudCommittingTechnique,
+        'Fraud Category Name': plan['Fraud Category Name'],
+        'Action Taken': plan.actionTaken,
+        'Amount Recovered': plan.amountRecovered,
+        'Provision Held': plan.provisionHeld,
+        'Reason For Failed Fraud Attempt': plan.reasonForFailedFraudAttempt,
+        'Other Comment': plan.otherComment,
+        'Case Status Name': plan['caseStatus.name'],
+        'Days Since Fraud Detection': plan.fraudDetectionDate ? this.calculateDaysSinceFraudDetection(plan.fraudDetectionDate) : null,
+        'Is Authorized': plan.isAuthorized,
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Extinguisher Inspection');
+    });
+  }
+
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 }
 

@@ -2,11 +2,40 @@
   style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
   [value]="msgs"
 ></p-messages>
+<div class="flex justify-between mb-3">
+  <div class="flex">
+    <span class="p-input-icon-left ml-auto">
+      <input
+        pInputText
+        type="text"
+        (input)="dt1.filterGlobal($any($event.target)?.value, 'contains')"
+        placeholder="Search here"
+      />
+    </span>
+  </div>
+</div>
 <div class="card">
   <div class="graph-header">
-    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">
-      Collateral Insurance Policy Monitoring Table
-    </h5>
+    <div class="flex justify-between">
+      <div class="spacer">
+        <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">
+          Collateral Insurance Policy Monitoring Table
+        </h5>
+      </div>
+      <div class="flex">
+        <button
+          type="button"
+          pButton
+          pRipple
+          (click)="exportExcel()"
+          class="p-button text-blue-600 text-white m-2 p-2"
+          pTooltip="XLS"
+          tooltipPosition="bottom"
+        >
+          Download as excel
+        </button>
+      </div>
+    </div>
   </div>
 
   <p-table
@@ -16,64 +45,80 @@
     dataKey="id"
     [showCurrentPageReport]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[8, 16, 25, 50]"
-    [rows]="8"
+    [rowsPerPageOptions]="[5, 10, 15, 25, 50, 100]"
+    [rows]="5"
     [paginator]="true"
-    stateStorage="local"
-    stateKey="statedemo-local1"
-    (sortFunction)="customSort($event)"
-    [customSort]="true"
+    [globalFilterFields]="[
+      'subProcess.name',
+      'branch.name',
+      'borrowerName',
+      'loanAccount',
+      'loanType',
+      'collateralType.name',
+      'mortgagorName',
+      'insuranceCoverageType.name',
+      'collateralEstimationValue',
+      'sumInsured',
+      'policyNumber',
+      'referenceNumber',
+      'insuredName',
+      'status.name',
+      'insuranceExpireDate',
+      'daysLeftToExpire'
+    ]"
   >
-    <ng-template
-      pTemplate="caption"
-      *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
-    >
-      <div class="flex">
-        <button
-          type="button"
-          pButton
-          pRipple
-          icon="pi pi-file-excel"
-          (click)="exportExcel()"
-          class="p-button-success m-2"
-          pTooltip="XLS"
-          tooltipPosition="bottom"
-        ></button>
-      </div>
-    </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <!-- <th scope="col" pSortableColumn="id">ID<p-sortIcon field="id"></p-sortIcon></th> -->
-        <th scope="col" pSortableColumn="subProcess.name">District Name</th>
-        <th scope="col" pSortableColumn="branch.name">Branch Name</th>
+        <th scope="col" pSortableColumn="subProcess.name">
+          District Name<p-sortIcon field="subProcess.name"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="branch.name">
+          Branch Name<p-sortIcon field="branch.name"></p-sortIcon>
+        </th>
         <th scope="col" pSortableColumn="borrowerName">
           Borrower Name<p-sortIcon field="borrowerName"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="loanAccount">
           Loan Account<p-sortIcon field="loanAccount"></p-sortIcon>
         </th>
-        <th scope="col" pSortableColumn="loanType">Loan Type</th>
+        <th scope="col" pSortableColumn="loanType">
+          Loan Type<p-sortIcon field="loanType"></p-sortIcon>
+        </th>
         <th scope="col" pSortableColumn="collateralType.name">
-          Collateral Type
+          Collateral Type<p-sortIcon field="collateralType.name"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="mortgagorName">
           Mortgagor Name<p-sortIcon field="mortgagorName"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="insuranceCoverageType.name">
-          Insurance Policy Coverage Type
+          Insurance Policy Coverage Type<p-sortIcon
+            field="insuranceCoverageType.name"
+          ></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="collateralEstimationValue">
+          Collateral Estimation Value<p-sortIcon
+            field="collateralEstimationValue"
+          ></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="sumInsured">
+          Sum Insured<p-sortIcon field="sumInsured"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="policyNumber">
+          Policy Number<p-sortIcon field="policyNumber"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="referenceNumber">
+          Reference Number<p-sortIcon field="referenceNumber"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="insuredName">
-          Collateral Estimation Value
+          Insured Name<p-sortIcon field="insuredName"></p-sortIcon>
         </th>
-        <th scope="col" pSortableColumn="insuredName">Sum Insured</th>
-        <th scope="col" pSortableColumn="insuredName">Policy Number</th>
-        <th scope="col" pSortableColumn="insuredName">Reference Number</th>
-        <th scope="col" pSortableColumn="insuredName">Insured Name</th>
         <th scope="col" pSortableColumn="status.name" style="width: 8%">
-          Status
+          Status<p-sortIcon field="status.name"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="insuranceExpireDate">
-          Insurance Expiry Date<p-sortIcon></p-sortIcon>
+          Insurance Expiry Date<p-sortIcon
+            field="insuranceExpireDate"
+          ></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="daysLeftToExpire">
           Days Left To Expire<p-sortIcon field="daysLeftToExpire"></p-sortIcon>

@@ -38,13 +38,13 @@ export class AuditReportService {
     const url = `${this.apiServiceUrl}/ams/report/generateByAuditSchedule`;
     const requestBody = { id };
 
-    return this.http.post<any>(url, requestBody);
+    return this.http.post<any>(url, requestBody,this.httpOptions);
   }
   
   public registerReport(theBigJson: any): Observable<any> {
     this.init();
     const url = `http://localhost/ams/report/register/byAuditSchedule`;
-    return this.http.post(this.apiServiceUrl+"/ams/report/register/byAuditSchedule", theBigJson);
+    return this.http.post(this.apiServiceUrl+"/ams/report/register/byAuditSchedule", theBigJson,this.httpOptions);
   }
 
   public getAuditReports(): Observable<any> {

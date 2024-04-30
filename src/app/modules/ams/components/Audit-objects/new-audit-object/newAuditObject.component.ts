@@ -99,6 +99,8 @@ export class NewAuditObjectComponent implements OnDestroy {
   }
 
   addAuditObject(addDivForm: NgForm): void {
+
+    addDivForm.value.createdUser = localStorage.getItem('id')
     this.subscriptions.push(this.auditObjectService
       .addAuditObject(addDivForm.value)
       .subscribe((response: any) => {
@@ -119,6 +121,9 @@ export class NewAuditObjectComponent implements OnDestroy {
   }
 
   updateAuditObjects(addDivForm: NgForm): void {
+    addDivForm.value.modifiedUser = localStorage.getItem('id')
+
+
     const auditObject: AuditObjectDTO = addDivForm.value;
     auditObject.id = this.auditObjectInfo.id;
     this.subscriptions.push(

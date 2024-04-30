@@ -101,6 +101,7 @@ export class NewAuditStaffComponent implements OnDestroy {
   }
 
   addAMSStaff(auditStaffForm: NgForm): void {
+    auditStaffForm.value.createdUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditStaffService
         .registerAuditStaff(auditStaffForm.value)
@@ -113,6 +114,7 @@ export class NewAuditStaffComponent implements OnDestroy {
 
   updateAMSStaff(addDivForm: NgForm): void {
     let auditStaff: AuditStaffDTO = { ...this.auditStaffInfo, ...addDivForm.value };
+    auditStaff.modifiedUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditStaffService
         .updateAuditStaff(auditStaff)

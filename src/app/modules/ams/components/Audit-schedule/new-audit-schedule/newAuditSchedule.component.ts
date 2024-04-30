@@ -125,6 +125,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
     const auditSchedule: AuditScheduleDTO = addDivForm.value;
     auditSchedule.annualPlan = this.annualPlan;
     auditSchedule.auditeesOrganID = this.selectedOrgan.id;
+    auditSchedule.createdUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditScheduleService.addAuditSchedule(auditSchedule).subscribe(
         (response: any) => {
@@ -144,6 +145,7 @@ export class NewAuditScheduleComponent implements OnDestroy {
     let auditSchedule: AuditScheduleDTO = { ...this.scheduleInfo };
     auditSchedule = { ...auditSchedule, ...updateDivForm.value };
     auditSchedule.teamMembers = this.savedAssignmembers;
+    auditSchedule.modifiedUser = localStorage.getItem('id')
     this.subscriptions.push(
       this.auditScheduleService
         .updateAuditSchedule(auditSchedule)

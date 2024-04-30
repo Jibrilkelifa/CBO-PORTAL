@@ -1,29 +1,28 @@
 <p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
 <div class="card">
   <div class="graph-header">
-    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Dishonoured Cheque Table</h5>
-  </div>
-  <p-table #dt2 [value]="DCQs" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
-    [(selection)]="selectedDCQ" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
-    id="DCQTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local2"
-    [customSort]="true">
-    <ng-template pTemplate="caption"  *ngIf="
-    this.roles.includes('ROLE_ICMS_ADMIN')
-  ">
+    <div class="flex justify-between">
+      <div class="spacer">
+        <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Dishonoured Cheque Table</h5>
+      </div>
       <div class="flex">
         <button
           type="button"
           pButton
           pRipple
-          icon="pi pi-file-excel"
           (click)="exportExcel()"
-          class="p-button-success m-2"
+          class="p-button text-blue-600 text-white m-2 p-2"
           pTooltip="XLS"
           tooltipPosition="bottom"
-        ></button>
+        > Download as excel</button>
       </div>
-    </ng-template>
+    </div>
+  </div>
+  <p-table #dt2 [value]="DCQs" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
+    [(selection)]="selectedDCQ" dataKey="id" styleClass="p-datatable-cipms" [showCurrentPageReport]="true"
+    id="DCQTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [rowsPerPageOptions]="[5,10,15,25,50,100]" [rows]="5" [paginator]="true" stateStorage="local" stateKey="statedemo-local2"
+    [customSort]="true">
     <ng-template pTemplate="header">
       <tr>
         <!-- <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th> -->

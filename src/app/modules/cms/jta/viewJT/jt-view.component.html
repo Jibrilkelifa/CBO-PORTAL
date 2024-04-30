@@ -3,7 +3,7 @@
   <p-table #dt1 [value]="jobs" selectionMode="single" [tableStyle]="{'min-width': '20rem'}"
     dataKey="id" styleClass="p-datatable-dacgms" [showCurrentPageReport]="true"
     id="dacgmTable" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [rowsPerPageOptions]="[8,16,25,50]" [rows]="8" [paginator]="true" stateStorage="local" stateKey="statedemo-local1" [customSort]="true">
+    [rowsPerPageOptions]="[8,16,25,50]" [rows]="5" [paginator]="true" stateStorage="local" stateKey="statedemo-local1" [customSort]="true">
     <ng-template pTemplate="header">
       <tr>
         <th scope="col" pSortableColumn="id" style="width:2%">ID<p-sortIcon field="id"></p-sortIcon></th>

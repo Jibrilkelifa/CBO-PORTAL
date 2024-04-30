@@ -55,32 +55,6 @@ export class DACGMTableComponent {
     this.getDACGMs(this.roles);
     this.primengConfig.ripple = true;
 
-    this.filterService.register('dateRange', (value: any, filter: any): boolean => {
-      let dateValue = new Date(value);
-      let minFilter = new Date(filter[0]);
-      let maxFilter = new Date(filter[1]);
-      if (this.minDate == undefined && this.maxDate == undefined) {
-        return true;
-      }
-      // if both min and max dates are specified, check if value is between them
-      if (filter[0] && filter[1]) {
-        return dateValue >= minFilter && dateValue <= maxFilter;
-      }
-
-      // if only min date is specified, check if value is greater than or equal to it
-      if (filter[0] && !filter[1]) {
-        return dateValue >= minFilter;
-      }
-
-      // if only max date is specified, check if value is less than or equal to it
-      if (!filter[0] && filter[1]) {
-        return dateValue <= maxFilter;
-      }
-
-      // if no dates are specified, return true for all values
-      return true;
-    });
-
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
       { field: 'branch.name', header: 'Branch' },
@@ -140,32 +114,6 @@ export class DACGMTableComponent {
     return (this.calculatePastDue(expiryDate)).toString();
   }
 
-  customSort(event: SortEvent) {
-
-
-    this.dacgms.sort((a, b) => {
-      // check which field to sort by
-      if (event.field === "actionPlanDueDate") {
-        // convert strings to dates
-        let dateA = new Date(a[event.field]);
-        let dateB = new Date(b[event.field]);
-        // compare dates
-        return (dateA.getTime() - dateB.getTime()) * event.order;
-      } else if (event.field === "pastDue") {
-        // get days difference using absoluteValue and calculateDaysLeftToExpire
-        let diffA = (this.calculatePastDue(a["actionPlanDueDate"]));
-        let diffB = (this.calculatePastDue(b["actionPlanDueDate"]));
-        // compare differences
-        return (diffA - diffB) * event.order;
-      } else {
-        // use default sorting logic
-        let valueA = a[event.field];
-        let valueB = b[event.field];
-        return (valueA < valueB ? -1 : valueA > valueB ? 1 : 0) * event.order;
-      }
-    });
-
-  }
 
   convertToLocalString(expiryDate: string): string {
     let date = new Date(expiryDate);
@@ -193,7 +141,6 @@ export class DACGMTableComponent {
     this.dacgmService.escalateDACGM(id).subscribe(
       (response: any) => {
         this.escalatedByManager = true;
-        console.log('escalatedByManager:', this.escalatedByManager);
         this.getDACGMs(this.roles);
 
         this.messageService.add({
@@ -275,6 +222,7 @@ export class DACGMTableComponent {
               'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
               'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
               'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+              'otherIrregularity': obj.otherIrregularity,
               amountInvolved: parseFloat(obj.amountInvolved) || 0,
               accountName: obj.accountName,
               accountNumber: obj.accountNumber,
@@ -294,6 +242,30 @@ export class DACGMTableComponent {
         (response: DACGM[]) => {
 
           this.dacgms = response;
+          this.dacgmDisplay = this.dacgms.map((obj: any) => {
+            let date = new Date(obj.date);
+            let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+
+            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
+            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
+
+            return {
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              date: formattedDate,
+              caseId: obj.caseId,
+              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
+              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
+              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+              'otherIrregularity': obj.otherIrregularity,
+              amountInvolved: parseFloat(obj.amountInvolved) || 0,
+              accountName: obj.accountName,
+              accountNumber: obj.accountNumber,
+              responsiblePerson: obj.responsiblePerson,
+              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
+              actionPlanDueDate: formattedActionPlanDueDate
+            };
+          });
         },
         (error: HttpErrorResponse) => {
 
@@ -304,6 +276,30 @@ export class DACGMTableComponent {
       this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
         (response: DACGM[]) => {
           this.dacgms = response;
+          this.dacgmDisplay = this.dacgms.map((obj: any) => {
+            let date = new Date(obj.date);
+            let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+
+            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
+            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
+
+            return {
+              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+              'branch.name': obj.branch ? obj.branch.name : null,
+              date: formattedDate,
+              caseId: obj.caseId,
+              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
+              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
+              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+              'otherIrregularity': obj.otherIrregularity,
+              amountInvolved: parseFloat(obj.amountInvolved) || 0,
+              accountName: obj.accountName,
+              accountNumber: obj.accountNumber,
+              responsiblePerson: obj.responsiblePerson,
+              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
+              actionPlanDueDate: formattedActionPlanDueDate
+            };
+          });
         },
         (error: HttpErrorResponse) => {
 
@@ -358,8 +354,7 @@ export class DACGMTableComponent {
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
         'Sub Category': plan['irregularity.allSubCategory.name'],
-        Irregularity: plan['irregularity.name'],
-        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
+        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'],        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
         'Account Name': plan.accountName,
         'Account Number': plan.accountNumber,
         'Responsible Person': plan.responsiblePerson,
@@ -372,6 +367,7 @@ export class DACGMTableComponent {
       this.saveAsExcelFile(excelBuffer, 'Daily activity gap');
     });
   }
+  
 
 
   saveAsExcelFile(buffer: any, fileName: string): void {
@@ -381,7 +377,7 @@ export class DACGMTableComponent {
     const url = window.URL.createObjectURL(data);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
