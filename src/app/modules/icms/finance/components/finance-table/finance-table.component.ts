@@ -35,7 +35,7 @@ export class FinanceTableComponent implements OnDestroy {
   escalatedByManager: boolean = false;
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  teamId: number = Number(localStorage.getItem('teamId'));
+  teamId: number = JSON.parse(localStorage.getItem("team")).id;
 
   currentDate: Date;
 
@@ -82,9 +82,9 @@ export class FinanceTableComponent implements OnDestroy {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.financeService.getFinanceForBranch(this.branchId).subscribe(
-        (response: FinanceModel[]) => {          
+    else if (roles.indexOf("ROLE_ICMS_FINANCE_IC") !== -1) {
+      this.financeService.getFinanceForBranch(this.teamId).subscribe(
+        (response: FinanceModel[]) => {                                       
           this.FinanceList = response.map(finance => ({
             ...finance,
             daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
@@ -95,19 +95,7 @@ export class FinanceTableComponent implements OnDestroy {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-      this.financeService.getFinanceForDistrict(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {
-          this.FinanceList = response.map(finance => ({
-            ...finance,
-            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
-          }));
-        },
-        (error: HttpErrorResponse) => {
-          // Handle error
-        }
-      );
-    }
+
   }
   
 

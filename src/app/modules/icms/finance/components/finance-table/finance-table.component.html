@@ -88,7 +88,7 @@
     <ng-template pTemplate="body" let-finance let-rowIndex="rowIndex">
       <tr [pSelectableRow]="finance">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ finance?.financeDate }}</td>
+        <td>{{ finance?.financeDate | date : "MM/dd/yyyy"}}</td>
         <td>{{ finance?.caseId }}</td>
         <td>{{ finance?.accountNumber }}</td>
         <td>{{ finance?.allCategory?.name }}</td>
@@ -113,11 +113,11 @@
         </td>
 
         <td>{{ finance?.financeStatus?.name }}</td>
-        <td>
+        <td class="flex space-between">
           <div
-            class="flex gap-2"
+            class="flex gap-2 mr-2"
             *ngIf="
-              this.roles.includes('ROLE_ICMS_BRANCH_MANAGER') &&
+              this.roles.includes('ROLE_ICMS_FINANCE_OWNER') &&
               !finance.actionTaken &&
               finance.financeStatus.name === 'Open'
             "
@@ -132,7 +132,7 @@
           </div>
           <div
             class="flex gap-2"
-            *ngIf="this.roles.includes('ROLE_ICMS_BRANCH_IC')"
+            *ngIf="this.roles.includes('ROLE_ICMS_FINANCE_IC')"
           >
             <button
               pButton

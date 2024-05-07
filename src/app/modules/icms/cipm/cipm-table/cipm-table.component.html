@@ -1,3 +1,6 @@
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog><p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="card">
 <p-messages
   style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
   [value]="msgs"
@@ -249,6 +252,15 @@
           class="closed-cell"
         >
           <span class="closed-text">Closed!</span>
+        </td>
+        <td>
+        <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+            pButton
+            (click)="deleteCIPMs(cipms.id)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm w-20 h-10 p-2"
+            label="Delete"
+          ></button>
         </td>
       </tr>
     </ng-template>

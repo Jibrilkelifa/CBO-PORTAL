@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { NgForm } from '@angular/forms';
 import { Message } from '../../models/message';
+import { Msg_to_sent } from '../../models/msg_to_sent';
 
 
 @Injectable({
@@ -27,7 +28,7 @@ export class SingleService {
       })
     };
     // this.apiServiceUrl = localStorage.getItem('url_4');
-     this.apiServiceUrl = 'http://10.1.11.145:8080/api/v1/messages';
+     this.apiServiceUrl = 'http://10.1.11.145:8092/api/v1';
     //this.baseUrl = 'http://localhost:8088/messages';
   }
 
@@ -36,11 +37,19 @@ export class SingleService {
    }
 
    sendMessage(message: any) {
-    return this.http.post<any>(`${this.apiServiceUrl}/addSingleMessage`, message,this.httpOptions);
+    return this.http.post<any>(`${this.apiServiceUrl}/messages/addSingleMessage`, message,this.httpOptions);
   }
 
   sendMessageByBatch(batchId: number) {
-    return this.http.get<any>(`${this.apiServiceUrl}/batch_id?id=${batchId}`,this.httpOptions);
+    return this.http.get<any>(`${this.apiServiceUrl}/messages/batch_id?id=${batchId}`,this.httpOptions);
   }
+  fetchCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiServiceUrl}/message_to_sents/get_categories`);
+  }
+
+  saveeMessage(msg_to_sent: any): Observable<any> {
+    return this.http.post<any>(`${this.apiServiceUrl}/message_to_sents/message_to_sent`, msg_to_sent, this.httpOptions);
+  }
+
 
 }

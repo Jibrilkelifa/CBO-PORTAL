@@ -1,0 +1,54 @@
+<div class="card">
+    <p-table #dt1 [value]="msg_to_sent" selectionMode="single" [(selection)]="selectedMessages" dataKey="id" [tableStyle]="{'min-width': '50rem'}"
+    [rows]="10" [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="country.name" style="width:25%">Message Content<p-sortIcon field="country.name"></p-sortIcon></th>
+                <th pSortableColumn="ExpiryTime" style="width:25%">Expiry Time  <p-sortIcon field="status"></p-sortIcon></th>
+                <th pSortableColumn="senderProcess" style="width:25%">SenderProcess<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="senderSubprocess" style="width:25%">SenderSubProcess<p-sortIcon field="cost"></p-sortIcon></th>
+                <th pSortableColumn="Authorization" style="width:25%">Autorization<p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="Action" style="width:25%">Action<p-sortIcon field="name"></p-sortIcon></th>
+
+              </tr>
+           
+        </ng-template>
+        <ng-template pTemplate="body" let-msg_to_sent>
+            <tr [pSelectableRow]="msg_to_sent">
+                  <td>
+                    <span class="p-column-title">Message Content</span>
+                    <span class="truncat" [title]="msg_to_sent.messageContent">
+                        {{ msg_to_sent?.messageContent | slice:0:50 }}{{ msg_to_sent?.messageContent.length > 50 ? '...' : '' }}
+                    </span>
+                </td>
+                  <td>
+                    <span class="p-column-title" >Batch Time</span>
+                    {{ msg_to_sent?.expiryDate}}
+                  </td>
+                  <td>
+                    <span class="p-column-title" >SenderProcess</span>
+                    {{ msg_to_sent?.processOfSender }}
+                  </td>
+                <td>
+                   
+                    <span class="p-column-title">SenderSubProcess</span>
+                    {{ msg_to_sent?.subProcessOfSender}}
+                    
+                  </td>
+                <td>
+                  <span class="p-column-title">Autorization</span>
+                  <p-tag [value]="getDisplayLabel(msg_to_sent?.isAuthorized)" [severity]="getSeverity(msg_to_sent?.isAuthorized)"></p-tag>
+                </td>
+                <td>                  
+                  <button pButton type="button" (click)="authorizeMessage(msg_to_sent.id)" [label]="isAuthorized ? 'Authorized' : 'Authorize'"></button>
+                </td>
+                
+             
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="4">No Data found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

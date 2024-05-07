@@ -44,7 +44,7 @@ export class NewFinanceComponent implements OnInit {
   generateCaseId(): void {
     this.timeService.getDate().subscribe(
       (response: any) => {
-        const dateParts = response.time.split('/');
+        const dateParts = response.time.split('/'); 
         const year = dateParts[2];
         const month = dateParts[0].padStart(2, "0");
         const day = dateParts[1].padStart(2, "0");
@@ -99,11 +99,11 @@ export class NewFinanceComponent implements OnInit {
     });
 
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));    
     this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
 
-    this.getCategories();
     this.generateCaseId();
+    this.getCategories();
     this.getStatus();
 
   }
@@ -163,7 +163,9 @@ export class NewFinanceComponent implements OnInit {
     this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("FPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
+        
         this.subCategories = response;
+
       },
       (error: HttpErrorResponse) => {
 
@@ -172,18 +174,21 @@ export class NewFinanceComponent implements OnInit {
   }
 
 
-  submitFinance(form: NgForm) {    
+  submitFinance(form: NgForm) {        
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
         financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-        financeStatus: this.selectedstatus // Attach the status
+        financeStatus: this.selectedstatus ,// Attach the status
+        team: this.selectedTeam
       };
+      
       if (this.update) {
         let updatedValue = {
           ...this.Finance, 
           financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-          financeStatus: this.selectedstatus // Attach the status
+          financeStatus: this.selectedstatus, // Attach the status
+          team: this.selectedTeam
         }        
         this.financeService.updateFinance(updatedValue).subscribe(
           response => {
@@ -204,8 +209,6 @@ export class NewFinanceComponent implements OnInit {
       } else {
         this.financeService.addFinance(formValueWithDate).subscribe(
           response => {
-            console.log("create", formValueWithDate);
-            
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
