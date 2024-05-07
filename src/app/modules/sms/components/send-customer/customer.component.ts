@@ -7,6 +7,9 @@ import { EmployeeService } from 'src/app/services/sso-services/employee.service'
 import { EMSService } from 'src/app/services/ems-services/ems-services.service';
 import {Msg_to_sent} from '../../models/msg_to_sent';
 import { SingleService } from '../../services/single-message/single.service';
+import { log } from 'console';
+import{Category} from '../../models/category'
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -16,25 +19,15 @@ import { SingleService } from '../../services/single-message/single.service';
 })
 
 export class CustomerComponent extends HeaderComponent {
+  isAuthorized: boolean = false;
 
   @Input() sidebarId: string = "sidebar";
 
-  groupOptions: any[] = [
-    { name: 'Current Acct' },
-    { name: 'Current Account' },
-    { name: 'Foreign Curr' },
-    { name: 'ECX-payout Acct' },
-    { name: 'ECX-payin Acct' },
-    { name: 'Special Curr Ac' },
-    { name: 'Retention Ac A' },
-    { name: 'Non.Res.Foreign' }
-  ];
-  
-
-
-
-
-
+  groupOptions: Category []= [];
+  selectedCategories: any[] = [];
+  processId: number;
+  subProcessId: number;
+  employeeId: number;
   postMemo = {} as  any;
   employeesOfSelectedGroups: any[];
   ngOnInit() {
@@ -44,6 +37,8 @@ export class CustomerComponent extends HeaderComponent {
     this.singleService.fetchCategories().subscribe(
       (response: any) => {
         this.groupOptions = response; 
+        console.log('categorrrrrrrrry:', this.groupOptions);
+        
       },
       (error) => {
         console.error('Error fetching categories:', error);
@@ -53,7 +48,12 @@ export class CustomerComponent extends HeaderComponent {
   }
   constructor( private router: Router, private http: HttpClient, private singleService: SingleService){
     
+    
     super();
+    this.processId = Number(localStorage.getItem('processId'));
+    this.subProcessId = Number(localStorage.getItem('subProcessId'));
+    this.employeeId = Number(localStorage.getItem('id'));
+
   };
   subprocesslist: any[] = [];
 
@@ -69,37 +69,25 @@ export class CustomerComponent extends HeaderComponent {
 
   
   
+  
   addTemp(val: string) {
     this.ckeditorContent = val;
   }
 
- 
-  addMemo(formData: any) {
-    const messageData: Msg_to_sent = {
-     
-      messageContent: formData.value.messageContent,
-      expiryDate: formData.value.curdate, 
-      listOfCategory: formData.value.group,
-      processOfSender: JSON.parse(localStorage.getItem('process')), 
-      subProcessOfSender: JSON.parse(localStorage.getItem("subProcess")), 
-      employee: localStorage.getItem('id'), 
-      isAuthorized: false 
-    };
-    console.log('Message Data:', messageData); 
-
-   
-    this.singleService.saveeMessage(messageData).subscribe(
+  addMemo(formData: NgForm) {
+    console.log('Form Data:', formData.value);
+  
+    this.singleService.saveeMessage(formData.value).subscribe(
       (response) => {
         console.log('Message saved successfully:', response);
       },
       (error) => {
         console.error('Error saving message:', error);
-  
       }
     );
-
-    formData.resetForm();
+  
   }
+  
 
 }
 
