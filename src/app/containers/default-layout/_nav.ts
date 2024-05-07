@@ -1026,7 +1026,7 @@ navItemsCAOUser = {
   iconComponent: { name: 'cib-openstreetmap' },
   children: [
     {
-      name: 'My Checklists',
+      name: 'My Inquiry/Activity',
       url: '/cao/checklists/my-checklists',
     },
   ]
