@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditUniverseDTO } from 'src/app/modules/ams/models/auditUniverse';
+import { RiskLevelDTO } from '../../models/RiskLevel';
 @Injectable({
   providedIn: 'root',
 })
@@ -35,6 +36,35 @@ export class AuditUniverseService {
     this.init();
     return this.http.get<any>(
       `${this.apiServiceUrl}/ams/auditUniverse/listAll`,
+      this.httpOptions
+    );
+  }
+
+  public getRiskLevel(): Observable<any> {
+    this.init();
+
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/ams/riskLevel/get`,
+      this.httpOptions
+    );
+  }
+
+
+  public updateRiskLevel(riskLevel: RiskLevelDTO): Observable<any> {
+    this.init();
+    return this.http.post(
+      `${this.apiServiceUrl}/ams/riskLevel/update`,
+      riskLevel,
+      this.httpOptions
+    );
+  }
+
+  public addRiskLevel(riskLevel: RiskLevelDTO): Observable<any> {
+    this.init();
+
+    return this.http.post(
+      `${this.apiServiceUrl}/ams/riskLevel/register`,
+      riskLevel,
       this.httpOptions
     );
   }
