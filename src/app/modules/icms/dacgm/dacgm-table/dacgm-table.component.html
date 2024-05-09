@@ -1,3 +1,5 @@
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog>
 <p-messages
   style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
   [value]="msgs"
@@ -274,6 +276,15 @@
             [ngClass]="{ updateBlue: true }"
             class="p-button-sm mb-3"
             label="Update"
+          ></button>
+        </td>
+        <td>
+          <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+            pButton
+            (click)="deleteBox(dacgm.id)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm w-20 h-10 p-2"
+            label="Delete"
           ></button>
         </td>
       </tr>

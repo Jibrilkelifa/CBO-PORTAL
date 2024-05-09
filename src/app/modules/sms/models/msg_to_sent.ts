@@ -1,10 +1,13 @@
+import { Category } from "./category";
+
 export interface Msg_to_sent {
+    id:number;
     messageContent: string;
-    expiryDate: Date;
-    listOfCategory: string[];
-    processOfSender: string;
-    subProcessOfSender: string;
-    employee: string;
+    expiryDate: String;
+    listOfCategory: Category[];
+    processOfSender: number;
+    subProcessOfSender: number;
+    employee: number;
     isAuthorized: boolean;
 
   }

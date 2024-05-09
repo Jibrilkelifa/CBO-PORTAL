@@ -719,6 +719,10 @@ navItemsSMSAdmin = {
           name: 'Cost',
           url: '/sms/cost',
         },
+        {
+          name: 'Customer messages',
+          url: '/sms/customer-messages',
+        },
 
       ]
     },

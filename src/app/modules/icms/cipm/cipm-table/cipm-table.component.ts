@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
 import { CIPM } from '../../../../models/icms-models/cipm-models/cipm';
 import { CIPMService } from '../../../../services/icms-services/cipm-services/cipm.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
@@ -147,43 +147,43 @@ export class CIPMTableComponent {
       }
     );
   }
-
-  deleteBox(id: number): void {
-    this.deleteId = id;
-    this.cipmService.deleteCIPM(this.deleteId).subscribe(
-      (response: void) => {
-        this.getCIPMs(this.roles);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: "Collateral Insurance Policy Monitoring deleted Successfully!"
-        });
-        setTimeout(() => {
-        }, 1000);
-      },
-      (error: HttpErrorResponse) => {
-
-        this.getCIPMs(this.roles);
-      }
-    );
-  }
-
-  confirmPosition(position: string, id: number) {
-    this.position = position;
+  deleteCIPMs(id: number): void {
     this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteBox(id);
-        this.msgs = [{ severity: 'success', summary: 'Confirmed', detail: 'Record deleted' }];
+        this.cipmService.deleteCIPM(id).subscribe(
+          (response: void) => {
+            this.getCIPMs(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted Collateral insurance policy successfully"
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+    
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
       },
-      reject: () => {
-        this.msgs = [{ severity: 'error', summary: 'Rejected', detail: 'Record not deleted' }];
-      },
-      key: "positionDialog"
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
+      }
     });
   }
+
+
 
   public getCIPMs(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {

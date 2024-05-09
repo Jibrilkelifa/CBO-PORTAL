@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, FilterService, Message, MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService } from 'primeng/api';
 import { DCQService } from '../../../../services/icms-services/dcq-services/dcq.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
@@ -150,46 +150,63 @@ export class DCQTableComponent {
     this.getDCQ(id);
     this.router.navigate(['updateDCQ', id]);
   }
-
-
-  deleteBox(id: number): void {
-    this.deleteId = id;
-
-    this.DCQService.deleteDCQ(this.deleteId).subscribe(
-      (response: void) => {
-        this.getDCQs(this.roles);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: "Success"
-        });
-        setTimeout(() => {
-        }, 1000);
-      },
-      (error: HttpErrorResponse) => {
-
-        this.getDCQs(this.roles);
-      }
-    );
-
-  }
-
-  confirmPosition(position: string, id: number) {
-    this.position = position;
+  deleteDCQss(id: number): void {
     this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.deleteBox(id);
-        this.msgs = [{ severity: 'success', summary: 'Confirmed', detail: 'Record deleted' }];
+        this.DCQService.deleteDCQ(id).subscribe(
+          (response: void) => {
+            this.getDCQs(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted dishonoured cheque successfully"
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+    
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
       },
-      reject: () => {
-        this.msgs = [{ severity: 'error', summary: 'Rejected', detail: 'Record not deleted' }];
-      },
-      key: "positionDialog"
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
+      }
     });
   }
+
+ 
+ 
+ 
+  
+
+  // confirmPosition(position: string, id: number) {
+  //   this.position = position;
+  //   this.confirmationService.confirm({
+  //     message: 'Do you want to delete this record?',
+  //     header: 'Delete Confirmation',
+  //     icon: 'pi pi-info-circle',
+  //     accept: () => {
+  //       this.deleteDCQ(id);
+  //       this.msgs = [{ severity: 'success', summary: 'Confirmed', detail: 'Record deleted' }];
+  //     },
+  //     reject: () => {
+  //       this.msgs = [{ severity: 'error', summary: 'Rejected', detail: 'Record not deleted' }];
+  //     },
+  //     key: "positionDialog"
+  //   });
+  // }
 
   public getDCQs(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1 || roles.indexOf("ROLE_ICMS_BANKING_OPERATION") !== -1) {
