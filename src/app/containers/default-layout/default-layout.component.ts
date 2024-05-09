@@ -295,11 +295,6 @@ export class DefaultLayoutComponent {
               this.dashboardRoute = "default_dashboard"
               break;
           }
-
-          if (localStorage.getItem('title').includes('MANAGER') && (localStorage.getItem('branchId') != null)) {
-            this.navItems.push(navItemsCAOUser);
-            this.dashboardRoute = "default_dashboard";
-          }
         }
       }
 
