@@ -39,7 +39,6 @@ export class DefaultDashboardComponent implements OnInit {
   nowsec: number;
 
   ngOnInit(): void {
-    console.log(localStorage.getItem('supervisor'))
     if (!localStorage.getItem('isReloaded')) {
       localStorage.setItem('isReloaded', 'true');
       window.location.reload();

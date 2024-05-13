@@ -164,6 +164,11 @@ const routes: Routes = [
           import('./modules/icms/ifb/ifb.module').then((m) => m.IFBModule)
       },
       {
+        path: 'ICMS/Share',
+        loadChildren: () =>
+          import('./modules/icms/share_/share.module').then((m) => m.ShareModule)
+      },
+      {
         path: 'ICMS/Finance',
         loadChildren: () =>
           import('./modules/icms/finance/finance.module').then((m) => m.FinanceModule)

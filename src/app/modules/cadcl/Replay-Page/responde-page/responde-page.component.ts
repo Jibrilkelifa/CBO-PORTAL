@@ -219,7 +219,7 @@ export class RespondePageComponent {
 
   toggleForm() {
     this.showForm = !this.showForm;
-    this.buttonLabel = this.showForm ? 'Cancel' : 'Replay';
+    this.buttonLabel = this.showForm ? 'Cancel' : 'Reply';
 }
 
   escalate(){
