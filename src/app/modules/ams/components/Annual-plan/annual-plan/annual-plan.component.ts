@@ -55,6 +55,7 @@ export class AnnualPlanComponent {
 
   ngOnInit() {
     this.getAnnualPlans();
+   
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'name', header: 'Name' },
@@ -82,6 +83,7 @@ export class AnnualPlanComponent {
               ? obj.auditObject.name
               : null,
           }));
+          console.log(this.annualPlans[0].auditObject.name)
         },
         (error: HttpErrorResponse) => {
           console.log(error);

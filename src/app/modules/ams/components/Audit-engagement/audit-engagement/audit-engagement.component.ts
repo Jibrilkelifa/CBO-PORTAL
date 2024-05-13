@@ -44,7 +44,7 @@ export class AuditEngagementComponent implements OnDestroy {
   public isManager: boolean;
   public isTeamLeader: boolean;
   public isAuditee: boolean;
-  public isMember:boolean;
+  public isMember: boolean;
 
 
   exportColumns!: ExportColumn[];
@@ -75,16 +75,12 @@ export class AuditEngagementComponent implements OnDestroy {
   ngOnInit() {
 
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
-    this.isTeamLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
-    this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
-    this.isMember = this.roles.some(obj => obj.name === "ROLE_AMS_MEMBER")
+    // this.isTeamLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
 
+    this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
+    // this.isMember = this.roles.some(obj => obj.name === "ROLE_AMS_MEMBER")
 
     this.getAuditStaffId(localStorage.getItem("id"));
-    console.log(this.subProcess);
-
-
-
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'startOn', header: 'Start on' },
@@ -97,38 +93,31 @@ export class AuditEngagementComponent implements OnDestroy {
       title: col.header,
       dataKey: col.field,
     }));
-
-
-
   }
 
   getAllEngagementOfCurrentYear(): void {
     this.subscriptions.push(
       this.auditEngagementService.getAllEngagementOfCurrentYear().subscribe(
         (response: any) => {
+          console.log(response.result)
           //if auditee filter by organization 
           if (this.isAuditee) {
-
-
             const targetSubProcess = this.subProcess.toString().trim();
             response.result = response.result.filter((item) => {
               return item.auditSchedule.auditeesOrganID === targetSubProcess;
             });
 
 
-          }
+          } else {
 
-          if(this.isMember){
-            console.log(response.result);
             const targetEmployeeId = localStorage.getItem("id").toString().trim();
-            console.log(targetEmployeeId);
             response.result = response.result.filter((item) => {
               return item.auditSchedule.teamMembers.some(member => member.auditStaffDTO.employeeId === targetEmployeeId);
             });
-            console.log(response.result);
+
           }
 
-    
+
 
           // response.result = response.result.filter(item => item.auditeesOrganID === this.subProcess); 
           // response.result = response.result.filter(item => item.auditSchedule.auditeesOrganID === this.subProcess);
@@ -152,7 +141,7 @@ export class AuditEngagementComponent implements OnDestroy {
           }));
 
 
-          console.log(this.auditEngagements);
+
 
 
         },
@@ -234,6 +223,22 @@ export class AuditEngagementComponent implements OnDestroy {
         .subscribe(
           (response: any) => {
             if (response.result) {
+              if (this.isAuditee) {
+                const targetSubProcess = this.subProcess.toString().trim();
+                response.result = response.result.filter((item) => {
+                  return item.auditSchedule.auditeesOrganID === targetSubProcess;
+                });
+    
+    
+              }else{
+    
+                const targetEmployeeId = localStorage.getItem("id").toString().trim();
+                response.result = response.result.filter((item) => {
+                  return item.auditSchedule.teamMembers.some(member => member.auditStaffDTO.employeeId === targetEmployeeId);
+                });
+     
+              }
+
               this.auditEngagements = response.result.map(
                 (schedule: AuditEngagementDTO) => ({
                   ...schedule,
@@ -260,6 +265,22 @@ export class AuditEngagementComponent implements OnDestroy {
         .subscribe(
           (response: any) => {
             if (response.result) {
+              if (this.isAuditee) {
+                const targetSubProcess = this.subProcess.toString().trim();
+                response.result = response.result.filter((item) => {
+                  return item.auditSchedule.auditeesOrganID === targetSubProcess;
+                });
+    
+    
+              }else{
+    
+                const targetEmployeeId = localStorage.getItem("id").toString().trim();
+                response.result = response.result.filter((item) => {
+                  return item.auditSchedule.teamMembers.some(member => member.auditStaffDTO.employeeId === targetEmployeeId);
+                });
+     
+              }
+
               this.auditEngagements = response.result.map(
                 (schedule: AuditEngagementDTO) => ({
                   ...schedule,
@@ -286,6 +307,22 @@ export class AuditEngagementComponent implements OnDestroy {
         .subscribe(
           (response: any) => {
             if (response.result) {
+              if (this.isAuditee) {
+                const targetSubProcess = this.subProcess.toString().trim();
+                response.result = response.result.filter((item) => {
+                  return item.auditSchedule.auditeesOrganID === targetSubProcess;
+                });
+    
+    
+              }else{
+    
+                const targetEmployeeId = localStorage.getItem("id").toString().trim();
+                response.result = response.result.filter((item) => {
+                  return item.auditSchedule.teamMembers.some(member => member.auditStaffDTO.employeeId === targetEmployeeId);
+                });
+     
+              }
+
               this.auditEngagements = response.result.map(
                 (schedule: AuditEngagementDTO) => ({
                   ...schedule,
