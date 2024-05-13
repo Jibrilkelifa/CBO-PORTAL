@@ -495,21 +495,6 @@ navItemsICMSBranch = {
         },
       ]
     },
-
-    // {
-    //   name: 'Finance',
-    //   url: '/ICMS/Finance',
-    //   children: [
-    //     {
-    //       name: 'Add data',
-    //       url: '/ICMS/Finance/addFinance',
-    //     },
-    //     {
-    //       name: 'View Finance',
-    //       url: '/ICMS/Finance/viewFinance'
-    //     },
-    //   ]
-    // },
     {
       name: 'Fire Extinguisher',
       url: '/ICMS/FireExtinguisher',
@@ -674,10 +659,6 @@ navItemsICMSFinanceICOWNER = {
       name: 'View Finance',
       url: '/ICMS/Finance/viewFinance'
     }, 
-    {
-      name: 'Add data',
-      url: '/ICMS/Share/addShare',
-    },
   ]
 }
 
