@@ -35,7 +35,7 @@ export class RespondePageComponent {
   showForm = false;
   showFilepop = false;
   other: boolean = false;
-  buttonLabel = 'Replay';
+  buttonLabel = 'Reply';
   selectedFile: any;
   imageURL: string;
   fileLinks: String[];
