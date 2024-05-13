@@ -751,6 +751,10 @@ navItemsSMSAdmin = {
           name: 'Cost',
           url: '/sms/cost',
         },
+        {
+          name: 'Customer messages',
+          url: '/sms/customer-messages',
+        },
 
       ]
     },
@@ -1058,7 +1062,7 @@ navItemsCAOUser = {
   iconComponent: { name: 'cib-openstreetmap' },
   children: [
     {
-      name: 'My Checklists',
+      name: 'My Inquiry/Activity',
       url: '/cao/checklists/my-checklists',
     },
   ]

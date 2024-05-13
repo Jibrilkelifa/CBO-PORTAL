@@ -251,6 +251,7 @@ export class DefaultLayoutComponent {
               this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_CAO_USER":
+              this.navItems.push(navItemsCAOUser);
               this.dashboardRoute = "default_dashboard"
               break;
             case "ROLE_CMS_ADMIN":
@@ -301,11 +302,6 @@ export class DefaultLayoutComponent {
               this.navItems.push(navItemsCISTAdmin);
               this.dashboardRoute = "default_dashboard"
               break;
-          }
-
-          if (localStorage.getItem('title').includes('MANAGER') && (localStorage.getItem('branchId') != null)) {
-            this.navItems.push(navItemsCAOUser);
-            this.dashboardRoute = "default_dashboard";
           }
         }
       }

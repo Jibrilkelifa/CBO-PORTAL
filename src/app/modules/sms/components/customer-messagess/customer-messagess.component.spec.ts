@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SingleMessagesComponent } from './customer-messages.component';
+import { CustomerMessagessComponent } from './customer-messages.component';
 
 describe('AllMessagesComponent', () => {
-  let component: SingleMessagesComponent;
-  let fixture: ComponentFixture<SingleMessagesComponent>;
+  let component: CustomerMessagessComponent;
+  let fixture: ComponentFixture<CustomerMessagessComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SingleMessagesComponent]
+      declarations: [CustomerMessagessComponent]
     });
-    fixture = TestBed.createComponent(SingleMessagesComponent);
+    fixture = TestBed.createComponent(CustomerMessagessComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

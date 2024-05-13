@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service'
@@ -193,37 +193,6 @@ export class FraudTableComponent {
     return Math.abs(number);
   }
 
-  deleteBox(id: number): void {
-    this.deleteId = id;
-
-    this.fraudService.deleteFraud(this.deleteId).subscribe(
-      (response: void) => {
-        this.getFrauds(this.roles);
-      },
-      (error: HttpErrorResponse) => {
-
-        this.getFrauds(this.roles);
-      }
-    );
-
-  }
-
-  confirmPosition(position: string, id: number) {
-    this.position = position;
-    this.confirmationService.confirm({
-      message: 'Do you want to delete this record?',
-      header: 'Delete Confirmation',
-      icon: 'pi pi-info-circle',
-      accept: () => {
-        this.deleteBox(id);
-        this.msgs = [{ severity: 'success', summary: 'Confirmed', detail: 'Record deleted' }];
-      },
-      reject: () => {
-        this.msgs = [{ severity: 'error', summary: 'Rejected', detail: 'Record not deleted' }];
-      },
-      key: "positionDialog"
-    });
-  }
 
   public getFrauds(roles: string[]): void {
     if (roles.includes("ROLE_ICMS_ADMIN") || roles.includes("ROLE_ICMS_PROVISION")) {
@@ -375,23 +344,42 @@ export class FraudTableComponent {
       );
     }
   }
-
-  public deleteFraud(): void {
-    this.fraudService.deleteFraud(this.deleteId).subscribe(
-      (response: void) => {
-        this.getFrauds(this.roles);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: "Incident Fraud Updated Successfully"
-        });
+  deleteFrauds(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.fraudService.deleteFraud(id).subscribe(
+          (response: void) => {
+            this.getFrauds(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted Fraud successfully"
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+    
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
       },
-      (error: HttpErrorResponse) => {
-
-        this.getFrauds(this.roles);
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
       }
-    );
+    });
   }
+
 
   public getFraud(id: number): IFR[] {
     this.fraudService.getFraud(id).subscribe(

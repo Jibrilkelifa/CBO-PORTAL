@@ -64,7 +64,7 @@ export class ViewChecklistComponent {
 
   createNewcaChecklist(): void {
     const ref = this.dialogService.open(CreateComponent, {
-      header: 'Create a new CAO Inquiry/Activity Checklist',
+      header: 'Create a new CAO Inquiry/Activity',
       width: '60%',
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,

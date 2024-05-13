@@ -1,16 +1,42 @@
-<!-- customer.component.html -->
 <form #dataToBeSent="ngForm" name="dawholegadaymform" (ngSubmit)="addMemo(dataToBeSent)">
   <div class="inputs">
     <p-calendar [showIcon]="true" [style]="{'min-width':'500px', 'margin':'10px'}" id="curdateid" class="curdate"
-      placeholder="Date" name="curdate" [minDate]="dateTime" [(ngModel)]="postMemo.curdate" ngModel
+      placeholder="Date" name="expiryDate" [minDate]="dateTime" [(ngModel)]="postMemo.curdate" ngModel
       [required]="true"></p-calendar>
     <br>
     <div class="flex-auto">
       <p-multiSelect [style]="{'min-width':'500px', 'margin':'10px' , 'height': '45px'}" [options]="groupOptions"
-        id="divisions" class="divisions" name="group" [(ngModel)]="selectedGroups" optionLabel="name"
-        placeholder="Select Customer category" [required]="true"></p-multiSelect>
+      id="divisions" class="divisions" name="listOfCategory" [(ngModel)]="selectedCategories" optionLabel="categoryName"
+      placeholder="Select Customer category" [required]="true">
+      <ng-template let-category pTemplate="item">
+          <div class="flex align-items-center gap-2">
+              <div>{{ category.categoryName }}</div>
+          </div>
+      </ng-template>
+  </p-multiSelect>
     </div>
   </div>
+
+  <div class="flex-auto" >
+    <label for="alphabetic" class=" block mb-2"> Employee</label>
+    <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="employeeId" name="employee"
+      [readonly]=true [style]="{'width':'30vw','height':'45px'}"   />
+  </div>
+  
+  
+  <div class="flex-auto" >
+    <label for="alphabetic" class=" block mb-2"> subProcess</label>
+    <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="subProcessId" name="subProcessOfSender"
+      [readonly]=true [style]="{'width':'30vw','height':'45px'}"   />
+  </div>
+  
+  <div class="flex-auto" >
+    <label for="alphabetic" class=" block mb-2"> Process</label>
+    <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="processId" name="processOfSender"
+      [readonly]=true [style]="{'width':'30vw','height':'45px'}"   />
+  </div>
+  
+  
 
   <div class="mbody">
     <label for="messageContent" class="block mb-2">Message</label>

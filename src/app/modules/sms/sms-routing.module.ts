@@ -12,6 +12,7 @@ import { SmsDashboardComponent } from './components/dashboard/monthlySMSReport/s
 import { SMSHistoryComponent } from './components/dashboard/smsHistory/smsHistory.component';
 import { TableReportComponents } from './components/dashboard/tableReport/tableReport.component';
 import { CustomerComponent } from './components/send-customer/customer.component';
+import { CustomerMessagessComponent } from './components/customer-messagess/customer-messages.component';
 const routes: Routes = [
   {
     path: '',
@@ -73,6 +74,14 @@ const routes: Routes = [
           title: 'report-Of-SingleMessages',
         },
       },
+      {
+        path: 'customer-messages',
+        component: CustomerMessagessComponent,
+        data: {
+          title: 'report-Of-CustomerMessages',
+        },
+      },
+
 
        {
         path: 'single',

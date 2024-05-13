@@ -1,3 +1,5 @@
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog>
 <p-messages
   style="
     position: absolute;
@@ -431,6 +433,18 @@
                 class="p-button-sm mb-3 mr-2"
               >
                 <i class="pi pi-calculator text-red-500"></i>
+              </button>
+            </ng-container>
+           
+            <ng-container
+                *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+                >
+               <button
+                (click)="deleteFrauds(frauds.id)"
+
+                class="p-button-sm w-20 h-10 p-2"
+              >
+                <i class="pi pi-trash"></i>
               </button>
             </ng-container>
           </div>

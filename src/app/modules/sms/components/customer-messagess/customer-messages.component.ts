@@ -10,6 +10,7 @@ import { Msg_to_sent } from '../../models/msg_to_sent';
     templateUrl: 'customer-messagess.component.html',
 })
 export class CustomerMessagessComponent implements OnInit {
+  isAuthorized: boolean = false;
     msg_to_sent: Msg_to_sent[] = [];
     selectedMessages: any[] = [];
     successText: string;
@@ -22,8 +23,8 @@ export class CustomerMessagessComponent implements OnInit {
     fetchAllMessages() {
         this.bulkService.getCustomerMessages().subscribe(
           (response) => {
-            this.messages = response;
-            console.log('Messages:', this.messages);
+            this.msg_to_sent = response;
+            console.log('Messages:', this.msg_to_sent);
            
         
           },
@@ -32,45 +33,40 @@ export class CustomerMessagessComponent implements OnInit {
           }
         );
       }
-   
-    getSeverity(status: number): string {
-      switch (status) {
-        case 0:
-          return 'success';
+      authorizeMessage(messageId: number) {
+        this.bulkService.authorizeMessage(messageId).subscribe(
+          
+            (response) => {
+              this.isAuthorized = true;
+                console.log('Message authorized successfully:', response);
+
+                this.fetchAllMessages(); // Refresh the list of messages after authorization
+            },
+            (error) => {
+                console.error('Error authorizing message:', error);
+            }
+        );
+    }
     
-        case 1:
-          return 'success';
-    
-        case 2:
+    getSeverity(isAuthorized: boolean): string {
+      switch (isAuthorized) {
+        case false:
           return 'danger';
     
-        case 3:
-          return 'info';
-    
-        case 4:
-          return 'renewal';
+        case true:
+          return 'success';
     
         default:
           return null;
       }
     }
-    getDisplayLabel(status: number): string {
-      switch (status) {
-        case 0:
-          return 'Pending';
+    getDisplayLabel(isAuthorized: boolean): string {
+      switch (isAuthorized) {
+        case false:
+          return 'Unauthorized';
     
-        case 1:
-          return 'Delivered to phone';
-        case 2:
-            return 'Non-Delivered to Phone';
-        case 4:
-            return 'Queued on SMSC';
-        case 16:
-            return 'Non-Delivered to SMSC';
-        case 8:
-            return 'Delivered to phone';
-
-    
+        case true:
+          return 'Authorized';
         default:
           return null;
       }
