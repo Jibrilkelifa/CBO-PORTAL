@@ -38,36 +38,7 @@ export class NewIFBComponent implements OnInit {
   public showOtherProductTypes: boolean = false;
   caseId: string;
 
-  generateCaseId(): void {
-    this.timeService.getDate().subscribe(
-      (response: any) => {
-        const dateParts = response.time.split('/');
-        const year = dateParts[2];
-        const month = dateParts[0].padStart(2, "0");
-        const day = dateParts[1].padStart(2, "0");
-        this.IFBService.getSize().subscribe(
-          (response: any) => {
-            if (response == 0) {
-              this.caseId = "0001/" + month + "/" + day + "/" + year;
-            }
-            else {
-              this.IFBService.findIFBById(response).subscribe(
-                (response: any) => {
-                  if (response.caseId.slice(-4) === year) {
-                    const lastCaseId = parseInt(response.caseId.slice(0, 4));
-                    const nextCaseId = (lastCaseId + 1).toString().padStart(4, "0");
-                    this.caseId = nextCaseId + "/" + month + "/" + day + "/" + year;
-                  } else {
-                    this.caseId = "0001/" + month + "/" + day + "/" + year;
-                  }
-                }
-              )
-            }
-          }
-        )
-      }
-    )
-  }
+
 
 
   constructor(
@@ -101,6 +72,37 @@ export class NewIFBComponent implements OnInit {
     this.generateCaseId();
     this.getStatus();
 
+  }
+
+  generateCaseId(): void {
+    this.timeService.getDate().subscribe(
+      (response: any) => {
+        const dateParts = response.time.split('/');
+        const year = dateParts[2];
+        const month = dateParts[0].padStart(2, "0");
+        const day = dateParts[1].padStart(2, "0");
+        this.IFBService.getSize().subscribe(
+          (response: any) => {
+            if (response == 0) {
+              this.caseId = "0001/" + month + "/" + day + "/" + year;
+            }
+            else {
+              this.IFBService.findIFBById(response).subscribe(
+                (response: any) => {
+                  if (response.caseId.slice(-4) === year) {
+                    const lastCaseId = parseInt(response.caseId.slice(0, 4));
+                    const nextCaseId = (lastCaseId + 1).toString().padStart(4, "0");
+                    this.caseId = nextCaseId + "/" + month + "/" + day + "/" + year;
+                  } else {
+                    this.caseId = "0001/" + month + "/" + day + "/" + year;
+                  }
+                }
+              )
+            }
+          }
+        )
+      }
+    )
   }
 
   getIFB(id: number) {

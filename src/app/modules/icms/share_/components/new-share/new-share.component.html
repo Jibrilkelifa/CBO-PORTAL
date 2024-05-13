@@ -3,7 +3,7 @@
   [value]="msgs"
 ></p-messages>
 <div>
-  <form #FinanceForm="ngForm" (ngSubmit)="submitFinance(FinanceForm)" required>
+  <form #ShareForm="ngForm" (ngSubmit)="submitShare(ShareForm)" required>
     <div class="flex flex-wrap gap-3 mb-4">
       <div class="flex-auto" *ngIf="!update">
         <label for="alphabetic" class="block mb-2"> Case ID </label>
@@ -22,7 +22,7 @@
         <label for="financeDate" class="block mb-2">Date </label>
         <p-calendar
           id="financeDate"
-          [(ngModel)]="Finance.financeDate"
+          [(ngModel)]="Share.shareDate"
           name="financeDate"
           [style]="{ width: '30vw', height: '45px' }"
           [showIcon]="true"
@@ -33,7 +33,7 @@
         <label for="allCategory" class="block mb-2"> Category </label>
         <p-dropdown
           id="allCategory"
-          [(ngModel)]="Finance.allCategory"
+          [(ngModel)]="Share.allCategory"
           name="allCategory"
           [options]="categories"
           optionLabel="name"
@@ -47,7 +47,7 @@
         <label for="allSubCategory" class="block mb-2"> Sub Category </label>
         <p-dropdown
           id="allSubCategory"
-          [(ngModel)]="Finance.allSubCategory"
+          [(ngModel)]="Share.allSubCategory"
           name="allSubCategory"
           [options]="subCategories"
           optionLabel="name"
@@ -59,7 +59,7 @@
       <div class="flex-auto" *ngIf="!update">
         <label for="accountNumber" class="block mb-2"> Account Number </label>
         <p-inputNumber
-          [(ngModel)]="Finance.accountNumber"
+          [(ngModel)]="Share.shareNumber"
           inputId="accountNumber"
           [useGrouping]="false"
           [style]="{ width: '30vw', height: '45px' }"
@@ -74,7 +74,7 @@
         <input
           pInputText
           id="irregularity"
-          [(ngModel)]="Finance.irregularity"
+          [(ngModel)]="Share.irregularity"
           name="irregularity"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
@@ -86,7 +86,7 @@
         <input
           pInputText
           id="amount"
-          [(ngModel)]="Finance.amount"
+          [(ngModel)]="Share.shareNumber"
           name="amount"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
@@ -99,7 +99,7 @@
         <input
           pInputText
           id="responsiblePerson"
-          [(ngModel)]="Finance.responsiblePerson"
+          [(ngModel)]="Share.responsiblePerson"
           name="responsiblePerson"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
@@ -107,9 +107,9 @@
       </div>
 
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Team/Subprocess</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
-          name="selectedSubProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
+        <label for="alphabetic" class=" block mb-2"> Team</label>
+        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedTeam"
+          name="team" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
       </div>
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class="block mb-2"> District</label>
@@ -160,7 +160,7 @@
     <p-button
       [label]="update ? 'Update' : 'Create'"
       type="submit"
-      [disabled]="FinanceForm.form.invalid"
+      [disabled]="ShareForm.form.invalid"
       class="createButton"
     ></p-button>
   </form>

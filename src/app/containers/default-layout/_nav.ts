@@ -28,6 +28,7 @@ export let navItemsICMSBranch: Object;
 export let navItemsICMSIFB: Object;
 export let navItemsICMSFinanceIC: Object;
 export let navItemsICMSFinanceICOWNER: Object;
+export let navItemsICMSShare: Object;
 export let navItemsSMSAdmin: Object;
 export let navItemsICMSProvision: Object;
 export let navItemsICMSBranchManager: Object;
@@ -57,19 +58,19 @@ navItemMenu = {
 }
 navItemsAdmin = {
   name: "System Admin",
-  url:'/user',
+  url: '/user',
   iconComponent: { name: 'cil-settings' },
-  children:[
+  children: [
     {
       name: 'Assign Role',
       url: '/user/assignRole',
-     
-    }, 
+
+    },
     {
       name: 'Update User',
       url: '/user/updateUser',
-  
-    }, 
+
+    },
 
   ]
 
@@ -444,6 +445,17 @@ navItemsICMSAdmin = {
           url: '/ICMS/IFB/viewIFB'
         }
       ]
+    },
+    {
+      name: 'Finance',
+      url: '/ICMS',
+      iconComponent: { name: 'cil-dollar' },
+      children: [
+        {
+          name: 'View Finance',
+          url: '/ICMS/Finance/viewFinance'
+        }
+      ]
     }
   ]
 }
@@ -661,6 +673,26 @@ navItemsICMSFinanceICOWNER = {
     {
       name: 'View Finance',
       url: '/ICMS/Finance/viewFinance'
+    }, 
+    {
+      name: 'Add data',
+      url: '/ICMS/Share/addShare',
+    },
+  ]
+}
+
+navItemsICMSShare = {
+  name: 'Share',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-dollar' },
+  children: [
+    {
+      name: 'Add data',
+      url: '/ICMS/Share/addShare',
+    },
+    {
+      name: 'View Share',
+      url: '/ICMS/Share/viewShare'
     }
   ]
 }
@@ -687,7 +719,7 @@ navItemsSMSAdmin = {
         {
           name: 'Group Messaging',
           url: '/sms/group',
-        },  {
+        }, {
           name: 'Customer Messaging',
           url: '/sms/customer',
         }

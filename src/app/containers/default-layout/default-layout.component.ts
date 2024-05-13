@@ -19,6 +19,7 @@ import {
   navItemsICMSIFB,
   navItemsICMSFinanceIC,
   navItemsICMSFinanceICOWNER,
+  navItemsICMSShare,
   navItemsSASVAdmin,
   navItemsSASVUser,
   navItemsMemoAdmin,
@@ -92,6 +93,7 @@ export class DefaultLayoutComponent {
     this.addIndentClass(navItemsICMSIFB);
     this.addIndentClass(navItemsICMSFinanceIC);
     this.addIndentClass(navItemsICMSFinanceICOWNER);
+    this.addIndentClass(navItemsICMSShare);
     this.addIndentClass(navItemsSASVAdmin);
     this.addIndentClass(navItemsSASVUser);
     this.addIndentClass(navItemsMemoAdmin);
@@ -210,6 +212,11 @@ export class DefaultLayoutComponent {
                 this.dashboardRoute = "default_dashboard"
                 //this.router.navigate(['icms_dashboard/bankingOperation']);
                 break;
+                case "ROLE_ICMS_SHARW":
+                  this.navItems.push(navItemsICMSShare);
+                  this.dashboardRoute = "default_dashboard"
+                  //this.router.navigate(['icms_dashboard/bankingOperation']);
+                  break;
             case "ROLE_ICMS_DISTRICT_DIRECTOR":
               this.navItems.push(navItemsICMSDistrictDirector);
               this.router.navigate(['icms_dashboard/district']);
