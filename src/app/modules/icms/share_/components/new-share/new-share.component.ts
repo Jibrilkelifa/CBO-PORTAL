@@ -146,7 +146,7 @@ export class NewShareComponent implements OnInit {
   }
 
   getCategories() {
-    this.categoryService.getAllCategoriesBySubModuleName("FPIC").subscribe(
+    this.categoryService.getAllCategoriesBySubModuleName("SMPIC").subscribe(
       (response: any[]) => {
         this.categories = response;
       },
@@ -160,10 +160,9 @@ export class NewShareComponent implements OnInit {
   }
 
   onCategoryChange(event: any) {
-    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("FPIC", event.value.name).subscribe(
+    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("SMPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
-        
         this.subCategories = response;
 
       },

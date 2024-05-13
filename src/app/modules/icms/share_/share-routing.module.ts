@@ -10,13 +10,13 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Finance',
+      title: 'Share',
     },
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'View Finance',
+        redirectTo: 'View Share',
       },
       {
         path: 'addShare',

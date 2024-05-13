@@ -57,18 +57,30 @@
         ></p-dropdown>
       </div>
       <div class="flex-auto" *ngIf="!update">
-        <label for="accountNumber" class="block mb-2"> Account Number </label>
+        <label for="shareNumber" class="block mb-2"> Share Number </label>
         <p-inputNumber
           [(ngModel)]="Share.shareNumber"
-          inputId="accountNumber"
+          inputId="shareNumber"
           [useGrouping]="false"
           [style]="{ width: '30vw', height: '45px' }"
-          (keydown)="limitInput($event)"
-          name="accountNumber"
+          name="shareNumber"
           [required]="true"
         ></p-inputNumber>
-    </div>
-    
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="shareHoldersName" class="block mb-2">
+          Share Holder's Name
+        </label>
+        <input
+          pInputText
+          id="shareHoldersName"
+          [(ngModel)]="Share.shareHoldersName"
+          name="shareHoldersName"
+          [required]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+
       <div class="flex-auto" *ngIf="!update">
         <label for="irregularity" class="block mb-2"> Irregularity </label>
         <input
@@ -80,14 +92,14 @@
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
-      
+
       <div class="flex-auto" *ngIf="!update">
         <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
         <input
           pInputText
           id="amount"
-          [(ngModel)]="Share.shareNumber"
-          name="amount"
+          [(ngModel)]="Share.amountInvolved"
+          name="amountInvolved"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
@@ -107,9 +119,17 @@
       </div>
 
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Team</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedTeam"
-          name="team" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
+        <label for="alphabetic" class="block mb-2"> Team</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          [(ngModel)]="selectedTeam"
+          name="team"
+          [readonly]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+          minlength="3"
+        />
       </div>
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class="block mb-2"> District</label>

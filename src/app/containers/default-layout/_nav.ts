@@ -27,8 +27,9 @@ export let navItemsICMSDistrictDirector: Object;
 export let navItemsICMSBranch: Object;
 export let navItemsICMSIFB: Object;
 export let navItemsICMSFinanceIC: Object;
-export let navItemsICMSFinanceICOWNER: Object;
-export let navItemsICMSShare: Object;
+export let navItemsICMSFinanceOWNER: Object;
+export let navItemsICMSShareIC: Object;
+export let navItemsICMSShareOWNER: Object;
 export let navItemsSMSAdmin: Object;
 export let navItemsICMSProvision: Object;
 export let navItemsICMSBranchManager: Object;
@@ -650,7 +651,7 @@ navItemsICMSFinanceIC = {
   ]
 }
 
-navItemsICMSFinanceICOWNER = {
+navItemsICMSFinanceOWNER = {
   name: 'FInance',
   url: '/ICMS',
   iconComponent: { name: 'cil-dollar' },
@@ -658,11 +659,11 @@ navItemsICMSFinanceICOWNER = {
     {
       name: 'View Finance',
       url: '/ICMS/Finance/viewFinance'
-    }, 
+    },
   ]
 }
 
-navItemsICMSShare = {
+navItemsICMSShareIC = {
   name: 'Share',
   url: '/ICMS',
   iconComponent: { name: 'cil-dollar' },
@@ -671,6 +672,18 @@ navItemsICMSShare = {
       name: 'Add data',
       url: '/ICMS/Share/addShare',
     },
+    {
+      name: 'View Share',
+      url: '/ICMS/Share/viewShare'
+    }
+  ]
+}
+
+navItemsICMSShareOWNER = {
+  name: 'Share',
+  url: '/ICMS',
+  iconComponent: { name: 'cil-dollar' },
+  children: [
     {
       name: 'View Share',
       url: '/ICMS/Share/viewShare'

@@ -18,8 +18,9 @@ import {
   navItemsICMSBankingOperation,
   navItemsICMSIFB,
   navItemsICMSFinanceIC,
-  navItemsICMSFinanceICOWNER,
-  navItemsICMSShare,
+  navItemsICMSFinanceOWNER,
+  navItemsICMSShareIC,
+  navItemsICMSShareOWNER,
   navItemsSASVAdmin,
   navItemsSASVUser,
   navItemsMemoAdmin,
@@ -92,8 +93,9 @@ export class DefaultLayoutComponent {
     this.addIndentClass(navItemsICMSBankingOperation);
     this.addIndentClass(navItemsICMSIFB);
     this.addIndentClass(navItemsICMSFinanceIC);
-    this.addIndentClass(navItemsICMSFinanceICOWNER);
-    this.addIndentClass(navItemsICMSShare);
+    this.addIndentClass(navItemsICMSFinanceOWNER);
+    this.addIndentClass(navItemsICMSShareIC);
+    this.addIndentClass(navItemsICMSShareOWNER);
     this.addIndentClass(navItemsSASVAdmin);
     this.addIndentClass(navItemsSASVUser);
     this.addIndentClass(navItemsMemoAdmin);
@@ -207,16 +209,21 @@ export class DefaultLayoutComponent {
               this.dashboardRoute = "default_dashboard"
               //this.router.navigate(['icms_dashboard/bankingOperation']);
               break;
-              case "ROLE_ICMS_FINANCE_OWNER":
-                this.navItems.push(navItemsICMSFinanceICOWNER);
-                this.dashboardRoute = "default_dashboard"
-                //this.router.navigate(['icms_dashboard/bankingOperation']);
-                break;
-                case "ROLE_ICMS_SHARW":
-                  this.navItems.push(navItemsICMSShare);
-                  this.dashboardRoute = "default_dashboard"
-                  //this.router.navigate(['icms_dashboard/bankingOperation']);
-                  break;
+            case "ROLE_ICMS_FINANCE_OWNER":
+              this.navItems.push(navItemsICMSFinanceOWNER);
+              this.dashboardRoute = "default_dashboard"
+              //this.router.navigate(['icms_dashboard/bankingOperation']);
+              break;
+            case "ROLE_ICMS_SHARE_IC":
+              this.navItems.push(navItemsICMSShareIC);
+              this.dashboardRoute = "default_dashboard"
+              //this.router.navigate(['icms_dashboard/bankingOperation']);
+              break;
+            case "ROLE_ICMS_SHARE_OWNER":
+              this.navItems.push(navItemsICMSShareOWNER);
+              this.dashboardRoute = "default_dashboard"
+              //this.router.navigate(['icms_dashboard/bankingOperation']);
+              break;
             case "ROLE_ICMS_DISTRICT_DIRECTOR":
               this.navItems.push(navItemsICMSDistrictDirector);
               this.router.navigate(['icms_dashboard/district']);
