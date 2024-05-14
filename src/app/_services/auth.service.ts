@@ -91,7 +91,7 @@ export class AuthService {
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
 
-    localStorage.setItem("ams_ip", "http://localhost:8099")
+    localStorage.setItem("ams_ip", "http://10.1.125.58:8099")
     
 
     localStorage.setItem('gender', employee?.gender);
