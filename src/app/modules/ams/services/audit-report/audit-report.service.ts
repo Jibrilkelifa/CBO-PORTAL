@@ -28,9 +28,13 @@ export class AuditReportService {
 
   public generateReport(report: any): Observable<any> {
     this.init();
-    console.log("i generated" + report);
     const url = `${this.apiServiceUrl}/ams/report/register/byAuditSchedule`;
     return this.http.post(url, report, this.httpOptions);
+  }
+  public createDocument(report: any): Observable<any>{
+    this.init()
+    const url = `${this.apiServiceUrl}/ams/report/generate`;
+    return this.http.post(url,report,this.httpOptions);
   }
 
   public generateReport1(id: number): Observable<any> {

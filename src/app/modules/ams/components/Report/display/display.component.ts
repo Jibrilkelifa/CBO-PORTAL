@@ -19,6 +19,8 @@ import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { AuditFindingService } from '../../../services/auidit-finding/audit-finding.service';
 import { FindingDTO } from '../../../models/finding';
+import { AuditReportService } from '../../../services/audit-report/audit-report.service';
+import { error } from 'console';
 (pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 interface Column {
@@ -55,7 +57,8 @@ export class ReportDisplay implements OnInit {
 
   constructor(
     private router:Router,
-    private auditFindingService: AuditFindingService
+    private auditFindingService: AuditFindingService,
+    private auditReportService: AuditReportService
   ) {}
 
   ngOnInit() {
@@ -78,151 +81,161 @@ export class ReportDisplay implements OnInit {
 
  
   createPdf() {
-    let docDefinition: TDocumentDefinitions = {
-      content: [
-        {
-          text: 'Baankii Hojii Gamtaa Oromiyaa (W.A)',
-          style: 'companyName'
-        },
-        {
-          text: 'Cooperative Bank of Oromia (S.C)',
-          style: 'companyName'
-        },
-        {
-          text: 'INTERNAL AUDIT PROCESS',
-          style: 'mainTitle'
-        },
-        {
-          text: this.auditReport[0].auditSchedule.annualPlan.auditObject.auditType + " Report on " + this.auditReport[0].auditSchedule.annualPlan.name,
-          style: 'mainText'
-        },
-        {
-          text: this.monthName + " " + this.year,
-          style: 'date'
-        },
-        // Page break to start the next page
-        { text: '', pageBreak: 'after' },
-        {
-          text: 'Introduction',
-          style: 'title',
-          pageOrientation: 'landscape'
-        },
-        {
-          text: this.parseHtml(this.auditReport[0].introduction),
-          style: 'text_body'
-        },
-        {
-          text: 'Executive Summary',
-          style: 'title'
-        },
-        {
-          text: this.parseHtml(this.auditReport[0].summary),
-          style: 'text_body'
-        },
-        {
-          text: 'Methodology',
-          style: 'title'
-        },
-        {
-          text: this.parseHtml(this.auditReport[0].methodology),
-          style: 'text_body'
-        },
-        {
-          text: 'Audit Findings, Recommendations and Response Summary',
-          style: 'title'
-        },
-        {
-          table: {
-            headerRows: 1,
-            widths: ['auto', 'auto', 'auto', 'auto', 'auto' , 'auto', 'auto'], // Adjust column widths as needed
-            body: [
-              // Header row with numbering
-              [
-                { text: 'No.', style: 'tableHeader' },
-                { text: 'Finding', style: 'tableHeader' }, 
-                { text: 'Criteria', style: 'tableHeader' }, 
-                { text: 'Impact', style: 'tableHeader' }, 
-                { text: 'Recomendation', style: 'tableHeader' },
-                { text: 'Auditees Response' , style: 'tableHeader'},
-                { text: 'Response Justification' , style: 'tableHeader'}
-              ],
-              // Data rows with numbers
-              ...this.auditReport[0].findings.map((finding, index) => [
-                { text: (index + 1).toString(), style: 'tableCell' }, // Display numbers
-                { text: finding.finding || '', style: 'tableCell' },
-                { text: finding.criteria || '', style: 'tableCell' },
-                { text: finding.impact || '', style: 'tableCell' },
-                { text: finding.recommendations || '', style: 'tableCell' },
-                { text: finding.auditeesResponse || '', style: 'tableCell' },
-                { text: finding.justifications || '', style: 'tableCell' }
-              ]),
-            ]
-          }
-        },
-        
-        
-      ],
-      styles: {
-        companyName: {
-          fontSize: 18,
-          bold: true,
-          color: '#00AEEF',
-          alignment: 'center',
-          margin: [0, 10, 0, 10]
-        },
-        title: {
-          fontSize: 16,
-          bold: true,
-          alignment: 'center',
-          color:  '#00AEEF',
-          margin: [0, 5, 0, 5]
-        },
-        title2: {
-          color: '#00AEEF'
-        },
-        mainTitle: {
-          fontSize: 20,
-          bold: true,
-          color: '#00AEEF',
-          alignment: 'center',
-          margin: [0, 200, 0, 10],
-          
-        },
-        mainText: {
-          fontSize: 16,
-          alignment: 'center',
-          color: '#00AEEF',
-          margin: [0, 10, 0, 20]
-        },
-        secondPageText: {
-          fontSize: 18,
-          alignment: 'center',
-          margin: [0, 20, 0, 20]
-        },
-        date: {
-          fontSize: 12,
-          color: '#333',
-          alignment: 'right',
-          margin: [0, 300, 20, 20]
-        },
-        text_body: {
-          fontSize: 12,
-          margin: [0, 0, 0, 10],
-          bold:false,
-          lineHeight: 1.5
-        },
-        tableHeader: {
-          fillColor: '#00AEEF', 
-          color: '#FFFFFF',    
-          bold: true,
-          alignment: 'center',
-          margin: [0, 5, 0, 5]
-        },
-        
-      }
-    };
   
-    pdfMake.createPdf(docDefinition).open();
+    //process auditReport
+    this.auditReportService.createDocument(this.auditReport[0].id).subscribe(
+       (response:any) => {
+           console.log(response)
+       },
+       (error:HttpErrorResponse) => {
+           console.log(error)
+       }
+    )
+    // let docDefinition: TDocumentDefinitions = {
+    //   content: [
+    //     {
+    //       text: 'Baankii Hojii Gamtaa Oromiyaa (W.A)',
+    //       style: 'companyName'
+    //     },
+    //     {
+    //       text: 'Cooperative Bank of Oromia (S.C)',
+    //       style: 'companyName'
+    //     },
+    //     {
+    //       text: 'INTERNAL AUDIT PROCESS',
+    //       style: 'mainTitle'
+    //     },
+    //     {
+    //       text: this.auditReport[0].auditSchedule.annualPlan.auditObject.auditType + " Report on " + this.auditReport[0].auditSchedule.annualPlan.name,
+    //       style: 'mainText'
+    //     },
+    //     {
+    //       text: this.monthName + " " + this.year,
+    //       style: 'date'
+    //     },
+    //     // Page break to start the next page
+    //     { text: '', pageBreak: 'after' },
+    //     {
+    //       text: 'Introduction',
+    //       style: 'title',
+    //       pageOrientation: 'landscape'
+    //     },
+    //     {
+    //       text: this.parseHtml(this.auditReport[0].introduction),
+    //       style: 'text_body'
+    //     },
+    //     {
+    //       text: 'Executive Summary',
+    //       style: 'title'
+    //     },
+    //     {
+    //       text: this.parseHtml(this.auditReport[0].summary),
+    //       style: 'text_body'
+    //     },
+    //     {
+    //       text: 'Methodology',
+    //       style: 'title'
+    //     },
+    //     {
+    //       text: this.parseHtml(this.auditReport[0].methodology),
+    //       style: 'text_body'
+    //     },
+    //     {
+    //       text: 'Audit Findings, Recommendations and Response Summary',
+    //       style: 'title'
+    //     },
+    //     {
+    //       table: {
+    //         headerRows: 1,
+    //         widths: ['auto', 'auto', 'auto', 'auto', 'auto' , 'auto', 'auto'], // Adjust column widths as needed
+    //         body: [
+    //           // Header row with numbering
+    //           [
+    //             { text: 'No.', style: 'tableHeader' },
+    //             { text: 'Finding', style: 'tableHeader' }, 
+    //             { text: 'Criteria', style: 'tableHeader' }, 
+    //             { text: 'Impact', style: 'tableHeader' }, 
+    //             { text: 'Recomendation', style: 'tableHeader' },
+    //             { text: 'Auditees Response' , style: 'tableHeader'},
+    //             { text: 'Response Justification' , style: 'tableHeader'}
+    //           ],
+    //           // Data rows with numbers
+    //           ...this.auditReport[0].findings.map((finding, index) => [
+    //             { text: (index + 1).toString(), style: 'tableCell' }, // Display numbers
+    //             { text: finding.finding || '', style: 'tableCell' },
+    //             { text: finding.criteria || '', style: 'tableCell' },
+    //             { text: finding.impact || '', style: 'tableCell' },
+    //             { text: finding.recommendations || '', style: 'tableCell' },
+    //             { text: finding.auditeesResponse || '', style: 'tableCell' },
+    //             { text: finding.justifications || '', style: 'tableCell' }
+    //           ]),
+    //         ]
+    //       }
+    //     },
+        
+        
+    //   ],
+    //   styles: {
+    //     companyName: {
+    //       fontSize: 18,
+    //       bold: true,
+    //       color: '#00AEEF',
+    //       alignment: 'center',
+    //       margin: [0, 10, 0, 10]
+    //     },
+    //     title: {
+    //       fontSize: 16,
+    //       bold: true,
+    //       alignment: 'center',
+    //       color:  '#00AEEF',
+    //       margin: [0, 5, 0, 5]
+    //     },
+    //     title2: {
+    //       color: '#00AEEF'
+    //     },
+    //     mainTitle: {
+    //       fontSize: 20,
+    //       bold: true,
+    //       color: '#00AEEF',
+    //       alignment: 'center',
+    //       margin: [0, 200, 0, 10],
+          
+    //     },
+    //     mainText: {
+    //       fontSize: 16,
+    //       alignment: 'center',
+    //       color: '#00AEEF',
+    //       margin: [0, 10, 0, 20]
+    //     },
+    //     secondPageText: {
+    //       fontSize: 18,
+    //       alignment: 'center',
+    //       margin: [0, 20, 0, 20]
+    //     },
+    //     date: {
+    //       fontSize: 12,
+    //       color: '#333',
+    //       alignment: 'right',
+    //       margin: [0, 300, 20, 20]
+    //     },
+    //     text_body: {
+    //       fontSize: 12,
+    //       margin: [0, 0, 0, 10],
+    //       bold:false,
+    //       lineHeight: 1.5
+    //     },
+    //     tableHeader: {
+    //       fillColor: '#00AEEF', 
+    //       color: '#FFFFFF',    
+    //       bold: true,
+    //       alignment: 'center',
+    //       margin: [0, 5, 0, 5]
+    //     },
+        
+    //   }
+    // };
+  
+    // pdfMake.createPdf(docDefinition).open();
   }
   
 

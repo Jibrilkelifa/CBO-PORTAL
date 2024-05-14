@@ -176,14 +176,7 @@
           label="Details"
         ></button>
 
-          <button
-            pButton
-            *ngIf="auditEngagement?.status == 'Engagement' && isManager"
-            (click)="addToProgram(auditEngagement)"
-            [ngClass]="{ updateBlue: true }"
-            class="p-button-sm h-10 whitespace-nowrap"
-            label="Add Program"
-          ></button>
+
         </td>
       </tr>
     </ng-template>
