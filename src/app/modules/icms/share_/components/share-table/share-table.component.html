@@ -25,8 +25,7 @@
     [globalFilterFields]="[
       'shareDate',
       'caseId',
-      'accountNumber',
-      'productTypes.name',
+      'shareNumber',
       'allCategory.name',
       'allSubCategory.name',
       'irregularity',
@@ -109,13 +108,13 @@
         <td
           [ngStyle]="{
             color:
-              share.daysPastDue > 0 && share.shareStatus.name === 'Open'
+              share?.daysPastDue > 0 && share?.shareStatus?.name === 'Open'
                 ? 'red'
                 : ''
           }"
         >
           {{
-            share.daysPastDue > 0 && share.shareStatus.name === "Open"
+            share?.daysPastDue > 0 && share?.shareStatus?.name === "Open"
               ? share.daysPastDue + " days past due"
               : ""
           }}
@@ -127,8 +126,8 @@
             class="flex gap-2 mr-2"
             *ngIf="
               this.roles.includes('ROLE_ICMS_SHARE_OWNER') &&
-              !share.actionTaken &&
-              share.shareStatus.name === 'Open'
+              !share?.actionTaken &&
+              share?.shareStatus?.name === 'Open'
             "
           >
             <button

@@ -73,6 +73,7 @@ export class ShareTableComponent implements OnDestroy {
       this.shareService.getAllShare().subscribe(
         (response: ShareModel[]) => {
           console.log(";;;",response);
+          //this.ShareList = response;
           this.ShareList = response.map(share => ({
             ...share,
             daysPastDue: this.daysPastDue(share.actionPlanDueDate)
@@ -84,9 +85,11 @@ export class ShareTableComponent implements OnDestroy {
       );
     }
     else if (roles.indexOf("ROLE_ICMS_SHARE_IC") !== -1) {
-      this.shareService.getShareForBranch(this.teamId).subscribe(
+      this.shareService.getShareForDistrict(this.subProcessId).subscribe(
         (response: ShareModel[]) => {  
           console.log("PPP",response);
+
+          //this.ShareList = response;
                                                
           this.ShareList = response.map(share => ({
             ...share,
