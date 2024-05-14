@@ -16,3 +16,7 @@
   height: 20px;
   /* adjust the height */
 }
+
+::ng-deep .custom-tooltip .p-tooltip-text {
+  max-width: 800px;
+}

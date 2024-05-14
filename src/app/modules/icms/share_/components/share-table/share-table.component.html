@@ -23,16 +23,16 @@
     [tableStyle]="{ 'min-width': '50rem' }"
     [rows]="5"
     [globalFilterFields]="[
-      'financeDate',
+      'shareDate',
       'caseId',
       'accountNumber',
       'productTypes.name',
       'allCategory.name',
       'allSubCategory.name',
       'irregularity',
-      'amount',
+      'amountInvolved',
       'responsiblePerson',
-      'financeStatus.name'
+      'shareStatus.name'
     ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
@@ -42,17 +42,17 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="financeDate">
+        <th pSortableColumn="shareDate">
           Date
-          <p-sortIcon field="financeDate"></p-sortIcon>
+          <p-sortIcon field="shareDate"></p-sortIcon>
         </th>
         <th pSortableColumn="caseId">
           Case ID
           <p-sortIcon field="caseId"></p-sortIcon>
         </th>
-        <th pSortableColumn="accountNumber">
-          Account Number
-          <p-sortIcon field="accountNumber"></p-sortIcon>
+        <th pSortableColumn="shareNumber">
+          Share Number
+          <p-sortIcon field="shareNumber"></p-sortIcon>
         </th>
         <th pSortableColumn="allCategory.name">
           Category
@@ -66,9 +66,9 @@
           Irregularity
           <p-sortIcon field="irregularity"></p-sortIcon>
         </th>
-        <th pSortableColumn="amount">
+        <th pSortableColumn="amountInvolved">
           Amount
-          <p-sortIcon field="amount"></p-sortIcon>
+          <p-sortIcon field="amountInvolved"></p-sortIcon>
         </th>
         <th pSortableColumn="responsiblePerson">
           Responsible Person
@@ -78,53 +78,62 @@
           Action Plan Due Date<p-sortIcon></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="">Past Due</th>
-        <th pSortableColumn="financeStatus.name">
+        <th pSortableColumn="shareStatus.name">
           Status
-          <p-sortIcon field="financeStatus.name"></p-sortIcon>
+          <p-sortIcon field="shareStatus.name"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-finance let-rowIndex="rowIndex">
-      <tr [pSelectableRow]="finance">
+    <ng-template pTemplate="body" let-share let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="share">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ finance?.financeDate | date : "MM/dd/yyyy"}}</td>
-        <td>{{ finance?.caseId }}</td>
-        <td>{{ finance?.accountNumber }}</td>
-        <td>{{ finance?.allCategory?.name }}</td>
-        <td>{{ finance?.allSubCategory?.name }}</td>
-        <td>{{ finance?.irregularity }}</td>
-        <td>{{ finance?.amount }}</td>
-        <td>{{ finance?.responsiblePerson }}</td>
-        <td>{{ finance?.actionPlanDueDate }}</td>
+        <td>{{ share?.shareDate | date : "MM/dd/yyyy" }}</td>
+        <td>{{ share?.caseId }}</td>
+        <td>{{ share?.shareNumber }}</td>
+        <td>{{ share?.allCategory?.name }}</td>
+        <td>{{ share?.allSubCategory?.name }}</td>
+        <td
+          pTooltip="{{ share?.irregularity?.name }}"
+          tooltipPosition="top"
+          styleClass="custom-tooltip"
+        >
+          <div class="w-64 overflow-hidden overflow-ellipsis">
+            {{ share?.irregularity?.name }}
+          </div>
+        </td>
+
+        <td>{{ share?.amountInvolved }}</td>
+        <td>{{ share?.responsiblePerson }}</td>
+        <td>{{ share?.actionPlanDueDate }}</td>
         <td
           [ngStyle]="{
             color:
-              finance.daysPastDue > 0 && finance.financeStatus.name === 'Open'
+              share.daysPastDue > 0 && share.shareStatus.name === 'Open'
                 ? 'red'
                 : ''
           }"
         >
           {{
-            finance.daysPastDue > 0 && finance.financeStatus.name === "Open"
-              ? finance.daysPastDue + " days past due"
+            share.daysPastDue > 0 && share.shareStatus.name === "Open"
+              ? share.daysPastDue + " days past due"
               : ""
           }}
         </td>
 
-        <td>{{ finance?.financeStatus?.name }}</td>
+        <td>{{ share?.shareStatus?.name }}</td>
         <td class="flex space-between">
           <div
             class="flex gap-2 mr-2"
             *ngIf="
-              this.roles.includes('ROLE_ICMS_FINANCE_OWNER') &&
-              !finance.actionTaken &&
-              finance.financeStatus.name === 'Open'
+              this.roles.includes('ROLE_ICMS_SHARE_OWNER') &&
+              !share.actionTaken &&
+              share.shareStatus.name === 'Open'
             "
           >
             <button
               pButton
-              (click)="approveActionPlan(finance)"
+              (click)="approveActionPlan(share)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-24 h-10 p-2"
               label="Take action"
@@ -132,11 +141,11 @@
           </div>
           <div
             class="flex gap-2"
-            *ngIf="this.roles.includes('ROLE_ICMS_FINANCE_IC')"
+            *ngIf="this.roles.includes('ROLE_ICMS_SHARE_IC')"
           >
             <button
               pButton
-              (click)="updateFinace(finance?.id)"
+              (click)="updateShare(share?.id)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
               label="Update"

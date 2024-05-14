@@ -19,11 +19,11 @@
         />
       </div>
       <div class="flex-auto">
-        <label for="financeDate" class="block mb-2">Date </label>
+        <label for="shareDate" class="block mb-2">Date </label>
         <p-calendar
-          id="financeDate"
+          id="shareDate"
           [(ngModel)]="Share.shareDate"
-          name="financeDate"
+          name="shareDate"
           [style]="{ width: '30vw', height: '45px' }"
           [showIcon]="true"
           [required]="true"
@@ -33,7 +33,7 @@
         <label for="allCategory" class="block mb-2"> Category </label>
         <p-dropdown
           id="allCategory"
-          [(ngModel)]="Share.allCategory"
+          [(ngModel)]="selectedCategory"
           name="allCategory"
           [options]="categories"
           optionLabel="name"
@@ -47,11 +47,12 @@
         <label for="allSubCategory" class="block mb-2"> Sub Category </label>
         <p-dropdown
           id="allSubCategory"
-          [(ngModel)]="Share.allSubCategory"
+          [(ngModel)]="selectedSubCategory"
           name="allSubCategory"
           [options]="subCategories"
           optionLabel="name"
           placeholder="Select a Sub Category"
+          (onChange)="onSubCategoryChange($event)"
           [style]="{ width: '30vw', height: '45px' }"
           [required]="true"
         ></p-dropdown>
@@ -81,15 +82,50 @@
         />
       </div>
 
-      <div class="flex-auto" *ngIf="!update">
-        <label for="irregularity" class="block mb-2"> Irregularity </label>
+      <div class="flex-auto" *ngIf="selectedCategory && selectedSubCategory">
+        <label for="hex" class="block mb-2"> Irregualrity </label>
+        <p-dropdown
+          [options]="irregularities"
+          name="irregularity"
+          ngModel
+          [(ngModel)]="selectedIrregularity"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Select Irregularity Type"
+          class="w-full"
+          styleClass="p-password"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+          (onChange)="onIrregularityChange($event)"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedIrregularity"
+            >
+              <div>{{ selectedIrregularity.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-irregularity pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ irregularity.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="isOtherIrregularitySelected">
+        <label for="alphabetic" class="block mb-2"> Other Irregularity</label>
         <input
           pInputText
-          id="irregularity"
-          [(ngModel)]="Share.irregularity"
-          name="irregularity"
-          [required]="true"
+          pKeyFilter="alpha"
+          id="alphabetic"
+          ngModel
+          name="otherIrregularity"
           [style]="{ width: '30vw', height: '45px' }"
+          required
+          minlength="3"
         />
       </div>
 
@@ -150,7 +186,7 @@
         <label for="hex" class="block mb-2"> Status </label>
         <p-dropdown
           [options]="statuses"
-          name="financeStatus"
+          name="shareStatus"
           ngModel
           [(ngModel)]="selectedstatus"
           optionLabel="name"

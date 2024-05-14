@@ -13,6 +13,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { StatusService } from 'src/app/services/icms-services/cipm-services/status.service';
 import { Status } from 'src/app/models/icms-models/cipm-models/status';
 import { ShareStatusModel } from '../../models/share-status-model';
+import { AllIrregularity } from 'src/app/models/icms-models/all-irregularity';
+import { AllCategory } from 'src/app/models/icms-models/all-category';
+import { AllSubCategory } from 'src/app/models/icms-models/all-sub-category';
+import { AllIrregularityService } from 'src/app/services/icms-services/all-irregularity.service';
 
 @Component({
   selector: 'new-share',
@@ -25,6 +29,7 @@ export class NewShareComponent implements OnInit {
   public Share: ShareModel = new ShareModel();
   public categories: any[] = [];
   public subCategories: any[] = [];
+  irregularities: AllIrregularity[];
   public update: boolean = false;
   public idY: number;
   selectedstatus: Status;
@@ -32,19 +37,61 @@ export class NewShareComponent implements OnInit {
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   public statuses: ShareStatusModel[];
+  isOtherIrregularitySelected: boolean = false;
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
-
+  public selectedIrregularity: AllIrregularity;
+  public selectedCategory: AllCategory;
+  public selectedSubCategory: AllSubCategory;
   public selectedBranch;
   public selectedTeam;
   public selectedSubProcess;
 
 
+
+
+  constructor(
+    private timeService: TimeService,
+    private primengConfig: PrimeNGConfig,
+    private messageService: MessageService,
+    private shareService: ShareService,
+    private categoryService: AllCategoryService,
+    private subCategoryService: AllSubCategoryService,
+    private activatedRoute: ActivatedRoute,
+    private allIrregularityService: AllIrregularityService,
+    private confirmationService: ConfirmationService,
+    private statusService: StatusService,
+    private router: Router) { }
+
+  ngOnInit() {
+    this.Share.shareDate = new Date();
+    this.primengConfig.ripple = true;
+    this.activatedRoute.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.getShare(id);
+        this.update = true;
+      } else {
+        this.selectedstatus = this.statuses.find(status => status.name === 'Open');
+      }
+    });
+
+    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedSubProcess = JSON.parse(localStorage.getItem("subProcess"))
+
+    this.generateCaseId();
+    this.getCategories();
+    this.getStatus();
+
+  }
+
+
   generateCaseId(): void {
     this.timeService.getDate().subscribe(
       (response: any) => {
-        const dateParts = response.time.split('/'); 
+        const dateParts = response.time.split('/');
         const year = dateParts[2];
         const month = dateParts[0].padStart(2, "0");
         const day = dateParts[1].padStart(2, "0");
@@ -73,45 +120,10 @@ export class NewShareComponent implements OnInit {
   }
 
 
-  constructor(
-    private timeService: TimeService,
-    private primengConfig: PrimeNGConfig,
-    private messageService: MessageService,
-    private shareService: ShareService,
-    private categoryService: AllCategoryService,
-    private subCategoryService: AllSubCategoryService,
-    private activatedRoute: ActivatedRoute,
-    private confirmationService: ConfirmationService,
-    private statusService :StatusService,
-    private router: Router) { }
-
-  ngOnInit() {
-    this.Share.shareDate = new Date();
-    this.primengConfig.ripple = true;
-    this.activatedRoute.params.subscribe(params => {
-      const id = params['id'];
-      if (id) {
-        this.getShare(id);
-        this.update = true;
-      } else {
-        this.selectedstatus = this.statuses.find(status => status.name === 'Open');
-      }
-    });
-
-    this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedTeam = JSON.parse(localStorage.getItem("team"));    
-    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
-
-    this.generateCaseId();
-    this.getCategories();
-    this.getStatus();
-
-  }
-
   getShare(id: number) {
     this.shareService.findShareById(id).subscribe(
       (response: ShareModel) => {
-        response.shareDate = new Date(response.shareDate); 
+        response.shareDate = new Date(response.shareDate);
         this.Share = response;
       },
       error => {
@@ -126,13 +138,13 @@ export class NewShareComponent implements OnInit {
       event.preventDefault();
     }
   }
-  
-  
+
+
 
   public getStatus(): void {
     this.shareService.getStatuses().subscribe(
       (response: ShareStatusModel[]) => {
-        this.statuses = response;        
+        this.statuses = response;
         this.selectedstatus = this.statuses.find(status => status.name === "Open");
       },
       (error: HttpErrorResponse) => {
@@ -145,6 +157,10 @@ export class NewShareComponent implements OnInit {
     this.showOtherProductTypes = event.value === 'Other';
   }
 
+  onIrregularityChange(event: any) {
+    this.isOtherIrregularitySelected = (event.value.name === 'Other');
+  }
+
   getCategories() {
     this.categoryService.getAllCategoriesBySubModuleName("SMPIC").subscribe(
       (response: any[]) => {
@@ -153,6 +169,17 @@ export class NewShareComponent implements OnInit {
       error => {
       }
     );
+  }
+
+  onSubCategoryChange(event: any) {
+    this.allIrregularityService.getAllIrregularitiesByCategoryNameAndSubCategoryName(this.categoryName, event.value.name).subscribe(
+      (response: any[]) => {
+        this.irregularities = response;
+      },
+      (error: HttpErrorResponse) => {
+
+      }
+    )
   }
 
   public populateSelectedStatus(existingStatus: Status): void {
@@ -173,22 +200,22 @@ export class NewShareComponent implements OnInit {
   }
 
 
-  submitShare(form: NgForm) {        
+  submitShare(form: NgForm) {
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
         shareDate: this.formatDate(this.Share.shareDate), // Convert date to string
-        shareStatus: this.selectedstatus ,// Attach the status
+        shareStatus: this.selectedstatus,// Attach the status
         team: this.selectedTeam
       };
-      
+
       if (this.update) {
         let updatedValue = {
-          ...this.Share, 
+          ...this.Share,
           shareDate: this.formatDate(this.Share.shareDate), // Convert date to string
           shareStatus: this.selectedstatus, // Attach the status
           team: this.selectedTeam
-        }        
+        }
         this.shareService.updateShare(updatedValue).subscribe(
           response => {
             this.messageService.add({
@@ -226,7 +253,7 @@ export class NewShareComponent implements OnInit {
       }
     }
   }
-  
+
 
   formatDate(date: Date): string {
     let day = date.getDate();
