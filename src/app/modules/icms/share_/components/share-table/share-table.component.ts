@@ -72,6 +72,8 @@ export class ShareTableComponent implements OnDestroy {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.shareService.getAllShare().subscribe(
         (response: ShareModel[]) => {
+          console.log(";;;",response);
+          //this.ShareList = response;
           this.ShareList = response.map(share => ({
             ...share,
             daysPastDue: this.daysPastDue(share.actionPlanDueDate)
@@ -82,9 +84,13 @@ export class ShareTableComponent implements OnDestroy {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_FINANCE_IC") !== -1) {
-      this.shareService.getShareForBranch(this.teamId).subscribe(
-        (response: ShareModel[]) => {                                       
+    else if (roles.indexOf("ROLE_ICMS_SHARE_IC") !== -1) {
+      this.shareService.getShareForDistrict(this.subProcessId).subscribe(
+        (response: ShareModel[]) => {  
+          console.log("PPP",response);
+
+          //this.ShareList = response;
+                                               
           this.ShareList = response.map(share => ({
             ...share,
             daysPastDue: this.daysPastDue(share.actionPlanDueDate)
@@ -99,12 +105,12 @@ export class ShareTableComponent implements OnDestroy {
   }
   
 
-  updateFinace(id: number): void {
-    this.router.navigate(['ICMS/Finance/updateFinance', id]); 
+  updateShare(id: number): void {
+    this.router.navigate(['ICMS/Share/updateShare', id]); 
   }
 
   approveActionPlan(share: ShareModel): void {    
-    this.router.navigate(['ICMS/Finance/approveActionPlan', { share: JSON.stringify(share) }]);
+    this.router.navigate(['ICMS/Share/approveActionPlan', { share: JSON.stringify(share) }]);
   }
   
   public daysPastDue(dateString: string): number {

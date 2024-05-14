@@ -15,11 +15,10 @@ export class ShareModel {
     otherIrregularity: string; 
     amountInvolved: string; 
     responsiblePerson: string; 
-    shareStatus: string;
+    shareStatus: ShareStatusModel;
     subProcess:SubProcess;
     branch: Branch;
     team: Team;
-
-    // actionTaken:boolean;
+    actionTaken:boolean;
      actionPlanDueDate: string;
 }

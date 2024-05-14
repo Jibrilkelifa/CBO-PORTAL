@@ -24,7 +24,6 @@ import {
   SharedModule,
   SpinnerModule,
   TabsModule,
-  TooltipModule,
   UtilitiesModule
 } from '@coreui/angular';
 
@@ -47,6 +46,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { AnimateModule } from 'primeng/animate';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 // CoreUI Modules
@@ -74,7 +74,6 @@ import { CalendarModule } from 'primeng/calendar';
     SpinnerModule,
     TabsModule,
     NavModule,
-    TooltipModule,
     CarouselModule,
     FormModule,
     ReactiveFormsModule,
@@ -94,7 +93,8 @@ import { CalendarModule } from 'primeng/calendar';
     ProgressSpinnerModule,
     AnimateModule,
     CalendarModule,
-    MessageModule
+    MessageModule,
+    TooltipModule
   ],
   declarations: [
     NewShareComponent,

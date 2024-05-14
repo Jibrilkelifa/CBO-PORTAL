@@ -58,15 +58,14 @@
       </div>
       <div class="flex-auto" *ngIf="!update">
         <label for="accountNumber" class="block mb-2"> Account Number </label>
-        <p-inputNumber
-          [(ngModel)]="Finance.accountNumber"
-          inputId="accountNumber"
-          [useGrouping]="false"
-          [style]="{ width: '30vw', height: '45px' }"
-          (keydown)="limitInput($event)"
+        <input
+          pInputText
+          id="accountNumber"
+          ngModel
           name="accountNumber"
-          [required]="true"
-        ></p-inputNumber>
+          [style]="{ width: '30vw', height: '45px' }"
+          pattern="^(\d{13}|PL\d{5}|ETB\d{13})$"
+        />
     </div>
     
       <div class="flex-auto" *ngIf="!update">
