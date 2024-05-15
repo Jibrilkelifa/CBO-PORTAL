@@ -110,9 +110,9 @@
           </ng-template>
           <ng-template let-irregularity pTemplate="item">
             <div class="flex align-items-center gap-2">
-              <div>{{ irregularity.name }}</div>
+              <div title="{{ irregularity.name }}" class="truncate w-[26vw]">{{ irregularity.name }}</div>
             </div>
-          </ng-template>
+          </ng-template>          
         </p-dropdown>
       </div>
       <div class="flex-auto" *ngIf="isOtherIrregularitySelected">
