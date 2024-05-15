@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
-import { FinanceService } from '../../service/finance-services.service';
+import { ShareService } from '../../service/share-services.service';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { FinanceModel } from '../../models/finance-model';
+import { ShareModel } from '../../models/share-model';
 import { TimeService } from 'src/app/services/sso-services/time.service';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -20,12 +20,12 @@ interface Column {
 }
 
 @Component({
-  selector: 'finance-table',
-  templateUrl: './finance-table.component.html',
-  styleUrls: ['./finance-table.component.scss'],
+  selector: 'share-table',
+  templateUrl: './share-table.component.html',
+  styleUrls: ['./share-table.component.scss'],
 })
-export class FinanceTableComponent implements OnDestroy {
-  public FinanceList: FinanceModel[] = [];
+export class ShareTableComponent implements OnDestroy {
+  public ShareList: ShareModel[] = [];
 
   approved: false;
 
@@ -42,7 +42,7 @@ export class FinanceTableComponent implements OnDestroy {
   private subscriptions: Subscription[] = [];
 
   constructor(
-    private financeService: FinanceService,
+    private shareService: ShareService,
     private messageService: MessageService,
     private timeService: TimeService,
     private router: Router,
@@ -52,7 +52,7 @@ export class FinanceTableComponent implements OnDestroy {
   ngOnInit() {
     this.populateRoles();
     this.getCurrentDate();
-    this.getFinanceList(this.roles);
+    this.getShareList(this.roles);
   }
 
   populateRoles(): void {
@@ -68,13 +68,13 @@ export class FinanceTableComponent implements OnDestroy {
 
 
 
-  public getFinanceList(roles: string[]): void {
+  public getShareList(roles: string[]): void {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.financeService.getAllFinance().subscribe(
-        (response: FinanceModel[]) => {
-          this.FinanceList = response.map(finance => ({
-            ...finance,
-            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+      this.shareService.getAllShare().subscribe(
+        (response: ShareModel[]) => {
+          this.ShareList = response.map(share => ({
+            ...share,
+            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
           }));          
         },
         (error: HttpErrorResponse) => {
@@ -82,14 +82,13 @@ export class FinanceTableComponent implements OnDestroy {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_FINANCE_IC") !== -1) {
-      this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {  
-          console.log("qqq", response);
+    else if (roles.indexOf("ROLE_ICMS_SHARE_IC") !== -1) {
+      this.shareService.getShareForDistrict(this.subProcessId).subscribe(
+        (response: ShareModel[]) => { 
                                                
-          this.FinanceList = response.map(finance => ({
-            ...finance,
-            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+          this.ShareList = response.map(share => ({
+            ...share,
+            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
           }));
         },
         (error: HttpErrorResponse) => {
@@ -98,14 +97,13 @@ export class FinanceTableComponent implements OnDestroy {
       );
     }
 
-    else if (roles.indexOf("ROLE_ICMS_FINANCE_OWNER") !== -1) {
-      this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {  
-          console.log("qqq", response);
+    else if (roles.indexOf("ROLE_ICMS_SHARE_OWNER") !== -1) {
+      this.shareService.getShareForDistrict(this.subProcessId).subscribe(
+        (response: ShareModel[]) => { 
                                                
-          this.FinanceList = response.map(finance => ({
-            ...finance,
-            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+          this.ShareList = response.map(share => ({
+            ...share,
+            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
           }));
         },
         (error: HttpErrorResponse) => {
@@ -117,12 +115,12 @@ export class FinanceTableComponent implements OnDestroy {
   }
   
 
-  updateFinace(id: number): void {
-    this.router.navigate(['ICMS/Finance/updateFinance', id]); 
+  updateShare(id: number): void {
+    this.router.navigate(['ICMS/Share/updateShare', id]); 
   }
 
-  approveActionPlan(finance: FinanceModel): void {    
-    this.router.navigate(['ICMS/Finance/approveActionPlan', { finance: JSON.stringify(finance) }]);
+  approveActionPlan(share: ShareModel): void {    
+    this.router.navigate(['ICMS/Share/approveActionPlan', { share: JSON.stringify(share) }]);
   }
   
   public daysPastDue(dateString: string): number {

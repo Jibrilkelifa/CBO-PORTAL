@@ -35,6 +35,8 @@
     [paginator]="true"
     stateStorage="session"
     stateKey="statedemo-session"
+    [sortField]="'riskScore'"
+    [sortOrder]="-1"
   >
     <ng-template pTemplate="caption">
       <div class="flex">
@@ -150,7 +152,7 @@
     <ng-template pTemplate="body" let-annualPlan let-rowIndex="rowIndex">
       <tr [pSelectableRow]="annualPlan">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ annualPlan?.name }}</td>
+        <td>{{ annualPlan?.auditObject?.name }}</td>
         <td>{{ annualPlan?.description }}</td>
         <td>{{ annualPlan?.riskScore }}</td>
         <td>{{ annualPlan?.riskLevel }}</td>

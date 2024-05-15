@@ -43,10 +43,10 @@
                 <td *ngIf="caChecklists.replyCheckLists[0]?.accepted" style="color: green;">Accepted</td>
                 <td *ngIf="caChecklists.replyCheckLists[0]?.rejected" style="color: red;">Rejected</td>
                 <td *ngIf="caChecklists.replyCheckLists[0]?.replayed && !caChecklists.replyCheckLists[0]?.accepted && !caChecklists.replyCheckLists[0]?.rejected" style="color: blue;">Under Review</td>
-                <td *ngIf="!caChecklists.replyCheckLists[0]?.replayed && !caChecklists.replyCheckLists[0]?.accepted && !caChecklists.replyCheckLists[0]?.rejected" style="color: red;">Not Replayed</td>
+                <td *ngIf="!caChecklists.replyCheckLists[0]?.replayed && !caChecklists.replyCheckLists[0]?.accepted && !caChecklists.replyCheckLists[0]?.rejected" style="color: red;">Not Replied</td>
                 <td>
                     <button pButton (click)="viewHistory(caChecklists.id)" [ngClass]="{updateBlue: true}"
-                        class="p-button-sm" label="Replay"></button>
+                        class="p-button-sm" label="Reply"></button>
                 </td>
             </tr>
         </ng-template>

@@ -10,6 +10,10 @@ import * as FileSaver from 'file-saver';
 import { AnnualPlanDTO } from '../../../models/annualPlan';
 import { AutoGenerateAnnualPlanComponent } from '../../Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 import { AuditObjectDTO } from '../../../models/auditObject';
+import { RiskLevelDTO } from '../../../models/RiskLevel'
+import { resolveAny } from 'dns';
+import { NewRiskItemComponent } from '../../Risk-item/new-risk-item/newRiskItem.component';
+import { NewRiskLevel } from '../new-risk-level/newRiskLevel.component';
 
 interface ExportColumn {
   title: string;
@@ -33,9 +37,11 @@ export class AuditUniverseComponent implements OnDestroy {
   public auditUniverseDisplay: any[] = [];
 
   public annualPlans: AnnualPlanDTO[] = [];
+  public riskLevel:RiskLevelDTO[] = [];
 
   public universeInfo: AuditUniverseDTO;
   selectedUniverseInfo: AuditUniverseDTO;
+  riskLevelNonEmpty:boolean;
 
   approved: false;
 
@@ -52,7 +58,9 @@ export class AuditUniverseComponent implements OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log("lets geeitadadf a")
     this.getAuditUniverses();
+    this.getRiskLevel();
     this.cols = [
       { field: 'id', header: 'ID' },
       { field: 'name', header: 'Name' },
@@ -65,6 +73,8 @@ export class AuditUniverseComponent implements OnDestroy {
       title: col.header,
       dataKey: col.field,
     }));
+  
+
 
   }
 
@@ -79,6 +89,25 @@ export class AuditUniverseComponent implements OnDestroy {
               ? obj.auditObject.name
               : null,
           }));
+        },
+        (error: HttpErrorResponse) => {
+          console.log(error);
+        }
+      )
+    );
+  }
+
+  getRiskLevel(): void {
+    this.subscriptions.push(
+      this.auditUniverseService.getRiskLevel().subscribe(
+        (response: any) => {
+          console.log("i am response", response)
+          this.riskLevel = response.result;   
+          this.riskLevelNonEmpty = response.status
+          console.log(this.riskLevelNonEmpty)
+          
+      
+
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -154,6 +183,64 @@ export class AuditUniverseComponent implements OnDestroy {
       }
     });
   }
+
+  createNewRiskLevel(): void {
+    
+    const ref = this.dialogService.open(NewRiskLevel, {
+      header: 'Create Risk Level',
+      draggable: true,
+      width: '60%',
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.getRiskLevel();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
+  }
+
+  updateRiskLevel(riskLevel:RiskLevelDTO): void {
+    
+    const ref = this.dialogService.open(NewRiskLevel, {
+      header: 'Create Risk Level',
+      draggable: true,
+      width: '60%',
+      data: { riskLevel },
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.getRiskLevel();
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
+  }
+
 
 
 

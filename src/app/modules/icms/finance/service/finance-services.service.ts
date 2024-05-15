@@ -45,12 +45,12 @@ export class FinanceService {
     );
   }
 
-  public getFinanceForBranch(id: number): Observable<any> {
-    this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/Finance/findByOrganizationalUnitId/${id}`, this.httpOptions)
-  }
+  // public getFinanceForBranch(id: number): Observable<any> {
+  //   this.init();
+  //   return this.http.get<any>(`${this.apiServiceUrl}/Finance/findByOrganizationalUnitId/${id}`, this.httpOptions)
+  // }
 
-  public getFinanceForDistrict(id: number): Observable<any> {
+  public getFinanceForICMSFINANCEIC(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/Finance/findBySubProcessId/${id}`, this.httpOptions)
   }

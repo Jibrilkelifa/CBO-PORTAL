@@ -53,8 +53,10 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   public members:string[] = [];
   public isManager: boolean;
   public isDirector:boolean;
-  public isLeader: boolean;
+  public isLeader: boolean = false;
+  public isMember: boolean = false;
   public isAuditee: boolean;
+  public loggedInUser =  localStorage.getItem("id").toString().trim();
 
   private roles = JSON.parse(localStorage.getItem("allRoles"));
 
@@ -94,14 +96,30 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     if (localStorage.getItem("currentEngagement")) {
       this.auditEngagements[0] = JSON.parse(localStorage.getItem("currentEngagement"));
       this.getAuditProgram(this.auditEngagements[0].id);
+      
+   
+      this.identifyRole(this.auditEngagements[0]);
+      console.log(this.isMember,this.isLeader)
   
     }
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
-    this.isLeader = this.roles.some(obj => obj.name === "ROLE_AMS_TEAM_LEADER");
-    this.isAuditee = this.roles.some(obj => obj.name === "ROLE_AMS_AUDITEE");
     this.isDirector = this.roles.some(obj => obj.name === "ROLE_AMS_DIRECTOR");
 
-   
+  }
+  identifyRole(engagement:AuditEngagementDTO){
+    const member = engagement.auditSchedule.teamMembers;
+
+    for (let item of member){
+      if(item.auditStaffDTO.employeeId ===  this.loggedInUser){
+
+         if (item.teamRole === "member"){
+             this.isMember = true;
+         } else if (item.teamRole === "Leader") {
+             this.isLeader = true;
+         }
+         break
+      }
+    }
 
   }
 

@@ -5,60 +5,72 @@ import { PrimeNGConfig } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { TimeService } from '../../../../../services/sso-services/time.service';
-import { FinanceModel } from "../../models/finance-model";
-import { FinanceService } from "../../service/finance-services.service";
+import { ShareModel } from "../../models/share-model";
+import { ShareService } from "../../service/share-services.service";
 import { AllCategoryService } from 'src/app/services/icms-services/all-category.service';
 import { AllSubCategoryService } from 'src/app/services/icms-services/all-sub-category.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusService } from 'src/app/services/icms-services/cipm-services/status.service';
 import { Status } from 'src/app/models/icms-models/cipm-models/status';
-import { FinanceStatusModel } from '../../models/finance-status-model';
+import { ShareStatusModel } from '../../models/share-status-model';
+import { AllIrregularity } from 'src/app/models/icms-models/all-irregularity';
+import { AllCategory } from 'src/app/models/icms-models/all-category';
+import { AllSubCategory } from 'src/app/models/icms-models/all-sub-category';
+import { AllIrregularityService } from 'src/app/services/icms-services/all-irregularity.service';
 
 @Component({
-  selector: 'new-finance',
-  templateUrl: './new-finance.component.html',
-  styleUrls: ['./new-finance.component.scss'],
+  selector: 'new-share',
+  templateUrl: './new-share.component.html',
+  styleUrls: ['./new-share.component.scss'],
   providers: [MessageService, ConfirmationService]
 })
 
-export class NewFinanceComponent implements OnInit {
-  public Finance: FinanceModel = new FinanceModel();
+export class NewShareComponent implements OnInit {
+  public Share: ShareModel = new ShareModel();
   public categories: any[] = [];
   public subCategories: any[] = [];
+  irregularities: AllIrregularity[];
   public update: boolean = false;
   public idY: number;
   selectedstatus: Status;
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: FinanceStatusModel[];
+  public statuses: ShareStatusModel[];
+  isOtherIrregularitySelected: boolean = false;
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
-
+  public selectedIrregularity: AllIrregularity;
+  public selectedCategory: AllCategory;
+  public selectedSubCategory: AllSubCategory;
   public selectedBranch;
   public selectedTeam;
   public selectedSubProcess;
+
+
+
 
   constructor(
     private timeService: TimeService,
     private primengConfig: PrimeNGConfig,
     private messageService: MessageService,
-    private financeService: FinanceService,
+    private shareService: ShareService,
     private categoryService: AllCategoryService,
     private subCategoryService: AllSubCategoryService,
     private activatedRoute: ActivatedRoute,
+    private allIrregularityService: AllIrregularityService,
     private confirmationService: ConfirmationService,
-    private statusService :StatusService,
+    private statusService: StatusService,
     private router: Router) { }
 
   ngOnInit() {
-    this.Finance.financeDate = new Date();
+    this.Share.shareDate = new Date();
     this.primengConfig.ripple = true;
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.getFinance(id);
+        this.getShare(id);
         this.update = true;
       } else {
         this.selectedstatus = this.statuses.find(status => status.name === 'Open');
@@ -66,14 +78,15 @@ export class NewFinanceComponent implements OnInit {
     });
 
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedTeam = JSON.parse(localStorage.getItem("team"));    
-    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedSubProcess = JSON.parse(localStorage.getItem("subProcess"))
 
     this.generateCaseId();
     this.getCategories();
     this.getStatus();
 
   }
+
 
   generateCaseId(): void {
     this.timeService.getDate().subscribe(
@@ -82,13 +95,13 @@ export class NewFinanceComponent implements OnInit {
         const year = dateParts[2];
         const month = dateParts[0].padStart(2, "0");
         const day = dateParts[1].padStart(2, "0");
-        this.financeService.getSize().subscribe(
+        this.shareService.getSize().subscribe(
           (response: any) => {
             if (response == 0) {
               this.caseId = "0001/" + month + "/" + day + "/" + year;
             }
             else {
-              this.financeService.findFinanceById(response).subscribe(
+              this.shareService.findShareById(response).subscribe(
                 (response: any) => {
                   if (response.caseId.slice(-4) === year) {
                     const lastCaseId = parseInt(response.caseId.slice(0, 4));
@@ -106,11 +119,12 @@ export class NewFinanceComponent implements OnInit {
     )
   }
 
-  getFinance(id: number) {
-    this.financeService.findFinanceById(id).subscribe(
-      (response: FinanceModel) => {
-        response.financeDate = new Date(response.financeDate); 
-        this.Finance = response;
+
+  getShare(id: number) {
+    this.shareService.findShareById(id).subscribe(
+      (response: ShareModel) => {
+        response.shareDate = new Date(response.shareDate);
+        this.Share = response;
       },
       error => {
         // handle error
@@ -124,12 +138,12 @@ export class NewFinanceComponent implements OnInit {
       event.preventDefault();
     }
   }
-  
-  
+
+
 
   public getStatus(): void {
-    this.financeService.getStatuses().subscribe(
-      (response: FinanceStatusModel[]) => {
+    this.shareService.getStatuses().subscribe(
+      (response: ShareStatusModel[]) => {
         this.statuses = response;        
         this.selectedstatus = this.statuses.find(status => status.name === "Open");
       },
@@ -143,8 +157,12 @@ export class NewFinanceComponent implements OnInit {
     this.showOtherProductTypes = event.value === 'Other';
   }
 
+  onIrregularityChange(event: any) {
+    this.isOtherIrregularitySelected = (event.value.name === 'Other');
+  }
+
   getCategories() {
-    this.categoryService.getAllCategoriesBySubModuleName("FPIC").subscribe(
+    this.categoryService.getAllCategoriesBySubModuleName("SMPIC").subscribe(
       (response: any[]) => {
         this.categories = response;
       },
@@ -153,15 +171,25 @@ export class NewFinanceComponent implements OnInit {
     );
   }
 
+  onSubCategoryChange(event: any) {
+    this.allIrregularityService.getAllIrregularitiesByCategoryNameAndSubCategoryName(this.categoryName, event.value.name).subscribe(
+      (response: any[]) => {
+        this.irregularities = response;
+      },
+      (error: HttpErrorResponse) => {
+
+      }
+    )
+  }
+
   public populateSelectedStatus(existingStatus: Status): void {
     this.selectedstatus = existingStatus;
   }
 
   onCategoryChange(event: any) {
-    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("FPIC", event.value.name).subscribe(
+    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("SMPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
-        
         this.subCategories = response;
 
       },
@@ -172,31 +200,31 @@ export class NewFinanceComponent implements OnInit {
   }
 
 
-  submitFinance(form: NgForm) {        
+  submitShare(form: NgForm) {
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
-        financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-        financeStatus: this.selectedstatus ,// Attach the status
+        shareDate: this.formatDate(this.Share.shareDate), // Convert date to string
+        shareStatus: this.selectedstatus,// Attach the status
         subProcess: this.selectedSubProcess
       };
       
       if (this.update) {
         let updatedValue = {
-          ...this.Finance, 
-          financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-          financeStatus: this.selectedstatus, // Attach the status
+          ...this.Share,
+          shareDate: this.formatDate(this.Share.shareDate), // Convert date to string
+          shareStatus: this.selectedstatus, // Attach the status
           subProcess: this.selectedSubProcess
-        }        
-        this.financeService.updateFinance(updatedValue).subscribe(
+        }
+        this.shareService.updateShare(updatedValue).subscribe(
           response => {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: "Finance updated Successfully!"
+              detail: "Share updated Successfully!"
             });
             setTimeout(() => {
-              this.router.navigate(['ICMS/Finance/viewFinance']);
+              this.router.navigate(['ICMS/Share/viewShare']);
             }, 1500);
             // handle response
           },
@@ -205,15 +233,15 @@ export class NewFinanceComponent implements OnInit {
           }
         );
       } else {
-        this.financeService.addFinance(formValueWithDate).subscribe(
+        this.shareService.addShare(formValueWithDate).subscribe(
           response => {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: "Finance created Successfully!"
+              detail: "Share created Successfully!"
             });
             setTimeout(() => {
-              this.router.navigate(['ICMS/Finance/viewFinance']);
+              this.router.navigate(['ICMS/Share/viewShare']);
             }, 1500);
 
             // handle response
@@ -225,7 +253,7 @@ export class NewFinanceComponent implements OnInit {
       }
     }
   }
-  
+
 
   formatDate(date: Date): string {
     let day = date.getDate();

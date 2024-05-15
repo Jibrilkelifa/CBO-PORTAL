@@ -1,0 +1,70 @@
+<div>
+  <form #addDivForm="ngForm" (ngSubmit)="submitRiskLevel(addDivForm)">
+    <div style="margin-top: 2em"></div>
+    <div>Set Risk Level</div>
+    <div class="flex">
+      <div class="col mb-4">
+        
+        <label for="integer" class="block mb-2"> Low: </label>
+        <input
+          pInputText
+          pKeyFilter="int"
+          [ngModel]="riskLevelInfo.low"
+          name="low"
+          [style]="{ width: '300px', height: '45px' }"
+
+        />
+      </div>
+
+      <div class="col mb-4">
+        
+        <label for="integer" class="block mb-2"> Medium: </label>
+        <input
+          pInputText
+          pKeyFilter="int"
+          [ngModel]="riskLevelInfo.medium"
+          name="medium"
+          [style]="{ width: '300px', height: '45px' }"
+      
+
+        />
+      </div>
+     
+    </div>
+    <div class="flex">
+      <div class="col mb-4">
+        
+        <label for="integer" class="block mb-2"> High: </label>
+        <input
+          pInputText
+          pKeyFilter="int"
+          [ngModel]="riskLevelInfo.high"
+          name="high"
+          [style]="{ width: '300px', height: '45px' }"
+          
+
+        />
+      </div>
+
+    </div>
+
+   
+
+    <div style="margin-top: 10em"></div>
+    <div class="buttonDiv">
+      <p-button label="Cancel" (click)="closeDialog()"></p-button>
+      <p-button
+        *ngIf="!update"
+        label="Create risk Level"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+      <p-button
+        *ngIf="update"
+        label="Update risk Level"
+        [disabled]="addDivForm.invalid!"
+        type="submit"
+      ></p-button>
+    </div>
+  </form>
+</div>

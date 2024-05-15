@@ -3,7 +3,7 @@
   [value]="msgs"
 ></p-messages>
 <div>
-  <form #FinanceForm="ngForm" (ngSubmit)="submitFinance(FinanceForm)" required>
+  <form #ShareForm="ngForm" (ngSubmit)="submitShare(ShareForm)" required>
     <div class="flex flex-wrap gap-3 mb-4">
       <div class="flex-auto" *ngIf="!update">
         <label for="alphabetic" class="block mb-2"> Case ID </label>
@@ -19,11 +19,11 @@
         />
       </div>
       <div class="flex-auto">
-        <label for="financeDate" class="block mb-2">Date </label>
+        <label for="shareDate" class="block mb-2">Date </label>
         <p-calendar
-          id="financeDate"
-          [(ngModel)]="Finance.financeDate"
-          name="financeDate"
+          id="shareDate"
+          [(ngModel)]="Share.shareDate"
+          name="shareDate"
           [style]="{ width: '30vw', height: '45px' }"
           [showIcon]="true"
           [required]="true"
@@ -33,7 +33,7 @@
         <label for="allCategory" class="block mb-2"> Category </label>
         <p-dropdown
           id="allCategory"
-          [(ngModel)]="Finance.allCategory"
+          [(ngModel)]="selectedCategory"
           name="allCategory"
           [options]="categories"
           optionLabel="name"
@@ -47,46 +47,95 @@
         <label for="allSubCategory" class="block mb-2"> Sub Category </label>
         <p-dropdown
           id="allSubCategory"
-          [(ngModel)]="Finance.allSubCategory"
+          [(ngModel)]="selectedSubCategory"
           name="allSubCategory"
           [options]="subCategories"
           optionLabel="name"
           placeholder="Select a Sub Category"
+          (onChange)="onSubCategoryChange($event)"
           [style]="{ width: '30vw', height: '45px' }"
           [required]="true"
         ></p-dropdown>
       </div>
       <div class="flex-auto" *ngIf="!update">
-        <label for="accountNumber" class="block mb-2"> Account Number </label>
-        <input
-          pInputText
-          id="accountNumber"
-          ngModel
-          name="accountNumber"
+        <label for="shareNumber" class="block mb-2"> Share Number </label>
+        <p-inputNumber
+          [(ngModel)]="Share.shareNumber"
+          inputId="shareNumber"
+          [useGrouping]="false"
           [style]="{ width: '30vw', height: '45px' }"
-          pattern="^(\d{13}|PL\d{5}|ETB\d{13})$"
-        />
-    </div>
-    
+          name="shareNumber"
+          [required]="true"
+        ></p-inputNumber>
+      </div>
       <div class="flex-auto" *ngIf="!update">
-        <label for="irregularity" class="block mb-2"> Irregularity </label>
+        <label for="shareHoldersName" class="block mb-2">
+          Share Holder's Name
+        </label>
         <input
           pInputText
-          id="irregularity"
-          [(ngModel)]="Finance.irregularity"
-          name="irregularity"
+          id="shareHoldersName"
+          [(ngModel)]="Share.shareHoldersName"
+          name="shareHoldersName"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
       </div>
-      
+
+      <div class="flex-auto" *ngIf="selectedCategory && selectedSubCategory">
+        <label for="hex" class="block mb-2"> Irregualrity </label>
+        <p-dropdown
+          [options]="irregularities"
+          name="irregularity"
+          ngModel
+          [(ngModel)]="selectedIrregularity"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Select Irregularity Type"
+          class="w-full"
+          styleClass="p-password"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+          (onChange)="onIrregularityChange($event)"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedIrregularity"
+            >
+              <div>{{ selectedIrregularity.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-irregularity pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div title="{{ irregularity.name }}" class="truncate w-[26vw]">{{ irregularity.name }}</div>
+            </div>
+          </ng-template>          
+        </p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="isOtherIrregularitySelected">
+        <label for="alphabetic" class="block mb-2"> Other Irregularity</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          ngModel
+          name="otherIrregularity"
+          [style]="{ width: '30vw', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+
       <div class="flex-auto" *ngIf="!update">
         <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
         <input
           pInputText
           id="amount"
-          [(ngModel)]="Finance.amount"
-          name="amount"
+          [(ngModel)]="Share.amountInvolved"
+          name="amountInvolved"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
@@ -98,7 +147,7 @@
         <input
           pInputText
           id="responsiblePerson"
-          [(ngModel)]="Finance.responsiblePerson"
+          [(ngModel)]="Share.responsiblePerson"
           name="responsiblePerson"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
@@ -106,9 +155,17 @@
       </div>
 
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Team/Subprocess</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
-          name="selectedSubProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
+        <label for="alphabetic" class="block mb-2"> Team</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          [(ngModel)]="selectedTeam"
+          name="team"
+          [readonly]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+          minlength="3"
+        />
       </div>
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class="block mb-2"> District</label>
@@ -129,7 +186,7 @@
         <label for="hex" class="block mb-2"> Status </label>
         <p-dropdown
           [options]="statuses"
-          name="financeStatus"
+          name="shareStatus"
           ngModel
           [(ngModel)]="selectedstatus"
           optionLabel="name"
@@ -159,7 +216,7 @@
     <p-button
       [label]="update ? 'Update' : 'Create'"
       type="submit"
-      [disabled]="FinanceForm.form.invalid"
+      [disabled]="ShareForm.form.invalid"
       class="createButton"
     ></p-button>
   </form>

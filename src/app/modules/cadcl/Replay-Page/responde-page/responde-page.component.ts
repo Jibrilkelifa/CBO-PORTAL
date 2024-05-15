@@ -35,7 +35,7 @@ export class RespondePageComponent {
   showForm = false;
   showFilepop = false;
   other: boolean = false;
-  buttonLabel = 'Replay';
+  buttonLabel = 'Reply';
   selectedFile: any;
   imageURL: string;
   fileLinks: String[];
@@ -219,7 +219,7 @@ export class RespondePageComponent {
 
   toggleForm() {
     this.showForm = !this.showForm;
-    this.buttonLabel = this.showForm ? 'Cancel' : 'Replay';
+    this.buttonLabel = this.showForm ? 'Cancel' : 'Reply';
 }
 
   escalate(){
