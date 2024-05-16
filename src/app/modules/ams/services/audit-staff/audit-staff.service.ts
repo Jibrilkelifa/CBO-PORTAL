@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuditStaffDTO } from '../../models/auditStaff';
+import { access } from 'fs';
+import { loadTranslations } from '@angular/localize';
 @Injectable({
   providedIn: 'root',
 })
@@ -9,16 +11,22 @@ export class AuditStaffService {
   private httpOptions: any;
   private apiServiceUrl: any;
 
-  private init() {
+  private init(access?:string) {
+    let token = ''
+    if(access){
+         token = access
+    } else{
+      token = localStorage.getItem("access_token")
+    }
     this.httpOptions = {
       headers: new HttpHeaders({
         'content-type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+        Authorization: `Bearer ${token}`,
       }),
     };
     //prodip
-    // this.apiServiceUrl = 'http://localhost:8099';
-  this.apiServiceUrl = localStorage.getItem('ams_ip');
+    this.apiServiceUrl = 'http://localhost:8099';
+  // this.apiServiceUrl = localStorage.getItem('ams_ip');
   }
 
   constructor(private http: HttpClient) { }
@@ -39,8 +47,8 @@ export class AuditStaffService {
     );
   }
 
-  public getAuditStaffByEmployeeId(employeeId: string): Observable<any> {
-    this.init();
+  public getAuditStaffByEmployeeId(employeeId: string,access_token?:string): Observable<any> {
+    this.init(access_token);
     return this.http.get<any>(
       `${this.apiServiceUrl}/ams/auditStaff/findByUserId/${employeeId}`, this.httpOptions
     );

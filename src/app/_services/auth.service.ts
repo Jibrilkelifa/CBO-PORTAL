@@ -6,6 +6,7 @@ import { JwtResponse } from '../models/sso-models/Jwt-response';
 import { Employee } from '../models/sso-models/employee';
 import { BehaviorSubject } from 'rxjs';
 import { EMSService } from '../services/ems-services/ems-services.service';
+import { AuditStaffService } from '../modules/ams/services/audit-staff/audit-staff.service';
 
 
 
@@ -33,7 +34,8 @@ export class AuthService {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private emsService: EMSService
+    private emsService: EMSService,
+    private auditStaffService: AuditStaffService
   ) { }
 
   // Http Options
@@ -90,9 +92,16 @@ export class AuthService {
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
 
+    //AUDIT MANAGEMENT HAVE A REQUIREMENT TO PERSIST THEIR USER INFORMATOIN SEPARATELY
+    const auditStaff = await this.auditStaffService.getAuditStaffByEmployeeId("" + resp?.user?.id,resp?.accessToken).toPromise();
+    const userhaveAMS = resp?.user?.roles?.find(obj => obj.name.includes("AMS"))
+    if (userhaveAMS) {
+      localStorage.setItem('auditStaff', JSON.stringify(auditStaff))
+    }
 
-    localStorage.setItem("ams_ip", "http://10.1.125.58:8099")
-    
+    localStorage.setItem("ams_ip", "http://localhost:8099")
+
+
 
     localStorage.setItem('gender', employee?.gender);
     localStorage.setItem('name', employee?.employeeFullName);

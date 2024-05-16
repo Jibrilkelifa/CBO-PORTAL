@@ -91,7 +91,7 @@ const routes: Routes = [
           import('./modules/cms/cms.module').then((m) => m.CMSModule)
       },
       {
-        path: 'EMS',
+        path: 'ems',
         loadChildren: () =>
           import('./modules/ems/ems.module').then((m) => m.EMSModule)
       },

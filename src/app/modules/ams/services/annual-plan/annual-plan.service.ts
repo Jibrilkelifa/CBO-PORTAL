@@ -58,6 +58,12 @@ export class AnnualPlanService {
     return this.http.post(`${this.apiServiceUrl}/ams/annualPlan/update`, annualPlan, this.httpOptions)
   }
 
+  public approveAnnualPlan(id: number): Observable<any> {
+    this.init();
+    return this.http.post(`${this.apiServiceUrl}/ams/annualPlan/approve/${id}`, this.httpOptions)
+  }
+
+
   public addToSchedule(auditSchedule: AuditScheduleDTO): Observable<any> {
     this.init();
     return this.http.post(`${this.apiServiceUrl}/ams/annualPlan/addToSchedule`, auditSchedule, this.httpOptions)

@@ -159,11 +159,7 @@ navItemsAMSAdmin = {
           url: '/ams/audit-staff',
         },
         {
-          name: 'Audit universe',
-          url: '/ams/audit-universe',
-        },
-        {
-          name: 'Audit object',
+          name: 'Audit Universe',
           url: '/ams/audit-object',
         },
         {
@@ -212,11 +208,7 @@ navItemsAMSManager = {
           url: '/ams/audit-staff',
         },
         {
-          name: 'Audit universe',
-          url: '/ams/audit-universe',
-        },
-        {
-          name: 'Audit object',
+          name: 'Audit Universe',
           url: '/ams/audit-object',
         },
         {
