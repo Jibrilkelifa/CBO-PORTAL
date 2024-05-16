@@ -374,10 +374,6 @@ navItemsICMSAdmin = {
           name: 'View History',
           url: '/ICMS/CIPM/viewCIPM',
         },
-        // {
-        //   name: 'Add Collateral Type',
-        //   url: '/ICMS/CIPM/addCT',
-        // }
       ]
     },
     {
@@ -447,6 +443,17 @@ navItemsICMSAdmin = {
         {
           name: 'View Finance',
           url: '/ICMS/Finance/viewFinance'
+        }
+      ]
+    },
+    {
+      name: 'Share',
+      url: '/ICMS',
+      iconComponent: { name: 'cil-dollar' },
+      children: [
+        {
+          name: 'View Share',
+          url: '/ICMS/Share/viewShare'
         }
       ]
     }

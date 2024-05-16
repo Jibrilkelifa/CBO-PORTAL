@@ -180,7 +180,6 @@ export class NewFinanceComponent implements OnInit {
         financeStatus: this.selectedstatus ,// Attach the status
         subProcess: this.selectedSubProcess
       };
-      console.log("rrrr", formValueWithDate);
       
       if (this.update) {
         let updatedValue = {

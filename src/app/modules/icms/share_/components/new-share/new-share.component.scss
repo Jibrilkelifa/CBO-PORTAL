@@ -22,3 +22,9 @@ input[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none; 
   margin: 0; 
 }
+
+::ng-deep .p-dropdown .p-dropdown-panel {
+  width: auto !important;
+}
+
+

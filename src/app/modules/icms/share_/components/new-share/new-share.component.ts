@@ -144,9 +144,7 @@ export class NewShareComponent implements OnInit {
   public getStatus(): void {
     this.shareService.getStatuses().subscribe(
       (response: ShareStatusModel[]) => {
-        this.statuses = response;
-        console.log("eee", response);
-        
+        this.statuses = response;        
         this.selectedstatus = this.statuses.find(status => status.name === "Open");
       },
       (error: HttpErrorResponse) => {
@@ -208,18 +206,15 @@ export class NewShareComponent implements OnInit {
         ...form.value,
         shareDate: this.formatDate(this.Share.shareDate), // Convert date to string
         shareStatus: this.selectedstatus,// Attach the status
-        team: this.selectedTeam
+        subProcess: this.selectedSubProcess
       };
-
-      console.log("rrrr", formValueWithDate);
       
-
       if (this.update) {
         let updatedValue = {
           ...this.Share,
           shareDate: this.formatDate(this.Share.shareDate), // Convert date to string
           shareStatus: this.selectedstatus, // Attach the status
-          team: this.selectedTeam
+          subProcess: this.selectedSubProcess
         }
         this.shareService.updateShare(updatedValue).subscribe(
           response => {
