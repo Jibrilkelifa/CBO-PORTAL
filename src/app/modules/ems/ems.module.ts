@@ -39,7 +39,7 @@ import { MessagesModule } from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
-// import { AddUser } from './add-user/add-user.component'
+import { AddUser } from './add-user/add-user.component'
 
 @NgModule({
   imports: [
@@ -81,11 +81,12 @@ import { FileUploadModule } from 'primeng/fileupload';
     PasswordModule,
     DividerModule,
     ProgressSpinnerModule,
+
     
   ],
   declarations: [
     EMSComponent,
-    // AddUser
+    AddUser
   ],
   providers: [ConfirmationService, MessageService]
 })

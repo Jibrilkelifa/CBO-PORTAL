@@ -26,9 +26,9 @@ export class UserService {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       })
     };
-    this.apiServiceUrl = localStorage.getItem('url_1');
+    // this.apiServiceUrl = localStorage.getItem('url_1');
     //prodip
-    // this.apiServiceUrl = 'http://localhost:9081';
+    this.apiServiceUrl = 'http://localhost:9081';
   }
 
   constructor(private http: HttpClient, private roleService: RoleService, private timeService: TimeService) { }
@@ -72,4 +72,10 @@ export class UserService {
     this.init();
     return this.http.delete<void>(`${this.apiServiceUrl}/user/delete/${userId}`, this.httpOptions)
   }
+  public deleteUserRole(info: any): Observable<any> {
+    this.init();
+    console.log(info); // Verify the structure of 'info'
+    return this.http.post<void>(`${this.apiServiceUrl}/user/delete-role`, info, this.httpOptions);
+}
+
 }

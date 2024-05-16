@@ -124,6 +124,7 @@ export class AssignRole implements OnInit {
   }
 
 
+
   populateEmployeeData() {
     this.searchEmployeeFromSSO(this.selectedEmployee.employeeId);
     this.selectedTab1 = false;
@@ -228,6 +229,42 @@ export class AssignRole implements OnInit {
   }
 
 
+  deleteUserRole(id: number): void {
+    let info:any = {}
+    info.user_id = this.selectedEmployeeId;
+    info.role_id = id;
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.userService.deleteUserRole(info).subscribe(
+          (response: void) => {
+            this.populateEmployeeData();
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted role successfully"
+            });
+            setTimeout(() => {
+            }, 1000);
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
+      },
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
+      }
+    });
+  }
   public getModules(): void {
     this.moduleService.getModules().subscribe(
       (response: Module[]) => {

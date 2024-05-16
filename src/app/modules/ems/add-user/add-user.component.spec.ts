@@ -1,36 +1,36 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-// import { RouterTestingModule } from '@angular/router/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
-// import { AccordionModule, CardModule, GridModule } from '@coreui/angular';
-// import { IconSetService } from '@coreui/icons-angular';
-// import { iconSubset } from '../../../../icons/icon-subset';
-// import { NewAdminComponent } from './add-user.component';
+import { AccordionModule, CardModule, GridModule } from '@coreui/angular';
+import { IconSetService } from '@coreui/icons-angular';
+import { iconSubset } from '../../../../icons/icon-subset';
+import { NewAdminComponent } from './add-user.component';
 
-// describe('AccordionsComponent', () => {
-//   let component: NewAdminComponent;
-//   let fixture: ComponentFixture<NewAdminComponent>;
-//   let iconSetService: IconSetService;
+describe('AccordionsComponent', () => {
+  let component: NewAdminComponent;
+  let fixture: ComponentFixture<NewAdminComponent>;
+  let iconSetService: IconSetService;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [NewAdminComponent],
-//       imports: [AccordionModule, NoopAnimationsModule, CardModule, GridModule, RouterTestingModule],
-//       providers: [IconSetService]
-//     })
-//       .compileComponents();
-//   });
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [NewAdminComponent],
+      imports: [AccordionModule, NoopAnimationsModule, CardModule, GridModule, RouterTestingModule],
+      providers: [IconSetService]
+    })
+      .compileComponents();
+  });
 
-//   beforeEach(() => {
-//     iconSetService = TestBed.inject(IconSetService);
-//     iconSetService.icons = { ...iconSubset };
+  beforeEach(() => {
+    iconSetService = TestBed.inject(IconSetService);
+    iconSetService.icons = { ...iconSubset };
 
-//     fixture = TestBed.createComponent(NewAdminComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    fixture = TestBed.createComponent(NewAdminComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});
