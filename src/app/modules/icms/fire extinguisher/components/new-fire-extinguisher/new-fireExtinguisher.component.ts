@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService, ConfirmationService, Message } from 'primeng/api';
 import { PrimeNGConfig } from 'primeng/api';
@@ -28,7 +28,10 @@ export class NewFireExtinguisherComponent implements OnInit {
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: Status[];
+  statuses: Status[] = [
+    { id: 1, name: 'Working' },
+    { id: 2, name: 'Damaged' }
+  ];
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
@@ -42,6 +45,7 @@ export class NewFireExtinguisherComponent implements OnInit {
     private fireExtinguisherService: FireExtinguisherService,
     private activatedRoute: ActivatedRoute,
     private confirmationService: ConfirmationService,
+    private ngZone: NgZone,
     private router: Router) { }
 
   ngOnInit() {
@@ -54,52 +58,69 @@ export class NewFireExtinguisherComponent implements OnInit {
       } else {
         this.selectedstatus = this.statuses.find(status => status.name === 'Working');
       }
-     
+
     });
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
-    
+    this.selectedSubProcess = JSON.parse(localStorage.getItem("subProcess"))
+
   }
 
   getFireExtinguisherService(id: number) {
     this.fireExtinguisherService.findFireExtinguisherById(id).subscribe(
       (response: FireExtinguisherModel) => {
         this.FireExtinguisher = response;
-        this.selectedstatus = { id: response.status.id, name: response.status.name };             
+
+        if (this.FireExtinguisher.status) {
+          this.selectedstatus = this.statuses.find(status => status.name === this.FireExtinguisher.status);
+          console.log("Selected status: ", this.selectedstatus);
+        } else {
+          console.error("Status is undefined in the response");
+        }
+        if (this.FireExtinguisher.nextInspectionDate) {
+          this.FireExtinguisher.nextInspectionDate = new Date(this.FireExtinguisher.nextInspectionDate);
+        }
       },
       error => {
         // handle error
       }
     );
   }
-  
-  
+
+
+
+
+
+
 
   compareStatus(s1: any, s2: any) {
     return s1 && s2 ? s1.name === s2.name : s1 === s2;
   }
-  
+
 
   calculateDaysLeft() {
     if (this.FireExtinguisher.nextInspectionDate) {
-        const today = new Date();
-        const nextInspectionDate = new Date(this.FireExtinguisher.nextInspectionDate);
-        const diffInMilliseconds = nextInspectionDate.getTime() - today.getTime();
-        const diffInDays = diffInMilliseconds / (1000 * 3600 * 24);
-        this.FireExtinguisher.daysLeftForInspection = Math.round(diffInDays);
+      const today = new Date();
+      const nextInspectionDate = new Date(this.FireExtinguisher.nextInspectionDate);
+      const diffInMilliseconds = nextInspectionDate.getTime() - today.getTime();
+      const diffInDays = diffInMilliseconds / (1000 * 3600 * 24);
+      this.FireExtinguisher.daysLeftForInspection = Math.round(diffInDays);
     }
-}
+  }
 
 
-  submitFireExtinguisher(form: NgForm) {    
+  submitFireExtinguisher(form: NgForm) {
     if (form.valid) {
       if (this.update) {
         let updatedValue = {
-          ...this.FireExtinguisher, 
+          ...this.FireExtinguisher,
+          nextInspectionDate: this.FireExtinguisher.nextInspectionDate,
           status: this.selectedstatus.name,
           subProcess: this.selectedSubProcess,
           branch: this.selectedBranch
-        }                
+        }
+        console.log("a", this.FireExtinguisher.nextInspectionDate);
+        console.log("b", updatedValue);
+
         this.fireExtinguisherService.updateFireExtinguisher(updatedValue).subscribe(
           response => {
             this.messageService.add({
@@ -118,14 +139,14 @@ export class NewFireExtinguisherComponent implements OnInit {
         );
       } else {
         let formattedValue = {
-          ...this.FireExtinguisher, 
+          ...this.FireExtinguisher,
           inspectionDate: this.FireExtinguisher.inspectionDate,
-          nextInspectionDate: this.FireExtinguisher.nextInspectionDate, 
+          nextInspectionDate: this.FireExtinguisher.nextInspectionDate,
           status: this.selectedstatus.name,
           subProcess: this.selectedSubProcess,
           branch: this.selectedBranch
-        }  
-        
+        }
+
         this.fireExtinguisherService.addFireExtinguisher(formattedValue).subscribe(
           response => {
             this.messageService.add({
@@ -146,7 +167,7 @@ export class NewFireExtinguisherComponent implements OnInit {
       }
     }
   }
-  
+
 
 
 }

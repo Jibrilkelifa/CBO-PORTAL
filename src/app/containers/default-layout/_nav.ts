@@ -1,1272 +1,700 @@
 interface NavItem {
   name: string;
   url: string;
-  children: Array<NavItem>;
+  iconComponent?: { name: string };
+  children?: Array<NavItem>;
+}
+
+// Function to create a NavItem
+function createNavItem(name: string, url: string, children?: Array<NavItem>, iconName?: string): NavItem {
+  let navItem: NavItem = { name, url };
+
+  if (iconName) {
+    navItem.iconComponent = { name: iconName };
+  }
+
+  if (children) {
+    navItem.children = children;
+  }
+
+  return navItem;
 }
 
 
-
-export let navItemMenu: Object;
-export let navItemsSuperAdmin: Object;
-export let navItemsAdmin: Object;
-export let navItemsAMSAdmin: Object;
-export let navItemsAMSManager: Object;
-export let navItemsAMSDirector: Object;
-export let navItemsAMSTeamLeader: Object;
-export let navItemsCISTAdmin: Object;
-
-export let navItemsAMSUser: Object;
-export let navItemsEMSAdmin: Object;
-export let navItemsEMSUser: Object;
-export let navItemsCCAdmin: Object;
-export let navItemsCCUser: Object;
-export let navItemsCCUserDeliquent: Object;
-export let navItemsICMSAdmin: Object;
-export let navItemsICMSDistrict: Object;
-export let navItemsICMSDistrictDirector: Object;
-export let navItemsICMSBranch: Object;
-export let navItemsICMSIFB: Object;
-export let navItemsICMSFinanceIC: Object;
-export let navItemsICMSFinanceOWNER: Object;
-export let navItemsICMSShareIC: Object;
-export let navItemsICMSShareOWNER: Object;
-export let navItemsSMSAdmin: Object;
-export let navItemsICMSProvision: Object;
-export let navItemsICMSBranchManager: Object;
-export let navItemsICMSBankingOperation: Object;
-export let navItemsSASVAdmin: Object;
-export let navItemsSASVUser: Object;
-export let navItemsMemoAdmin: Object;
-export let navItemsMemoUser: Object;
-export let navItemsECXAdmin: Object;
-export let navItemsCAOAdmin: object;
-export let navItemsCAOUser: object;
-export let navItemsECXUser: Object;
-export let navItemsCMSAdmin: Object;
-export let navItemsCMSUser: Object;
-export let navItemSupervisor: Object;
-export let navCC: NavItem;
-export let navItemsAMSAuditor: Object;
-export let navItemsAMSMember: Object;
-export let navItemsAMSAuditee: Object;
-
-
-
-
-navItemMenu = {
+export const navItemMenu = {
   name: 'Menu',
   title: true
 }
-navItemsAdmin = {
-  name: "System Admin",
-  url: '/user',
-  iconComponent: { name: 'cil-settings' },
-  children: [
-    {
-      name: 'Assign Role',
-      url: '/user/assignRole',
 
-    },
-    {
-      name: 'Update User',
-      url: '/user/updateUser',
-
-    },
-
-  ]
-
-}
-
-navItemsSuperAdmin = {
-  name: 'System Admin',
-  url: '/',
-  iconComponent: { name: 'cil-settings' },
-  children: [
-    {
-      name: 'Module',
-      url: '/module',
-      children: [
-        {
-          name: 'Add Module',
-          url: '/module/addModule'
-        },
-        {
-          name: 'View Modules',
-          url: '/module/viewModule'
-        },
-      ]
-    },
-    {
-      name: 'User',
-      url: '/user',
-      children: [
-        {
-          name: 'Add Admin',
-          url: '/user/assignRole'
-        },
-        {
-          name: 'View All Admins',
-          url: '/user/viewAdmins'
-        },
-      ]
-    }
-  ]
-}
-
-navItemSupervisor = {
-  name: 'Supervisor',
-  url: '/',
-  children: [
-    {
-      name: 'Add User',
-      url: '/user/addUser'
-    },
-    {
-      name: 'View Users',
-      url: '/user/viewUsers'
-    },
-  ]
-}
-
-navItemsAMSAdmin = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-    {
-      name: 'Annual Plan',
-      url: '/ams/annual-plan',
-    },
-    {
-      name: 'Audit Schedule',
-      url: '/ams/audit-schedule',
-    },
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Reports',
-      url: '/ams/report-list',
-    },
-    {
-      name: 'Setting',
-      url: '/ams',
-      iconComponent: { name: 'cil-settings' },
-      children: [
-        {
-          name: 'Auditors',
-          url: '/ams/audit-staff',
-        },
-        {
-          name: 'Audit universe',
-          url: '/ams/audit-universe',
-        },
-        {
-          name: 'Audit object',
-          url: '/ams/audit-object',
-        },
-        {
-          name: 'Audit Type',
-          url: '/ams/audit-type',
-        },
-        {
-          name: 'Risk item',
-          url: '/ams/risk-item',
-        },
-
-      ]
-    },
+export const navItemsAdmin = createNavItem(
+  "System Admin",
+  "/user",
+  [
+    createNavItem('Assign Role', '/user/assignRole'),
+    createNavItem('Update User', '/user/updateUser'),
   ],
+  'cil-settings'
+);
 
-}
-
-navItemsAMSManager = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-    {
-      name: 'Annual Plan',
-      url: '/ams/annual-plan',
-    },
-    {
-      name: 'Audit Schedule',
-      url: '/ams/audit-schedule',
-    },
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Reports',
-      url: '/ams/report-list',
-    },
-    {
-      name: 'Setting',
-      url: '/ams',
-      iconComponent: { name: 'cil-settings' },
-      children: [
-        {
-          name: 'Auditors',
-          url: '/ams/audit-staff',
-        },
-        {
-          name: 'Audit universe',
-          url: '/ams/audit-universe',
-        },
-        {
-          name: 'Audit object',
-          url: '/ams/audit-object',
-        },
-        {
-          name: 'Audit Type',
-          url: '/ams/audit-type',
-        },
-        {
-          name: 'Risk item',
-          url: '/ams/risk-item',
-        },
-
+export const navItemsSuperAdmin = createNavItem(
+  'System Admin',
+  '/',
+  [
+    createNavItem(
+      'Module',
+      '/module',
+      [
+        createNavItem('Add Module', '/module/addModule'),
+        createNavItem('View Modules', '/module/viewModule'),
       ]
-    },
+    ),
+    // Add more children as needed
   ],
+  'cil-settings'
+);
 
-}
-
-navItemsAMSAuditor = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Reports',
-      url: '/ams/report-list',
-    },
-
-  ],
-
-}
-
-navItemsAMSMember = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    }
-
-  ],
-
-}
-
-navItemsAMSAuditee = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    }
-
-  ],
-
-}
-
-
-navItemsAMSTeamLeader = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    },
-
-    {
-      name: 'Audit Reports',
-      url: '/ams/report-list',
-    }
-  ],
-
-}
-
-
-navItemsAMSDirector = {
-  name: 'AMS',
-  url: '/ams',
-  iconComponent: { name: 'cil-drop' },
-  children: [
-    {
-      name: 'Audit Engagement',
-      url: '/ams/audit-engagement',
-    },
-    {
-      name: 'Audit Schedule',
-      url: '/ams/audit-schedule',
-    },
-
-
-  ],
-
-}
-
-
-
-navItemsCISTAdmin = {
-  name: 'CIST',
-  url: '/cit',
-  iconComponent: { name: 'cil-copy' },
-  children: [
-
-    {
-      name: 'COB Issues List',
-      url: '/cit/cobIssuesList',
-    },
-
-    {
-      name: 'Cob Steps',
-      url: '/cit/cobSteps',
-    },
-    {
-      name: 'Cob Steps Copied',
-      url: '/cit/cobStepsCopiedList',
-    },
-
-  ],
-
-}
-
-
-
-
-
-
-
-
-navItemsICMSAdmin = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-chart' },
-  children: [
-    {
-      name: 'User',
-      url: '/ICMS/user',
-      children: [
-        {
-          name: 'Add User',
-          url: '/ICMS/user/addUser'
-        },
-        {
-          name: 'View User',
-          url: '/ICMS/user/viewUsers'
-        },
-      ]
-    },
-    {
-      name: 'CIPM',
-      url: '/ICMS/CIPM',
-      children: [
-        {
-          name: 'View History',
-          url: '/ICMS/CIPM/viewCIPM',
-        },
-      ]
-    },
-    {
-      name: 'DCQ',
-      url: '/ICMS/DCQ',
-      children: [
-        {
-          name: 'View DCQ',
-          url: '/ICMS/DCQ/viewDCQ'
-        },
-      ]
-    },
-    {
-      name: 'IFR',
-      url: '/ICMS/Fraud',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/Fraud/addFraud',
-        },
-        {
-          name: 'View Reports',
-          url: '/ICMS/Fraud/viewFraud',
-        },
-        {
-          name: 'NBE IFR Summary',
-          url: '/ICMS/Fraud/viewFraudForNBE',
-        },
-      ]
-    },
-    {
-      name: 'DACGM',
-      url: '/ICMS/DACGM',
-      children: [
-        {
-          name: 'View History',
-          url: '/ICMS/DACGM/viewDACGM',
-        },
-      ]
-    },
-    {
-      name: 'Fire Extinguisher',
-      url: '/ICMS/FireExtinguisher',
-      children: [
-        {
-          name: 'View Fire Extinguisher',
-          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-        },
-      ]
-    },
-    {
-      name: 'IFB',
-      url: '/ICMS',
-      iconComponent: { name: 'cil-moon' },
-      children: [
-        {
-          name: 'View IFB',
-          url: '/ICMS/IFB/viewIFB'
-        }
-      ]
-    },
-    {
-      name: 'Finance',
-      url: '/ICMS',
-      iconComponent: { name: 'cil-dollar' },
-      children: [
-        {
-          name: 'View Finance',
-          url: '/ICMS/Finance/viewFinance'
-        }
-      ]
-    },
-    {
-      name: 'Share',
-      url: '/ICMS',
-      iconComponent: { name: 'cil-dollar' },
-      children: [
-        {
-          name: 'View Share',
-          url: '/ICMS/Share/viewShare'
-        }
-      ]
-    }
+export const navItemSupervisor = createNavItem(
+  'Supervisor',
+  '/',
+  [
+    createNavItem('Add User', '/user/addUser'),
+    createNavItem('View Users', '/user/viewUsers'),
   ]
-}
-navItemsICMSBranch = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-chart' },
-  children: [
-    // delete it later ////////////////////////////////////////////////
-    {
-      name: 'Dashboard',
-      url: 'icms_dashboard/branch',
-    },
-
-    ///////////////////////////////////////////////////////////////////
-    {
-      name: 'CIPM',
-      url: '/ICMS/CIPM',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/CIPM/addCIPM',
-        },
-        {
-          name: 'View History',
-          url: '/ICMS/CIPM/viewCIPM',
-        },
-      ]
-    },
-    {
-      name: 'DCQ',
-      url: '/ICMS/DCQ',
-      children: [
-        {
-          name: 'View Data',
-          url: '/ICMS/DCQ/viewDCQ'
-        },
-      ]
-    },
-    {
-      name: 'Fire Extinguisher',
-      url: '/ICMS/FireExtinguisher',
-      children: [
-        {
-          name: 'Add data',
-          url: '/ICMS/FireExtinguisher/addFireExtinguisher',
-        },
-        {
-          name: 'View Fire Extinguisher',
-          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-        },
-      ]
-    },
-    {
-      name: 'IFR',
-      url: '/ICMS/Fraud',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/Fraud/addFraud',
-        },
-        {
-          name: 'View History',
-          url: '/ICMS/Fraud/viewFraud',
-        },
-      ]
-    },
-    {
-      name: 'DACGM',
-      url: '/ICMS/DACGM',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/DACGM/addDACGM',
-        },
-        {
-          name: 'View History',
-          url: '/ICMS/DACGM/viewDACGM',
-        },
-      ]
-    }
-  ]
-}
-
-navItemsICMSDistrict = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-chart' },
-  children: [
-    {
-      name: 'CIPM',
-      url: '/ICMS/CIPM',
-      children: [
-        {
-          name: 'View CIPM History',
-          url: '/ICMS/CIPM/viewCIPM',
-        },
-      ]
-    },
-
-    {
-      name: 'DCQ',
-      url: '/ICMS/DCQ',
-      children: [
-        {
-          name: 'View Data',
-          url: '/ICMS/DCQ/viewDCQ'
-        },
-      ]
-    },
-    {
-      name: 'IFR',
-      url: '/ICMS/Fraud',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/Fraud/addFraud',
-        },
-        {
-          name: 'View History',
-          url: '/ICMS/Fraud/viewFraud',
-        },
-      ]
-    },
-    {
-      name: 'DACGM',
-      url: '/ICMS/DACGM',
-      children: [
-        {
-          name: 'View DACGM History',
-          url: '/ICMS/DACGM/viewDACGM',
-        },
-      ]
-    },
-    {
-      name: 'Fire Extinguisher',
-      url: '/ICMS/FireExtinguisher',
-      children: [
-        {
-          name: 'View Fire Extinguisher',
-          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-        },
-      ]
-    },
-  ]
-}
-
-navItemsICMSIFB = {
-  name: 'IFB',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-moon' },
-  children: [
-    {
-      name: 'Add data',
-      url: '/ICMS/IFB/addIFB',
-    },
-    {
-      name: 'View IFB',
-      url: '/ICMS/IFB/viewIFB'
-    }
-    ,
-    {
-      name: 'CIPM',
-      url: '/ICMS/CIPM',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/CIPM/addCIPM',
-        },
-        {
-          name: 'View History',
-          url: '/ICMS/CIPM/viewCIPM',
-        },
-      ]
-    },
-  ]
-}
-
-navItemsICMSFinanceIC = {
-  name: 'FInance',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-dollar' },
-  children: [
-    {
-      name: 'Add data',
-      url: '/ICMS/Finance/addFinance',
-    },
-    {
-      name: 'View Finance',
-      url: '/ICMS/Finance/viewFinance'
-    }
-  ]
-}
-
-navItemsICMSFinanceOWNER = {
-  name: 'FInance',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-dollar' },
-  children: [
-    {
-      name: 'View Finance',
-      url: '/ICMS/Finance/viewFinance'
-    },
-  ]
-}
-
-navItemsICMSShareIC = {
-  name: 'Share',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-dollar' },
-  children: [
-    {
-      name: 'Add data',
-      url: '/ICMS/Share/addShare',
-    },
-    {
-      name: 'View Share',
-      url: '/ICMS/Share/viewShare'
-    }
-  ]
-}
-
-navItemsICMSShareOWNER = {
-  name: 'Share',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-dollar' },
-  children: [
-    {
-      name: 'View Share',
-      url: '/ICMS/Share/viewShare'
-    }
-  ]
-}
+);
 
 
-navItemsSMSAdmin = {
-  name: 'SMS',
-  url: '/sms',
-  iconComponent: { name: 'cil-comment-square' },
-  children: [
-    {
-      name: 'SMS Sending',
-      url: '/sms',
-      iconComponent: { name: 'cil-send' },
-      children: [
-        {
-          name: 'Excel Messaging ',
-          url: '/sms/bulk',
-        },
-        {
-          name: 'Single Messaging',
-          url: '/sms/single',
-        },
-        {
-          name: 'Group Messaging',
-          url: '/sms/group',
-        }, {
-          name: 'Customer Messaging',
-          url: '/sms/customer',
-        }
-
-      ]
-    },
-    {
-      name: 'Reports',
-      url: '/sms',
-      iconComponent: { name: 'cil-bar-chart' },
-      children: [
-        // {
-        //   name: 'All messages',
-        //   url: '/sms/all-messages',
-        // },
-        {
-          name: 'Single messages',
-          url: '/sms/single-messages',
-        },
-        {
-          name: 'Group Messages',
-          url: '/sms/group-messages',
-        },
-        {
-          name: 'Excel Messages',
-          url: '/sms/bulks',
-        },
-        {
-          name: 'Cost',
-          url: '/sms/cost',
-        },
-        {
-          name: 'Customer messages',
-          url: '/sms/customer-messages',
-        },
-
-      ]
-    },
-
-  ],
-
-
-}
-
-navItemsICMSBranchManager = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-chart' },
-  children: [
-    {
-      name: 'CIPM',
-      url: '/ICMS/CIPM',
-      children: [
-        {
-          name: 'Authorize Data',
-          url: '/ICMS/CIPM/authorizeCIPMData',
-        }
-      ]
-    },
-    {
-      name: 'DCQ',
-      url: '/ICMS/DCQ',
-      children: [
-        {
-          name: 'Add Data',
-          url: '/ICMS/DCQ/addDCQ'
-        },
-        {
-          name: 'View History',
-          url: '/ICMS/DCQ/viewDCQ'
-        },
-      ]
-    },
-    {
-      name: 'IFR',
-      url: '/ICMS/Fraud',
-      children: [
-        {
-          name: 'Authorize Data',
-          url: '/ICMS/Fraud/authorizeFraudCases',
-        }
-      ]
-    },
-    {
-      name: 'DACGM',
-      url: '/ICMS/DACGM',
-      children: [
-        {
-          name: 'View History',
-          url: '/ICMS/DACGM/viewDACGM',
-        },
-      ]
-    },
-    {
-      name: 'Finance',
-      url: '/ICMS/Finance',
-      children: [
-        {
-          name: 'View Finance',
-          url: '/ICMS/Finance/viewFinance'
-        },
-      ]
-    },
-    {
-      name: 'Fire Extinguisher',
-      url: '/ICMS/FireExtinguisher',
-      children: [
-        {
-          name: 'View Fire Extinguisher',
-          url: '/ICMS/FireExtinguisher/viewFireExtinguisher'
-        },
-      ]
-    },
-  ]
-}
-navItemsICMSBankingOperation = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-chart' },
-  children: [
-
-    {
-      name: 'DCQ',
-      url: '/ICMS/DCQ',
-      children: [
-        {
-          name: 'View History',
-          url: '/ICMS/DCQ/viewDCQ'
-        }
-      ]
-    },
-
-  ]
-}
-
-navItemsICMSDistrictDirector = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  iconComponent: { name: 'cil-chart' },
-  children: [
-    {
-      name: 'CIPM',
-      url: '/ICMS/CIPM',
-      children: [
-        {
-          name: 'View CIPM History',
-          url: '/ICMS/CIPM/viewCIPM',
-        },
-      ]
-    },
-
-    {
-      name: 'DCQ',
-      url: '/ICMS/DCQ',
-      children: [
-        {
-          name: 'View Data',
-          url: '/ICMS/DCQ/viewDCQ'
-        },
-      ]
-    },
-    {
-      name: 'IFR',
-      url: '/ICMS/Fraud',
-      children: [
-        {
-          name: 'View History',
-          url: '/ICMS/Fraud/viewFraud',
-        },
-      ]
-    },
-    {
-      name: 'DACGM',
-      url: '/ICMS/DACGM',
-      children: [
-        {
-          name: 'View DACGM History',
-          url: '/ICMS/DACGM/viewDACGM',
-        },
-      ]
-    },
-  ]
-}
-navItemsICMSProvision = {
-  name: 'Internal Control',
-  url: '/ICMS',
-  children: [
-    {
-      name: 'IFR',
-      url: '/ICMS/Fraud',
-      children: [
-        {
-          name: 'View History',
-          url: '/ICMS/Fraud/viewFraud',
-        },
-      ]
-    }
-  ]
-}
-
-
-
-
-
-navItemsCCAdmin = {
-  name: 'Compliance Check',
-  url: '/CC',
-  children: [
-    {
-      name: 'Search',
-      url: '/CC/viewSanction'
-    },
-
-    {
-      name: 'Uploads',
-      url: '/CC/upload',
-      children: [
-        {
-          name: 'UK',
-          url: '/CC/upload/uk',
-        },
-        {
-          name: 'EU',
-          url: '/CC/upload/eu',
-        },
-        {
-          name: 'PEP',
-          url: '/CC/upload/pep',
-        },
-        {
-          name: 'Media Adverser',
-          url: '/CC/upload/adverser',
-        },
-      ]
-    },
-    {
-      name: 'Weekly Check',
-      url: '/CC/weeklyCheck'
-    },
-
-
-  ]
-}
-
-navItemsCCUser = {
-  name: 'Compliance Check',
-  url: '/CC',
-  children: [
-
-    {
-      name: 'Search',
-      url: '/CC/viewSanction'
-    }
-  ]
-}
-
-navItemsCCUserDeliquent = {
-  name: 'Compliance Check',
-  url: '/CC',
-  children: [
-
-    {
-      name: 'Search',
-      url: '/CC/viewSanction'
-    },
-    {
-      name: 'Deliquent List',
-      url: '/CC/upload/deliquent'
-    },
-    {
-      name: 'Business Contuinity',
-      url: '/CC/upload/business'
-    }
-  ]
-}
-
-navItemsECXAdmin = {
-  name: 'ECX',
-  url: '/ecx',
-  iconComponent: { name: 'cil-credit-card' },
-  children: [
-
-    {
-      name: 'Balance',
-      url: '/ecx/balance',
-      iconComponent: { name: 'cil-balance-scale' },
-      children: [
-        {
-          name: 'Generate Balance',
-          url: '/ecx/balance/update'
-        },
-        {
-          name: 'Update History',
-          url: '/ecx/balance/filehistory'
-        },
-
-      ]
-    },
-    {
-      name: 'Account',
-      url: '/ecx/account',
-      iconComponent: { name: 'cil-wallet' },
-      children: [
-        {
-          name: 'New',
-          url: '/ecx/account/newAccount',
-        },
-        {
-          name: 'Table',
-          url: '/ecx/account/accountTable',
-        },
-        {
-          name: 'Account Relation',
-          url: '/ecx/account/relation'
-        },
-
-      ]
-    },
-  ]
-}
-navItemsECXUser = {
-
-}
-
-navItemsCAOAdmin = {
-  name: 'CAO Inquiry/Activity',
-  url: '/cao',
-  iconComponent: { name: 'cib-openstreetmap' },
-  children: [
-    {
-      name: 'View',
-      url: '/cao/checklists/checklist'
-    },
-  ]
-}
-
-navItemsCAOUser = {
-  name: 'CAO Inquiry/Activity',
-  url: '/cao',
-  iconComponent: { name: 'cib-openstreetmap' },
-  children: [
-    {
-      name: 'My Inquiry/Activity',
-      url: '/cao/checklists/my-checklists',
-    },
-  ]
-}
-
-navItemsSASVAdmin = {
-  name: "Signature & Stamp",
-  url: "/sasv",
-  iconComponent: { name: "cil-folder-open" },
-  children: [
-    {
-      name: "User",
-      url: "/sasv/user",
-      children: [
-        {
-          name: "New",
-          url: "/sasv/user/addUser",
-        },
-        {
-          name: "Table",
-          url: "/sasv/user/viewUsers",
-        },
+export const navItemsAMSAdmin = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Annual Plan', '/ams/annual-plan'),
+    createNavItem('Audit Schedule', '/ams/audit-schedule'),
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+    createNavItem('Audit Reports', '/ams/report-list'),
+    createNavItem(
+      'Setting',
+      '/ams',
+      [
+        createNavItem('Auditors', '/ams/audit-staff'),
+        createNavItem('Audit universe', '/ams/audit-universe'),
+        createNavItem('Audit object', '/ams/audit-object'),
+        createNavItem('Audit Type', '/ams/audit-type'),
+        createNavItem('Risk item', '/ams/risk-item'),
       ],
-    },
-    {
-      name: "Admin",
-      url: "/sasv",
-      children: [
-        {
-          name: "Signature",
-          url: "/sasv/signature-table",
-        },
-        {
-          name: "Stamp",
-          url: "/sasv/stamp-table",
-        },
-        {
-          name: "Authority",
-          url: "/sasv/authority-table",
-        },
+      'cil-settings'
+    ),
+  ],
+  'cil-drop'
+);
+
+export const navItemsAMSManager = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Annual Plan', '/ams/annual-plan'),
+    createNavItem('Audit Schedule', '/ams/audit-schedule'),
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+    createNavItem('Audit Reports', '/ams/report-list'),
+    createNavItem(
+      'Setting',
+      '/ams',
+      [
+        createNavItem('Auditors', '/ams/audit-staff'),
+        createNavItem('Audit universe', '/ams/audit-universe'),
+        createNavItem('Audit object', '/ams/audit-object'),
+        createNavItem('Audit Type', '/ams/audit-type'),
+        createNavItem('Risk item', '/ams/risk-item'),
       ],
-    },
-
+      'cil-settings'
+    ),
   ],
-};
-navItemsSASVUser = {
-  name: 'Signature & Stamp',
-  url: '/sasv/user-view',
+  'cil-drop'
+);
 
-}
+export const navItemsAMSAuditor = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+    createNavItem('Audit Reports', '/ams/report-list'),
+  ],
+  'cil-drop'
+);
 
+export const navItemsAMSMember = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+  ],
+  'cil-drop'
+);
 
-navItemsMemoAdmin = {
-  name: 'Memo',
-  url: '/Memo',
-  children: [
-    {
-      name: 'New Memo',
-      url: '/Memo/newMemo',
-    },
-    {
-      name: 'Search Memo',
-      url: '/Memo/searchMemo',
-    },
+export const navItemsAMSAuditee = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+  ],
+  'cil-drop'
+);
 
-  ]
-}
+export const navItemsAMSTeamLeader = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+    createNavItem('Audit Reports', '/ams/report-list'),
+  ],
+  'cil-drop'
+);
 
-navItemsMemoUser = {
-  name: 'Memo',
-  url: '/Memo',
-  children: [
-    {
-      name: 'New Memo',
-      url: '/Memo/newMemo',
-    },
-    {
-      name: 'Search Memo',
-      url: '/Memo/searchMemo',
-    },
+export const navItemsAMSDirector = createNavItem(
+  'AMS',
+  '/ams',
+  [
+    createNavItem('Audit Engagement', '/ams/audit-engagement'),
+    createNavItem('Audit Schedule', '/ams/audit-schedule'),
+  ],
+  'cil-drop'
+);
 
-  ]
-}
+export const navItemsCISTAdmin = createNavItem(
+  'CIST',
+  '/cit',
+  [
+    createNavItem('COB Issues List', '/cit/cobIssuesList'),
+    createNavItem('Cob Steps', '/cit/cobSteps'),
+    createNavItem('Cob Steps Copied', '/cit/cobStepsCopiedList'),
+  ],
+  'cil-copy'
+);
 
-navItemsEMSAdmin = {
-  name: 'EMS',
-  url: '/EMS',
-  iconComponent: { name: 'cil-library-add' },
-  children: [
-    {
-      name: 'User',
-      url: '/EMS/user',
-      children: [
-        {
-          name: 'New',
-          url: '/EMS/user/addUser',
-        },
-        {
-          name: 'Table',
-          url: '/EMS/user/viewUsers',
-        },
+export const navItemsICMSAdmin = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem(
+      'User',
+      '/ICMS/user',
+      [
+        createNavItem('Add User', '/ICMS/user/addUser'),
+        createNavItem('View User', '/ICMS/user/viewUsers'),
       ]
-    },
-    {
-      name: 'Upload',
-      url: '/EMS/uploadEmployeeData',
-    },
-  ]
-}
-
-navItemsEMSUser = {
-
-}
-
-navItemsCMSAdmin = {
-  name: 'CMS',
-  url: '/CMS',
-  children: [
-    {
-      name: 'JT Analyzer',
-      url: '/CMS',
-      children: [
-        // {
-        //   name: 'View JT',
-        //   url: '/CMS/viewJT',
-        // },
-        {
-          name: 'Upload JT',
-          url: '/CMS/uploadJT',
-        }
+    ),
+    createNavItem(
+      'CIPM',
+      '/ICMS/CIPM',
+      [
+        createNavItem('View History', '/ICMS/CIPM/viewCIPM'),
       ]
-    },
-    {
-      name: 'RT Analyzer',
-      url: '/CMS',
-      children: [
-        // {
-        //   name: 'View RT',
-        //   url: '/CMS/viewRT',
-        // },
-        {
-          name: 'Upload RT',
-          url: '/CMS/uploadRT',
-        }
+    ),
+    // Add more children as needed
+  ],
+  'cil-chart'
+);
+
+
+export const navItemsICMSBranch = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem('Dashboard', 'icms_dashboard/branch'),
+    createNavItem(
+      'CIPM',
+      '/ICMS/CIPM',
+      [
+        createNavItem('Add Data', '/ICMS/CIPM/addCIPM'),
+        createNavItem('View History', '/ICMS/CIPM/viewCIPM'),
       ]
-    }
+    ),
+    createNavItem(
+      'DCQ',
+      '/ICMS/DCQ',
+      [
+        createNavItem('View Data', '/ICMS/DCQ/viewDCQ'),
+      ]
+    ),
+    createNavItem(
+      'Fire Extinguisher',
+      '/ICMS/FireExtinguisher',
+      [
+        createNavItem('Add data', '/ICMS/FireExtinguisher/addFireExtinguisher'),
+        createNavItem('View Fire Extinguisher', '/ICMS/FireExtinguisher/viewFireExtinguisher'),
+      ]
+    ),
+    createNavItem(
+      'IFR',
+      '/ICMS/Fraud',
+      [
+        createNavItem('Add Data', '/ICMS/Fraud/addFraud'),
+        createNavItem('View History', '/ICMS/Fraud/viewFraud'),
+      ]
+    ),
+    createNavItem(
+      'DACGM',
+      '/ICMS/DACGM',
+      [
+        createNavItem('Add Data', '/ICMS/DACGM/addDACGM'),
+        createNavItem('View History', '/ICMS/DACGM/viewDACGM'),
+      ]
+    ),
+  ],
+  'cil-chart'
+);
+
+export const navItemsICMSDistrict = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem(
+      'CIPM',
+      '/ICMS/CIPM',
+      [
+        createNavItem('View CIPM History', '/ICMS/CIPM/viewCIPM'),
+      ]
+    ),
+    createNavItem(
+      'DCQ',
+      '/ICMS/DCQ',
+      [
+        createNavItem('View Data', '/ICMS/DCQ/viewDCQ'),
+      ]
+    ),
+    createNavItem(
+      'IFR',
+      '/ICMS/Fraud',
+      [
+        createNavItem('Add Data', '/ICMS/Fraud/addFraud'),
+        createNavItem('View History', '/ICMS/Fraud/viewFraud'),
+      ]
+    ),
+    createNavItem(
+      'DACGM',
+      '/ICMS/DACGM',
+      [
+        createNavItem('View DACGM History', '/ICMS/DACGM/viewDACGM'),
+      ]
+    ),
+    createNavItem(
+      'Fire Extinguisher',
+      '/ICMS/FireExtinguisher',
+      [
+        createNavItem('View Fire Extinguisher', '/ICMS/FireExtinguisher/viewFireExtinguisher'),
+      ]
+    ),
+  ],
+  'cil-chart'
+);
+
+
+export const navItemsICMSIFB = createNavItem(
+  'IFB',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/IFB/addIFB'),
+    createNavItem('View IFB', '/ICMS/IFB/viewIFB'),
+    createNavItem(
+      'CIPM',
+      '/ICMS/CIPM',
+      [
+        createNavItem('Add Data', '/ICMS/CIPM/addCIPM'),
+        createNavItem('View History', '/ICMS/CIPM/viewCIPM'),
+      ]
+    ),
+  ],
+  'cil-moon'
+);
+
+export const navItemsICMSFinanceIC = createNavItem(
+  'FInance',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/Finance/addFinance'),
+    createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
+  ],
+  'cil-dollar'
+);
+
+export const navItemsICMSFinanceOWNER = createNavItem(
+  'FInance',
+  '/ICMS',
+  [
+    createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
+  ],
+  'cil-dollar'
+);
+
+export const navItemsICMSShareIC = createNavItem(
+  'Share',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/Share/addShare'),
+    createNavItem('View Share', '/ICMS/Share/viewShare'),
+  ],
+  'cil-dollar'
+);
+
+
+export const navItemsICMSShareOWNER = createNavItem(
+  'Share',
+  '/ICMS',
+  [
+    createNavItem('View Share', '/ICMS/Share/viewShare'),
+  ],
+  'cil-dollar'
+);
+
+export const navItemsSMSAdmin = createNavItem(
+  'SMS',
+  '/sms',
+  [
+    createNavItem(
+      'SMS Sending',
+      '/sms',
+      [
+        createNavItem('Excel Messaging', '/sms/bulk'),
+        createNavItem('Single Messaging', '/sms/single'),
+        createNavItem('Group Messaging', '/sms/group'),
+        createNavItem('Customer Messaging', '/sms/customer'),
+      ],
+      'cil-send'
+    ),
+    createNavItem(
+      'Reports',
+      '/sms',
+      [
+        createNavItem('Single messages', '/sms/single-messages'),
+        createNavItem('Group Messages', '/sms/group-messages'),
+        createNavItem('Excel Messages', '/sms/bulks'),
+        createNavItem('Cost', '/sms/cost'),
+        createNavItem('Customer messages', '/sms/customer-messages'),
+      ],
+      'cil-bar-chart'
+    ),
+  ],
+  'cil-comment-square'
+);
+
+export const navItemsICMSBranchManager = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem(
+      'CIPM',
+      '/ICMS/CIPM',
+      [
+        createNavItem('Authorize Data', '/ICMS/CIPM/authorizeCIPMData'),
+      ]
+    ),
+    createNavItem(
+      'DCQ',
+      '/ICMS/DCQ',
+      [
+        createNavItem('Add Data', '/ICMS/DCQ/addDCQ'),
+        createNavItem('View History', '/ICMS/DCQ/viewDCQ'),
+      ]
+    ),
+    createNavItem(
+      'IFR',
+      '/ICMS/Fraud',
+      [
+        createNavItem('Authorize Data', '/ICMS/Fraud/authorizeFraudCases'),
+      ]
+    ),
+    createNavItem(
+      'DACGM',
+      '/ICMS/DACGM',
+      [
+        createNavItem('View History', '/ICMS/DACGM/viewDACGM'),
+      ]
+    ),
+    createNavItem(
+      'Finance',
+      '/ICMS/Finance',
+      [
+        createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
+      ]
+    ),
+    createNavItem(
+      'Fire Extinguisher',
+      '/ICMS/FireExtinguisher',
+      [
+        createNavItem('View Fire Extinguisher', '/ICMS/FireExtinguisher/viewFireExtinguisher'),
+      ]
+    ),
+  ],
+  'cil-chart'
+);
+
+export const navItemsICMSBankingOperation = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem(
+      'DCQ',
+      '/ICMS/DCQ',
+      [
+        createNavItem('View History', '/ICMS/DCQ/viewDCQ'),
+      ]
+    ),
+  ],
+  'cil-chart'
+);
+
+export const navItemsICMSDistrictDirector = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem(
+      'CIPM',
+      '/ICMS/CIPM',
+      [
+        createNavItem('View CIPM History', '/ICMS/CIPM/viewCIPM'),
+      ]
+    ),
+    createNavItem(
+      'DCQ',
+      '/ICMS/DCQ',
+      [
+        createNavItem('View Data', '/ICMS/DCQ/viewDCQ'),
+      ]
+    ),
+    createNavItem(
+      'IFR',
+      '/ICMS/Fraud',
+      [
+        createNavItem('View History', '/ICMS/Fraud/viewFraud'),
+      ]
+    ),
+    createNavItem(
+      'DACGM',
+      '/ICMS/DACGM',
+      [
+        createNavItem('View DACGM History', '/ICMS/DACGM/viewDACGM'),
+      ]
+    ),
+  ],
+  'cil-chart'
+);
+
+export const navItemsICMSProvision = createNavItem(
+  'Internal Control',
+  '/ICMS',
+  [
+    createNavItem(
+      'IFR',
+      '/ICMS/Fraud',
+      [
+        createNavItem('View History', '/ICMS/Fraud/viewFraud'),
+      ]
+    ),
   ]
-}
+);
 
-navItemsCMSUser = {
 
-}
-export const navItemSearch = {
-  name: 'Search',
-  url: '/CC/viewSanction',
-};
 
-export const navItemDelinquent = {
-  name: 'Delinquent',
-  url: '/CC/upload/delinquent',
-  children: [
-    {
-      name: 'Delinquent List',
-      url: '/CC/upload/deliquent',
-    },
-    {
-      name: 'Business Continuity',
-      url: '/CC/upload/business',
-    },
-    // Add more items as needed
+export const navItemsCCAdmin = createNavItem(
+  'Compliance Check',
+  '/CC',
+  [
+    createNavItem('Search', '/CC/viewSanction'),
+    createNavItem(
+      'Uploads',
+      '/CC/upload',
+      [
+        createNavItem('UK', '/CC/upload/uk'),
+        createNavItem('EU', '/CC/upload/eu'),
+        createNavItem('PEP', '/CC/upload/pep'),
+        createNavItem('Media Adverser', '/CC/upload/adverser'),
+      ]
+    ),
+    createNavItem('Weekly Check', '/CC/weeklyCheck'),
+  ]
+);
+
+export const navItemsCCUser = createNavItem(
+  'Compliance Check',
+  '/CC',
+  [
+    createNavItem('Search', '/CC/viewSanction'),
+  ]
+);
+
+export const navItemsCCUserDeliquent = createNavItem(
+  'Compliance Check',
+  '/CC',
+  [
+    createNavItem('Search', '/CC/viewSanction'),
+    createNavItem('Deliquent List', '/CC/upload/deliquent'),
+    createNavItem('Business Contuinity', '/CC/upload/business'),
+  ]
+);
+
+export const navItemsECXAdmin = createNavItem(
+  'ECX',
+  '/ecx',
+  [
+    createNavItem(
+      'Balance',
+      '/ecx/balance',
+      [
+        createNavItem('Generate Balance', '/ecx/balance/update'),
+        createNavItem('Update History', '/ecx/balance/filehistory'),
+      ],
+      'cil-balance-scale'
+    ),
+    createNavItem(
+      'Account',
+      '/ecx/account',
+      [
+        createNavItem('New', '/ecx/account/newAccount'),
+        createNavItem('Table', '/ecx/account/accountTable'),
+        createNavItem('Account Relation', '/ecx/account/relation'),
+      ],
+      'cil-wallet'
+    ),
   ],
-};
+  'cil-credit-card'
+);
 
-export const navItemAdmin = {
-  name: 'Uploads',
-  url: '/CC/upload',
-  children: [
-    {
-      name: 'UK',
-      url: '/CC/upload/uk',
-    },
-    {
-      name: 'EU',
-      url: '/CC/upload/eu',
-    },
-    {
-      name: 'PEP',
-      url: '/CC/upload/pep',
-    },
-    // Add more items as needed
+export const navItemsECXUser = createNavItem('ECX', '/ecx');
+
+export const navItemsCAOAdmin = createNavItem(
+  'CAO Inquiry/Activity',
+  '/cao',
+  [
+    createNavItem('View', '/cao/checklists/checklist'),
   ],
-};
+  'cib-openstreetmap'
+);
 
-export const navItemWeeklyCheck = {
-  name: 'Weekly Check',
-  url: '/CC/weeklyCheck',
-};
 
-export const complianceCheckMenu = {
-  name: 'Compliance Check',
-  url: '/CC',
-  icon: 'pi pi-check',
-  children: [
-    navItemSearch, // Include Search submenu by default
+export const navItemsCAOUser = createNavItem(
+  'CAO Inquiry/Activity',
+  '/cao',
+  [
+    createNavItem('My Inquiry/Activity', '/cao/checklists/my-checklists'),
   ],
-};
+  'cib-openstreetmap'
+);
+
+export const navItemsSASVAdmin = createNavItem(
+  'Signature & Stamp',
+  '/sasv',
+  [
+    createNavItem(
+      'User',
+      '/sasv/user',
+      [
+        createNavItem('New', '/sasv/user/addUser'),
+        createNavItem('Table', '/sasv/user/viewUsers'),
+      ]
+    ),
+    createNavItem(
+      'Admin',
+      '/sasv',
+      [
+        createNavItem('Signature', '/sasv/signature-table'),
+        createNavItem('Stamp', '/sasv/stamp-table'),
+        createNavItem('Authority', '/sasv/authority-table'),
+      ]
+    ),
+  ],
+  'cil-folder-open'
+);
+
+export const navItemsSASVUser = createNavItem('Signature & Stamp', '/sasv/user-view');
+
+export const navItemsMemoAdmin = createNavItem(
+  'Memo',
+  '/Memo',
+  [
+    createNavItem('New Memo', '/Memo/newMemo'),
+    createNavItem('Search Memo', '/Memo/searchMemo'),
+  ]
+);
+
+export const navItemsMemoUser = createNavItem(
+  'Memo',
+  '/Memo',
+  [
+    createNavItem('New Memo', '/Memo/newMemo'),
+    createNavItem('Search Memo', '/Memo/searchMemo'),
+  ]
+);
+
+export const navItemsEMSAdmin = createNavItem(
+  'EMS',
+  '/EMS',
+  [
+    createNavItem(
+      'User',
+      '/EMS/user',
+      [
+        createNavItem('New', '/EMS/user/addUser'),
+        createNavItem('Table', '/EMS/user/viewUsers'),
+      ]
+    ),
+    createNavItem('Upload', '/EMS/uploadEmployeeData'),
+  ],
+  'cil-library-add'
+);
+
+export const navItemsEMSUser = createNavItem('EMS', '/EMS');
+
+
+export const navItemsCMSAdmin = createNavItem(
+  'CMS',
+  '/CMS',
+  [
+    createNavItem(
+      'JT Analyzer',
+      '/CMS',
+      [
+        createNavItem('Upload JT', '/CMS/uploadJT'),
+      ]
+    ),
+    createNavItem(
+      'RT Analyzer',
+      '/CMS',
+      [
+        createNavItem('Upload RT', '/CMS/uploadRT'),
+      ]
+    ),
+  ]
+);
+
+export const navItemsCMSUser = createNavItem('CMS', '/CMS');
+
+export const navItemSearch = createNavItem('Search', '/CC/viewSanction');
+
+export const navItemDelinquent = createNavItem(
+  'Delinquent',
+  '/CC/upload/delinquent',
+  [
+    createNavItem('Delinquent List', '/CC/upload/deliquent'),
+    createNavItem('Business Continuity', '/CC/upload/business'),
+  ]
+);
+
+export const navItemAdmin = createNavItem(
+  'Uploads',
+  '/CC/upload',
+  [
+    createNavItem('UK', '/CC/upload/uk'),
+    createNavItem('EU', '/CC/upload/eu'),
+    createNavItem('PEP', '/CC/upload/pep'),
+  ]
+);
+
+export const navItemWeeklyCheck = createNavItem('Weekly Check', '/CC/weeklyCheck');
+
+export const complianceCheckMenu = createNavItem(
+  'Compliance Check',
+  '/CC',
+  [
+    navItemSearch,
+  ],
+  'pi pi-check'
+);
