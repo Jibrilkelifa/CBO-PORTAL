@@ -84,9 +84,7 @@ export class FinanceTableComponent implements OnDestroy {
     }
     else if (roles.indexOf("ROLE_ICMS_FINANCE_IC") !== -1) {
       this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {  
-          console.log("qqq", response);
-                                               
+        (response: FinanceModel[]) => {                                   
           this.FinanceList = response.map(finance => ({
             ...finance,
             daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
@@ -100,9 +98,7 @@ export class FinanceTableComponent implements OnDestroy {
 
     else if (roles.indexOf("ROLE_ICMS_FINANCE_OWNER") !== -1) {
       this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {  
-          console.log("qqq", response);
-                                               
+        (response: FinanceModel[]) => {                                      
           this.FinanceList = response.map(finance => ({
             ...finance,
             daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
