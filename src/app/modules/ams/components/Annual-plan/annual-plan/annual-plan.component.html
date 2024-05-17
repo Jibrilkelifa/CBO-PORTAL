@@ -160,6 +160,14 @@
         <td>
           <div class="flex gap-2">
             <button
+            pButton
+            *ngIf="annualPlan?.status == 'Pending'"
+            (click)="approveAnnualPlan(annualPlan.id)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm w-20 h-10 p-2"
+            label="Approve"
+          ></button>
+            <button
               pButton
               *ngIf="annualPlan?.status == 'Pending'"
               (click)="updateAnnualPlan(annualPlan.id)"
@@ -169,7 +177,7 @@
             ></button>
             <button
               pButton
-              *ngIf="annualPlan?.status == 'Pending'"
+              *ngIf="annualPlan?.status == 'Approved'"
               (click)="addToAuditSchedule(annualPlan)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm h-10 p-2 whitespace-nowrap"

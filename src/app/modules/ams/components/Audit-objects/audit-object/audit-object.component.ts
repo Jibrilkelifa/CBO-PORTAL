@@ -8,6 +8,8 @@ import { AuditObjectDTO } from 'src/app/modules/ams/models/auditObject';
 import { NewAuditObjectComponent } from '../new-audit-object/newAuditObject.component';
 import * as FileSaver from 'file-saver';
 import { Router } from '@angular/router';
+import { AnnualPlanDTO } from '../../../models/annualPlan';
+import { AutoGenerateAnnualPlanComponent } from '../../Annual-plan/auto-geneerate-annualPlan/auto-generate-annualPlan.component';
 
 interface ExportColumn {
   title: string;
@@ -26,6 +28,8 @@ interface Column {
   styleUrls: ['./audit-object.component.scss'],
 })
 export class AuditObjectComponent {
+
+  public annualPlans: AnnualPlanDTO[] = [];
   public auditObject: AuditObjectDTO[] = [];
 
   public auditObjectInfo: AuditObjectDTO;
@@ -141,6 +145,32 @@ export class AuditObjectComponent {
   
         })
     );
+  }
+
+  generateAnnualPlan(): void {
+    const ref = this.dialogService.open(AutoGenerateAnnualPlanComponent, {
+      header: 'Generate Annual Plan',
+      width: '50%',
+      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+      baseZIndex: 10000,
+    });
+
+    ref.onClose.subscribe((response: any) => {
+      if (response.status) {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: response.message,
+        });
+        this.annualPlans = response.result;
+      } else {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Failed',
+          detail: response.message,
+        });
+      }
+    });
   }
 
 

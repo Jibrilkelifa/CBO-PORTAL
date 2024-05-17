@@ -12,6 +12,17 @@
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="mortgagorName"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
+      <div class="flex-auto">
+        <label for="insuranceBranch" class="block mb-2">Insurance Branch</label>
+        <input pInputText id="insuranceBranch" type="text" ngModel
+          name="insuranceBranch" [style]="{'width':'30vw','height':'45px'}" />
+      </div>
+      <div class="flex-auto">
+        <label for="insuranceDistrict" class="block mb-2">Insurance District</label>
+        <input pInputText id="insuranceDistrict" type="text" ngModel
+          name="insuranceDistrict" [style]="{'width':'30vw','height':'45px'}" />
+      </div>
+
     </div>
     <div class="flex flex-wrap gap-3 mb-2">
       <div class="flex-auto">
@@ -122,6 +133,11 @@
         <label for="alphabetic" class=" block mb-2"> District </label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess" name="subProcess"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
+      </div>
+      <div class="flex-auto">
+        <label for="insuranceCompanyName" class="block mb-2">Insurance Company Name</label>
+        <input pInputText id="insuranceCompanyName" type="text" ngModel
+          name="insuranceCompanyName" [style]="{'width':'30vw','height':'45px'}" />
       </div>
       <input [hidden]="true" pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="authorizedBy"
         name="authorizedBy" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
