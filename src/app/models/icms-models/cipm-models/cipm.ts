@@ -32,7 +32,8 @@ export interface CIPM {
   branch: Branch;
   subProcess: SubProcess;
   insuranceCompanyName?: string; // Nullable property
-  insuranceBranch?: string; // Nullable property
+  insuranceBranch?: string;
+  bbranch?: string; // Nullable property
   insuranceDistrict?: string; // Nullable property
 }
 

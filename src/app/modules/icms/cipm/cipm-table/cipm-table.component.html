@@ -81,6 +81,7 @@
         <th scope="col" pSortableColumn="borrowerName">
           Borrower Name<p-sortIcon field="borrowerName"></p-sortIcon>
         </th>
+       
         <th scope="col" pSortableColumn="loanAccount">
           Loan Account<p-sortIcon field="loanAccount"></p-sortIcon>
         </th>
@@ -123,6 +124,18 @@
             field="insuranceExpireDate"
           ></p-sortIcon>
         </th>
+        <th scope="col" pSortableColumn="insuranceBranch">
+          Insurance Branch<p-sortIcon field="insuranceBranch"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="bbranch">
+          branch<p-sortIcon field="bbranch"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="insuranceDistrict">
+          District<p-sortIcon field="insuranceDistrict"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="insuranceCompanyName">
+          Company Name<p-sortIcon field="insuranceCompanyName"></p-sortIcon>
+        </th>
         <th scope="col" pSortableColumn="daysLeftToExpire">
           Days Left To Expire<p-sortIcon field="daysLeftToExpire"></p-sortIcon>
         </th>
@@ -152,6 +165,7 @@
         <td>{{ cipms?.borrowerName }}</td>
         <td>{{ cipms?.loanAccount }}</td>
         <td>{{ cipms?.loanType }}</td>
+      
         <td>
           <ng-container
             *ngIf="cipms?.collateralType?.name !== 'Other'; else otherCTBlock"
@@ -183,6 +197,10 @@
         <td>{{ cipms?.insuredName }}</td>
         <td>{{ cipms?.status?.name }}</td>
         <td>{{ cipms?.insuranceExpireDate }}</td>
+        <td>{{ cipms?.insuranceBranch }}</td>
+        <td>{{ cipms?.bbranch }}</td>
+        <td>{{ cipms?.insuranceDistrict }}</td>
+        <td>{{ cipms?.insuranceCompanyName }}</td>
         <td
           [ngClass]="{
             black: calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,
