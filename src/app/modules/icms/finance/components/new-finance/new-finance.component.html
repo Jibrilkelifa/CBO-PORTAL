@@ -66,20 +66,7 @@
           [style]="{ width: '30vw', height: '45px' }"
           pattern="^(\d{13}|PL\d{5}|ETB\d{13})$"
         />
-    </div>
-    
-      <div class="flex-auto" *ngIf="!update">
-        <label for="irregularity" class="block mb-2"> Irregularity </label>
-        <input
-          pInputText
-          id="irregularity"
-          [(ngModel)]="Finance.irregularity"
-          name="irregularity"
-          [required]="true"
-          [style]="{ width: '30vw', height: '45px' }"
-        />
       </div>
-      
       <div class="flex-auto" *ngIf="!update">
         <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
         <input
@@ -92,23 +79,43 @@
         />
       </div>
       <div class="flex-auto" *ngIf="!update">
+        <label for="irregularity" class="block mb-2"> Irregularity </label>
+        <textarea
+          pInputTextarea
+          id="irregularity"
+          [(ngModel)]="Finance.irregularity"
+          name="irregularity"
+          [autoResize]="true"
+          style="width: 30vw; height: 65px"
+        ></textarea>
+      </div>
+
+      <div class="flex-auto" *ngIf="!update">
         <label for="responsiblePerson" class="block mb-2">
           Responsible Person
         </label>
-        <input
-          pInputText
+        <textarea
+          pInputTextarea
           id="responsiblePerson"
           [(ngModel)]="Finance.responsiblePerson"
           name="responsiblePerson"
-          [required]="true"
-          [style]="{ width: '30vw', height: '45px' }"
-        />
+          [autoResize]="true"
+          style="width: 30vw; height: 65px"
+        ></textarea>
       </div>
 
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Team/Subprocess</label>
-        <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedSubProcess"
-          name="selectedSubProcess" [readonly]=true [style]="{'width':'30vw','height':'45px'}"  minlength="3" />
+        <label for="alphabetic" class="block mb-2"> Team/Subprocess</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          [(ngModel)]="selectedSubProcess"
+          name="selectedSubProcess"
+          [readonly]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+          minlength="3"
+        />
       </div>
       <div class="flex-auto" [hidden]="true">
         <label for="alphabetic" class="block mb-2"> District</label>

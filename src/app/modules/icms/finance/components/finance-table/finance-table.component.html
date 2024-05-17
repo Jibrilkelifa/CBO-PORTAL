@@ -93,9 +93,13 @@
         <td>{{ finance?.accountNumber }}</td>
         <td>{{ finance?.allCategory?.name }}</td>
         <td>{{ finance?.allSubCategory?.name }}</td>
-        <td>{{ finance?.irregularity }}</td>
+        <td>
+          <div class="w-64 overflow-hidden overflow-ellipsis">
+            {{ finance?.irregularity }}
+          </div>
+         </td>
         <td>{{ finance?.amount }}</td>
-        <td>{{ finance?.responsiblePerson }}</td>
+        <td><div class="w-64 overflow-hidden overflow-ellipsis">{{ finance?.responsiblePerson }}</div></td>
         <td>{{ finance?.actionPlanDueDate }}</td>
         <td
           [ngStyle]="{
@@ -113,7 +117,7 @@
         </td>
 
         <td>{{ finance?.financeStatus?.name }}</td>
-        <td class="flex space-between">
+        <td >
           <div
             class="flex gap-2 mr-2"
             *ngIf="

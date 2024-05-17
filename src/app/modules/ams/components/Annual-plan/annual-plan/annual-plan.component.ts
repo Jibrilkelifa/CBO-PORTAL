@@ -180,6 +180,8 @@ export class AnnualPlanComponent {
       baseZIndex: 10000,
     });
 
+
+
     ref.onClose.subscribe((response: any) => {
       if (response) {
         this.annualPlans = this.annualPlans.map((plan) =>
@@ -202,6 +204,23 @@ export class AnnualPlanComponent {
         this.cd.detectChanges();
       }
     });
+  }
+
+  approveAnnualPlan(addDivForm: NgForm): void {
+
+  
+    this.subscriptions.push(
+      this.annualPlanService
+        .approveAnnualPlan(addDivForm.value.id)
+        .subscribe(
+          (response: any) => {
+
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        )
+    );
   }
 
   getYears(): string[] {

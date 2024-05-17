@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, LOCALE_ID, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { AuditObjectService } from 'src/app/modules/ams/services/auditObject/auditObject.service';
@@ -19,7 +19,7 @@ import { AuditUniverseService } from '../../../services/auidit-universe/audit-un
   providers: [MessageService, ConfirmationService],
 })
 export class NewAuditObjectComponent implements OnDestroy {
-  public auditTypes: AuditType[] = [];
+  // public auditTypes: AuditType[] = [];
   public auditType: AuditType;
   public auditObjectInfo: AuditObjectDTO = new AuditObjectDTO();
   public auditUniverse: AuditUniverseDTO[] = []
@@ -40,7 +40,7 @@ export class NewAuditObjectComponent implements OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getAuditTypes();
+    // this.getAuditTypes();
     this.getAuditUniverse();
     if (this.config.data?.auditObject) {
       this.auditObjectInfo = this.config.data.auditObject;
@@ -49,52 +49,55 @@ export class NewAuditObjectComponent implements OnDestroy {
     }
   }
 
-  getAuditTypes(): void {
-    this.subscriptions.push(
-      this.auditTypeService.getAuditTypes().subscribe(
-        (response: any) => {
-          this.auditTypes = response.result.map(
-            (auditType: AuditType) => auditType.name
-          );
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      ));
-  }
+  // getAuditTypes(): void {
+  //   this.subscriptions.push(
+  //     this.auditTypeService.getAuditTypes().subscribe(
+  //       (response: any) => {
+  //         this.auditTypes = response.result.map(
+  //           (auditType: AuditType) => auditType.name
+  //         );
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         console.log(error);
+  //       }
+  //     ));
+  // }
 
-  createAuditType(): void {
-    const ref = this.dialogService.open(NewAuditTypeComponent, {
-      header: 'Create a new audit type',
-      draggable: true,
-      width: '45%',
-      contentStyle: { 'min-height': 'auto', overflow: 'auto' },
-      baseZIndex: 10000,
-    });
+  // createAuditType(): void {
+  //   const ref = this.dialogService.open(NewAuditTypeComponent, {
+  //     header: 'Create a new audit type',
+  //     draggable: true,
+  //     width: '45%',
+  //     contentStyle: { 'min-height': 'auto', overflow: 'auto' },
+  //     baseZIndex: 10000,
+  //   });
 
-    ref.onClose.subscribe((response: any) => {
-      if (response.status) {
-        this.getAuditTypes();
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: response.message,
-        });
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Failed',
-          detail: response.message,
-        });
-      }
-    });
-  }
+  //   ref.onClose.subscribe((response: any) => {
+  //     if (response.status) {
+  //       this.getAuditTypes();
+  //       this.messageService.add({
+  //         severity: 'success',
+  //         summary: 'Success',
+  //         detail: response.message,
+  //       });
+  //     } else {
+  //       this.messageService.add({
+  //         severity: 'error',
+  //         summary: 'Failed',
+  //         detail: response.message,
+  //       });
+  //     }
+  //   });
+  // }
 
   submitAuditObject(checklistForm: NgForm): void {
+    checklistForm.value.auditType = JSON.parse(localStorage.getItem("auditStaff")).auditType
     if (this.update) {
-      this.updateAuditObjects(checklistForm);
+      console.log(checklistForm.value)
+      // this.updateAuditObjects(checklistForm);
     } else {
-      this.addAuditObject(checklistForm);
+      console.log(checklistForm.value)
+      // this.addAuditObject(checklistForm);
     }
   }
 

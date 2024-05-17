@@ -1,48 +1,21 @@
 <p-toast position="top-right"></p-toast>
 <div class="flex justify-between">
   <p-button label="Generate annual plan" (click)="generateAnnualPlan()"></p-button>
-  <p-button label="Create a new audit universe" (click)="createNewAuditUniverse()"></p-button>
 </div>
 
 
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Audit Universe</h5>
-  <p-table #dt [columns]="cols" [value]="auditUniverse" [exportHeader]="'customExportHeader'" selectionMode="single"
-    dataKey="id" [tableStyle]="{ 'min-width': '50rem' }" [rows]="5" [rowsPerPageOptions]="[5, 10, 15, 20]"
-    [paginator]="true" stateStorage="session" stateKey="statedemo-session">
+
 
     <ng-template pTemplate="header">
-      <tr>
-        <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="name">
-          Name<p-sortIcon field="name"></p-sortIcon>
-        </th>
-        <th class="flex" pSortableColumn="status">
-          Status<p-sortIcon field="status"></p-sortIcon>
-        </th>
-        <th scope="col">Actions</th>
-      </tr>
-
     </ng-template>
     <ng-template pTemplate="body" let-auditUniverse let-rowIndex="rowIndex">
       <tr [pSelectableRow]="auditUniverse">
-        <td>{{ rowIndex + 1 }}</td>
-        <td>{{ auditUniverse?.name }}</td>
-        <td>{{ auditUniverse?.status }}</td>
-        <td>
-          <div class="flex gap-2">
-            <button pButton (click)="updateAuditUniverse(auditUniverse.id)" [ngClass]="{ updateBlue: true }"
-              class="p-button-sm w-20 h-10 p-2" label="Update"></button>
-          </div>
-        </td>
+        <td>Audit Universe</td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="5">No found.</td>
-      </tr>
-    </ng-template>
-  </p-table>
+
 </div>
 
 <div class="flex justify-between">

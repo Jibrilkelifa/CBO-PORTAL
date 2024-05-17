@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import {InputNumberModule} from 'primeng/inputnumber';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 import {
   FormModule,
@@ -94,7 +95,8 @@ import { CalendarModule } from 'primeng/calendar';
     ProgressSpinnerModule,
     AnimateModule,
     CalendarModule,
-    MessageModule
+    MessageModule,
+    InputTextareaModule
   ],
   declarations: [
     NewFinanceComponent,
