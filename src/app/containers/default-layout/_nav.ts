@@ -189,10 +189,57 @@ export const navItemsICMSAdmin = createNavItem(
         createNavItem('View History', '/ICMS/CIPM/viewCIPM'),
       ]
     ),
+    createNavItem(
+      'DCQ',
+      '/ICMS/DCQ',
+      [
+        createNavItem('View DCQ', '/ICMS/DCQ/viewDCQ'),
+      ]
+    ),
+    createNavItem(
+      'IFR',
+      '/ICMS/Fraud',
+      [
+        createNavItem('Add Data', '/ICMS/Fraud/addFraud'),
+        createNavItem('View Reports', '/ICMS/Fraud/viewFraud'),
+        createNavItem('NBE IFR Summary', '/ICMS/Fraud/viewFraudForNBE'),
+      ]
+    ),
+    createNavItem(
+      'DACGM',
+      '/ICMS/DACGM',
+      [
+        createNavItem('View History', '/ICMS/DACGM/viewDACGM'),
+      ]
+    ),
+    createNavItem(
+      'Fire Extinguisher',
+      '/ICMS/FireExtinguisher',
+      [
+        createNavItem('View Fire Extinguisher', '/ICMS/FireExtinguisher/viewFireExtinguisher'),
+      ]
+    ),
+    createNavItem(
+      'IFB',
+      '/ICMS/IFB',
+      [
+        createNavItem('View IFB', '/ICMS/IFB/viewIFB'),
+      ],
+      'cil-moon'
+    ),
+    createNavItem(
+      'Finance',
+      '/ICMS/Finance',
+      [
+        createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
+      ],
+      'cil-dollar'
+    ),
     // Add more children as needed
   ],
   'cil-chart'
 );
+
 
 
 export const navItemsICMSBranch = createNavItem(
