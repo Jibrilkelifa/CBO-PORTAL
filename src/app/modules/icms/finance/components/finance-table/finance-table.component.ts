@@ -54,25 +54,6 @@ export class FinanceTableComponent implements OnDestroy {
     this.populateRoles();
     this.getCurrentDate();
     this.getFinanceList(this.roles);
-
-    this.cols = [
-      { field: 'financeDate', header: 'Date' },
-      { field: 'caseId', header: 'Case ID' },
-      { field: 'accountNumber', header: 'Account number' },
-      { field: 'irregularity.allSubCategory.allcategory.name', header: 'Category' },
-      { field: 'irregularity.allSubCategory.name', header: 'Sub category' },
-      { field: 'irregularity.name', header: 'Irregularity' },
-      { field: 'amount', header: 'Amount' },
-      { field: 'responsiblePerson', header: 'Responsible person' },
-      { field: 'actionPlanDueDate', header: 'Action plan due date' },
-      { field: 'activityStatus.name', header: 'Activity status' },
-    ];
-
-
-    this.exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field.replace(/\?/g, ''),
-    }));
   }
 
   populateRoles(): void {
