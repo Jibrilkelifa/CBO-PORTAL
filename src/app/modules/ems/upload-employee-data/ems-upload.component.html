@@ -1,5 +1,8 @@
-<p-messages [value]="messages" [closable]="true"
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
+<div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="messages"></p-messages>
+  </div>
+</div>
 <div>
   <h4>Upload Employee Data</h4>
   <p-fileUpload #fileUpload name="file" [url]="ems_employee_url" accept=".xlsx" (onBeforeUpload)="onBeforeUpload()"

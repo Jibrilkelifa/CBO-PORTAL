@@ -1,10 +1,15 @@
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog><p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog><div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="msgs"></p-messages>
+  </div>
+</div>
 <div class="card">
-<p-messages
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
-  [value]="msgs"
-></p-messages>
+  <div class="relative">
+    <div class="absolute top-0 right-0 z-50">
+      <p-messages [value]="msgs"></p-messages>
+    </div>
+  </div>
 <div class="flex justify-between mb-3">
   <div class="flex">
     <span class="p-input-icon-left ml-auto">
