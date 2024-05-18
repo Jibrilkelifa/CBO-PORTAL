@@ -296,14 +296,12 @@ export class SanctionTableComponent implements OnInit {
                                  //get version of eu and add it to eu check
                                  this.sanctionListService.checkEuUpdateF().subscribe(
                                   datad => {
-                                    console.log(datad + " eu  check from db");
                                     this.dbService.getByID('eu-check', 1).subscribe(
                                       (existingData: any) => {
                                         if (existingData) {
                                           existingData.value = datad;
                                           this.dbService.update('eu-check', existingData).subscribe(
                                             () => {
-                                              console.log("updated eu check ");
                                             },
                                             error => {
                                               console.error(error);
@@ -312,7 +310,6 @@ export class SanctionTableComponent implements OnInit {
                                         } else {
                                           this.dbService.add('eu-check', { id: 1, name: 'updateCheck', value: datad }).subscribe(
                                             () => {
-                                              console.log(" added  'eu-check' ");
                                             },
                                             error => {
                                               console.error(error);
@@ -388,14 +385,12 @@ export class SanctionTableComponent implements OnInit {
                               //get version of uk and add it to uk check
                               this.sanctionListService.checkUkUpdateF().subscribe(
                                 datad => {
-                                  console.log(datad + " uk  check from db");
                                   this.dbService.getByID('uk-check', 1).subscribe(
                                     (existingData: any) => {
                                       if (existingData) {
                                         existingData.value = datad;
                                         this.dbService.update('uk-check', existingData).subscribe(
                                           () => {
-                                            console.log("updated uk check ");
                                           },
                                           error => {
                                             console.error(error);
@@ -404,7 +399,6 @@ export class SanctionTableComponent implements OnInit {
                                       } else {
                                         this.dbService.add('uk-check', { id: 1, name: 'updateCheck', value: datad }).subscribe(
                                           () => {
-                                            console.log(" added  'uk-check' ");
                                           },
                                           error => {
                                             console.error(error);
@@ -476,14 +470,12 @@ export class SanctionTableComponent implements OnInit {
                     //get version of bc and add it to bc check
                     this.sanctionListService.checkBusinessContinuityUpdateF().subscribe(
                       datad => {
-                        console.log(datad + " bc Update check from db");
                         this.dbService.getByID('bc-check', 1).subscribe(
                           (existingData: any) => {
                             if (existingData) {
                               existingData.value = datad;
                               this.dbService.update('bc-check', existingData).subscribe(
                                 () => {
-                                  console.log("updated bc ");
                                 },
                                 error => {
                                   console.error(error);
@@ -492,7 +484,6 @@ export class SanctionTableComponent implements OnInit {
                             } else {
                               this.dbService.add('bc-check', { id: 1, name: 'updateCheck', value: datad }).subscribe(
                                 () => {
-                                  console.log(" added  'bc-check' ");
                                 },
                                 error => {
                                   console.error(error);
@@ -559,14 +550,12 @@ export class SanctionTableComponent implements OnInit {
              //get version of pep and add it to pep check
              this.sanctionListService.checkPepUpdateF().subscribe(
               datad => {
-                console.log(datad + " pep Update check from db");
                 this.dbService.getByID('pep-check', 1).subscribe(
                   (existingData: any) => {
                     if (existingData) {
                       existingData.value = datad;
                       this.dbService.update('pep-check', existingData).subscribe(
                         () => {
-                          console.log("updated pep");
                         },
                         error => {
                           console.error(error);
@@ -575,7 +564,6 @@ export class SanctionTableComponent implements OnInit {
                     } else {
                       this.dbService.add('pep-check', { id: 1, name: 'updateCheck', value: datad }).subscribe(
                         () => {
-                          console.log(" added  'pep-check' ");
                         },
                         error => {
                           console.error(error);
@@ -647,14 +635,12 @@ export class SanctionTableComponent implements OnInit {
 //get version of bc and add it to bc check
 this.sanctionListService.checkAdverserUpdateF().subscribe(
   datad => {
-    console.log(datad + " adverser Update check from db");
     this.dbService.getByID('adverser-check', 1).subscribe(
       (existingData: any) => {
         if (existingData) {
           existingData.value = datad;
           this.dbService.update('adverser-check', existingData).subscribe(
             () => {
-              console.log("updated adverser ");
             },
             error => {
               console.error(error);
@@ -663,7 +649,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
         } else {
           this.dbService.add('adverser-check', { id: 1, name: 'updateCheck', value: datad }).subscribe(
             () => {
-              console.log(" added  'adverser-check' ");
             },
             error => {
               console.error(error);
@@ -784,14 +769,12 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
           //get version of deliquent from db and add it to deliquent check
           this.sanctionListService.checkDeliquentUpdateF().subscribe(
             datad => {
-              console.log(datad + " Deliquent Update Check from DB");
               this.dbService.getByID('deliquent-check', 1).subscribe(
                 (existingData: any) => {
                   if (existingData) {
                     existingData.value = datad;
                     this.dbService.update('deliquent-check', existingData).subscribe(
                       () => {
-                        console.log(" updated deliquent-check.");
                       },
                       error => {
                         console.error(error);
@@ -800,7 +783,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
                   } else {
                     this.dbService.add('deliquent-check', { id: 1, name: 'updateCheck', value: datad }).subscribe(
                       () => {
-                        console.log(" added  'deliquent-check' o");
                       },
                       error => {
                         console.error(error);
@@ -1229,7 +1211,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
 
           this.indexedDBService.clear('de-sanction').subscribe(() => {
             // Perform any additional actions after deleting the data
-            console.log("delete deliquent");
             //now try to fetch again
             this.loadingde = true;
             this.fetchDeSanction();
@@ -1243,9 +1224,7 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
             (datac: any) => {
               if (datac) {
                 updateCheckIndexDeliquent = datac.value;
-                console.log("deliquent check is from index  ", updateCheckIndexDeliquent);
               } else {
-                console.log("No data found in 'deliquent-check' ");
               }
           //then get deliquent update check from database
               this.sanctionListService.checkDeliquentUpdateF().subscribe(
@@ -1253,11 +1232,9 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
                   updateCheckServerDeliquent = datad;
 
                   if (updateCheckIndexDeliquent == updateCheckServerDeliquent) {
-                    console.log("deliquent up to date");
                   } else{
                     this.indexedDBService.clear('de-sanction').subscribe(() => {
                       // Perform any additional actions after deleting the data
-                      console.log("not uptodate so delete deliquent");
                       this.loadingde = true;
                       //now try to fetch again
                       this.fetchDeSanction();
@@ -1290,7 +1267,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
     
               this.indexedDBService.clear('nbe-sanction').subscribe(() => {
                 // Perform any additional actions after deleting the data
-                console.log("deleted bc'");
                 //now try to fetch again
                 this.loadingnbe = true;
                 this.fetchNbeSanction();
@@ -1302,9 +1278,7 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
                 (datac: any) => {
                   if (datac) {
                     updateCheckIndexBc = datac.value;
-                    console.log("bc check index:", updateCheckIndexBc);
                   } else {
-                    console.log("No data found for ID 1 in the 'deliquent-check' object store.");
                   }
                   //get version of deliquent
                   this.sanctionListService.checkBusinessContinuityUpdateF().subscribe(
@@ -1312,11 +1286,9 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
                       updateCheckServerBc = datad;
     
                       if (updateCheckIndexBc == updateCheckServerBc) {
-                        console.log("bc up to date ");
                       } else{
                         this.indexedDBService.clear('nbe-sanction').subscribe(() => {
                           // Perform any additional actions after deleting the data
-                          console.log("not upto date deleted from 'bc sanction' .");
                           //now try to fetch again
                           this.loadingnbe = true;
                           this.fetchNbeSanction();
@@ -1348,7 +1320,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
 
         this.indexedDBService.clear('uk-sanction').subscribe(() => {
        
-          console.log("deleted uk'");
           //now try to fetch again
           this.loadinguksanction = true;
           this.fetchUkSanction();
@@ -1362,22 +1333,17 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
           (datac: any) => {
             if (datac) {
               updateCheckIndexUk = datac.value;
-              console.log("uk index:", updateCheckIndexUk);
             } else {
-              console.log("No data found for ID 1 in the 'deliquent-check' object store.");
             }
             //get version of deliquent
             this.sanctionListService.checkUkUpdateF().subscribe(
               datad => {
                 updateCheckServerUk = datad;
-                console.log("uk db:", updateCheckServerUk)
 
                 if (updateCheckIndexUk == updateCheckServerUk) {
-                  console.log("uk up to date");
                 } else{
                   this.indexedDBService.clear('uk-sanction').subscribe(() => {
                     // Perform any additional actions after deleting the data
-                    console.log("not upto date deleted from 'uk sanction' .");
                     //now try to fetch again
                     this.loadinguksanction = true;
                     this.fetchUkSanction();
@@ -1410,7 +1376,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
   
           this.indexedDBService.clear('eu-sanction').subscribe(() => {
          
-            console.log("deleted eu'");
             //now try to fetch again
             this.loadingeusanction = true;
             this.fetchEuSanction();
@@ -1424,22 +1389,17 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
             (datac: any) => {
               if (datac) {
                 updateCheckIndexEu = datac.value;
-                console.log("eu index:", updateCheckIndexEu);
               } else {
-                console.log("No data found for ID 1 in the 'eu-check' object store.");
               }
               //get version of deliquent
               this.sanctionListService.checkEuUpdateF().subscribe(
                 datad => {
                   updateCheckServerEu = datad;
-                  console.log("eu db:", updateCheckServerEu)
   
                   if (updateCheckIndexEu == updateCheckServerEu) {
-                    console.log("eu up to date");
                   } else{
                     this.indexedDBService.clear('eu-sanction').subscribe(() => {
                       // Perform any additional actions after deleting the data
-                      console.log("not upto date deleted from 'eu sanction' .");
                       //now try to fetch again
                       this.loadingeusanction = true;
                       this.fetchEuSanction();
@@ -1472,7 +1432,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
     
             this.indexedDBService.clear('pep-sanction').subscribe(() => {
            
-              console.log("deleted pep'");
               //now try to fetch again
               this.loadingpep = true;
               this.fetchPepSanction();
@@ -1486,22 +1445,17 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
               (datac: any) => {
                 if (datac) {
                   updateCheckIndexPep = datac.value;
-                  console.log("pep index:", updateCheckIndexPep);
                 } else {
-                  console.log("No data found for ID 1 in the 'pep-check' object store.");
                 }
                 //get version of deliquent
                 this.sanctionListService.checkPepUpdateF().subscribe(
                   datad => {
                     updateCheckServerPep = datad;
-                    console.log("pep db:", updateCheckServerPep)
     
                     if (updateCheckIndexPep == updateCheckServerPep) {
-                      console.log("pep up to date");
                     } else{
                       this.indexedDBService.clear('pep-sanction').subscribe(() => {
                         // Perform any additional actions after deleting the data
-                        console.log("not upto date deleted from 'pep sanction' .");
                         //now try to fetch again
                         this.loadingpep = true;
                         this.fetchPepSanction();
@@ -1534,7 +1488,6 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
           
                   this.indexedDBService.clear('adverser-sanction').subscribe(() => {
                  
-                    console.log("deleted adverser'");
                     //now try to fetch again
                     this.loadingadverser = true;
                     this.fetchAdverserSanction();
@@ -1548,22 +1501,17 @@ this.sanctionListService.checkAdverserUpdateF().subscribe(
                     (datac: any) => {
                       if (datac) {
                         updateCheckIndexAdverser = datac.value;
-                        console.log("adverser index:", updateCheckIndexAdverser);
                       } else {
-                        console.log("No data found for ID 1 in the 'adverser-check' object store.");
                       }
                       //get version of adverser
                       this.sanctionListService.checkAdverserUpdateF().subscribe(
                         datad => {
                           updateCheckServerAdverser = datad;
-                          console.log("adverser db:", updateCheckServerAdverser)
           
                           if (updateCheckIndexAdverser == updateCheckServerAdverser) {
-                            console.log("adverser up to date");
                           } else{
                             this.indexedDBService.clear('adverser-sanction').subscribe(() => {
                               // Perform any additional actions after deleting the data
-                              console.log("not upto date deleted from 'adverser sanction' .");
                               //now try to fetch again
                               this.loadingadverser = true;
                               this.fetchAdverserSanction();

@@ -131,7 +131,6 @@ export class SanctionListService {
     return this.httpClient.get<OFAC_[]>(this.BOFAC);
   }
   getAllDe(): Observable<Deliquent_[]> {
-    console.log(this.apiServiceUrl);
     this.init();
     return this.httpClient.get<Deliquent_[]>(this.DE);
   

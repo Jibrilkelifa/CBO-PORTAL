@@ -75,7 +75,6 @@ export class DetailComponent {
         (response: any) => {
           this.caChecklist = response;
           this.fileLinks = this.caChecklist.attachments.split(";").filter((atach) => atach);
-          console.log('links ',this.fileLinks);
           
           this.caChecklist.replyCheckLists = this.caChecklist.replyCheckLists.map(item => {
             return {
@@ -84,7 +83,6 @@ export class DetailComponent {
             };
 
           });
-          console.log(this.caChecklist);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -95,7 +93,6 @@ export class DetailComponent {
 
   getFile(path: String){
     this.caChecklistService.getFile(path).subscribe((response: any)  => {
-      console.log(response);
       
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
@@ -109,7 +106,6 @@ export class DetailComponent {
 
   getFileCl(path: String){
     this.caChecklistService.getFile(path).subscribe((response: any)  => {
-      console.log(response);
       
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
@@ -126,7 +122,6 @@ export class DetailComponent {
     this.caChecklistService
         .closeCaDailyChecklist(this.objectId)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -176,7 +171,6 @@ export class DetailComponent {
     this.caChecklistService
     .acceptBranchRespose(id)
     .subscribe((response: any) => {
-      console.log(response);
       if (response.status) {
         this.messageService.add({
           severity: 'success',
@@ -198,7 +192,6 @@ export class DetailComponent {
     this.caChecklistService
         .removeBranchRequest(id)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -222,7 +215,6 @@ export class DetailComponent {
     this.caChecklistService
         .addBranchToCheklist(this.objectId, branch)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -246,7 +238,6 @@ export class DetailComponent {
     this.caChecklistService
         .deleteCheklistFile(this.objectId, filelink)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -277,7 +268,6 @@ export class DetailComponent {
     this.caChecklistService
         .addCheklistFile(this.objectId, formData)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -394,7 +384,6 @@ onUpload(event: any) {
     this.caChecklistService
         .addCheklistFile(this.objectId, formData)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',

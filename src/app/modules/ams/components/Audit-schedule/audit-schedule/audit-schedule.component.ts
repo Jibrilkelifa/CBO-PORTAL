@@ -86,7 +86,6 @@ export class AuditScheduleComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditScheduleService.getAuditSchedules().subscribe(
         (response: any) => {
-          console.log("schedules", response)
           this.auditSchedules = response.result.map((schedule: AuditScheduleDTO) => {
             const leader = schedule.teamMembers.find(member => member.teamRole === 'Leader');
             const members = schedule.teamMembers.filter(member => member.teamRole === 'Member');
@@ -198,7 +197,6 @@ export class AuditScheduleComponent implements OnDestroy {
   }
 
   addToEngagement(auditSchedule: AuditScheduleDTO): void {
-    // console.log(auditSchedule)
     const ref = this.dialogService.open(NewAuditEngagementComponent, {
       header: 'Create a new engagement',
       draggable: true,

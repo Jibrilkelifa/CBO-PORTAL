@@ -267,9 +267,7 @@ export class CIPMExpiringComponent {
     }
     else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1) {
       // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-      //   console.log("branchId = " + this.branchId)
       //   this.districtId = branch?.subProcess?.id
-      //   console.log("district = " + this.districtId)
         this.cipmService.getCIPMForDistrict(this.subProcessId).subscribe(
           
           (response: CIPM[]) => {

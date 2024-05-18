@@ -111,12 +111,10 @@ export class NewFinanceComponent implements OnInit {
   getFinance(id: number) {
     this.financeService.findFinanceById(id).subscribe(
       (response: FinanceModel) => {
-        console.log("1111", response);
 
         this.Finance = response;
         if (this.Finance.financeStatus) {
           this.selectedstatus = this.statuses.find(status => status.name === this.Finance.financeStatus.name);
-          console.log("222", this.selectedstatus);
 
         } else {
           console.error("Status is undefined in the response");

@@ -19,7 +19,6 @@ export class DCQService {
       })
     };
     this.apiServiceUrl = localStorage.getItem('url_4');
-    console.log("this.apiServiceUrl = " + this.apiServiceUrl)
   }
 
   constructor(private http: HttpClient){}

@@ -30,7 +30,6 @@ export class EMSComponent {
 
   public onUploadError(error: any) {
     this.loading = false;
-    console.log(error.error.error); // Log the error object to the console
 
     if (typeof error.error.error == 'string') {
       if (error.error) {

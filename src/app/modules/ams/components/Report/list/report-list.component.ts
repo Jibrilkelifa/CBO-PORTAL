@@ -68,7 +68,6 @@ export class ReportList   {
       this.auditReportService.getAuditReports().subscribe(
         (response: any) => {
           this.auditReport = response.result;
-          console.log(this.auditReport, "report to work with")      
         },
         (error: HttpErrorResponse) => {
           console.log(error);

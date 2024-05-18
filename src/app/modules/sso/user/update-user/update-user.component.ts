@@ -186,7 +186,6 @@ export class UpdateUserComponent implements OnInit {
         this.employeeService.getTeamByName(searchTerm.toUpperCase()).subscribe(
           (response: any) => {
             this.searchedOrganizationalUnit = response;
-            console.log(this.searchedOrganizationalUnit);
           }
         )
       }
@@ -265,7 +264,6 @@ export class UpdateUserComponent implements OnInit {
         (response: any) => {
           this.searchedEmployees = response;
           this.selectedEmployee = this.searchedEmployees[0];
-          console.log(this.selectedEmployee.organizationalUnit)
           this.populateEmployeeData();
         },
         (error: HttpErrorResponse) => {
@@ -298,7 +296,6 @@ export class UpdateUserComponent implements OnInit {
 
 
 
-      console.log(dataTosend);
       return this.employeeService.updateEmployee(dataTosend).toPromise();
     })
       .then((response: any) => {

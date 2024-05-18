@@ -184,7 +184,6 @@ export class AuthService {
 
     localStorage.setItem('subProcessId', employee?.subProcess.id.toString());
     localStorage.setItem('processId', employee?.process.id.toString());
-    console.log()
     let branchId = 'default';
     if (employee?.branch != null) {
       branchId = employee.branch.id.toString();

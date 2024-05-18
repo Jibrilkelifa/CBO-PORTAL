@@ -43,7 +43,6 @@
 //   public getAuthImage(id: number) {
 //     this.iFRService.getImage(id).subscribe(
 //       (response: any) => {
-//         console.log('Response:', response);
 
 //         const fileName = response.fileName;
 //         this.dbIfrImage = response.file;
@@ -133,8 +132,6 @@ export class ShowIFRComponent {
   public getAuthImage(id: number) {
   this.iFRService.getImage(id).subscribe(
     (response: any) => {
-      console.log("ndmsndmsndmsdnms",response);
-         console.log("jibrilllllllllllll",response.fileData);
       this.postResponse = response;
       const contentType = response.contentType;
       const fileData = response.fileData;
@@ -143,7 +140,6 @@ export class ShowIFRComponent {
       // if (isImage) {
       //   // For image types, create a data URL
       //    this.dbIfrImage = URL.createObjectURL(fileData);
-      //    console.log("dieieie:",this.dbIfrImage);
       
       //   this.ifrImage = true;
       // } 
@@ -151,7 +147,6 @@ export class ShowIFRComponent {
         const fileReader = new FileReader();
         fileReader.onload = (event: any) => {
           this.dbIfrImage = event.target.result;
-          console.log("dbIfrImage:", this.dbIfrImage);
           this.ifrImage = true;
         };
         fileReader.readAsDataURL(fileData);

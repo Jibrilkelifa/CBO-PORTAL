@@ -98,7 +98,6 @@ export class NewDCQComponent implements OnInit {
   //   this.organizationalUnitService.getOrganizationalUnit(branchId).subscribe(
   //     (response: any) => {
   //       this.selectedBranch = response;
-  //       console.log("org. unit: "+ this.selectedBranch)
   //     }
   //   );
   // }

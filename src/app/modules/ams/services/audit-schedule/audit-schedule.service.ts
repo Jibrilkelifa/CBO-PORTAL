@@ -68,7 +68,6 @@ export class AuditScheduleService {
 
   public updateAuditSchedule(auditSchedule: AuditScheduleDTO): Observable<any> {
     this.init();
-    console.log("new",auditSchedule);
     return this.http.post(
       `${this.apiServiceUrl}/ams/auditSchedule/update`,
       auditSchedule,

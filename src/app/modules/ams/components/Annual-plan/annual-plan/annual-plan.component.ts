@@ -83,7 +83,6 @@ export class AnnualPlanComponent {
               ? obj.auditObject.name
               : null,
           }));
-          console.log(this.annualPlans[0].auditObject.name)
         },
         (error: HttpErrorResponse) => {
           console.log(error);

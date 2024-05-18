@@ -59,13 +59,11 @@ export class NewAuditEngagementComponent implements OnDestroy {
 
       this.myAuditSchedule = this.config.data.auditSchedule;
     }
-    console.log(this.myAuditSchedule);
     
     this.auditEngagementInfo.refNum = (Math.floor(Math.random() * 9000) + 1000).toString();
   }
   
   submitAuditSchedule(auditableAreaForm: NgForm): void {
-    console.log(auditableAreaForm)
     if (this.update) {
       this.updateAuditEngagement(auditableAreaForm);
 
@@ -95,7 +93,6 @@ export class NewAuditEngagementComponent implements OnDestroy {
      this.outlookMessage.body = "Engagement " + auditEngagement.auditSchedule.annualPlan.auditObject.name + " started";
      this.outlookMessage.subject = "Notifying engagment start";
      this.outlookMessage.shortCircuit = true;
-     console.log(auditEngagement)
      auditEngagement.createdUser = localStorage.getItem('id')
    
 

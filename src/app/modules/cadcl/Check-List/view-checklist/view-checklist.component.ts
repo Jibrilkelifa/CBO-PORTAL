@@ -50,7 +50,6 @@ export class ViewChecklistComponent {
     this.subscriptions.push(
       this.caChecklistService.getCaDailyChecklists().subscribe(
         (response: any) => {
-          console.log(response);
           
           this.caChecklists = response;
           this.caChecklistDisplay = this.caChecklists;
@@ -94,7 +93,6 @@ export class ViewChecklistComponent {
 
   updatecaChecklist(id: number): void {
     const caChecklist = this.caChecklists.find((check) => check.id === id);
-    console.log("relation", caChecklist);
     const ref = this.dialogService.open(CreateComponent, {
       header: 'Update auditable area',
       width: '40%',

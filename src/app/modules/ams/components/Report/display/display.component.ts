@@ -66,7 +66,6 @@ export class ReportDisplay implements OnInit {
     if (localStorage.getItem("currentReport")) {
       this.auditReport[0]  =  JSON.parse(localStorage.getItem("currentReport"));
       this.introduction = this.auditReport[0].introduction.split(/\.|\?|!/)[0].trim();
-         console.log(this.auditReport,"we are working with this");
     }   
 
     
@@ -85,7 +84,6 @@ export class ReportDisplay implements OnInit {
     //process auditReport
     this.auditReportService.createDocument(this.auditReport[0].id).subscribe(
        (response:any) => {
-           console.log(response)
        },
        (error:HttpErrorResponse) => {
            console.log(error)
@@ -297,7 +295,6 @@ export class ReportDisplay implements OnInit {
     //   this.auditFindingService.getAuditFindingEvidenceNameById(auditFinding.id).subscribe(
     //     (response: any) => {
           
-    //       console.log(response,"ATTENTION PLEASE");      
     //     },
     //     (error: HttpErrorResponse) => {
     //       console.log(error);

@@ -24,7 +24,6 @@ export class CustomerMessagessComponent implements OnInit {
         this.bulkService.getCustomerMessages().subscribe(
           (response) => {
             this.msg_to_sent = response;
-            console.log('Messages:', this.msg_to_sent);
            
         
           },
@@ -38,7 +37,6 @@ export class CustomerMessagessComponent implements OnInit {
           
             (response) => {
               this.isAuthorized = true;
-                console.log('Message authorized successfully:', response);
 
                 this.fetchAllMessages(); // Refresh the list of messages after authorization
             },

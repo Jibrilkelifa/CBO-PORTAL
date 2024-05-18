@@ -42,7 +42,6 @@ export class UpdateFileHistoryComponent {
     this.ecxService.getFileHistory().subscribe(
       (response: any) => {
         this.fileUpdateHistory = response.result;
-        console.log(this.fileUpdateHistory)
       },
       (errors: HttpErrorResponse) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });

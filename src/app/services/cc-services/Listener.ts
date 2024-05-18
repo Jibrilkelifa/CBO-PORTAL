@@ -15,7 +15,6 @@
 //     this.stompClient.connect({}, (frame) => {
 //       this.stompClient.subscribe('/topic/data', (message) => {
 //         const receivedData = JSON.parse(message.body);
-//          console.log(receivedData);
 //          this.sanctionTableComponent.Action(receivedData);
 //       });
 //     });

@@ -53,7 +53,6 @@ export class FraudNBETableComponent {
       async (response: IFR[]) => {
         this.frauds = response;
         let i = 0, j = 0;
-        console.log("fraudSummaries before = " + this.fraudSummaries)
         for (i = 0; i < this.frauds.length; i++) {
           for (j = 0; j < this.counter; j++) {
             if (this.fraudSummaries[j].categoryId == this.frauds[i].allCategory.id && this.fraudSummaries[j].fraudTypeId == this.frauds[i].fraudType.id) {
@@ -160,7 +159,6 @@ export class FraudNBETableComponent {
             })
           }
         }
-        console.log("fraudSummaries after = " + JSON.stringify(this.fraudSummaries));
       }
     );
   }

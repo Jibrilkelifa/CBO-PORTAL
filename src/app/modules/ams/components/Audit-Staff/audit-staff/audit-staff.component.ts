@@ -63,7 +63,6 @@ export class AuditStaffComponent implements OnDestroy {
       this.auditStaffService.getAllAuditStaff().subscribe(
         (response: any) => {
           this.auditStaff = response.result;
-          console.log(this.auditStaff);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -76,7 +75,6 @@ export class AuditStaffComponent implements OnDestroy {
       this.emsService.getEmployeeByIdForStaff(id).subscribe(
         (response: any) => {
           this.auditStaff = response.result;
-          console.log(this.auditStaff);
         },
         (error: HttpErrorResponse) => {
           console.log(error);

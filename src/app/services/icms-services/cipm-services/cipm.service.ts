@@ -57,7 +57,6 @@ export class CIPMService {
     let branch = new Branch();
   
 
-    console.log("cipmadd",cipm)
 
     return this.http.post<any>(`${this.apiServiceUrl}/CIPM/add`, cipm, this.httpOptions)
   }

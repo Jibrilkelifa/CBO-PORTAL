@@ -106,7 +106,6 @@ export class CheckListComponent implements OnDestroy {
 
   updateChecklist(id: number): void {
     const checklist = this.checklist.find((check) => check.id === id);
-    console.log("check", checklist);
     const ref = this.dialogService.open(NewCheckListComponent, {
       header: 'Update auditable area',
       width: '50%',

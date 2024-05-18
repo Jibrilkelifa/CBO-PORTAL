@@ -99,7 +99,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       
    
       this.identifyRole(this.auditEngagements[0]);
-      console.log(this.isMember,this.isLeader)
   
     }
     this.isManager = this.roles.some(obj => obj.name === "ROLE_AMS_MANAGER");
@@ -125,14 +124,10 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
   getAuditProgram(id: number): void {
-    console.log("getting audit program by " , id);
     this.subscriptions.push(
       this.auditProgramService.getAuditProgramByEngagementId(id).subscribe(
         (response: any) => {
-          console.log("to this ");
-          console.log(response);
           this.auditPrograms[0] = response.result[0];
-          console.log(this.auditPrograms[0], " here ");
           this.getAuditWBS(this.auditPrograms[0].id);
           this.getFinding(this.auditPrograms[0].id)
         },
@@ -149,7 +144,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       this.auditWBSService.getAuditWBSByProgramId(id).subscribe(
         (response: any) => {
           this.auditWBS = response.result;
-          console.log(this.auditWBS);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -183,8 +177,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
   addToProgram(auditEngagement: AuditEngagementDTO): void {
-    console.log(auditEngagement)
-
     const ref = this.dialogService.open(NewAuditProgramComponent, {
       header: 'Create a new program',
       draggable: true,
@@ -219,7 +211,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   }
 
   addToComment(auditFinding: AuditCommentDTO): void {
-    console.log(auditFinding);
     const ref = this.dialogService.open(NewAuditFindingsCommentComponent, {
       header: 'Add new comment ',
       draggable: true,
@@ -249,7 +240,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   }
 
   addResponse(auditFinding: AuditCommentDTO): void {
-    console.log(auditFinding);
     const ref = this.dialogService.open(NewAuditFindingsResponseComponent, {
       header: 'Add new comment ',
       draggable: true,
@@ -288,7 +278,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
 
 
     this.auditProgramService.loadAuditProgram(ap.id).subscribe(data => {
-      console.log(data);
       this.getAuditProgram(this.auditEngagements[0].id);
     }, error => {
       console.error(error);
@@ -307,9 +296,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
       this.members.push(member.auditStaffDTO.fullName);
     }); 
 
-    console.log(this.recipents);
-
-    console.log(this.recipents);
+ 
     this.sendMeIgo.email = this.recipents;
 
     this.sendMeIgo.body =`
@@ -321,7 +308,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
        this.employeeService.getDirectorBySubProcessId(JSON.parse(localStorage.getItem("subProcess")).id).subscribe(data => {
       //  this.recipents.push(data.employeeId.toString()); //to send to actual director
           this.ewsService.sendThis(this.sendMeIgo).subscribe(data1 => {
-            console.log("email sent");
           },
           error => {
             console.log("something error");
@@ -430,9 +416,7 @@ export class AuditEngagementDetailComponent implements OnDestroy {
   }
 
   goToGenerateReport(auditEngagement: AuditEngagementDTO) {
-    console.log(auditEngagement, "for");
     this.auditReportService.generateReport1(auditEngagement?.auditSchedule?.id).subscribe(data => {
-      console.log(data)
       localStorage.setItem('thebigjson', JSON.stringify(data));
      
     }, error => {
@@ -448,7 +432,6 @@ export class AuditEngagementDetailComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditFindingService.addAttachement(auditFinding).subscribe(
         (response: any) => {
-          console.log("Successifully Added Attachement");
         },
         (error: HttpErrorResponse) => {
           console.log(error);

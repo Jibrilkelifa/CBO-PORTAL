@@ -182,7 +182,6 @@ export class AssignRole implements OnInit {
         (response: any) => {
           this.searchedEmployees = response;
           this.selectedEmployee = this.searchedEmployees[0];
-          console.log(this.selectedEmployee.organizationalUnit)
           this.populateEmployeeData();
         },
         (error: HttpErrorResponse) => {
@@ -215,7 +214,6 @@ export class AssignRole implements OnInit {
     return new Promise((resolve, reject) => {
       this.userService.getUser(id).subscribe(
         (response: any) => {
-         console.log(response);
          this.selectedAdUser = response.username;
          this.rolesOfUser = response.roles
 

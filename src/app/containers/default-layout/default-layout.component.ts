@@ -150,7 +150,6 @@ export class DefaultLayoutComponent {
 
 
   authenticateAWS(): Observable<any> {
-    console.log(" i started working");
     const body = new URLSearchParams()
     body.set('username', localStorage.getItem("un"));
     body.set('password', localStorage.getItem("ps"));

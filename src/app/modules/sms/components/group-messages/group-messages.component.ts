@@ -22,7 +22,6 @@ export class GroupMessagesComponent implements OnInit {
         this.bulkService.getGroupMessages().subscribe(
           (response) => {
             this.messages = response;
-            console.log('Messages:', this.messages);
            
         
           },
@@ -52,7 +51,6 @@ export class GroupMessagesComponent implements OnInit {
     //           }
     //         });
       
-    //         console.log('Messages:', this.messages);
     //       },
     //       (error) => {
     //         console.error('Error fetching messages:', error);

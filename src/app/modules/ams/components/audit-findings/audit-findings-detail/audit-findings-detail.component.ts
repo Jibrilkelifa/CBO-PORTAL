@@ -58,7 +58,6 @@ export class AuditFindingsDetailComponent implements OnDestroy {
   ngOnInit() {
     if (localStorage.getItem("currentFinding")) {
       this.auditFinding[0]  =  JSON.parse(localStorage.getItem("currentFinding"));
-      console.log(this.auditFinding[0],"we are workign with")
       this.getFindingAmmandement(this.auditFinding[0].id);
       this.getFindingComment(this.auditFinding[0].id);
       this.upload_url = this.back_end_url + `/ams/auditProgram/finding/attachEvidence/${this.auditFinding[0].id}`;

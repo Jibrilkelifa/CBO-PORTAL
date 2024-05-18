@@ -101,7 +101,6 @@ export class CobListComponent {
       (response) => {
 
         this.cobDTOList = response.result.reverse();
-        console.log(this.cobDTOList);
 
       },
       (error: HttpErrorResponse) => {

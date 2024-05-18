@@ -189,8 +189,6 @@ export class CIPMTableComponent {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.cipmService.getCIPMs().subscribe(
         (response: CIPM[]) => {
-          console.log("ggg", response);
-          
           this.cipms = response;
           this.cipmDisplay = this.cipms.map((obj: any) => {
             let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;

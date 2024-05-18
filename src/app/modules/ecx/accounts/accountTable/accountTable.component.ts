@@ -67,7 +67,6 @@ export class AccountTableComponent {
     this.accountService.getAccounts().subscribe(
       (response: any) => {
         this.accounts = response.result;
-        console.log(this.accounts)
       },
       (error: HttpErrorResponse) =>{
         alert(error.message)
@@ -97,7 +96,6 @@ export class AccountTableComponent {
     this.accountService.getAccount(sendAcc).subscribe(
       (response: AccountInfo) => {
         this.accountR = [response];
-        console.log(this.accountR)
       },
       (error: HttpErrorResponse) =>{
         alert(error.message)

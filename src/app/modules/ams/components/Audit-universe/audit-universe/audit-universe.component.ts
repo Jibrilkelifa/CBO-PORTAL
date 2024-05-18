@@ -58,7 +58,6 @@ export class AuditUniverseComponent implements OnDestroy {
   ) { }
 
   ngOnInit() {
-    console.log("lets geeitadadf a")
     this.getAuditUniverses();
     this.getRiskLevel();
     this.cols = [
@@ -101,10 +100,8 @@ export class AuditUniverseComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditUniverseService.getRiskLevel().subscribe(
         (response: any) => {
-          console.log("i am response", response)
           this.riskLevel = response.result;   
           this.riskLevelNonEmpty = response.status
-          console.log(this.riskLevelNonEmpty)
           
       
 

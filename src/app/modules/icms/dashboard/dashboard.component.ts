@@ -102,7 +102,6 @@ export class DashboardComponent implements OnInit {
     });
     this.dashboardService.getClosedCasesDuringQuarter().subscribe((data) => {
       this.closedCaseDuringTheQuarter = data.toString();
-      console.log(this.closedCaseDuringTheQuarter)
     });
     this.dashboardService.getOutstandingCasesInPreviousQuarter().subscribe((data) => {
       this.OutstandingCasesInPreviousQuarter = data.toString();

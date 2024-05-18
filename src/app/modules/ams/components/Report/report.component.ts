@@ -69,7 +69,6 @@ export class Report {
       this.introInput = this.thebigjsonForEditing.introduction;
       this.summaryInput = this.thebigjsonForEditing.summary;
       this.date = this.thebigjsonForEditing.dateGenerated;
-      console.log(this.thebigjsonForEditing, " check me i am the bigjson for editing");
       this.selectedFindings = this.thebigjsonForEditing.findings;
 
     
@@ -102,12 +101,10 @@ export class Report {
     this.thebigjsonForEditing.summary = this.summaryInput;
     this.thebigjsonForEditing.dateGenerated = this.date;
 
-         console.log(this.thebigjsonForEditing.findings, " edited teh bigson data");
        
 
        this.auditReportService.registerReport(this.thebigjsonForEditing).subscribe(
         (response: any) => {
-           console.log(response);
            this.router.navigate(['ams/report-list']);
         },
         (error: HttpErrorResponse) => {
@@ -118,9 +115,7 @@ export class Report {
   } else {
     if (localStorage.getItem("thebigjson")) {
       this.thebigjson  =  JSON.parse(localStorage.getItem("thebigjson"));
-      console.log(this.thebigjson,"hey yall this is the big json");
     } else{
-      console.log("i didn't get the bigjson from localstorage")
     }
 
     this.thebigjson.result.findings = this.selectedFindings;
@@ -129,11 +124,9 @@ export class Report {
     this.thebigjson.result.dateGenerated = this.date;
 
  
-   console.log("generating report with this info" , this.thebigjson.result);
 
    this.auditReportService.registerReport(this.thebigjson.result).subscribe(
     (response: any) => {
-       console.log(response);
        this.router.navigate(['ams/report-list']);
     },
     (error: HttpErrorResponse) => {

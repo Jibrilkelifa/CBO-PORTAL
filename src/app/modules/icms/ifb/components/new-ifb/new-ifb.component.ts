@@ -181,7 +181,6 @@ export class NewIFBComponent implements OnInit {
   }
 
   submitIFB(form: NgForm) {
-    console.log("rrrr", form.value);
     
     if (form.valid) {
       let formValueWithDate = {

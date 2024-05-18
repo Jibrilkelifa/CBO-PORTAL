@@ -73,7 +73,6 @@ export class ShareTableComponent implements OnDestroy {
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.shareService.getAllShare().subscribe(
         (response: ShareModel[]) => {
-          console.log("bbbb", response);
 
           this.ShareList = response.map(share => ({
             ...share,
@@ -109,7 +108,6 @@ export class ShareTableComponent implements OnDestroy {
     else if (roles.indexOf("ROLE_ICMS_SHARE_IC") !== -1) {
       this.shareService.getShareForDistrict(this.subProcessId).subscribe(
         (response: ShareModel[]) => { 
-          console.log("aaaa", response);
              
           this.ShareList = response.map(share => ({
             ...share,
@@ -146,7 +144,6 @@ export class ShareTableComponent implements OnDestroy {
     else if (roles.indexOf("ROLE_ICMS_SHARE_OWNER") !== -1) {
       this.shareService.getShareForDistrict(this.subProcessId).subscribe(
         (response: ShareModel[]) => { 
-          console.log("ffff", response);
           
                                                
           this.ShareList = response.map(share => ({

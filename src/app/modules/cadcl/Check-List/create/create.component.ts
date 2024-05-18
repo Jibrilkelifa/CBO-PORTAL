@@ -142,14 +142,11 @@ export class CreateComponent {
       formData.append('inquiryType', addDivForm?.value.inquiryType.value)
     }
 
-    console.log(this.uploadedFiles);
 
     for (let index = 0; index < this.uploadedFiles.length; index++) {
-      console.log(`file${index + 1}`, this.uploadedFiles[index]);
 
       formData.append(`file${index + 1}`, this.uploadedFiles[index]);
     }
-    console.log(addDivForm.value.branches);
 
     var branches = '';
     for (let index = 0; index < addDivForm.value.branches.length; index++) {
@@ -159,7 +156,6 @@ export class CreateComponent {
     formData.append('branchIds', branches);
 
     formData.forEach(function (value, key) {
-      console.log(key + ": " + value);
     });
     this.subscriptions.push(
       this.checklistService
@@ -216,7 +212,6 @@ export class CreateComponent {
     for (let file of event.files) {
       this.uploadedFiles.push(file);
     }
-    console.log(this.uploadedFiles);
   }
 
   ngOnDestroy() {

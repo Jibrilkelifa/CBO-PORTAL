@@ -61,7 +61,6 @@ export class AuditProgramDetailComponent implements OnDestroy {
   ngOnInit() {
     this.auditEngagements[0] = this.auditEngagementService.selectedAuditEngagement;
     this.auditPrograms[0] = this.auditProgramService.selectedAuditProgram;
-    console.log(this.auditPrograms[0]);
   }
 
 

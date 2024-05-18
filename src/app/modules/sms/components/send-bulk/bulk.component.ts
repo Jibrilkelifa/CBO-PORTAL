@@ -81,18 +81,13 @@ export class BulkComponent extends HeaderComponent {
 
  
   sendSMS( ) {
-    console.log('DAMAMA:', "dsdgsgdhsgdhs");
     const formData = new FormData();
-    console.log("file ",this.uploadedFiles[0])
     formData.append('file', this.uploadedFiles[0]);
     const accessToken = localStorage.getItem('access_token');
     const sender = localStorage.getItem('name');
-  console.log('Access token:', accessToken);
     this.bulkService.uploadFile(formData, sender).subscribe(
       response => {
-        console.log('responsssssssssssss', response)
         const batchId = response.id;
-        console.log('BatchId:', batchId);
         this.bulkService.sendMessageByBatch(batchId).subscribe(
           response => {
           },
@@ -126,7 +121,6 @@ export class BulkComponent extends HeaderComponent {
 
   public onUploadError(error: any) {
     this.loading = false;
-    console.log(error.error.error); // Log the error object to the console
 
     if (typeof error.error.error == 'string') {
       if (error.error) {

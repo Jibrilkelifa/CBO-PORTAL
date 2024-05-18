@@ -52,7 +52,6 @@ export class NewAccountComponent {
 
     this.accountService.addAccount(addDivForm.value).subscribe(
       (response: any) => {
-        console.log(response)
         this.getAccountInfos();
         if(response.status){
 
@@ -94,7 +93,6 @@ export class NewAccountComponent {
 
       this.accountService.updateAccount(updateDivForm.value).subscribe(
         (response: any) => {
-          console.log(response.result)
           this.messageService.add({
             severity: 'success',
             summary: 'Success',
@@ -123,7 +121,6 @@ export class NewAccountComponent {
       (response: any) => {
         this.accountR = [response.result];
         this.accountInfo = response.result;
-        console.log(this.accountInfo)
         this.selectedAccountInfo = this.accountInfo;
       },
       (error: HttpErrorResponse) =>{
@@ -145,7 +142,6 @@ export class NewAccountComponent {
     this.accountService.getAccounts().subscribe(
       (response: AccountInfo[]) => {
         this.accounts = response;
-        console.log(this.accounts)
 
       },
       (error: HttpErrorResponse) =>{

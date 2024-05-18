@@ -105,7 +105,6 @@ export class AuditableAreaComponent implements OnDestroy {
 
   updateAuditableObject(id: number): void {
     const auditableArea = this.auditableArea.find((area) => area.id === id);
-    console.log("vvvvvvvvv", auditableArea);
     const ref = this.dialogService.open(NewAuditableAreaComponent, {
       header: 'Update auditable area',
       width: '50%',
