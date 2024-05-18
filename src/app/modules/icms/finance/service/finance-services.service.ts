@@ -45,11 +45,6 @@ export class FinanceService {
     );
   }
 
-  // public getFinanceForBranch(id: number): Observable<any> {
-  //   this.init();
-  //   return this.http.get<any>(`${this.apiServiceUrl}/Finance/findByOrganizationalUnitId/${id}`, this.httpOptions)
-  // }
-
   public getFinanceForICMSFINANCEIC(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/Finance/findBySubProcessId/${id}`, this.httpOptions)

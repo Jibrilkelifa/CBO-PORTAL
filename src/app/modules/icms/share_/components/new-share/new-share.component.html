@@ -195,6 +195,7 @@
           [showClear]="true"
           placeholder="Select  Status"
           class="w-full"
+          (ngModelChange)="Share.shareStatus = $event.name"
           styleClass="p-password"
           [style]="{ width: '30vw', height: '45px' }"
           [required]="true"

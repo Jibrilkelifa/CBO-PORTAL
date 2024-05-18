@@ -69,10 +69,8 @@ export class NewFireExtinguisherComponent implements OnInit {
     this.fireExtinguisherService.findFireExtinguisherById(id).subscribe(
       (response: FireExtinguisherModel) => {
         this.FireExtinguisher = response;
-
         if (this.FireExtinguisher.status) {
           this.selectedstatus = this.statuses.find(status => status.name === this.FireExtinguisher.status);
-          console.log("Selected status: ", this.selectedstatus);
         } else {
           console.error("Status is undefined in the response");
         }
@@ -85,12 +83,6 @@ export class NewFireExtinguisherComponent implements OnInit {
       }
     );
   }
-
-
-
-
-
-
 
   compareStatus(s1: any, s2: any) {
     return s1 && s2 ? s1.name === s2.name : s1 === s2;
@@ -118,9 +110,6 @@ export class NewFireExtinguisherComponent implements OnInit {
           subProcess: this.selectedSubProcess,
           branch: this.selectedBranch
         }
-        console.log("a", this.FireExtinguisher.nextInspectionDate);
-        console.log("b", updatedValue);
-
         this.fireExtinguisherService.updateFireExtinguisher(updatedValue).subscribe(
           response => {
             this.messageService.add({

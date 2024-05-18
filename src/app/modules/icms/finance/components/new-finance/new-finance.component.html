@@ -137,14 +137,11 @@
         <p-dropdown
           [options]="statuses"
           name="financeStatus"
-          ngModel
           [(ngModel)]="selectedstatus"
           optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="true"
           placeholder="Select  Status"
           class="w-full"
+          (ngModelChange)="Finance.financeStatus = $event.name"
           styleClass="p-password"
           [style]="{ width: '30vw', height: '45px' }"
           [required]="true"
