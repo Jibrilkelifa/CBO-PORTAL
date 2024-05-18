@@ -13,7 +13,6 @@ import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-prov
 import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
 import { DetailComponent } from './modules/cadcl/Details-Page/detail/detail.component';
 import { RespondePageComponent } from './modules/cadcl/Replay-Page/responde-page/responde-page.component';
-import { NewIFBComponent } from './modules/icms/ifb/components/new-ifb/new-ifb.component';
 
 const routes: Routes = [
   {

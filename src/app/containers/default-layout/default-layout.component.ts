@@ -72,7 +72,7 @@ export class DefaultLayoutComponent {
     "ROLE_CC_USER": { navItems: navItemsCCUser, dashboardRoute: "default_dashboard" },
     "ROLE_CC_USER_DELIQUENT": { navItems: navItemsCCUserDeliquent, dashboardRoute: "default_dashboard" },
     "ROLE_ICMS_ADMIN": { navItems: navItemsICMSAdmin, dashboardRoute: "icms_dashboard" },
-    "ROLE_ICMS_DISTRICT": { navItems: navItemsICMSDistrict, dashboardRoute: "icms_dashboard/district" },
+    "ROLE_ICMS_DISTRICT_IC": { navItems: navItemsICMSDistrict, dashboardRoute: "icms_dashboard/district" },
     "ROLE_ICMS_DISTRICT_DIRECTOR": { navItems: navItemsICMSDistrictDirector, dashboardRoute: "icms_dashboard/district" },
     "ROLE_ICMS_BRANCH_IC": { navItems: navItemsICMSBranch, dashboardRoute: "icms_dashboard/branch" },
     "ROLE_SMS_ADMIN": { navItems: navItemsSMSAdmin, dashboardRoute: "sms_dashboard" },
