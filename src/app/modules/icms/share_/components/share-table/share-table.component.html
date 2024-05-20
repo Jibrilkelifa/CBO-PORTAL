@@ -123,18 +123,45 @@
         <td>{{ share?.responsiblePerson }}</td>
         <td>{{ share?.actionPlanDueDate }}</td>
         <td
-          [ngStyle]="{
-            color:
-              share?.daysPastDue > 0 && share?.shareStatus?.name === 'Open'
-                ? 'red'
-                : ''
+          [ngClass]="{
+            red:
+            share?.shareStatus.name === 'Open' &&
+              daysPastDue(share?.actionPlanDueDate) <= 0,
+            'other-color':
+            share?.shareStatus.name === 'Open' &&
+              daysPastDue(share?.actionPlanDueDate) > 0,
+            closed:
+            share?.shareStatus.name === 'Closed' &&
+              !share?.actionPlanDueDate
           }"
         >
-          {{
-            share?.daysPastDue > 0 && share?.shareStatus?.name === "Open"
-              ? share.daysPastDue + " days past due"
-              : ""
-          }}
+          <ng-container
+            *ngIf="
+              share?.shareStatus?.name === 'Open' &&
+              share?.actionPlanDueDate !== null;
+              else closedStatus
+            "
+          >
+            <ng-container
+              *ngIf="
+                daysPastDue(share?.actionPlanDueDate) <= 0;
+                else otherText
+              "
+            >
+              {{ absoluteValue(daysPastDue(share?.actionPlanDueDate)) }} days past due
+            </ng-container>
+            <ng-template #otherText> </ng-template>
+          </ng-container>
+          <ng-template #closedStatus>
+            <span
+              *ngIf="share?.actionPlanDueDate"
+              [ngClass]="{
+                red: share?.shareStatus?.name === 'Closed'
+              }"
+            >
+              Closed!
+            </span>
+          </ng-template>
         </td>
 
         <td>{{ share?.shareStatus?.name }}</td>

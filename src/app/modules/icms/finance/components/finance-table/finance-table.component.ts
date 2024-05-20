@@ -183,11 +183,11 @@ export class FinanceTableComponent implements OnDestroy {
   }
   
   public daysPastDue(dateString: string): number {
-    let dueDate = new Date(dateString);
-    let today = new Date();
-    let differenceInTime = dueDate.getTime() - today.getTime();
-    let differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
-    return differenceInDays;
+    let date = new Date(dateString);
+    let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
+    console.log("rrr", Math.ceil(daysLeftToExpire));
+    
+    return Math.ceil(daysLeftToExpire);
   }
   
   
