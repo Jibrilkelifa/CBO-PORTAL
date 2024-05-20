@@ -98,6 +98,8 @@ export class AuthService {
     "ROLE_ICMS_BANKING_OPERATION": 'default_dashboard',
     "ROLE_ICMS_FINANCE_IC": 'default_dashboard',
     "ROLE_ICMS_FINANCE_OWNER": 'default_dashboard',
+    "ROLE_ICMS_TRADE_IC": 'default_dashboard',
+    "ROLE_ICMS_TRADE_OWNER": 'default_dashboard',
     "ROLE_ICMS_SHARE_IC": 'default_dashboard',
     "ROLE_ICMS_SHARE_OWNER": 'default_dashboard',
     "ROLE_ICMS_DISTRICT_DIRECTOR": 'icms_dashboard/district',

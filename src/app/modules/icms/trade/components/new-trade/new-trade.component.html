@@ -1,0 +1,223 @@
+<p-messages
+  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
+  [value]="msgs"
+></p-messages>
+<div>
+  <form #ShareForm="ngForm" (ngSubmit)="submitShare(ShareForm)" required>
+    <div class="flex flex-wrap gap-3 mb-4">
+      <div class="flex-auto" *ngIf="!update">
+        <label for="alphabetic" class="block mb-2"> Case ID </label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          ngModel
+          [(ngModel)]="caseId"
+          name="caseId"
+          [style]="{ width: '30vw', height: '45px' }"
+          [readonly]="true"
+        />
+      </div>
+      <div class="flex-auto">
+        <label for="shareDate" class="block mb-2">Date </label>
+        <p-calendar
+          id="shareDate"
+          [(ngModel)]="Trade.shareDate"
+          name="shareDate"
+          [style]="{ width: '30vw', height: '45px' }"
+          [showIcon]="true"
+          [required]="true"
+        ></p-calendar>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="allCategory" class="block mb-2"> Category </label>
+        <p-dropdown
+          id="allCategory"
+          [(ngModel)]="selectedCategory"
+          name="allCategory"
+          [options]="categories"
+          optionLabel="name"
+          (onChange)="onCategoryChange($event)"
+          placeholder="Select a Category"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        ></p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="allSubCategory" class="block mb-2"> Sub Category </label>
+        <p-dropdown
+          id="allSubCategory"
+          [(ngModel)]="selectedSubCategory"
+          name="allSubCategory"
+          [options]="subCategories"
+          optionLabel="name"
+          placeholder="Select a Sub Category"
+          (onChange)="onSubCategoryChange($event)"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        ></p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="shareNumber" class="block mb-2"> Share Number </label>
+        <p-inputNumber
+          [(ngModel)]="Trade.shareNumber"
+          inputId="shareNumber"
+          [useGrouping]="false"
+          [style]="{ width: '30vw', height: '45px' }"
+          name="shareNumber"
+          [required]="true"
+        ></p-inputNumber>
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="shareHoldersName" class="block mb-2">
+          Share Holder's Name
+        </label>
+        <input
+          pInputText
+          id="shareHoldersName"
+          [(ngModel)]="Trade.shareHoldersName"
+          name="shareHoldersName"
+          [required]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+
+      <div class="flex-auto" *ngIf="selectedCategory && selectedSubCategory">
+        <label for="hex" class="block mb-2"> Irregualrity </label>
+        <p-dropdown
+          [options]="irregularities"
+          name="irregularity"
+          ngModel
+          [(ngModel)]="selectedIrregularity"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Select Irregularity Type"
+          class="w-full"
+          styleClass="p-password"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+          (onChange)="onIrregularityChange($event)"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div
+              class="flex align-items-center gap-2"
+              *ngIf="selectedIrregularity"
+            >
+              <div>{{ selectedIrregularity.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-irregularity pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ irregularity.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="flex-auto" *ngIf="isOtherIrregularitySelected">
+        <label for="alphabetic" class="block mb-2"> Other Irregularity</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          ngModel
+          name="otherIrregularity"
+          [style]="{ width: '30vw', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+
+      <div class="flex-auto" *ngIf="!update">
+        <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
+        <input
+          pInputText
+          id="amount"
+          [(ngModel)]="Trade.amountInvolved"
+          name="amountInvolved"
+          [required]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+      <div class="flex-auto" *ngIf="!update">
+        <label for="responsiblePerson" class="block mb-2">
+          Responsible Person
+        </label>
+        <input
+          pInputText
+          id="responsiblePerson"
+          [(ngModel)]="Trade.responsiblePerson"
+          name="responsiblePerson"
+          [required]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div>
+
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class="block mb-2"> Team</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          [(ngModel)]="selectedTeam"
+          name="team"
+          [readonly]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+          minlength="3"
+        />
+      </div>
+      <div class="flex-auto" [hidden]="true">
+        <label for="alphabetic" class="block mb-2"> District</label>
+        <input
+          pInputText
+          pKeyFilter="alpha"
+          id="alphabetic"
+          [(ngModel)]="selectedSubProcess"
+          name="subProcess"
+          [readonly]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+          required
+          minlength="3"
+        />
+      </div>
+      <!--  -->
+      <div class="flex-auto" *ngIf="update">
+        <label for="hex" class="block mb-2"> Status </label>
+        <p-dropdown
+          [options]="statuses"
+          name="shareStatus"
+          ngModel
+          [(ngModel)]="selectedstatus"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder="Select  Status"
+          class="w-full"
+          styleClass="p-password"
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        >
+          (ngOnInit)="populateSelectedstatus(existingStatus)">
+          <ng-template pTemplate="selectedItem">
+            <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
+              <div>{{ selectedstatus.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template let-selectedstatuse pTemplate="item">
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedstatuse.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <p-button
+      [label]="update ? 'Update' : 'Create'"
+      type="submit"
+      [disabled]="ShareForm.form.invalid"
+      class="createButton"
+    ></p-button>
+  </form>
+</div>

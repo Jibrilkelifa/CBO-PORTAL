@@ -363,6 +363,7 @@ export const navItemsICMSFinanceIC = createNavItem(
   'cil-dollar'
 );
 
+
 export const navItemsICMSFinanceOWNER = createNavItem(
   'FInance',
   '/ICMS',
@@ -371,6 +372,28 @@ export const navItemsICMSFinanceOWNER = createNavItem(
   ],
   'cil-dollar'
 );
+
+export const navItemsICMSTradeIC = createNavItem(
+  'Trade',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/Trade/addTrade'),
+    createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
+  ],
+  'cil-dollar'
+);
+
+
+export const navItemsICMSTradeOWNER = createNavItem(
+  'Trade',
+  '/ICMS',
+  [
+    createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
+  ],
+  'cil-dollar'
+);
+
+
 
 export const navItemsICMSShareIC = createNavItem(
   'Share',
