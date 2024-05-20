@@ -36,7 +36,7 @@ export class ShareTableComponent implements OnDestroy {
   escalatedByManager: boolean = false;
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  teamId: number = JSON.parse(localStorage.getItem("team")).id;
+  //teamId: number = JSON.parse(localStorage.getItem("team")).id;
 
   currentDate: Date;
 
