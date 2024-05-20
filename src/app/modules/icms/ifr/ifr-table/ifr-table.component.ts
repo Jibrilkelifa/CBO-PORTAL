@@ -294,9 +294,6 @@ export class FraudTableComponent {
       );
     }
     else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
-      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branch => {
-      //   this.districtId = branch?.subProcess?.id
-      // });
       this.fraudService.getFraudForDistrict(this.subProcessId).subscribe(
         (response: IFR[]) => {
           this.frauds = response;

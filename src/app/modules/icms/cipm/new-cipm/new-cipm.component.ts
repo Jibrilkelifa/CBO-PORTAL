@@ -24,6 +24,9 @@ import {StatusService} from '../../../../services/icms-services/cipm-services/st
 export class NewCIPMComponent implements OnInit {
   public cipms: CIPM[] = [];
   public cipm: CIPM;
+
+  roles: string[] = [];
+
   // public selectedBranch: Branch;
   public selectedBranch;
   public selectedSubProcess;
@@ -57,6 +60,8 @@ export class NewCIPMComponent implements OnInit {
     this.getCollatoralTypes();
     this.getIPCTs();
     this.getStatus();
+    this.populateRoles();
+
     // alert(this.subProcessId);
     
     this.primengConfig.ripple = true;
@@ -125,6 +130,17 @@ public getStatus(): void {
       // Handle error
     }
   );
+}
+
+populateRoles(): void {
+  let index = 0;
+  let cond = localStorage.getItem('role_' + index);
+  while (cond) {
+
+    this.roles.push(cond);
+    index++;
+    cond = localStorage.getItem('role_' + index);
+  }
 }
 
 public populateSelectedStatus(existingStatus: Status): void {
