@@ -76,7 +76,7 @@
                     <label for="hex" class="block mb-2"> Branches: </label>
                     <p-multiSelect [options]="branchList" name="branches" optionLabel="name" [filter]="true"
                         [(ngModel)]="selectedBranches" filterBy="name" [showClear]="true" placeholder="Choose branches"
-                        styleClass="p-password" [required]="true"
+                        styleClass="p-password" [required]="false"
                         class="w-60 h-11 overflow-hidden overflow-ellipsis whitespace-nowrap">
                         <ng-template let-branch pTemplate="item">
                             <div class="dropdown-item w-60 overflow-hidden overflow-ellipsis whitespace-nowrap"
