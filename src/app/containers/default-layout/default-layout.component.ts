@@ -118,6 +118,7 @@ export class DefaultLayoutComponent {
     this.setupNavigationItems();
   }
 
+
   private setupNavigationItems() {
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
     const otp = localStorage.getItem('otp') == "true";
@@ -129,10 +130,8 @@ export class DefaultLayoutComponent {
           let role = localStorage.getItem("role_" + i);
           let config = this.roleConfig[role];
           if (config && config.navItems) {
-            // Add isOpen property to navItem
-            config.navItems.isOpen = false;
             if (config.navItems.children) {
-              this.addIsOpenProperty(config.navItems.children);
+              this.addIndentClass(config.navItems.children);
             }
             // Push only config.navItems to the this.navItems array
             this.navItems.push(config.navItems);
@@ -160,16 +159,6 @@ export class DefaultLayoutComponent {
   }
   
   
- addIsOpenProperty(navItems) {
-    navItems.forEach(item => {
-      item.isOpen = false;
-      if (item.children) {
-        this.addIsOpenProperty(item.children);
-      }
-    });
-  }
-
-
   authenticateAWS(): Observable<any> {
     const body = new URLSearchParams()
     body.set('username', localStorage.getItem("un"));
