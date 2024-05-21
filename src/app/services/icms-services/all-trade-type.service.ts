@@ -2,12 +2,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NgForm } from '@angular/forms';
-import { AllCategory } from '../../models/icms-models/all-category';
+import { AllTradeType } from '../../models/icms-models/all-trade-type';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AllCategoryService {
+export class AllTradeTypeService {
 
   private httpOptions;
   private apiServiceUrl;
@@ -20,39 +20,38 @@ export class AllCategoryService {
     };
     
     //this.apiServiceUrl = localStorage.getItem('url_4');
-       // this.apiServiceUrl = 'http://10.1.125.58:8084';
-       this.apiServiceUrl = 'http://localhost:8084';
+    // this.apiServiceUrl = 'http://10.1.125.58:8084';
+    this.apiServiceUrl = 'http://localhost:8084';
 
-    
     
   }
 
   constructor(private http: HttpClient) { }
 
-  public getAllCategoriesBySubModuleName(subModuleName: string): Observable<any> {
+  public getAllTradeTypesBySubModuleName(subModuleName: string): Observable<any> {
     this.init();
     const body = {
       "subModuleName" : subModuleName
     }
-    return this.http.post<any>(`${this.apiServiceUrl}/allCategory/getAllCategory`, body , this.httpOptions)
+    return this.http.post<any>(`${this.apiServiceUrl}/allTradeType/getAllTradeType`, body , this.httpOptions)
   }
 
-  public getAllCategory(id: number): Observable<any> {
+  public getAllTradeType(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/allCategory/find/${id}`, this.httpOptions)
   }
 
-  public addAllCategory(allCategory: NgForm): Observable<any> {
+  public addAllTradeType(allCategory: NgForm): Observable<any> {
     this.init();
     return this.http.post<any>(`${this.apiServiceUrl}/allCategory/add`, allCategory, this.httpOptions)
   }
 
-  public updateAllCategory(allCategory: AllCategory): Observable<any> {
+  public updateAllTradeType(allCategory: AllTradeType): Observable<any> {
     this.init();
-    return this.http.put<AllCategory>(`${this.apiServiceUrl}/allCategory/update`, allCategory, this.httpOptions)
+    return this.http.put<AllTradeType>(`${this.apiServiceUrl}/allCategory/update`, allCategory, this.httpOptions)
   }
 
-  public deleteAllCategory(allCategoryId: number): Observable<any> {
+  public deleteAllTradeType(allCategoryId: number): Observable<any> {
     this.init();
     return this.http.delete<void>(`${this.apiServiceUrl}/allCategory/delete/${allCategoryId}`, this.httpOptions)
   }

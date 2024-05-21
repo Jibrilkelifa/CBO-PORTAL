@@ -12,26 +12,27 @@
   </div>
 </div>
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Share Table</h5>
+  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Trade Table</h5>
   <p-table
     #dt
     [columns]="cols"
-    [value]="ShareList"
+    [value]="TradeList"
     [exportHeader]="'customExportHeader'"
     selectionMode="single"
     dataKey="id"
     [tableStyle]="{ 'min-width': '50rem' }"
     [rows]="5"
     [globalFilterFields]="[
-      'shareDate',
+      'tradeDate',
       'caseId',
-      'shareNumber',
+      'tradeNumber',
       'allCategory.name',
       'allSubCategory.name',
       'irregularity',
       'amountInvolved',
+      'customerName',
       'responsiblePerson',
-      'shareStatus.name'
+      'tradeStatus.name'
     ]"
     [rowsPerPageOptions]="[5, 10, 15, 20]"
     [paginator]="true"
@@ -41,17 +42,17 @@
     <ng-template pTemplate="header">
       <tr>
         <th pSortableColumn="id">ID</th>
-        <th pSortableColumn="shareDate">
+        <th pSortableColumn="tradeDate">
           Date
-          <p-sortIcon field="shareDate"></p-sortIcon>
+          <p-sortIcon field="tradeDate"></p-sortIcon>
         </th>
         <th pSortableColumn="caseId">
           Case ID
           <p-sortIcon field="caseId"></p-sortIcon>
         </th>
-        <th pSortableColumn="shareNumber">
-          Share Number
-          <p-sortIcon field="shareNumber"></p-sortIcon>
+        <th pSortableColumn="referenceNumber">
+          Reference Number
+          <p-sortIcon field="referenceNumber"></p-sortIcon>
         </th>
         <th pSortableColumn="allCategory.name">
           Category
@@ -61,6 +62,10 @@
           Sub-category
           <p-sortIcon field="allSubCategory.name"></p-sortIcon>
         </th>
+        <th pSortableColumn="tradeType.name">
+          Trade Type
+          <p-sortIcon field="rradeType.name"></p-sortIcon>
+        </th>
         <th pSortableColumn="irregularity">
           Irregularity
           <p-sortIcon field="irregularity"></p-sortIcon>
@@ -68,6 +73,10 @@
         <th pSortableColumn="amountInvolved">
           Amount
           <p-sortIcon field="amountInvolved"></p-sortIcon>
+        </th>
+        <th pSortableColumn="customerName">
+          Customer Name
+          <p-sortIcon field="customerName"></p-sortIcon>
         </th>
         <th pSortableColumn="responsiblePerson">
           Responsible Person
@@ -77,9 +86,9 @@
           Action Plan Due Date<p-sortIcon></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="">Past Due</th>
-        <th pSortableColumn="shareStatus.name">
+        <th pSortableColumn="tradeStatus.name">
           Status
-          <p-sortIcon field="shareStatus.name"></p-sortIcon>
+          <p-sortIcon field="tradeStatus.name"></p-sortIcon>
         </th>
         <th scope="col">Actions</th>
       </tr>
@@ -87,11 +96,12 @@
     <ng-template pTemplate="body" let-trade let-rowIndex="rowIndex">
       <tr [pSelectableRow]="trade">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ trade?.shareDate | date : "MM/dd/yyyy" }}</td>
+        <td>{{ trade?.tradeDate | date : "MM/dd/yyyy" }}</td>
         <td>{{ trade?.caseId }}</td>
-        <td>{{ trade?.shareNumber }}</td>
+        <td>{{ trade?.referenceNumber }}</td>
         <td>{{ trade?.allCategory?.name }}</td>
         <td>{{ trade?.allSubCategory?.name }}</td>
+        <td>{{ trade?.tradeType?.name }}</td>
         <td
           pTooltip="{{ trade?.irregularity?.name }}"
           tooltipPosition="top"
@@ -103,30 +113,31 @@
         </td>
 
         <td>{{ trade?.amountInvolved }}</td>
+        <td>{{ trade?.customerName }}</td>
         <td>{{ trade?.responsiblePerson }}</td>
-trade        <td
+     <td
           [ngStyle]="{
             color:
-              trade?.daysPastDue > 0 && trade?.shareStatus?.name === 'Open'
+              trade?.daysPastDue > 0 && trade?.tradeStatus?.name === 'Open'
                 ? 'red'
                 : ''
           }"
         >
           {{
-            trade?.daysPastDue > 0 && trade?.shareStatus?.name === "Open"
+            trade?.daysPastDue > 0 && trade?.tradeStatus?.name === "Open"
               ? trade.daysPastDue + " days past due"
               : ""
           }}
         </td>
 
-        <td>{{ trade?.shareStatus?.name }}</td>
+        <td>{{ trade?.tradeStatus?.name }}</td>
         <td class="flex space-between">
           <div
             class="flex gap-2 mr-2"
             *ngIf="
-              this.roles.includes('ROLE_ICMS_SHARE_OWNER') &&
+              this.roles.includes('ROLE_ICMS_TRADE_OWNER') &&
               !trade?.actionTaken &&
-              trade?.shareStatus?.name === 'Open'
+              trade?.tradeStatus?.name === 'Open'
             "
           >
             <button
@@ -139,11 +150,11 @@ trade        <td
           </div>
           <div
             class="flex gap-2"
-            *ngIf="this.roles.includes('ROLE_ICMS_SHARE_IC')"
+            *ngIf="this.roles.includes('ROLE_ICMS_TRADE_IC')"
           >
             <button
               pButton
-              (click)="updateShare(trade?.id)"
+              (click)="updateTrade(trade?.id)"
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
               label="Update"

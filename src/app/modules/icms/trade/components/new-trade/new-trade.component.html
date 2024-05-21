@@ -3,7 +3,7 @@
   [value]="msgs"
 ></p-messages>
 <div>
-  <form #ShareForm="ngForm" (ngSubmit)="submitShare(ShareForm)" required>
+  <form #TradeForm="ngForm" (ngSubmit)="submitTrade(TradeForm)" required>
     <div class="flex flex-wrap gap-3 mb-4">
       <div class="flex-auto" *ngIf="!update">
         <label for="alphabetic" class="block mb-2"> Case ID </label>
@@ -19,11 +19,11 @@
         />
       </div>
       <div class="flex-auto">
-        <label for="shareDate" class="block mb-2">Date </label>
+        <label for="tradeDate" class="block mb-2">Date </label>
         <p-calendar
-          id="shareDate"
-          [(ngModel)]="Trade.shareDate"
-          name="shareDate"
+          id="tradeDate"
+          [(ngModel)]="Trade.tradeDate"
+          name="tradeDate"
           [style]="{ width: '30vw', height: '45px' }"
           [showIcon]="true"
           [required]="true"
@@ -44,6 +44,21 @@
         ></p-dropdown>
       </div>
       <div class="flex-auto" *ngIf="!update">
+        <label for="TradeType" class="block mb-2"> Trade Type </label>
+        <p-dropdown
+          id="tradeType"
+          [(ngModel)]="selectedTradeType"
+          name="tradeType"
+          [options]="tradeTypes"
+          optionLabel="name"
+          placeholder="Select a Sub Category"
+       
+          [style]="{ width: '30vw', height: '45px' }"
+          [required]="true"
+        ></p-dropdown>
+      </div>
+
+      <div class="flex-auto" *ngIf="!update">
         <label for="allSubCategory" class="block mb-2"> Sub Category </label>
         <p-dropdown
           id="allSubCategory"
@@ -57,26 +72,40 @@
           [required]="true"
         ></p-dropdown>
       </div>
-      <div class="flex-auto" *ngIf="!update">
-        <label for="shareNumber" class="block mb-2"> Share Number </label>
+      <!-- <div class="flex-auto" *ngIf="!update">
+        <label for="tradeNumber" class="block mb-2"> Trade Number </label>
         <p-inputNumber
-          [(ngModel)]="Trade.shareNumber"
-          inputId="shareNumber"
+          [(ngModel)]="Trade.tradeNumber"
+          inputId="tradeNumber"
           [useGrouping]="false"
           [style]="{ width: '30vw', height: '45px' }"
-          name="shareNumber"
+          name="tradeNumber"
           [required]="true"
         ></p-inputNumber>
-      </div>
-      <div class="flex-auto" *ngIf="!update">
-        <label for="shareHoldersName" class="block mb-2">
-          Share Holder's Name
+      </div> -->
+      <!-- <div class="flex-auto" *ngIf="!update">
+        <label for="tradeHoldersName" class="block mb-2">
+          Trade Holder's Name
         </label>
         <input
           pInputText
-          id="shareHoldersName"
-          [(ngModel)]="Trade.shareHoldersName"
-          name="shareHoldersName"
+          id="tradeHoldersName"
+          [(ngModel)]="Trade.tradeHoldersName"
+          name="tradeHoldersName"
+          [required]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
+      </div> -->
+
+      <div class="flex-auto" *ngIf="!update">
+        <label for="referenceNumber" class="block mb-2">
+          Reference Number
+        </label>
+        <input
+          pInputText
+          id="referenceNumber"
+          [(ngModel)]="Trade.referenceNumber"
+          name="referenceNumber"
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
@@ -110,7 +139,7 @@
           </ng-template>
           <ng-template let-irregularity pTemplate="item">
             <div class="flex align-items-center gap-2">
-              <div>{{ irregularity.name }}</div>
+              <div title="{{ irregularity.name }}" class="truncate w-[26vw]">{{ irregularity.name }}</div>
             </div>
           </ng-template>
         </p-dropdown>
@@ -128,7 +157,7 @@
           minlength="3"
         />
       </div>
-
+<!-- 
       <div class="flex-auto" *ngIf="!update">
         <label for="amountInvolved" class="block mb-2"> Amount Involved </label>
         <input
@@ -139,7 +168,21 @@
           [required]="true"
           [style]="{ width: '30vw', height: '45px' }"
         />
+      </div> -->
+      <div class="flex-auto" *ngIf="!update">
+        <label for="customerName" class="block mb-2">
+          Customer Name
+        </label>
+        <input
+          pInputText
+          id="customerName"
+          [(ngModel)]="Trade.customerName"
+          name="customerName"
+          [required]="true"
+          [style]="{ width: '30vw', height: '45px' }"
+        />
       </div>
+
       <div class="flex-auto" *ngIf="!update">
         <label for="responsiblePerson" class="block mb-2">
           Responsible Person
@@ -186,7 +229,7 @@
         <label for="hex" class="block mb-2"> Status </label>
         <p-dropdown
           [options]="statuses"
-          name="shareStatus"
+          name="tradeStatus"
           ngModel
           [(ngModel)]="selectedstatus"
           optionLabel="name"
@@ -216,7 +259,7 @@
     <p-button
       [label]="update ? 'Update' : 'Create'"
       type="submit"
-      [disabled]="ShareForm.form.invalid"
+      [disabled]="TradeForm.form.invalid"
       class="createButton"
     ></p-button>
   </form>
