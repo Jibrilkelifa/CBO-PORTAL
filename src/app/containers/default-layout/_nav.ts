@@ -225,7 +225,6 @@ export const navItemsICMSAdmin = createNavItem(
       [
         createNavItem('View IFB', '/ICMS/IFB/viewIFB'),
       ],
-      'cil-moon'
     ),
     createNavItem(
       'Finance',
@@ -233,7 +232,14 @@ export const navItemsICMSAdmin = createNavItem(
       [
         createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
       ],
-      'cil-dollar'
+    ),
+
+    createNavItem(
+      'Share',
+      '/ICMS/Share',
+      [
+        createNavItem('View Share', '/ICMS/Share/viewShare'),
+      ],
     ),
     // Add more children as needed
   ],
@@ -350,7 +356,6 @@ export const navItemsICMSIFB = createNavItem(
       ]
     ),
   ],
-  'cil-moon'
 );
 
 export const navItemsICMSFinanceIC = createNavItem(
@@ -360,7 +365,6 @@ export const navItemsICMSFinanceIC = createNavItem(
     createNavItem('Add data', '/ICMS/Finance/addFinance'),
     createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
   ],
-  'cil-dollar'
 );
 
 
@@ -370,7 +374,6 @@ export const navItemsICMSFinanceOWNER = createNavItem(
   [
     createNavItem('View Finance', '/ICMS/Finance/viewFinance'),
   ],
-  'cil-dollar'
 );
 
 
@@ -384,7 +387,6 @@ export const navItemsICMSTradeIC = createNavItem(
     createNavItem('Add data', '/ICMS/Trade/addTrade'),
     createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
   ],
-  'cil-dollar'
 );
 
 
@@ -394,7 +396,6 @@ export const navItemsICMSTradeOWNER = createNavItem(
   [
     createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
   ],
-  'cil-dollar'
 );
 
 
@@ -409,7 +410,6 @@ export const navItemsICMSShareIC = createNavItem(
     createNavItem('Add data', '/ICMS/Share/addShare'),
     createNavItem('View Share', '/ICMS/Share/viewShare'),
   ],
-  'cil-dollar'
 );
 
 
@@ -419,7 +419,6 @@ export const navItemsICMSShareOWNER = createNavItem(
   [
     createNavItem('View Share', '/ICMS/Share/viewShare'),
   ],
-  'cil-dollar'
 );
 
 export const navItemsSMSAdmin = createNavItem(

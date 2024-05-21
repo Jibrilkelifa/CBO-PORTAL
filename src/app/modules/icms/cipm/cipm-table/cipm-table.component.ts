@@ -53,7 +53,7 @@ export class CIPMTableComponent {
 
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
-      { field: 'branch.name', header: 'Branch' },
+      { field: 'branch.name', header: 'Branch Name' },
       { field: 'borrowerName', header: 'Borrower Name' },
       { field: 'loanAccount', header: 'Loan Account' },
       { field: 'loanType', header: 'Loan Type' },
@@ -65,6 +65,10 @@ export class CIPMTableComponent {
       { field: 'policyNumber', header: 'Policy number' },
       { field: 'referenceNumber', header: 'Reference number' },
       { field: 'insuredName', header: 'Insured name' },
+      { field: 'bbranch', header: 'Branch' },
+      { field: 'insuranceCompany', header: 'Insurance Company' },
+      { field: 'insuranceDistrict', header: 'District' },
+      { field: 'insuranceBranch', header: 'Insurance Branch' },
       { field: 'status.name', header: 'Status' },
       { field: 'insuranceExpireDate', header: 'Insurance expire date' },
       { field: 'daysLeftToExpire', header: 'Days left to expire' },
@@ -284,6 +288,10 @@ export class CIPMTableComponent {
               policyNumber: obj.policyNumber,
               referenceNumber: obj.referenceNumber,
               insuredName: obj.insuredName,
+              bbranch:obj.bbranch,
+              insuranceComapanyName:obj.insuranceComapanyName,
+              insuranceDistrict:obj.insuranceDistrict,
+              insuranceBranch:obj.insuranceBranch,
               'status.name': obj.status ? obj.status.name : null,
               insuranceExpireDate: formattedInsuranceExpireDate,
               daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
@@ -346,6 +354,10 @@ export class CIPMTableComponent {
         'Policy number': plan.policyNumber,
         'Reference number': plan.referenceNumber,
         'Insured name': plan.insuredName,
+        'Branch':plan.bbranch,
+        'Insurance Company':plan.insuranceComapanyName,
+        'District':plan.insuranceDistrict,
+        'Insurance Branch':plan.insuranceBranch,
         'Status': plan['status.name'],
         'Insurance expire date': plan.insuranceExpireDate,
         'Days left to expire': plan.daysLeftToExpire, // This line will add 'Days left to expire' to the Excel sheet
