@@ -1,0 +1,11 @@
+stages:
+  - test
+
+test:
+  stage: test
+  script:
+    - echo "Starting ng serve..."
+    - npm ci
+    - ng serve &
+    - sleep 60
+    - if ! curl -sSf http://localhost:4200; then echo "ng serve failed"; exit 1; fi

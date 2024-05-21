@@ -212,10 +212,6 @@ navItemsAMSManager = {
           url: '/ams/audit-object',
         },
         {
-          name: 'Audit Type',
-          url: '/ams/audit-type',
-        },
-        {
           name: 'Risk item',
           url: '/ams/risk-item',
         },
@@ -308,6 +304,10 @@ navItemsAMSDirector = {
       name: 'Audit Schedule',
       url: '/ams/audit-schedule',
     },
+    {
+      name: 'Audit Type',
+      url: '/ams/audit-type',
+    }
 
 
   ],

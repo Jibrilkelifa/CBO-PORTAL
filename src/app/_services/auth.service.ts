@@ -91,16 +91,16 @@ export class AuthService {
     // Get employee by ID
     //  const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
     const employee = await this.emsService.getEmployeeById(resp?.user?.id).toPromise();
+  
+    // AUDIT MANAGEMENT HAVE A REQUIREMENT TO PERSIST THEIR USER INFORMATOIN SEPARATELY
+    const userhaveAMS = resp?.user?.roles?.find(obj => obj.name.includes("AMS"))
+    if (userhaveAMS){
+    const auditStaff = await this.auditStaffService.getAuditStaffByEmployeeId("" + resp?.user?.id,resp?.accessToken).toPromise();
+ 
+    localStorage.setItem('auditStaff', JSON.stringify(auditStaff))
 
-    //AUDIT MANAGEMENT HAVE A REQUIREMENT TO PERSIST THEIR USER INFORMATOIN SEPARATELY
-    // const auditStaff = await this.auditStaffService.getAuditStaffByEmployeeId("" + resp?.user?.id,resp?.accessToken).toPromise();
-    // const userhaveAMS = resp?.user?.roles?.find(obj => obj.name.includes("AMS"))
-    // if (userhaveAMS) {
-      // localStorage.setItem('auditStaff', JSON.stringify(auditStaff))
-    // }
-
-    localStorage.setItem("ams_ip", "http://10.1.125.58:8099")
-
+    localStorage.setItem("ams_ip", "http://localhost:8099")
+  }
 
 
     localStorage.setItem('gender', employee?.gender);
