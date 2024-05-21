@@ -53,7 +53,7 @@ export class CIPMTableComponent {
 
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
-      { field: 'branch.name', header: 'Branch' },
+      { field: 'branch.name', header: 'Branch Name' },
       { field: 'borrowerName', header: 'Borrower Name' },
       { field: 'loanAccount', header: 'Loan Account' },
       { field: 'loanType', header: 'Loan Type' },
@@ -64,6 +64,11 @@ export class CIPMTableComponent {
       { field: 'sumInsured', header: 'Sum insured' },
       { field: 'policyNumber', header: 'Policy number' },
       { field: 'referenceNumber', header: 'Reference number' },
+      { field: 'bbranch', header: 'Branch' },
+      { field: 'District', header: 'District' },
+      { field: 'insuranceBranch', header: 'Insurance Branch' },
+      { field: 'insuranceDistrict', header: 'District' },
+      { field: 'insuranceCompany', header: 'Insurance Company' },
       { field: 'insuredName', header: 'Insured name' },
       { field: 'status.name', header: 'Status' },
       { field: 'insuranceExpireDate', header: 'Insurance expire date' },
