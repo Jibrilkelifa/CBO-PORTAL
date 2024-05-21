@@ -118,6 +118,7 @@ export class DefaultLayoutComponent {
     this.setupNavigationItems();
   }
 
+
   private setupNavigationItems() {
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
     const otp = localStorage.getItem('otp') == "true";
@@ -129,10 +130,8 @@ export class DefaultLayoutComponent {
           let role = localStorage.getItem("role_" + i);
           let config = this.roleConfig[role];
           if (config && config.navItems) {
-            // Add isOpen property to navItem
-            config.navItems.isOpen = false;
             if (config.navItems.children) {
-              this.addIsOpenProperty(config.navItems.children);
+              this.addIndentClass(config.navItems.children);
             }
             // Push only config.navItems to the this.navItems array
             this.navItems.push(config.navItems);
@@ -141,18 +140,25 @@ export class DefaultLayoutComponent {
         }
       }
     }
+    // Add indent classes to navItems
+    this.navItems.forEach((navItem: any) => this.addIndentClass(navItem));
   }
   
- addIsOpenProperty(navItems) {
-    navItems.forEach(item => {
-      item.isOpen = false;
-      if (item.children) {
-        this.addIsOpenProperty(item.children);
+  addIndentClass(obj: any, level: number = 0) {
+    for (const key in obj) {
+      if (key === 'name' && typeof obj[key] === 'string') {
+        if (level === 1) {
+          obj['class'] = 'indent-1';
+        } else if (level === 2) {
+          obj['class'] = 'indent-2';
+        }
+      } else if (key === 'children' && Array.isArray(obj[key])) {
+        obj[key].forEach((child: any) => this.addIndentClass(child, level + 1));
       }
-    });
+    }
   }
-
-
+  
+  
   authenticateAWS(): Observable<any> {
     const body = new URLSearchParams()
     body.set('username', localStorage.getItem("un"));
