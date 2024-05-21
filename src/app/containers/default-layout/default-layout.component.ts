@@ -141,7 +141,24 @@ export class DefaultLayoutComponent {
         }
       }
     }
+    // Add indent classes to navItems
+    this.navItems.forEach((navItem: any) => this.addIndentClass(navItem));
   }
+  
+  addIndentClass(obj: any, level: number = 0) {
+    for (const key in obj) {
+      if (key === 'name' && typeof obj[key] === 'string') {
+        if (level === 1) {
+          obj['class'] = 'indent-1';
+        } else if (level === 2) {
+          obj['class'] = 'indent-2';
+        }
+      } else if (key === 'children' && Array.isArray(obj[key])) {
+        obj[key].forEach((child: any) => this.addIndentClass(child, level + 1));
+      }
+    }
+  }
+  
   
  addIsOpenProperty(navItems) {
     navItems.forEach(item => {
