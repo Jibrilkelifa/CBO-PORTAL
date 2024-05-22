@@ -48,7 +48,7 @@ export class ShareActionPlanComponent implements OnInit {
             detail: "Action plan approved successfully!"
           });
           setTimeout(() => {
-            this.router.navigate(['ICMS/Finance/viewFinance']);
+            this.router.navigate(['ICMS/Share/viewShare']);
           }, 1000);
         },
         (error: HttpErrorResponse) => {

@@ -1,0 +1,52 @@
+<div class="container">
+    <p class="display-7 text-center my-4 font-weight-bold">CAO Inquiry/Activity Report Generator</p>
+
+    <div>
+        <form #addDivForm="ngForm" (ngSubmit)="getReport(addDivForm)">
+            <div style="margin-top: 2em;"></div>
+            <p-toast></p-toast>
+            <div class="row">
+                <div class="col mb-4">
+                    <label for="hex" class="block mb-2"> Report For:</label>
+                    <p-dropdown [options]="reportTypes" [(ngModel)]="caReport.reportFor" name="reportFor"
+                        optionLabel="label" placeholder="Select inquiry type" [required]="true" (onChange)="onTypeChange()">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="iquirySelected" class="col mb-4">
+                    <label for="hex" class="block mb-2"> Select Inquiry Type:</label>
+                    <p-dropdown [options]="inquryTypes" [(ngModel)]="caReport.inquiryType" name="inquiryType"
+                        optionLabel="label" placeholder="Select inquiry type" [required]="true">
+                    </p-dropdown>
+                </div>
+                <div *ngIf="ownerSelected" class="col mb-4">
+                    <label for="hex" class="block mb-2"> Select Case Owner:</label>
+                    <p-dropdown [options]="teamsList" [(ngModel)]="caReport.caseOwner" name="caseOwner"
+                        optionLabel="label" placeholder="Select case Owner" [required]="true">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-4">
+                    <label for="integer" class="block mb-2">Starting From: </label>
+                    <p-calendar id="alphabetic" dataType="string" [(ngModel)]="caReport.startDate"
+                            name="startDate" [style]="{'width':'20vw','height':'45px'}"
+                            [showIcon]="true" [required]="true"></p-calendar>
+                </div>
+                <div class="col mb-4">
+                    <label for="integer" class="block mb-2">To: </label>
+                    <p-calendar id="alphabetic" dataType="string" [(ngModel)]="caReport.endDate"
+                            name="endDate" [style]="{'width':'20vw','height':'45px'}"
+                            [showIcon]="true" [required]="true"></p-calendar>
+                </div>
+            </div>
+            <div style="margin-top: 5em;"></div>
+            <div class="buttonDiv d-flex justify-content-center mt-5">
+                <p-button label="Generate Report" [disabled]="addDivForm.invalid!" type="submit" *ngIf="!loading"></p-button>
+            </div>
+            <div *ngIf="loading" [style]="{'margin':'10px'}" >
+                <p-progressSpinner *ngIf="loading" styleClass="w-2rem h-2rem" strokeWidth="4" fill="var(--surface-ground)" animationDuration=".2s"></p-progressSpinner>
+            </div>
+        </form>
+        
+    </div>
+  </div>

@@ -30,6 +30,7 @@ export class EmployeeService {
     }
 
     this.apiServiceUrl = localStorage.getItem('url_1');
+    // this.emsAPIBaseUrl = "http://10.1.125.58:8082";
     this.emsAPIBaseUrl = "http://10.1.125.58:8082";
     // prodip
   }
@@ -50,6 +51,11 @@ export class EmployeeService {
   getEmployeesByName(name: string): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getEmployeeByName/${name}`, this.httpOptions)
+  }
+
+  getSupervisorsByName(name: string): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.emsAPIBaseUrl}/ems/api/getSupervisorByName/${name}`, this.httpOptions)
   }
 
   getBranchByName(name: string): Observable<any> {

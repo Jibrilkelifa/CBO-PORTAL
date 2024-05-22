@@ -7,7 +7,7 @@
             </div>
             <div *ngIf="caChecklist?.closed">
                 <p style="color: red;">Closed</p>
-        </div>
+            </div>
         </div>
 
         <h2>Request Details</h2>
@@ -16,7 +16,7 @@
                 <p><strong>Inquiry Type:</strong> <span class="value">{{ caChecklist?.inquiryType || "unknown" }}</span>
                 </p>
                 <p><strong>Category:</strong> <span class="value">{{ caChecklist?.category ||
-                    "unknown" }}</span>
+                        "unknown" }}</span>
                 <p>
                     <strong>Description:</strong>
                     <span class="value-large" [title]="caChecklist?.description">{{
@@ -68,9 +68,9 @@
             <hr>
 
             <form #addDivForm="ngForm" (ngSubmit)="replay(addDivForm)">
-                
+
                 <div class="col" style="margin-top: 3em; display: flex; justify-content: space-between">
-                    
+
                     <h4 style="text-decoration: underline;">Branch: {{replayChecklist?.branchName || "unknown" }}</h4>
                     <div style="width: 30%;">
                         <div *ngIf="replayChecklist?.accepted">
@@ -78,8 +78,10 @@
                         </div>
                         <div *ngIf="replayChecklist?.rejected">
                             <p style="color: red; font-size: 1rem;">Response rejected</p>
-                    <p style="color: black; font-size: 1rem; margin: 5%; border: 2px dotted red; text-align: center;">{{replayChecklist?.rejectionReason}}</p>
-                            
+                            <p
+                                style="color: black; font-size: 1rem; margin: 5%; border: 2px dotted red; text-align: center;">
+                                {{replayChecklist?.rejectionReason}}</p>
+
                         </div>
                         <div
                             *ngIf="replayChecklist.replayed && !replayChecklist?.rejected && !replayChecklist?.accepted">
@@ -113,16 +115,17 @@
                                         [style]="{'width':'15vw','height':'45px'}" />
                                 </div>
                                 <div class="col mb-4">
-                                    <input disabled pInputText id="integer" pKeyFilter="int" value="{{cuInfo.customerName}}"
-                                        name="customerName" [style]="{'width':'15vw','height':'45px'}" />
+                                    <input disabled pInputText id="integer" pKeyFilter="int"
+                                        value="{{cuInfo.customerName}}" name="customerName"
+                                        [style]="{'width':'15vw','height':'45px'}" />
                                 </div>
                                 <div class="col mb-3">
                                     <input disabled pInputText id="integer" pKeyFilter="int" value="{{cuInfo.amount}}"
                                         name="amount" [style]="{'width':'15vw','height':'45px'}" />
                                 </div>
                                 <div class="col mb-3" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
-                                    <button type="button" class="file-action-button rem-button" (click)="removeCusInfo(i)"
-                                        ><i class="pi pi-times"></i></button>
+                                    <button type="button" class="file-action-button rem-button"
+                                        (click)="removeCusInfo(i)"><i class="pi pi-times"></i></button>
                                 </div>
                             </div>
                         </li>
@@ -142,7 +145,7 @@
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.amount" name="amount"
                             [style]="{'width':'15vw','height':'45px'}" />
                     </div>
-                    <div class="col mb-3" >
+                    <div class="col mb-3">
                         <p-button (click)="addCusInfo()" [style]="{'height':'45px'}"><i class="pi pi-plus"
                                 style="color: white"></i></p-button>
                     </div>
@@ -155,64 +158,67 @@
                             [style]="{'width':'20vw'}"></textarea>
                     </div>
                     <div class="col mb-3">
-                        
-                            <label for="integer" class=" block mb-2">Justification(if any): </label>
-                            <textarea rows="1" cols="30" pInputTextarea [autoResize]="true"
-                                [ngModel]="replayChecklist.justification" name="justification"
-                                [style]="{'width':'20vw'}"></textarea>
+
+                        <label for="integer" class=" block mb-2">Justification(if any): </label>
+                        <textarea rows="1" cols="30" pInputTextarea [autoResize]="true"
+                            [ngModel]="replayChecklist.justification" name="justification"
+                            [style]="{'width':'20vw'}"></textarea>
                     </div>
                     <div class="col mb-4">
                         <label for="hex" class="block mb-2"> Action Taken:</label>
-                        <p-dropdown [options]="actionTaken" [(ngModel)]="replayChecklist.activityPerformed" name="activityPerformed"
-                            optionLabel="label" placeholder="Select action" [required]="true" (onChange)="onCategoryChange()">
+                        <p-dropdown [options]="actionTaken" [(ngModel)]="replayChecklist.activityPerformed"
+                            name="activityPerformed" optionLabel="label" placeholder="Select action" [required]="true"
+                            (onChange)="onCategoryChange()">
                         </p-dropdown>
-                        <input class="ml-2" *ngIf="other" pInputText id="action" [ngModel]="replayChecklist.otherActivityPerformed"
-                            name="otherActivityPerformed" placeholder="type here" [style]="{'width':'10vw','height':'45px'}" required />
+                        <input class="ml-2" *ngIf="other" pInputText id="action"
+                            [ngModel]="replayChecklist.otherActivityPerformed" name="otherActivityPerformed"
+                            placeholder="type here" [style]="{'width':'10vw','height':'45px'}" required />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col mb-3">
                         <div *ngIf="replayChecklist.replayed" class="files"
-                                        style="background-color: whitesmoke; padding: 20px; position: relative;">
-                                        <p style="font-size: 1.0em; position: absolute; top: 0; left: 0;">
-                                                <strong>Attachments:</strong>
-                                        </p>
-                                        <div class="col mb-0" style="margin-top: 10px;">
-                                                <table class="files-table">
-                                                        <tbody>
-                                                                <tr *ngFor="let flink of replayFileLinks">
-                                                                        <td>{{flink.split("/")[4]}}</td>
-                                                                        <td class="pl-4">
-                                                                            <button type="button" (click)="getFileCl(flink)"
-                                                                                    class="file-action-button view-button">
-                                                                                    <i class="pi pi-eye"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                        <td class="pl-4" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
-                                                                            <button type="button" (click)="removeCheckListFile(flink)"
-                                                                                    class="file-action-button rem-button">
-                                                                                <i class="pi pi-times"></i>
-                                                                            </button>
-                                                                        </td>
-                                                                </tr>
-                                                        </tbody>
-                                                </table>
-                                                <button *ngIf="!replayChecklist?.accepted && !caChecklist?.closed" type="button" (click)="showFileDialog()" class="addFile">
-                                                        <i class="pi pi-plus"></i> Add File
+                            style="background-color: whitesmoke; padding: 20px; position: relative;">
+                            <p style="font-size: 1.0em; position: absolute; top: 0; left: 0;">
+                                <strong>Attachments:</strong>
+                            </p>
+                            <div class="col mb-0" style="margin-top: 10px;">
+                                <table class="files-table">
+                                    <tbody>
+                                        <tr *ngFor="let flink of replayFileLinks">
+                                            <td>{{flink.split("/")[4]}}</td>
+                                            <td class="pl-4">
+                                                <button type="button" (click)="getFileCl(flink)"
+                                                    class="file-action-button view-button">
+                                                    <i class="pi pi-eye"></i>
                                                 </button>
-                                        </div>
-                                        <div *ngIf="showFilepop" class="card flex justify-content-center">
-                                            <p-dialog header="Choice and upload new file" [(visible)]="showFilepop">
-                                                <div class="mb-4 mt-4"
-                                                    style="width: 300px !important; height: 75px !important; text-align: center;">
-                                                    <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
-                                                        url="https://www.primefaces.org/cdn/api/upload.php"
-                                                        accept="image/*,.pdf,.docs,.txt"
-                                                        (onUpload)="onFileUpload($event)"></p-fileUpload>
-                                                </div>
-                                            </p-dialog>
-                                        </div>
+                                            </td>
+                                            <td class="pl-4" *ngIf="!replayChecklist?.accepted && !caChecklist?.closed">
+                                                <button type="button" (click)="removeCheckListFile(flink)"
+                                                    class="file-action-button rem-button">
+                                                    <i class="pi pi-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <button *ngIf="!replayChecklist?.accepted && !caChecklist?.closed" type="button"
+                                    (click)="showFileDialog()" class="addFile">
+                                    <i class="pi pi-plus"></i> Add File
+                                </button>
                             </div>
+                            <div *ngIf="showFilepop" class="card flex justify-content-center">
+                                <p-dialog header="Choice and upload new file" [(visible)]="showFilepop">
+                                    <div class="mb-4 mt-4"
+                                        style="width: 300px !important; height: 75px !important; text-align: center;">
+                                        <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
+                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                            accept="image/*,.pdf,.docs,.txt"
+                                            (onUpload)="onFileUpload($event)"></p-fileUpload>
+                                    </div>
+                                </p-dialog>
+                            </div>
+                        </div>
                         <div *ngIf="!replayChecklist.replayed">
                             <label for="integer" class="block mb-2 mt-3">Attachments: </label>
                             <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
@@ -234,8 +240,8 @@
                 <div class="col" style="text-align: right;">
                     <p style="font-size: medium; font-style: italic;">Note: This response is official.</p>
                     <div class="buttonDiv">
-                        <p-button *ngIf="newDiv && (!replayChecklist?.accepted && !caChecklist?.closed)" label="Submit" [disabled]="addDivForm.invalid!"
-                            type="submit"></p-button>
+                        <p-button *ngIf="newDiv && (!replayChecklist?.accepted && !caChecklist?.closed)" label="Submit"
+                            [disabled]="addDivForm.invalid!" type="submit"></p-button>
                         <p-button *ngIf="!newDiv && (!replayChecklist?.accepted && !caChecklist?.closed)" label="Update"
                             [disabled]="addDivForm.invalid!" type="submit"></p-button>
                     </div>
