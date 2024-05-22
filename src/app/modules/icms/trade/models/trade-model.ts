@@ -5,18 +5,21 @@ import { TradeStatusModel} from "./trade-status-model"
 
 export class TradeModel {
     id: number;
-    shareDate: Date;
+    tradeDate: Date;
     name:string;
     caseId: string; 
     allCategory: any; 
     allSubCategory: any; 
-    shareNumber: string; 
-    shareHoldersName: string; 
+    tradeType:any;
+    // tradeNumber: string; 
+    // tradeHoldersName: string; 
+    referenceNumber: string; 
     irregularity: string; 
     otherIrregularity: string; 
-    amountInvolved: string; 
+    // amountInvolved: string; 
+    customerName: string; 
     responsiblePerson: string; 
-    shareStatus: TradeStatusModel;
+    tradeStatus: TradeStatusModel;
     subProcess:SubProcess;
     branch: Branch;
     team: Team;

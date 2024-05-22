@@ -10,16 +10,16 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Share',
+      title: 'Trade',
     },
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'View Share',
+        redirectTo: 'View Trade',
       },
       {
-        path: 'addShare',
+        path: 'addTrade',
         component: NewTradeComponent,
         data: {
           title: 'Add',
@@ -34,7 +34,7 @@ const routes: Routes = [
       },      
   
       {
-        path: 'updateShare/:id',
+        path: 'updateTrade/:id',
         component: NewTradeComponent,
         data: {
           title: 'Update',
@@ -42,7 +42,7 @@ const routes: Routes = [
       },
 
       {
-        path: 'viewShare',
+        path: 'viewTrade',
         component: TradeTableComponent,
         data: {
           title: 'View',
