@@ -634,6 +634,15 @@ export const navItemsCAOAdmin = createNavItem(
   '/cao',
   [
     createNavItem('View', '/cao/checklists/checklist'),
+  ],
+  'cib-openstreetmap'
+);
+
+export const navItemsCAOManager = createNavItem(
+  'CAO Inquiry/Activity',
+  '/cao',
+  [
+    createNavItem('View', '/cao/checklists/checklist'),
     createNavItem('Reports', '/cao/checklists/reports'),
   ],
   'cib-openstreetmap'
