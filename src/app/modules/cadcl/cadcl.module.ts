@@ -32,6 +32,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { AccordionModule } from 'primeng/accordion';
 import { TooltipModule } from 'primeng/tooltip';
+import { ReportsComponent } from './reports/reports.component';
 @NgModule({
   declarations: [
     ViewChecklistComponent,
@@ -39,6 +40,7 @@ import { TooltipModule } from 'primeng/tooltip';
     DetailComponent,
     ChecklistsComponent,
     RespondePageComponent,
+    ReportsComponent,
   ],
   imports: [
     CommonModule,
