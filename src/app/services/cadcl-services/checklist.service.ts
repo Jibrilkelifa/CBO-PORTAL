@@ -27,7 +27,7 @@ export class ChecklistService {
       }),
     };
 
-    this.apiServiceUrl = 'http://192.168.137.241:8095';//localStorage.getItem('url_7');
+    this.apiServiceUrl = 'http://10.1.125.58:8095';//localStorage.getItem('url_7');
 
     this.blobOptions = {
       headers: new HttpHeaders({
