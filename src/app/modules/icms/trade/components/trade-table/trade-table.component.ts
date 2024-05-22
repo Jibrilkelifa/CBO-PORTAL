@@ -69,6 +69,7 @@ export class TradeTableComponent implements OnDestroy {
 
 
   public getTradeList(roles: string[]): void {
+
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.tradeService.getAllTrade().subscribe(
         (response: TradeModel[]) => {

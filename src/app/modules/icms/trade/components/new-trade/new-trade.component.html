@@ -234,6 +234,8 @@
           [(ngModel)]="selectedstatus"
           optionLabel="name"
           [filter]="true"
+          
+          (ngModelChange)="Trade.tradeStatus = $event.name"
           filterBy="name"
           [showClear]="true"
           placeholder="Select  Status"

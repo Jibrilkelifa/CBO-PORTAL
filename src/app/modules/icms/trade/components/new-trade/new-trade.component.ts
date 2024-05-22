@@ -39,7 +39,10 @@ export class NewTradeComponent implements OnInit {
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: TradeStatusModel[];
+  statuses: Status[] = [
+    { id: 1, name: 'Open' },
+    { id: 2, name: 'Closed' }
+  ]; 
   isOtherIrregularitySelected: boolean = false;
   categoryName: string;
   public showOtherProductTypes: boolean = false;
@@ -186,6 +189,12 @@ export class NewTradeComponent implements OnInit {
     this.tradeTypeService.getAllTradeTypesBySubModuleName("TSIPM").subscribe(
       (response: any[]) => {
         this.tradeTypes = response;
+        if (this.Trade.tradeStatus) {
+          this.selectedstatus = this.statuses.find(status => status.name === this.Trade.tradeStatus.name);
+
+        } else {
+          console.error("Status is undefined in the response");
+        }
       },
       error => {
       }

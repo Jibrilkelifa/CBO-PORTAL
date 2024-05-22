@@ -70,10 +70,10 @@
           Irregularity
           <p-sortIcon field="irregularity"></p-sortIcon>
         </th>
-        <th pSortableColumn="amountInvolved">
+        <!-- <th pSortableColumn="amountInvolved">
           Amount
           <p-sortIcon field="amountInvolved"></p-sortIcon>
-        </th>
+        </th> -->
         <th pSortableColumn="customerName">
           Customer Name
           <p-sortIcon field="customerName"></p-sortIcon>
@@ -86,6 +86,8 @@
           Action Plan Due Date<p-sortIcon></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="">Past Due</th>
+        
+     
         <th pSortableColumn="tradeStatus.name">
           Status
           <p-sortIcon field="tradeStatus.name"></p-sortIcon>
@@ -112,56 +114,85 @@
           </div>
         </td>
 
-        <td>{{ trade?.amountInvolved }}</td>
+        <!-- <td>{{ trade?.amountInvolved }}</td> -->
         <td>{{ trade?.customerName }}</td>
         <td>{{ trade?.responsiblePerson }}</td>
-     <td
-          [ngStyle]="{
-            color:
-              trade?.daysPastDue > 0 && trade?.tradeStatus?.name === 'Open'
-                ? 'red'
-                : ''
+        <td>{{ trade?.actionPlanDueDate }}</td>
+        <td
+          [ngClass]="{
+            red:
+              trade?.tradeStatus.name === 'Open' &&
+              daysPastDue(trade?.actionPlanDueDate) <= 0,
+            'other-color':
+              trade?.tradeStatus.name === 'Open' &&
+              daysPastDue(trade?.actionPlanDueDate) > 0,
+            closed:
+            trade?.tradeStatus.name === 'Closed' &&
+              !trade?.actionPlanDueDate
           }"
         >
-          {{
-            trade?.daysPastDue > 0 && trade?.tradeStatus?.name === "Open"
-              ? trade.daysPastDue + " days past due"
-              : ""
-          }}
-        </td>
-
-        <td>{{ trade?.tradeStatus?.name }}</td>
-        <td class="flex space-between">
-          <div
-            class="flex gap-2 mr-2"
+          <ng-container
             *ngIf="
-              this.roles.includes('ROLE_ICMS_TRADE_OWNER') &&
-              !trade?.actionTaken &&
-              trade?.tradeStatus?.name === 'Open'
+              trade?.tradeStatus?.name === 'Open' &&
+              trade?.actionPlanDueDate !== null;
+              else closedStatus
             "
           >
-            <button
-              pButton
-              (click)="approveActionPlan(trade)"
-              [ngClass]="{ updateBlue: true }"
-              class="p-button-sm w-24 h-10 p-2"
-              label="Take action"
-            ></button>
-          </div>
-          <div
-            class="flex gap-2"
-            *ngIf="this.roles.includes('ROLE_ICMS_TRADE_IC')"
-          >
-            <button
-              pButton
-              (click)="updateTrade(trade?.id)"
-              [ngClass]="{ updateBlue: true }"
-              class="p-button-sm w-20 h-10 p-2"
-              label="Update"
-            ></button>
-          </div>
+            <ng-container
+              *ngIf="
+                daysPastDue(trade?.actionPlanDueDate) <= 0;
+                else otherText
+              "
+            >
+              {{ absoluteValue(daysPastDue(trade?.actionPlanDueDate)) }} days past due
+            </ng-container>
+            <ng-template #otherText> </ng-template>
+          </ng-container>
+          <ng-template #closedStatus>
+            <span
+              *ngIf="trade?.actionPlanDueDate"
+              [ngClass]="{
+                red: trade?.tradeStatus?.name === 'Closed'
+              }"
+            >
+              Closed!
+            </span>
+          </ng-template>
         </td>
-      </tr>
+
+
+          <td>{{ trade?.tradeStatus?.name }}</td>
+          <td >
+            <div
+              class="flex gap-2 mr-2"
+              *ngIf="
+                this.roles.includes('ROLE_ICMS_TRADE_OWNER') &&
+                !trade?.actionTaken &&
+                trade?.tradeStatus?.name === 'Open'
+              "
+            >
+              <button
+                pButton
+                (click)="approveActionPlan(trade)"
+                [ngClass]="{ updateBlue: true }"
+                class="p-button-sm w-24 h-10 p-2"
+                label="Take action"
+              ></button>
+            </div>
+            <div
+              class="flex gap-2"
+              *ngIf="this.roles.includes('ROLE_ICMS_TRADE_IC')"
+            >
+              <button
+                pButton
+                (click)="updateTrade(trade?.id)"
+                [ngClass]="{ updateBlue: true }"
+                class="p-button-sm w-20 h-10 p-2"
+                label="Update"
+              ></button>
+            </div>
+          </td>
+        </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>

@@ -17,8 +17,8 @@ export class TradeService {
         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
       }),
     };
-    this.apiServiceUrl = 'http://localhost:8084';
-    // this.apiServiceUrl = 'http://10.1.125.58:8084';
+    //this.apiServiceUrl = 'http://localhost:8084';
+    this.apiServiceUrl = 'http://10.1.125.58:8084';
 
   }
 
@@ -91,7 +91,7 @@ export class TradeService {
 
   public getStatuses(): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/Trade/getAll`, this.httpOptions)
+    return this.http.get<any>(`${this.apiServiceUrl}/TradeStatus/getAll`, this.httpOptions)
   }
 
   public findAllTradeBYBranch(branchId: number): Observable<any> {
@@ -104,6 +104,7 @@ export class TradeService {
 
   public approveActionPlanDate(trade: TradeModel): Observable<any> {
     this.init();
+    console.log(trade )
     const body = {
       trade: trade
     };
