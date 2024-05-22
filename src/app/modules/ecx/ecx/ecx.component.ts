@@ -47,7 +47,7 @@ export class ECXComponent implements OnInit{
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Xml file generated'
+          detail: 'report file generated'
         });
         this.display = true; // show the dialog
       },
@@ -56,7 +56,7 @@ export class ECXComponent implements OnInit{
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Xml file generation failed'
+          detail: 'report generation failed'
         });
       }
     );
