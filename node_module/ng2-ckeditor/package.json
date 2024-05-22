@@ -1,0 +1,77 @@
+{
+  "_args": [
+    [
+      "ng2-ckeditor@1.3.7",
+      "/data/portal/frontend/cbo-portal"
+    ]
+  ],
+  "_from": "ng2-ckeditor@1.3.7",
+  "_id": "ng2-ckeditor@1.3.7",
+  "_inBundle": false,
+  "_integrity": "sha512-3VdJLc/MUlFBbLg0rDwO3L+G3ofIn/zulV8rz/L4QVScQHpbJXGLJe6hIYNnAWOPaYFoGpczPC03YR+px3oJdQ==",
+  "_location": "/ng2-ckeditor",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "ng2-ckeditor@1.3.7",
+    "name": "ng2-ckeditor",
+    "escapedName": "ng2-ckeditor",
+    "rawSpec": "1.3.7",
+    "saveSpec": null,
+    "fetchSpec": "1.3.7"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ng2-ckeditor/-/ng2-ckeditor-1.3.7.tgz",
+  "_spec": "1.3.7",
+  "_where": "/data/portal/frontend/cbo-portal",
+  "author": {
+    "name": "Simon Babay"
+  },
+  "bugs": {
+    "url": "https://github.com/chymz/ng2-ckeditor/issues"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "description": "Angular CKEditor component",
+  "es2020": "fesm2020/ng2-ckeditor.mjs",
+  "esm2020": "esm2020/ng2-ckeditor.mjs",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ng2-ckeditor.mjs",
+      "es2020": "./fesm2020/ng2-ckeditor.mjs",
+      "es2015": "./fesm2015/ng2-ckeditor.mjs",
+      "node": "./fesm2015/ng2-ckeditor.mjs",
+      "default": "./fesm2020/ng2-ckeditor.mjs"
+    }
+  },
+  "fesm2015": "fesm2015/ng2-ckeditor.mjs",
+  "fesm2020": "fesm2020/ng2-ckeditor.mjs",
+  "homepage": "https://github.com/chymz/ng2-ckeditor#readme",
+  "keywords": [
+    "angular",
+    "component",
+    "ckeditor",
+    "wysiwyg"
+  ],
+  "license": "MIT",
+  "module": "fesm2015/ng2-ckeditor.mjs",
+  "name": "ng2-ckeditor",
+  "peerDependencies": {
+    "@types/ckeditor": "^4.9.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chymz/ng2-ckeditor.git"
+  },
+  "sideEffects": false,
+  "typings": "index.d.ts",
+  "version": "1.3.7"
+}

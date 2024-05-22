@@ -1,0 +1,93 @@
+{
+  "_args": [
+    [
+      "@coreui/angular-chartjs@4.3.9",
+      "/data/portal/frontend/cbo-portal"
+    ]
+  ],
+  "_from": "@coreui/angular-chartjs@4.3.9",
+  "_id": "@coreui/angular-chartjs@4.3.9",
+  "_inBundle": false,
+  "_integrity": "sha512-pqDVoXz3cafd17DLG4xHFyOveZheu8U5rGdO6rP7MqzGNoL4CD0+JABW1X1dRjAmUgHECqiaU+ZrRznuqrSDyw==",
+  "_location": "/@coreui/angular-chartjs",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@coreui/angular-chartjs@4.3.9",
+    "name": "@coreui/angular-chartjs",
+    "escapedName": "@coreui%2fangular-chartjs",
+    "scope": "@coreui",
+    "rawSpec": "4.3.9",
+    "saveSpec": null,
+    "fetchSpec": "4.3.9"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@coreui/angular-chartjs/-/angular-chartjs-4.3.9.tgz",
+  "_spec": "4.3.9",
+  "_where": "/data/portal/frontend/cbo-portal",
+  "author": {
+    "name": "CoreUI",
+    "url": "https://coreui.io"
+  },
+  "bugs": {
+    "url": "https://github.com/coreui/coreui-angular/issues"
+  },
+  "contributors": [
+    {
+      "name": "CoreUI Team",
+      "url": "https://github.com/orgs/coreui/people"
+    }
+  ],
+  "copyright": "Copyright 2022 creativeLabs Łukasz Holeczek",
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "tslib": "^2.3.0"
+  },
+  "description": "Angular wrapper component for Chart.js",
+  "es2020": "fesm2020/coreui-angular-chartjs.mjs",
+  "esm2020": "esm2020/coreui-angular-chartjs.mjs",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/coreui-angular-chartjs.mjs",
+      "es2020": "./fesm2020/coreui-angular-chartjs.mjs",
+      "es2015": "./fesm2015/coreui-angular-chartjs.mjs",
+      "node": "./fesm2015/coreui-angular-chartjs.mjs",
+      "default": "./fesm2020/coreui-angular-chartjs.mjs"
+    }
+  },
+  "fesm2015": "fesm2015/coreui-angular-chartjs.mjs",
+  "fesm2020": "fesm2020/coreui-angular-chartjs.mjs",
+  "homepage": "https://coreui.io/angular",
+  "keywords": [
+    "coreui",
+    "coreui-chartjs",
+    "coreui-angular",
+    "component",
+    "chartjs",
+    "angular"
+  ],
+  "license": "MIT",
+  "module": "fesm2015/coreui-angular-chartjs.mjs",
+  "name": "@coreui/angular-chartjs",
+  "peerDependencies": {
+    "@angular/cdk": "^15.0.0",
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+    "@coreui/chartjs": "^3.0.0",
+    "chart.js": "^3.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coreui/coreui-angular.git"
+  },
+  "sideEffects": false,
+  "typings": "index.d.ts",
+  "version": "4.3.9"
+}

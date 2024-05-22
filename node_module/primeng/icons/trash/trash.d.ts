@@ -1,0 +1,6 @@
+import { BaseIcon } from 'primeng/baseicon';
+import * as i0 from "@angular/core";
+export declare class TrashIcon extends BaseIcon {
+    static ɵfac: i0.ɵɵFactoryDeclaration<TrashIcon, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<TrashIcon, "TrashIcon", never, {}, {}, never, never, true, never>;
+}

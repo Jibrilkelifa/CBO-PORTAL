@@ -1,0 +1,83 @@
+{
+  "_args": [
+    [
+      "ngx-window-token@7.0.0",
+      "/data/portal/frontend/cbo-portal"
+    ]
+  ],
+  "_from": "ngx-window-token@7.0.0",
+  "_id": "ngx-window-token@7.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-5+XfRVSY7Dciu8xyCNMkOlH2UfwR9W2P1Pirz7caaZgOZDjFbL8aEO2stjfJJm2FFf1D6dlVHNzhLWGk9HGkqA==",
+  "_location": "/ngx-window-token",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "ngx-window-token@7.0.0",
+    "name": "ngx-window-token",
+    "escapedName": "ngx-window-token",
+    "rawSpec": "7.0.0",
+    "saveSpec": null,
+    "fetchSpec": "7.0.0"
+  },
+  "_requiredBy": [
+    "/ngx-clipboard"
+  ],
+  "_resolved": "https://registry.npmjs.org/ngx-window-token/-/ngx-window-token-7.0.0.tgz",
+  "_spec": "7.0.0",
+  "_where": "/data/portal/frontend/cbo-portal",
+  "author": {
+    "name": "Sam Lin",
+    "email": "maxisam@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/maxisam/ngx-window-token/issues"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "description": "angular window inject token",
+  "engines": {
+    "node": "^14.20.0 || ^16.13.0 || >=18.10.0"
+  },
+  "es2020": "fesm2020/ngx-window-token.mjs",
+  "esm2020": "esm2020/ngx-window-token.mjs",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ngx-window-token.mjs",
+      "es2020": "./fesm2020/ngx-window-token.mjs",
+      "es2015": "./fesm2015/ngx-window-token.mjs",
+      "node": "./fesm2015/ngx-window-token.mjs",
+      "default": "./fesm2020/ngx-window-token.mjs"
+    }
+  },
+  "fesm2015": "fesm2015/ngx-window-token.mjs",
+  "fesm2020": "fesm2020/ngx-window-token.mjs",
+  "homepage": "https://github.com/maxisam/ngx-window-token",
+  "keywords": [
+    "angular",
+    "window",
+    "inject",
+    "token"
+  ],
+  "license": "MIT",
+  "module": "fesm2015/ngx-window-token.mjs",
+  "name": "ngx-window-token",
+  "peerDependencies": {
+    "@angular/common": ">=13.0.0",
+    "@angular/core": ">=13.0.0"
+  },
+  "publishConfig": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maxisam/ngx-window-token.git"
+  },
+  "sideEffects": false,
+  "typings": "index.d.ts",
+  "version": "7.0.0"
+}

@@ -1,0 +1,6 @@
+import { BaseIcon } from 'primeng/baseicon';
+import * as i0 from "@angular/core";
+export declare class UndoIcon extends BaseIcon {
+    static ɵfac: i0.ɵɵFactoryDeclaration<UndoIcon, never>;
+    static ɵcmp: i0.ɵɵComponentDeclaration<UndoIcon, "UndoIcon", never, {}, {}, never, never, true, never>;
+}

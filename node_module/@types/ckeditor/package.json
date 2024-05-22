@@ -1,0 +1,64 @@
+{
+  "_args": [
+    [
+      "@types/ckeditor@4.9.10",
+      "/data/portal/frontend/cbo-portal"
+    ]
+  ],
+  "_from": "@types/ckeditor@4.9.10",
+  "_id": "@types/ckeditor@4.9.10",
+  "_inBundle": false,
+  "_integrity": "sha512-dcOPCXM0Cr5Z0i6eF/aW5LvECrS+cdl2Gi7lU+rEUNWby0w9Yl6mBubjrs29OVAducpuZjB4mfDayE+o4/gGdQ==",
+  "_location": "/@types/ckeditor",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@types/ckeditor@4.9.10",
+    "name": "@types/ckeditor",
+    "escapedName": "@types%2fckeditor",
+    "scope": "@types",
+    "rawSpec": "4.9.10",
+    "saveSpec": null,
+    "fetchSpec": "4.9.10"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@types/ckeditor/-/ckeditor-4.9.10.tgz",
+  "_spec": "4.9.10",
+  "_where": "/data/portal/frontend/cbo-portal",
+  "bugs": {
+    "url": "https://github.com/DefinitelyTyped/DefinitelyTyped/issues"
+  },
+  "contributors": [
+    {
+      "name": "Thomas Wittwer",
+      "url": "https://github.com/wittwert"
+    },
+    {
+      "name": "Stuart Long",
+      "url": "https://github.com/stuartlong"
+    },
+    {
+      "name": "Viktor Pegy",
+      "url": "https://github.com/viktorpegy"
+    }
+  ],
+  "dependencies": {},
+  "description": "TypeScript definitions for CKEditor",
+  "homepage": "https://github.com/DefinitelyTyped/DefinitelyTyped#readme",
+  "license": "MIT",
+  "main": "",
+  "name": "@types/ckeditor",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+    "directory": "types/ckeditor"
+  },
+  "scripts": {},
+  "typeScriptVersion": "3.0",
+  "types": "index.d.ts",
+  "typesPublisherContentHash": "82f76566be9185405a22ebfb566474e1fafe2cbdc04cc20eb0ff6e0060617c6c",
+  "version": "4.9.10"
+}

@@ -1,0 +1,52 @@
+{
+  "_args": [
+    [
+      "@types/jspdf@2.0.0",
+      "/data/portal/frontend/cbo-portal"
+    ]
+  ],
+  "_development": true,
+  "_from": "@types/jspdf@2.0.0",
+  "_id": "@types/jspdf@2.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-oonYDXI4GegGaG7FFVtriJ+Yqlh4YR3L3NVDiwCEBVG7sbya19SoGx4MW4kg1MCMRPgkbbFTck8YKJL8PrkDfA==",
+  "_location": "/@types/jspdf",
+  "_phantomChildren": {
+    "@babel/runtime": "7.20.7",
+    "atob": "2.1.2",
+    "btoa": "1.2.1",
+    "canvg": "3.0.10",
+    "core-js": "3.36.0",
+    "dompurify": "2.4.7",
+    "fflate": "0.4.8",
+    "html2canvas": "1.4.1"
+  },
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@types/jspdf@2.0.0",
+    "name": "@types/jspdf",
+    "escapedName": "@types%2fjspdf",
+    "scope": "@types",
+    "rawSpec": "2.0.0",
+    "saveSpec": null,
+    "fetchSpec": "2.0.0"
+  },
+  "_requiredBy": [
+    "#DEV:/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@types/jspdf/-/jspdf-2.0.0.tgz",
+  "_spec": "2.0.0",
+  "_where": "/data/portal/frontend/cbo-portal",
+  "author": "",
+  "dependencies": {
+    "jspdf": "*"
+  },
+  "description": "Stub TypeScript definitions entry for jspdf, which provides its own types definitions",
+  "license": "MIT",
+  "main": "",
+  "name": "@types/jspdf",
+  "scripts": {},
+  "typings": null,
+  "version": "2.0.0"
+}
