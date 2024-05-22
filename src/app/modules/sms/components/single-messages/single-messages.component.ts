@@ -22,7 +22,6 @@ export class SingleMessagesComponent implements OnInit {
         this.bulkService.getSingleMessages().subscribe(
           (response) => {
             this.messages = response;
-            console.log('Messages:', this.messages);
            
         
           },

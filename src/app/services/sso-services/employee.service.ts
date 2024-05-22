@@ -88,7 +88,6 @@ export class EmployeeService {
 
   // getSignatureImage(id: number): Observable<any> {
   //   this.init();
-  //   console.log(`${this.apiServiceUrl}/employee/signatureImagePath/${id}`)
   //   return this.http.get(`${this.apiServiceUrl}/user/signatureImagePath/${id}`, { responseType: 'blob' })
   // }
 
@@ -101,7 +100,6 @@ export class EmployeeService {
       })
     };
     
-    console.log(`${this.apiServiceUrl}/employee/signatureImagePath/${id}`);
     return this.http.get(`${this.apiServiceUrl}/user/signatureImagePath/${id}`, { responseType: 'blob', ...httpOptions });
   }
   public getEmployeeByFullNameFromDB(fullname: string): Observable<any>{

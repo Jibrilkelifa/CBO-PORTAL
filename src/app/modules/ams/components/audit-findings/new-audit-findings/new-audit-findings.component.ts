@@ -104,7 +104,6 @@ export class NewAuditFindingsComponent implements OnDestroy {
       this.auditableAreaService.getAuditableAreasById(auditObject).subscribe(
         (response: any) => {
           this.auditableArea = response.result;
-          console.log(this.auditableArea, " is auditable area");
         },
         (error: HttpErrorResponse) => {
           console.log(error);

@@ -39,7 +39,6 @@ export class CobStepsComponent {
         this.clipboardService.copyFromContent(text);
    
    let step:Step={id:-1,type:"copied",userName:this.username,dateTime:new Date('2024-02-04T10:35:26.000Z'),commandCopied:text};
-      console.log("Text copied to clipboard:", text);
     this.service.copyRecord(step).subscribe(
       (response: any) => {
       
@@ -47,7 +46,6 @@ export class CobStepsComponent {
         if (response.message != "success"){
           alert("something went wrong, Please try again later")
         }
-        console.log(response,this.username);
         
   
         
@@ -77,7 +75,6 @@ export class CobStepsComponent {
       if (response.message != "success"){
         alert("something went wrong, Please try again later")
       }
-      console.log(response,this.username);
       
 
       

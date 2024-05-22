@@ -31,7 +31,6 @@ export class TradeServiceDashboardComponent {
     this.subscription = this.icmsdashboardService.getBranchDashboardDatas(this.branchId).subscribe(
       (response: any) => {
         this.allDatas = response;
-        console.log("kkkk", this.allDatas);
       },
       (error) => {
         console.error('Failed to get dashboard data:', error);

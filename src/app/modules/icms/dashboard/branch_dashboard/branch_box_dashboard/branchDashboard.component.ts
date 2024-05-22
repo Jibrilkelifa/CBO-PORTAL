@@ -29,7 +29,6 @@ export class BranchDashboardComponent {
     this.subscription = this.icmsdashboardService.getBranchDashboardDatas(this.branchId).subscribe(
       (response: any) => {
         this.allDatas = response;
-        console.log("kkkk", this.allDatas);
         for (let key in this.allDatas) {
           if (typeof this.allDatas[key] === 'number') {
             this.allDatas[key] = this.allDatas[key].toLocaleString();

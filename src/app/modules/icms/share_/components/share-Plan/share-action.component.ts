@@ -35,12 +35,12 @@ export class ShareActionPlanComponent implements OnInit {
     if (this.share) {
       let formattedDate = this.selectedDate.getFullYear() + '-' + (this.selectedDate.getMonth() + 1).toString().padStart(2, '0') + '-' + this.selectedDate.getDate().toString().padStart(2, '0');
   
-      let financeData = {
+      let shareData = {
         ...this.share,
         actionPlanDueDate: formattedDate
       };
     
-      this.shareService.approveActionPlanDate(financeData).subscribe(
+      this.shareService.approveActionPlanDate(shareData).subscribe(
         (response: any) => {
           this.messageService.add({
             severity: 'success',

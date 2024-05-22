@@ -16,7 +16,7 @@ export class FinanceModel {
     subProcess:SubProcess;
     branch: Branch;
     team: Team;
-    financeStatus: FinanceStatusModel;
+    financeStatus: any;
     actionTaken:boolean;
     actionPlanDueDate: string;
 }

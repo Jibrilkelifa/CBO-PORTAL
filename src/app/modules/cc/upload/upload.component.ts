@@ -133,7 +133,6 @@ export class UploadComponent {
 
   async someMethod(position,data) {
     const customerName = await this.getCustomerNameById(data);
-    console.log(this.IdSelected);
     this.startDeleting(position,data);
   }
 
@@ -275,14 +274,12 @@ public deleteCustomer(data:any){
   if (this.type == 'deliquent'){
     try {
       if(this.IdSelected){
-        console.log("got this by id");
         const response = await this.sanctionListService.getDeliquentCustomerById(data).toPromise();
         this.DeliquentCustomerNameGotById = response;
 
         this.isUserFound = true;
         return this.DeliquentCustomerNameGotById;
       } else{
-        console.log("got this by tin");
         const response = await this.sanctionListService.getDeliquentCustomerByTin(data).toPromise();
         this.DeliquentCustomerNameGotById = response;
 
@@ -297,7 +294,6 @@ public deleteCustomer(data:any){
       return "null";
     }
   } else if (this.type == 'business'){
-    console.log("i swear i am trying to delete it")
     try {
       const response = await this.sanctionListService.getBusinessContinuityById(data).toPromise();
       this.BusinessContinuityCustomerNameGotById = response;

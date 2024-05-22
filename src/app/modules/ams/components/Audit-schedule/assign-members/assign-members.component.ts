@@ -30,7 +30,6 @@ export class AssignMembersComponent {
   ) {
     this.annualPlanInfo = this.config.data?.annualPlanInfo;
     this.auditScheduleInfo = this.config.data?.scheduleInfo;
-    console.log("kkkk", this.auditScheduleInfo);
 
     if (this.config.data?.savedAssignmembers) {
       this.rows = [...this.config.data.savedAssignmembers];

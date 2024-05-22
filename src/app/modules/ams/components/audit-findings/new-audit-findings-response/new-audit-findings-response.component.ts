@@ -47,7 +47,6 @@ export class NewAuditFindingsResponseComponent implements OnDestroy {
 
   
   addResponse(addDivForm: NgForm): void {
-     console.log(this.findingInfo);
     this.findingInfo.auditeesResponse = addDivForm.form.value.response;
  
     this.subscriptions.push(

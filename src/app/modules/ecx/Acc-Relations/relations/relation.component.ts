@@ -102,7 +102,6 @@ export class RelationComponent implements OnDestroy {
 
   updateaccountRelation(id: number): void {
     const accountRelation = this.accountRelations.find((check) => check.id === id);
-    console.log("relation", accountRelation);
     const ref = this.dialogService.open(NewRelationComponent, {
       header: 'Update auditable area',
       width: '40%',

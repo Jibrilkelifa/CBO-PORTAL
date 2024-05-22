@@ -1,7 +1,8 @@
-<p-messages
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
-  [value]="msgs"
-></p-messages>
+<div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="msgs"></p-messages>
+  </div>
+</div>
 <div>
   <form #IFBForm="ngForm" (ngSubmit)="submitIFB(IFBForm)" required>
     <div class="flex flex-wrap gap-3 mb-4">

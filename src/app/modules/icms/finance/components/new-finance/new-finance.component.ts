@@ -31,7 +31,10 @@ export class NewFinanceComponent implements OnInit {
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: FinanceStatusModel[];
+  statuses: Status[] = [
+    { id: 1, name: 'Open' },
+    { id: 2, name: 'Closed' }
+  ]; 
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
@@ -49,7 +52,7 @@ export class NewFinanceComponent implements OnInit {
     private subCategoryService: AllSubCategoryService,
     private activatedRoute: ActivatedRoute,
     private confirmationService: ConfirmationService,
-    private statusService :StatusService,
+    private statusService: StatusService,
     private router: Router) { }
 
   ngOnInit() {
@@ -66,12 +69,11 @@ export class NewFinanceComponent implements OnInit {
     });
 
     this.selectedBranch = JSON.parse(localStorage.getItem("branch"));
-    this.selectedTeam = JSON.parse(localStorage.getItem("team"));    
-    this.selectedSubProcess =JSON.parse(localStorage.getItem("subProcess"))
+    this.selectedTeam = JSON.parse(localStorage.getItem("team"));
+    this.selectedSubProcess = JSON.parse(localStorage.getItem("subProcess"))
 
     this.generateCaseId();
     this.getCategories();
-    this.getStatus();
 
   }
 
@@ -109,8 +111,15 @@ export class NewFinanceComponent implements OnInit {
   getFinance(id: number) {
     this.financeService.findFinanceById(id).subscribe(
       (response: FinanceModel) => {
-        response.financeDate = new Date(response.financeDate); 
+
         this.Finance = response;
+        if (this.Finance.financeStatus) {
+          this.selectedstatus = this.statuses.find(status => status.name === this.Finance.financeStatus.name);
+
+        } else {
+          console.error("Status is undefined in the response");
+        }
+        response.financeDate = new Date(response.financeDate);
       },
       error => {
         // handle error
@@ -124,20 +133,8 @@ export class NewFinanceComponent implements OnInit {
       event.preventDefault();
     }
   }
-  
-  
 
-  public getStatus(): void {
-    this.financeService.getStatuses().subscribe(
-      (response: FinanceStatusModel[]) => {
-        this.statuses = response;        
-        this.selectedstatus = this.statuses.find(status => status.name === "Open");
-      },
-      (error: HttpErrorResponse) => {
-        // Handle error
-      }
-    );
-  }
+
 
   onProductTypeChange(event: any) {
     this.showOtherProductTypes = event.value === 'Other';
@@ -153,15 +150,11 @@ export class NewFinanceComponent implements OnInit {
     );
   }
 
-  public populateSelectedStatus(existingStatus: Status): void {
-    this.selectedstatus = existingStatus;
-  }
-
   onCategoryChange(event: any) {
     this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("FPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
-        
+
         this.subCategories = response;
 
       },
@@ -172,22 +165,22 @@ export class NewFinanceComponent implements OnInit {
   }
 
 
-  submitFinance(form: NgForm) {        
+  submitFinance(form: NgForm) {
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
         financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
-        financeStatus: this.selectedstatus ,// Attach the status
+        financeStatus: this.selectedstatus,// Attach the status
         subProcess: this.selectedSubProcess
       };
-      
+
       if (this.update) {
         let updatedValue = {
-          ...this.Finance, 
+          ...this.Finance,
           financeDate: this.formatDate(this.Finance.financeDate), // Convert date to string
           financeStatus: this.selectedstatus, // Attach the status
           subProcess: this.selectedSubProcess
-        }        
+        }
         this.financeService.updateFinance(updatedValue).subscribe(
           response => {
             this.messageService.add({
@@ -225,7 +218,7 @@ export class NewFinanceComponent implements OnInit {
       }
     }
   }
-  
+
 
   formatDate(date: Date): string {
     let day = date.getDate();

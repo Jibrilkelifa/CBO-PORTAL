@@ -116,7 +116,6 @@ export class GroupComponent extends HeaderComponent {
     this.emsService.getEmployeesOfBranchManagers().subscribe(
       (response: any[]) => {
         this.employeesOfSelectedGroups = response;
-        console.log('Employees of Branch managers:', this.employeesOfSelectedGroups);
       },
       (error: HttpErrorResponse) => {
         // Handle any errors
@@ -129,7 +128,6 @@ export class GroupComponent extends HeaderComponent {
     this.emsService.getEmployeesOfHoManagers().subscribe(
       (response: any[]) => {
         this.employeesOfSelectedGroups = response;
-        console.log('Employees of HO managers:', this.employeesOfSelectedGroups);
       },
       (error: HttpErrorResponse) => {
         // Handle any errors
@@ -142,7 +140,6 @@ export class GroupComponent extends HeaderComponent {
     this.emsService.getEmployeesOfDistrictDirectors().subscribe(
       (response: any[]) => {
         this.employeesOfSelectedGroups = response;
-        console.log('Employees of District Directors:', this.employeesOfSelectedGroups);
       },
       (error: HttpErrorResponse) => {
         // Handle any errors
@@ -155,7 +152,6 @@ export class GroupComponent extends HeaderComponent {
     this.emsService.getEmployeesOfVicePresidents().subscribe(
       (response: any[]) => {
         this.employeesOfSelectedGroups = response;
-        console.log('Employees of Vice President:', this.employeesOfSelectedGroups);
       },
       (error: HttpErrorResponse) => {
         // Handle any errors
@@ -168,7 +164,6 @@ export class GroupComponent extends HeaderComponent {
     this.emsService.getEmployeesOfHoDirectors().subscribe(
       (response: any[]) => {
         this.employeesOfSelectedGroups = response;
-        console.log('Employees of HO Directors:', this.employeesOfSelectedGroups);
       },
       (error: HttpErrorResponse) => {
         // Handle any errors

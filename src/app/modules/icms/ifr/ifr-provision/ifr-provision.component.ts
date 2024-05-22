@@ -102,7 +102,6 @@ export class IFRProvisionComponent implements OnInit {
   calculateDaysAfterDetection(detectionDate) {
     const oneDay = 24 * 60 * 60 * 1000; // Number of milliseconds in a day
     const currentDate = new Date().getTime();
-    console.log("currentDate = " + currentDate)
     const year = parseInt(detectionDate.substr(0, 4));
     const month = parseInt(detectionDate.substr(5, 2)) - 1; // month is zero-indexed
     const day = parseInt(detectionDate.substr(8, 2));
@@ -111,7 +110,6 @@ export class IFRProvisionComponent implements OnInit {
     const seconds = parseInt(detectionDate.substr(17, 2));
     const milliseconds = parseInt(detectionDate.substr(20, 3));
     const detectionDateObj = new Date(year, month, day, hours, minutes, seconds, milliseconds).getTime();
-    console.log("detectionDate = " + detectionDateObj)
     const diffDays = Math.round(Math.abs((currentDate - detectionDateObj) / oneDay));
     return diffDays;
   }
@@ -150,7 +148,6 @@ export class IFRProvisionComponent implements OnInit {
     this.fraudService.getFraud(id).subscribe(
       (response: IFR) => {
         this.fraud = response;
-        console.log(this.fraud)
         this.selectedCaseId = this.fraud.caseId;
         this.selectedReasonForTheDelay = this.fraud.reasonForDelay;
         this.selectedSuspectedFraudsterName = this.fraud.suspectedFraudsterName;

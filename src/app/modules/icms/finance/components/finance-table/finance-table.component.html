@@ -12,7 +12,24 @@
   </div>
 </div>
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Finance Table</h5>
+  <div class="flex justify-between">
+    <div class="spacer">
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Finance Table</h5>
+    </div>
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="exportExcel()"
+        class="p-button text-blue-600 text-white m-2 p-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      >
+        Download as excel
+      </button>
+    </div>
+  </div>
   <p-table
     #dt
     [columns]="cols"
@@ -88,38 +105,73 @@
     <ng-template pTemplate="body" let-finance let-rowIndex="rowIndex">
       <tr [pSelectableRow]="finance">
         <td>{{ rowIndex + 1 }}</td>
-        <td>{{ finance?.financeDate | date : "MM/dd/yyyy"}}</td>
+        <td>{{ finance?.financeDate | date : "MM/dd/yyyy" }}</td>
         <td>{{ finance?.caseId }}</td>
         <td>{{ finance?.accountNumber }}</td>
         <td>{{ finance?.allCategory?.name }}</td>
         <td>{{ finance?.allSubCategory?.name }}</td>
-        <td>{{ finance?.irregularity }}</td>
+        <td>
+          <div class="w-64 overflow-hidden overflow-ellipsis">
+            {{ finance?.irregularity }}
+          </div>
+        </td>
         <td>{{ finance?.amount }}</td>
-        <td>{{ finance?.responsiblePerson }}</td>
+        <td>
+          <div class="w-64 overflow-hidden overflow-ellipsis">
+            {{ finance?.responsiblePerson }}
+          </div>
+        </td>
         <td>{{ finance?.actionPlanDueDate }}</td>
         <td
-          [ngStyle]="{
-            color:
-              finance.daysPastDue > 0 && finance.financeStatus.name === 'Open'
-                ? 'red'
-                : ''
+          [ngClass]="{
+            red:
+              finance?.financeStatus.name === 'Open' &&
+              daysPastDue(finance?.actionPlanDueDate) <= 0,
+            'other-color':
+              finance?.financeStatus.name === 'Open' &&
+              daysPastDue(finance?.actionPlanDueDate) > 0,
+            closed:
+              finance?.financeStatus.name === 'Closed' &&
+              !finance?.actionPlanDueDate
           }"
         >
-          {{
-            finance.daysPastDue > 0 && finance.financeStatus.name === "Open"
-              ? finance.daysPastDue + " days past due"
-              : ""
-          }}
+          <ng-container
+            *ngIf="
+              finance?.financeStatus?.name === 'Open' &&
+                finance?.actionPlanDueDate !== null;
+              else closedStatus
+            "
+          >
+            <ng-container
+              *ngIf="
+                daysPastDue(finance?.actionPlanDueDate) <= 0;
+                else otherText
+              "
+            >
+              {{ absoluteValue(daysPastDue(finance?.actionPlanDueDate)) }} days past due
+            </ng-container>
+            <ng-template #otherText> </ng-template>
+          </ng-container>
+          <ng-template #closedStatus>
+            <span
+              *ngIf="finance?.actionPlanDueDate"
+              [ngClass]="{
+                red: finance?.financeStatus?.name === 'Closed'
+              }"
+            >
+              Closed!
+            </span>
+          </ng-template>
         </td>
 
         <td>{{ finance?.financeStatus?.name }}</td>
-        <td class="flex space-between">
+        <td>
           <div
             class="flex gap-2 mr-2"
             *ngIf="
               this.roles.includes('ROLE_ICMS_FINANCE_OWNER') &&
               !finance.actionTaken &&
-              finance.financeStatus.name === 'Open'
+              finance?.financeStatus?.name === 'Open'
             "
           >
             <button

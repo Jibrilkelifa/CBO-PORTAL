@@ -217,7 +217,6 @@ export class DCQTableComponent {
             let date = new Date(obj.date);
             let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
             let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
-            console.log("ttt", formattedDatePresented);
 
             return {
               'Date presented': formattedDatePresented,
@@ -249,7 +248,6 @@ export class DCQTableComponent {
             let date = new Date(obj.date);
             let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
             let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
-            console.log("ttt", formattedDatePresented);
 
             return {
               'Date presented': formattedDatePresented,

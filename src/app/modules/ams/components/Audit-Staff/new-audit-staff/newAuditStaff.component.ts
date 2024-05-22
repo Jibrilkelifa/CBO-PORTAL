@@ -91,8 +91,7 @@ export class NewAuditStaffComponent implements OnDestroy {
     
     auditStaffForm.value.employeeId = this.selectedEmployee.employeeId;
     auditStaffForm.value.fullName = this.selectedEmployee.employeeFullName;
-    // console.log(auditStaffForm.value);
-    // console.log(this.selectedEmployee);
+
     if (this.update) {
       this.updateAMSStaff(auditStaffForm);
     } else {
@@ -183,7 +182,6 @@ export class NewAuditStaffComponent implements OnDestroy {
     // 'event' contains the selected employee object
     this.selectedEmployee = event;
     // You can perform additional actions if needed
-    console.log('Selected Employee:', this.selectedEmployee);
   }
 
 

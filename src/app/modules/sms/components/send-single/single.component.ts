@@ -93,13 +93,10 @@ export class SingleComponent extends HeaderComponent {
     this.message.phoneNumber = this.phoneNumber;
     this.message.messageContent = this.messageContent;
   
-    console.log('Sending message:', this.message);
   
     this.messageService.sendMessage(this.message).subscribe(
       (response: any) => {
-        console.log('Response:', response);
         const batchId = response.id;
-        console.log('BatchId:', batchId);
         this.messageService.sendMessageByBatch(batchId).subscribe(
           (response: any) => {
             this.messagService.add({

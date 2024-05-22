@@ -104,12 +104,10 @@ export class MemoComponent extends HeaderComponent {
 
     carbonCopies = carbonCopies.substring(0, carbonCopies.lastIndexOf(',')) + "" + carbonCopies.substring(carbonCopies.lastIndexOf(',') + 1);
     data.value.carbonCopy = carbonCopies;
-    console.log(data.value);
    
     this.sendMeIgo.email.push(data.value.outlook)
     this.sendMeIgo.subject = data.value.subject;
     this.sendMeIgo.body = data.value.body;
-    console.log("sending" , this.sendMeIgo);
     this.ewsService.sendThis(this.sendMeIgo).subscribe(
       (response : any) => {
         alert("sent successifully");

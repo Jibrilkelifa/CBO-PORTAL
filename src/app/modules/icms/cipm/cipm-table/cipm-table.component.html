@@ -1,10 +1,15 @@
 <p-toast position="top-right"></p-toast>
-<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog><p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog><div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="msgs"></p-messages>
+  </div>
+</div>
 <div class="card">
-<p-messages
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
-  [value]="msgs"
-></p-messages>
+  <div class="relative">
+    <div class="absolute top-0 right-0 z-50">
+      <p-messages [value]="msgs"></p-messages>
+    </div>
+  </div>
 <div class="flex justify-between mb-3">
   <div class="flex">
     <span class="p-input-icon-left ml-auto">
@@ -75,12 +80,14 @@
         <th scope="col" pSortableColumn="subProcess.name">
           District Name<p-sortIcon field="subProcess.name"></p-sortIcon>
         </th>
-        <th scope="col" pSortableColumn="branch.name">
-          Branch Name<p-sortIcon field="branch.name"></p-sortIcon>
+        <th *ngIf="!roles.includes('ROLE_ICMS_IFB')" scope="col" pSortableColumn="branch.name">
+          Branch Name
+          <p-sortIcon field="branch.name"></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="borrowerName">
           Borrower Name<p-sortIcon field="borrowerName"></p-sortIcon>
         </th>
+       
         <th scope="col" pSortableColumn="loanAccount">
           Loan Account<p-sortIcon field="loanAccount"></p-sortIcon>
         </th>
@@ -123,6 +130,18 @@
             field="insuranceExpireDate"
           ></p-sortIcon>
         </th>
+        <th scope="col" pSortableColumn="insuranceBranch">
+          Insurance Branch<p-sortIcon field="insuranceBranch"></p-sortIcon>
+        </th>
+        <th *ngIf="this.roles.includes('ROLE_ICMS_IFB')" scope="col" pSortableColumn="bbranch">
+          Branch<p-sortIcon field="bbranch"></p-sortIcon>
+        </th>
+        <th *ngIf="this.roles.includes('ROLE_ICMS_IFB')" scope="col" pSortableColumn="insuranceDistrict">
+          District<p-sortIcon field="insuranceDistrict"></p-sortIcon>
+        </th>
+        <th scope="col" pSortableColumn="insuranceCompanyName">
+          Insurance Company<p-sortIcon field="insuranceCompanyName"></p-sortIcon>
+        </th>
         <th scope="col" pSortableColumn="daysLeftToExpire">
           Days Left To Expire<p-sortIcon field="daysLeftToExpire"></p-sortIcon>
         </th>
@@ -148,10 +167,11 @@
     <ng-template pTemplate="body" let-cipms>
       <tr [pSelectableRow]="cipms">
         <td>{{ cipms?.subProcess?.name }}</td>
-        <td>{{ cipms?.branch?.name }}</td>
+        <td *ngIf="!roles.includes('ROLE_ICMS_IFB')">{{ cipms?.branch?.name }}</td>
         <td>{{ cipms?.borrowerName }}</td>
         <td>{{ cipms?.loanAccount }}</td>
         <td>{{ cipms?.loanType }}</td>
+      
         <td>
           <ng-container
             *ngIf="cipms?.collateralType?.name !== 'Other'; else otherCTBlock"
@@ -183,6 +203,10 @@
         <td>{{ cipms?.insuredName }}</td>
         <td>{{ cipms?.status?.name }}</td>
         <td>{{ cipms?.insuranceExpireDate }}</td>
+        <td>{{ cipms?.insuranceBranch }}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_IFB')">{{ cipms?.bbranch }}</td>
+        <td *ngIf="this.roles.includes('ROLE_ICMS_IFB')">{{ cipms?.insuranceDistrict }}</td>
+        <td>{{ cipms?.insuranceCompanyName }}</td>
         <td
           [ngClass]="{
             black: calculateDaysLeftToExpire(cipms?.insuranceExpireDate) == 0,

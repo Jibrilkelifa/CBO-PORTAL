@@ -125,7 +125,6 @@ export class DACGMTableComponent {
     return Math.abs(number);
   }
   branchId: string = localStorage.getItem('branchId');
-  // branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
 
   constructor(private filterService: FilterService, private dacgmService: DACGMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
@@ -353,7 +352,8 @@ export class DACGMTableComponent {
         'Case ID': plan.caseId,
         Category: plan['irregularity.allSubCategory.allcategory.name'],
         'Sub Category': plan['irregularity.allSubCategory.name'],
-        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'],        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
+        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'],        
+        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
         'Account Name': plan.accountName,
         'Account Number': plan.accountNumber,
         'Responsible Person': plan.responsiblePerson,

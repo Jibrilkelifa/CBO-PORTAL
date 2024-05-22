@@ -37,7 +37,6 @@ export class CustomerComponent extends HeaderComponent {
     this.singleService.fetchCategories().subscribe(
       (response: any) => {
         this.groupOptions = response; 
-        console.log('categorrrrrrrrry:', this.groupOptions);
         
       },
       (error) => {
@@ -75,11 +74,9 @@ export class CustomerComponent extends HeaderComponent {
   }
 
   addMemo(formData: NgForm) {
-    console.log('Form Data:', formData.value);
   
     this.singleService.saveeMessage(formData.value).subscribe(
       (response) => {
-        console.log('Message saved successfully:', response);
       },
       (error) => {
         console.error('Error saving message:', error);

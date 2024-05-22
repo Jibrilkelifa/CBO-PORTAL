@@ -49,7 +49,7 @@ export class DefaultHeaderComponent extends HeaderComponent {
     this.getDefaultAvatar();
     this.user = localStorage.getItem('name');
         
-    this.branch  = JSON.parse(localStorage.getItem("branch")).name;
+    this.branch  = JSON.parse(localStorage.getItem("branch"))?.name;
   
     const totalModules = Number(localStorage.getItem('number_of_modules')) + 1;
 

@@ -20,7 +20,7 @@ export class CIPMService {
       })
     };
     this.apiServiceUrl = localStorage.getItem('url_4');
-    // this.apiServiceUrl = "http://localhost:8084";
+     //this.apiServiceUrl = "http://localhost:8084";
   }
   constructor(private http: HttpClient) { }
 
@@ -57,7 +57,6 @@ export class CIPMService {
     let branch = new Branch();
   
 
-    console.log("cipmadd",cipm)
 
     return this.http.post<any>(`${this.apiServiceUrl}/CIPM/add`, cipm, this.httpOptions)
   }

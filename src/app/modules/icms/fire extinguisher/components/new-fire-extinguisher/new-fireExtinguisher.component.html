@@ -1,7 +1,8 @@
-<p-messages
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0"
-  [value]="msgs"
-></p-messages>
+<div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="msgs"></p-messages>
+  </div>
+</div>
 <div>
   <form
     #FireExtinguisherForm="ngForm"
@@ -71,7 +72,7 @@
           (ngModelChange)="calculateDaysLeft()"
         ></p-calendar>
       </div>
-      <div class="flex-auto" *ngIf="!update">
+      <div class="flex-auto">
         <label for="nextInspectionDate" class="block mb-2"
           >Next Inspection Date
         </label>
@@ -101,27 +102,30 @@
       <div class="flex-auto">
         <label for="status" class="block mb-2">Status</label>
         <p-dropdown
-          [options]="[{ name: 'Working' }, { name: 'Damaged' }]"
-          name="status"
-          [(ngModel)]="selectedstatus"
-          optionLabel="name"
-          placeholder="Select Status"
-          class="w-full"
-          styleClass="p-password"
-          [style]="{ width: '30vw', height: '45px' }"
-          [required]="true"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
-              <div>{{ selectedstatus.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-status pTemplate="item">
-            <div class="flex align-items-center gap-2">
-              <div>{{ status.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
+        [options]="statuses"
+        name="status"
+        [(ngModel)]="selectedstatus"
+        optionLabel="name"
+        placeholder="Select Status"
+        class="w-full"
+        (ngModelChange)="FireExtinguisher.status = $event.name"
+        styleClass="p-password"
+        [style]="{ width: '30vw', height: '45px' }"
+        [required]="true"
+      >
+      
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="selectedstatus">
+            <div>{{ selectedstatus.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-status pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ status.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      
       </div>
     </div>
     <p-button

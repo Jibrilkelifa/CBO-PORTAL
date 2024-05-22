@@ -12,7 +12,6 @@ import { AllSubCategoryService } from 'src/app/services/icms-services/all-sub-ca
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusService } from 'src/app/services/icms-services/cipm-services/status.service';
 import { Status } from 'src/app/models/icms-models/cipm-models/status';
-import { ShareStatusModel } from '../../models/share-status-model';
 import { AllIrregularity } from 'src/app/models/icms-models/all-irregularity';
 import { AllCategory } from 'src/app/models/icms-models/all-category';
 import { AllSubCategory } from 'src/app/models/icms-models/all-sub-category';
@@ -36,7 +35,10 @@ export class NewShareComponent implements OnInit {
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: ShareStatusModel[];
+  statuses: Status[] = [
+    { id: 1, name: 'Open' },
+    { id: 2, name: 'Closed' }
+  ];
   isOtherIrregularitySelected: boolean = false;
   categoryName: string;
   public showOtherProductTypes: boolean = false;
@@ -83,8 +85,6 @@ export class NewShareComponent implements OnInit {
 
     this.generateCaseId();
     this.getCategories();
-    this.getStatus();
-
   }
 
 
@@ -124,6 +124,11 @@ export class NewShareComponent implements OnInit {
     this.shareService.findShareById(id).subscribe(
       (response: ShareModel) => {
         response.shareDate = new Date(response.shareDate);
+        if (this.Share.shareStatus) {
+          this.selectedstatus = this.statuses.find(status => status.name === this.Share.shareStatus.name);
+        } else {
+          console.error("Status is undefined in the response");
+        }
         this.Share = response;
       },
       error => {
@@ -137,20 +142,6 @@ export class NewShareComponent implements OnInit {
     if (input.length >= 13) {
       event.preventDefault();
     }
-  }
-
-
-
-  public getStatus(): void {
-    this.shareService.getStatuses().subscribe(
-      (response: ShareStatusModel[]) => {
-        this.statuses = response;        
-        this.selectedstatus = this.statuses.find(status => status.name === "Open");
-      },
-      (error: HttpErrorResponse) => {
-        // Handle error
-      }
-    );
   }
 
   onProductTypeChange(event: any) {
@@ -180,10 +171,6 @@ export class NewShareComponent implements OnInit {
 
       }
     )
-  }
-
-  public populateSelectedStatus(existingStatus: Status): void {
-    this.selectedstatus = existingStatus;
   }
 
   onCategoryChange(event: any) {

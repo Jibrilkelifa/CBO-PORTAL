@@ -37,7 +37,6 @@ export class StampTableComponent implements OnDestroy {
       this.stampService.getStampList().subscribe(
         (response: any) => {
           this.stampList = response.result;
-          console.log(response);
           
         },
         (error: HttpErrorResponse) => {

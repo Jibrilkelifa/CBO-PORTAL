@@ -32,14 +32,11 @@ export class SMSHistoryComponent {
     this.subscription.unsubscribe();
   }
   getSummary(): void {
-    console.log("hello jibril");
     
     this.subscription = this.bulkService.getSummary().subscribe(
       (response: Summary) => {
-        console.log("rrrrrrr", response);
 
         this.summary = response;
-        console.log("kalil", this.summary);
         
         // const senderName = localStorage.getItem('name');
         // this.calculateTotalCost(senderName); // Calculate the total cost for the retrieved sender name

@@ -180,7 +180,6 @@ export class NewAdminComponent implements OnInit {
         (response: any) => {
           this.searchedEmployees = response;
           this.selectedEmployee = this.searchedEmployees[0];
-          console.log(this.selectedEmployee.organizationalUnit)
           this.populateEmployeeData();
         },
         (error: HttpErrorResponse) => {
@@ -324,9 +323,6 @@ export class NewAdminComponent implements OnInit {
         this.selectedFiles2 = undefined;
       }
       
-      console.log(filteredRoles);
-      console.log(roles);
-
       formData.append('roles', new Blob([JSON.stringify(this.selectedRole)], { type: 'application/json' }));
    
       return this.userService.addUser(formData).toPromise();

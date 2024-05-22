@@ -45,7 +45,6 @@ export class NewAuditFindingsCommentComponent implements OnDestroy {
   
   addComment(addDivForm: NgForm): void {
     const comment: AuditCommentDTO = { ...addDivForm.value, finding: this.findingInfo };
-    console.log(comment);
     this.subscriptions.push(
       this.auditFindingService.addComment(comment).subscribe(
         (response: any) => {

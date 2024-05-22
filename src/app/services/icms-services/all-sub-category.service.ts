@@ -16,7 +16,9 @@ export class AllSubCategoryService {
         'Authorization': `Bearer ${localStorage.getItem('access_token')}`
       })
     };
-    this.apiServiceUrl = localStorage.getItem('url_4');
+    //this.apiServiceUrl = localStorage.getItem('url_4');
+    this.apiServiceUrl = 'http://10.1.125.58:8084';
+
   }
 
   constructor(private http: HttpClient) { }

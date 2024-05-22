@@ -165,7 +165,6 @@ export class NewAuditScheduleComponent implements OnDestroy {
     this.assignMembersDialogRef.onClose.subscribe((teamMembers) => {
       if (teamMembers) {
         this.savedAssignmembers = teamMembers;
-        console.log(teamMembers);
         this.cdref.detectChanges();
       }
     });

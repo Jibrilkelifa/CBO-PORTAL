@@ -1,4 +1,8 @@
-<p-messages style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;" [value]="msgs"></p-messages>
+<div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="msgs"></p-messages>
+  </div>
+</div>
 <div *ngIf="newDiv">
   <form #addCIPMForm="ngForm" (ngSubmit)="addCIPM(addCIPMForm)" required>
     <div class="flex flex-wrap gap-3 mb-2">
@@ -12,15 +16,16 @@
         <input pInputText pKeyFilter="alpha" id="alphabetic" ngModel name="mortgagorName"
           [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
-      <div class="flex-auto">
-        <label for="insuranceBranch" class="block mb-2">Insurance Branch</label>
-        <input pInputText id="insuranceBranch" type="text" ngModel
-          name="insuranceBranch" [style]="{'width':'30vw','height':'45px'}" />
+    
+      <div class="flex-auto" *ngIf="this.roles.includes('ROLE_ICMS_IFB')">
+        <label for="bbranch" class="block mb-2">Branch</label>
+        <input pInputText id="bbranch" type="text" ngModel
+          name="bbranch" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
-      <div class="flex-auto">
-        <label for="insuranceDistrict" class="block mb-2">Insurance District</label>
+      <div class="flex-auto" *ngIf="this.roles.includes('ROLE_ICMS_IFB')">
+        <label for="insuranceDistrict" class="block mb-2">District</label>
         <input pInputText id="insuranceDistrict" type="text" ngModel
-          name="insuranceDistrict" [style]="{'width':'30vw','height':'45px'}" />
+          name="insuranceDistrict" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
 
     </div>
@@ -125,7 +130,7 @@
         </p-dropdown>
       </div>
       <div class="flex-auto" [hidden]="true">
-        <label for="alphabetic" class=" block mb-2"> Branch </label>
+        <label for="alphabetic" class=" block mb-2"> Branch Name</label>
         <input pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="selectedBranch" name="branch"
           [readonly]=true [style]="{'width':'30vw','height':'45px'}"   />
       </div>
@@ -135,9 +140,14 @@
           [readonly]=true [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
       <div class="flex-auto">
-        <label for="insuranceCompanyName" class="block mb-2">Insurance Company Name</label>
+        <label for="insuranceCompanyName" class="block mb-2">Insurance Company</label>
         <input pInputText id="insuranceCompanyName" type="text" ngModel
-          name="insuranceCompanyName" [style]="{'width':'30vw','height':'45px'}" />
+          name="insuranceCompanyName" [style]="{'width':'30vw','height':'45px'}"required minlength="3"/>
+      </div>
+      <div class="flex-auto">
+        <label for="insuranceBranch" class="block mb-2">Insurance Branch</label>
+        <input pInputText id="insuranceBranch" type="text" ngModel
+          name="insuranceBranch" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />
       </div>
       <input [hidden]="true" pInputText pKeyFilter="alpha" id="alphabetic" [(ngModel)]="authorizedBy"
         name="authorizedBy" [style]="{'width':'30vw','height':'45px'}" required minlength="3" />

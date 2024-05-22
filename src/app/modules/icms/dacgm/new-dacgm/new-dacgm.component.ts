@@ -133,7 +133,6 @@ export class NewDACGMComponent implements OnInit {
           if (a.name > b.name) return 1;
           return 0;
         });
-        console.log("this.categories = "+JSON.stringify(this.categories))
       },
       (error: HttpErrorResponse) => {
 

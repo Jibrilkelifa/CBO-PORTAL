@@ -380,8 +380,6 @@ export class AddUser implements OnInit {
         this.selectedFiles2 = undefined;
       }
       
-      console.log(filteredRoles);
-      console.log(roles);
 
       // formData.append('roles', new Blob([JSON.stringify(this.selectedRole)], { type: 'application/json' }));
    

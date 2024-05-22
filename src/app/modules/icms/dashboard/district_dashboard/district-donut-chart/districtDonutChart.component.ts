@@ -58,8 +58,7 @@ export class DistrictDonutChartComponent {
     this.subscription = this.icmsdashboardService.getDistrictDashboardDoughnutDatas(this.subProcessId).subscribe(
       (response: any) => {
         this.allDoughnutDatas = response;
-        console.log("gof", response);
-        console.log("fog", this.subProcessId);
+
         
 
         // Initialize an array with zeros

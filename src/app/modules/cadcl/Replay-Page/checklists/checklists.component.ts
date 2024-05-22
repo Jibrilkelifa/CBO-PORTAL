@@ -30,12 +30,10 @@ export class ChecklistsComponent {
 
   getcaChecklists(): void {
     var branch = localStorage.getItem('branchId');
-    console.log('branchId ',branch);
     
     this.subscriptions.push(
       this.caChecklistService.getCaDailyChecklistsOfBranch(branch).subscribe(
         (response: any) => {
-          console.log(response);
           
           this.caChecklists = response;
           this.caChecklistDisplay = this.caChecklists;

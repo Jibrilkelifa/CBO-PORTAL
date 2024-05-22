@@ -83,7 +83,6 @@ export class NewRiskLevel implements OnDestroy {
     let riskLevel: RiskLevelDTO = addDivForm.value;
     riskLevel.modifiedUser = localStorage.getItem('id');
     riskLevel.id = this.riskLevelInfo.id;
-    console.log(riskLevel)
     this.subscriptions.push(
       this.auditUniverseService
         .updateRiskLevel(riskLevel)

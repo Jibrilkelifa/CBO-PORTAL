@@ -99,7 +99,6 @@ export class AuditEngagementComponent implements OnDestroy {
     this.subscriptions.push(
       this.auditEngagementService.getAllEngagementOfCurrentYear().subscribe(
         (response: any) => {
-          console.log(response.result)
           //if auditee filter by organization 
           if (this.isAuditee) {
             const targetSubProcess = this.subProcess.toString().trim();
@@ -209,7 +208,6 @@ export class AuditEngagementComponent implements OnDestroy {
   }
 
   goToDetails(auditEngagement: AuditEngagementDTO): void {
-    console.log(auditEngagement);
 
     localStorage.setItem('currentEngagement', JSON.stringify(auditEngagement));
     this.router.navigate(['ams/audit-engagement-details']);
@@ -411,7 +409,6 @@ export class AuditEngagementComponent implements OnDestroy {
         localStorage.setItem("auditStaffId", response);
         this.staffId = response;
         this.getAllEngagementOfCurrentYear();
-        console.log(localStorage.getItem("auditStaffId"), "here please");
 
       },
       (error: HttpErrorResponse) => {

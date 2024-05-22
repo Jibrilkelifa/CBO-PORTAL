@@ -68,7 +68,6 @@ export class AuditFindingsComponent  implements OnDestroy {
       this.auditProgramService.getAuditPrograms().subscribe(
         (response: any) => {
           this.auditProgram = response.result;
-          console.log(this.auditProgram);
       
         },
         (error: HttpErrorResponse) => {

@@ -33,7 +33,6 @@ export class ListCopStepsCopiedComponent {
       (response) => {
 
         this.cobStepsCopiedList = response.result.reverse();
-        console.log(this.cobStepsCopiedList);
 
       },
       (error: HttpErrorResponse) => {

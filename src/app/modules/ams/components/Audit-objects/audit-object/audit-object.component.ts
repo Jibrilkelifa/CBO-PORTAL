@@ -136,7 +136,6 @@ export class AuditObjectComponent {
 
   approveAuditObject(auditObject:AuditObjectDTO): void {
     auditObject.status = "Approved"
-    console.log("sending" , auditObject);
     this.subscriptions.push(
       this.auditObjectService
         .updateAuditObject(auditObject)

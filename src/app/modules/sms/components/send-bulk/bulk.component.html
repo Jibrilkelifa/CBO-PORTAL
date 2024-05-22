@@ -11,9 +11,11 @@
 <button type="button" class="btn btn-primary" [disabled]="!fileSelected" (click)="sendSMS()">
   Send
 </button> -->
-<p-messages [value]="messages" [closable]="true"
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
-<div>
+<div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="messages"></p-messages>
+  </div>
+</div><div>
   <p-fileUpload #fileUpload name="file"  [uploadLabel]="'Send'"  (onSelect)="onSelect1($event)" (click)="sendSMS()"></p-fileUpload>
   <div class="spinner-container" *ngIf="loading">
     <p-progressSpinner></p-progressSpinner>
@@ -21,8 +23,11 @@
   </div>
 </div>
 
-<!-- <p-messages [value]="messages" [closable]="true"
-  style="position: absolute; z-index: 1; right: 1em; margin: -1em 0;"></p-messages>
+<!-- <div class="relative">
+  <div class="absolute top-0 right-0 z-50">
+    <p-messages [value]="msgs"></p-messages>
+  </div>
+</div>
 <div>
   <p-fileUpload #fileUpload name="file"  (onBeforeUpload)="onBeforeUpload()"
     (onError)="onUploadError($event)" (onUpload)="onUpload()"></p-fileUpload>

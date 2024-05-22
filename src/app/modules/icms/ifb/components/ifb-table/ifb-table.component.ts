@@ -65,7 +65,6 @@ export class IFBTableComponent implements OnDestroy {
       this.ifbService.getAllIFB().subscribe(
         (response: any) => {
           this.IFBList = response;   
-          console.log("ttt", response);       
         },
         (error: HttpErrorResponse) => {
           console.log(error);

@@ -12,7 +12,22 @@
   </div>
 </div>
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Share Table</h5>
+  <div class="flex justify-between">
+    <div class="spacer">
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Share Table</h5>
+    </div>
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="exportExcel()"
+        class="p-button text-blue-600 text-white m-2 p-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      > Download as excel</button>
+    </div>
+  </div>
   <p-table
     #dt
     [columns]="cols"
@@ -26,9 +41,10 @@
       'shareDate',
       'caseId',
       'shareNumber',
+      'shareHoldersName',
       'allCategory.name',
       'allSubCategory.name',
-      'irregularity',
+      'irregularity.name',
       'amountInvolved',
       'responsiblePerson',
       'shareStatus.name'
@@ -53,6 +69,10 @@
           Share Number
           <p-sortIcon field="shareNumber"></p-sortIcon>
         </th>
+        <th pSortableColumn="shareHoldersName">
+          Share Holder's Name
+          <p-sortIcon field="shareHoldersName"></p-sortIcon>
+        </th>
         <th pSortableColumn="allCategory.name">
           Category
           <p-sortIcon field="allCategory.name"></p-sortIcon>
@@ -61,9 +81,9 @@
           Sub-category
           <p-sortIcon field="allSubCategory.name"></p-sortIcon>
         </th>
-        <th pSortableColumn="irregularity">
+        <th pSortableColumn="irregularity.name">
           Irregularity
-          <p-sortIcon field="irregularity"></p-sortIcon>
+          <p-sortIcon field="irregularity.name"></p-sortIcon>
         </th>
         <th pSortableColumn="amountInvolved">
           Amount
@@ -90,13 +110,10 @@
         <td>{{ share?.shareDate | date : "MM/dd/yyyy" }}</td>
         <td>{{ share?.caseId }}</td>
         <td>{{ share?.shareNumber }}</td>
+        <td>{{ share?.shareHoldersName }}</td>
         <td>{{ share?.allCategory?.name }}</td>
         <td>{{ share?.allSubCategory?.name }}</td>
-        <td
-          pTooltip="{{ share?.irregularity?.name }}"
-          tooltipPosition="top"
-          styleClass="custom-tooltip"
-        >
+        <td>
           <div class="w-64 overflow-hidden overflow-ellipsis">
             {{ share?.irregularity?.name }}
           </div>
@@ -106,22 +123,49 @@
         <td>{{ share?.responsiblePerson }}</td>
         <td>{{ share?.actionPlanDueDate }}</td>
         <td
-          [ngStyle]="{
-            color:
-              share?.daysPastDue > 0 && share?.shareStatus?.name === 'Open'
-                ? 'red'
-                : ''
+          [ngClass]="{
+            red:
+            share?.shareStatus.name === 'Open' &&
+              daysPastDue(share?.actionPlanDueDate) <= 0,
+            'other-color':
+            share?.shareStatus.name === 'Open' &&
+              daysPastDue(share?.actionPlanDueDate) > 0,
+            closed:
+            share?.shareStatus.name === 'Closed' &&
+              !share?.actionPlanDueDate
           }"
         >
-          {{
-            share?.daysPastDue > 0 && share?.shareStatus?.name === "Open"
-              ? share.daysPastDue + " days past due"
-              : ""
-          }}
+          <ng-container
+            *ngIf="
+              share?.shareStatus?.name === 'Open' &&
+              share?.actionPlanDueDate !== null;
+              else closedStatus
+            "
+          >
+            <ng-container
+              *ngIf="
+                daysPastDue(share?.actionPlanDueDate) <= 0;
+                else otherText
+              "
+            >
+              {{ absoluteValue(daysPastDue(share?.actionPlanDueDate)) }} days past due
+            </ng-container>
+            <ng-template #otherText> </ng-template>
+          </ng-container>
+          <ng-template #closedStatus>
+            <span
+              *ngIf="share?.actionPlanDueDate"
+              [ngClass]="{
+                red: share?.shareStatus?.name === 'Closed'
+              }"
+            >
+              Closed!
+            </span>
+          </ng-template>
         </td>
 
         <td>{{ share?.shareStatus?.name }}</td>
-        <td class="flex space-between">
+        <td>
           <div
             class="flex gap-2 mr-2"
             *ngIf="

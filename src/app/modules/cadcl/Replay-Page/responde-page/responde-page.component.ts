@@ -65,14 +65,12 @@ export class RespondePageComponent {
 
   getcaChecklist(id: number): void {
     var branch = localStorage.getItem('branchId');
-    console.log('branchId ',branch);
 
     this.subscriptions.push(
       this.caResponseService.getBranchCaDailyChecklistById(id,branch).subscribe(
         (response: any) => {
           this.caChecklist = response;
           this.replayChecklist = this.caChecklist?.replyCheckLists[0];
-          console.log(response);
           if(this.caChecklist?.replyCheckLists[0].replayed){
             this.newDiv = false;
             this.cusInfos = this.caChecklist?.replyCheckLists[0].cusInfoRes;
@@ -81,7 +79,6 @@ export class RespondePageComponent {
           }
           
           this.fileLinks = this.caChecklist.attachments.split(";").filter((atach) => atach);
-          console.log(this.fileLinks);
         },
         (error: HttpErrorResponse) => {
           console.log(error);
@@ -115,7 +112,6 @@ export class RespondePageComponent {
     }
 
     for (let index = 0; index < this.uploadedFiles.length; index++) {
-      console.log(`file${index + 1}`, this.uploadedFiles[index]);
       
       formData.append(`file${index + 1}`, this.uploadedFiles[index]);
     }
@@ -123,7 +119,6 @@ export class RespondePageComponent {
       this.caChecklistService
         .replayCaDailyChecklist(formData)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.showForm = false;
             this.toggleForm();
@@ -163,7 +158,6 @@ export class RespondePageComponent {
     }
 
     for (let index = 0; index < this.uploadedFiles.length; index++) {
-      console.log(`file${index + 1}`, this.uploadedFiles[index]);
       
       formData.append(`file${index + 1}`, this.uploadedFiles[index]);
     }
@@ -172,7 +166,6 @@ export class RespondePageComponent {
       this.caChecklistService
         .updateReplayCaDailyChecklist(formData)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.showForm = false;
             this.toggleForm();
@@ -209,9 +202,7 @@ export class RespondePageComponent {
   onUpload(event: UploadEvent) {
       for(let file of event.files) {
           this.uploadedFiles.push(file);
-      }
-      console.log(this.uploadedFiles);
-      
+      }      
       //this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
 
@@ -228,7 +219,6 @@ export class RespondePageComponent {
 
   getFile(path: String){
     this.caChecklistService.getFile(path).subscribe((response: any)  => {
-      console.log(response);
       
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
@@ -242,7 +232,6 @@ export class RespondePageComponent {
 
   getFileCl(path: String){
     this.caChecklistService.getFile(path).subscribe((response: any)  => {
-      console.log(response);
       
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
@@ -263,7 +252,6 @@ export class RespondePageComponent {
   }
 
   addCusInfo(){
-    console.log(this.cusInfo);
     
     if (this.cusInfo.accountNumber) {
         this.cusInfos.push(this.cusInfo);
@@ -278,7 +266,6 @@ removeCheckListFile(filelink: String) {
   this.caChecklistService
       .deleteReplyCheklistFile(this.replayChecklist.id, filelink)
       .subscribe((response: any) => {
-        console.log(response);
         if (response.status) {
           this.messageService.add({
             severity: 'success',
@@ -314,7 +301,6 @@ onFileUpload(event: any) {
     this.caChecklistService
         .addReplyCheklistFile(this.replayChecklist.id, formData)
         .subscribe((response: any) => {
-          console.log(response);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
