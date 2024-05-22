@@ -634,6 +634,7 @@ export const navItemsCAOAdmin = createNavItem(
   '/cao',
   [
     createNavItem('View', '/cao/checklists/checklist'),
+    createNavItem('Reports', '/cao/checklists/reports'),
   ],
   'cib-openstreetmap'
 );
