@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ViewChecklistComponent } from "./Check-List/view-checklist/view-checklist.component";
 import { CreateComponent } from "./Check-List/create/create.component";
 import { ChecklistsComponent } from "./Replay-Page/checklists/checklists.component";
+import { ReportsComponent } from "./reports/reports.component";
 
 
 const routes: Routes = [
@@ -36,6 +37,13 @@ const routes: Routes = [
           component: ViewChecklistComponent,
           data: {
             title: 'List',
+          },
+        },
+        {
+          path: 'reports',
+          component: ReportsComponent,
+          data: {
+            title: 'Generate Report',
           },
         },
       ]
