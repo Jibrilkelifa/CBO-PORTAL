@@ -15,6 +15,8 @@ import { RoleService } from 'src/app/services/sso-services/role.service';
 import { TimeService } from 'src/app/services/sso-services/time.service';
 import { ADUserService } from 'src/app/services/sso-services/ad-user.service';
 import Fuse from 'fuse.js'
+import { Process } from 'src/app/models/sso-models/process';
+import { Employee } from '../../ams/models/employee';
 
 
 @Component({
@@ -24,6 +26,8 @@ import Fuse from 'fuse.js'
 })
 
 export class AddUser implements OnInit {
+  searchedJob: any;
+  selectedJob:any;
   // public users: User[] = [];
   // public user: User;
   // public roles: Role[] = [];
@@ -70,6 +74,7 @@ export class AddUser implements OnInit {
   selectedTab1: boolean = true;
   selectedTab2: boolean = false;
 
+
   public divisions: any[] = [];
   // public employee: Employee;
   selectedFiles1?: File;
@@ -82,6 +87,16 @@ export class AddUser implements OnInit {
 
   uploadedFiles: any[] = [];
   myDate = new Date();
+
+  
+  allProcess: Process[] = [];
+  searchedSubProcess: any;
+  stateOptions: any[] = [{ label: 'Branch', value: 'branch' }, { label: 'Team', value: 'team' }];
+  prompt: String;
+  field: String;
+  searchedOrganizationalUnit: any;
+  sex!:String;
+
   constructor(
     private router: Router,
     private timeService: TimeService,
@@ -98,6 +113,7 @@ export class AddUser implements OnInit {
 
   ngOnInit() {
     this.populateRoles();
+    this.getAllProcess();
     this.getModules();
     // this.getRoles();
     let x = this.activatedRoute.snapshot.paramMap.get("id");
@@ -109,6 +125,8 @@ export class AddUser implements OnInit {
       this.newDiv = false;
     }
     this.maxDate = this.myDate;
+    this.prompt = "Enter Branch Code or Name"
+    this.field = "name"
   }
 
   populateRoles(): void {
@@ -122,23 +140,23 @@ export class AddUser implements OnInit {
   }
 
 
-  populateEmployeeData() {
+  // populateEmployeeData() {
   
  
-    this.selectedTab1 = false;
-    this.selectedTab2 = true;
-    this.selectedEmployeeId = this.selectedEmployee.employeeId;
-    this.selectedFullName = this.selectedEmployee.employeeFullName;
-    this.selectedJobTitle = this.selectedEmployee.job.title;
-    this.selectedGender = this.selectedEmployee.gender;
+  //   this.selectedTab1 = false;
+  //   this.selectedTab2 = true;
+  //   this.selectedEmployeeId = this.selectedEmployee.employeeId;
+  //   this.selectedFullName = this.selectedEmployee.employeeFullName;
+  //   this.selectedJobTitle = this.selectedEmployee.job.title;
+  //   this.selectedGender = this.selectedEmployee.gender;
     
-    this.selectedSubProcess = this.selectedEmployee.subProcess.name;
-    this.selectedProcess = this.selectedEmployee.process.name;
+  //   this.selectedSubProcess = this.selectedEmployee.subProcess.name;
+  //   this.selectedProcess = this.selectedEmployee.process.name;
 
-    this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
-    this.selectedOrganizationalUnit = this.selectedEmployee.branch?.name ?? this.selectedEmployee.team?.externalName ?? "Elite";
+  //   this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
+  //   this.selectedOrganizationalUnit = this.selectedEmployee.branch?.name ?? this.selectedEmployee.team?.externalName ?? "Elite";
 
-  }
+  // }
 
   getEmployeeData(event: any) {
 
@@ -165,48 +183,85 @@ export class AddUser implements OnInit {
     }
     this.previousTerm = searchTerm;
   }
+  removeDuplicateSupervisors(employees: any[]): any[] {
+    const uniqueSupervisors = new Set();
+    return employees.filter(employee => {
+      const isDuplicate = uniqueSupervisors.has(employee.supervisorFullName);
+      uniqueSupervisors.add(employee.supervisorFullName);
+      return !isDuplicate;
+    });
+  }
+
+
+  getSupervisorData(event: any) {
+
+    const searchTerm = event.query;
+    if (searchTerm.length == 0) {
+      this.previousTerm = "";
+    }
+    if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+      this.employeeService.getSupervisorsByName(searchTerm).subscribe(
+        (response: any) => {
+          this.searchedEmployees = response;
+          this.searchedEmployees = this.removeDuplicateSupervisors(this.searchedEmployees);
+
+
+
+        }
+      )
+    }
+    if (searchTerm.length > 3) {
+      if (this.previousTerm.length > searchTerm.length) {
+        this.searchedEmployees = this.baseVariable;
+      }
+      this.searchedEmployees = this.searchedEmployees.filter(searchedEmployee => searchedEmployee.fullName.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
+    this.previousTerm = searchTerm;
+  }
+
 
 
   public changeStatus() {
     this.isClicked = !this.isClicked;
   }
 
-  public searchEmployees(searchedEmployee: any) {
-    if (searchedEmployee == "") {
-      this.searchedEmployees = []
-    }
-    else {
-      this.employeeService.getEmployeesByName(searchedEmployee).subscribe(
-        (response: any) => {
-          this.searchedEmployees = response;
-          this.selectedEmployee = this.searchedEmployees[0];
-          this.populateEmployeeData();
-        },
-        (error: HttpErrorResponse) => {
+  // public searchEmployees(searchedEmployee: any) {
+  //   if (searchedEmployee == "") {
+  //     this.searchedEmployees = []
+  //   }
+  //   else {
+  //     this.employeeService.getEmployeesByName(searchedEmployee).subscribe(
+  //       (response: any) => {
+  //         this.searchedEmployees = response;
+  //         this.selectedEmployee = this.searchedEmployees[0];
+  //         console.log(this.selectedEmployee.organizationalUnit)
+  //         this.populateEmployeeData();
+  //       },
+  //       (error: HttpErrorResponse) => {
 
-        }
-      )
-    }
-  }
+  //       }
+  //     )
+  //   }
+  // }
 
-  public searchUsernameFromAD(usernametosearch: string): Promise<void> {
-    return new Promise((resolve, reject) => {
-      this.adUserService.checkIfUserExistsOnAD(usernametosearch).subscribe(
-        (response: any) => {
-          this.userExists = (this.username == response[0]?.username) || false;
-          const dnPattern = /CN=([^,]+)/;
-          const matches = response[0].dn.match(dnPattern);
-          const name = matches ? matches[1] : '';
-          if (this.userExists) this.searchEmployees(name);
-          this.fullName = name;
-          resolve();  // Resolve the promise
-        },
-        (error: HttpErrorResponse) => {
-          reject(error);  // Reject the promise
-        }
-      )
-    });
-  }
+  // public searchUsernameFromAD(usernametosearch: string): Promise<void> {
+  //   return new Promise((resolve, reject) => {
+  //     this.adUserService.checkIfUserExistsOnAD(usernametosearch).subscribe(
+  //       (response: any) => {
+  //         this.userExists = (this.username == response[0]?.username) || false;
+  //         const dnPattern = /CN=([^,]+)/;
+  //         const matches = response[0].dn.match(dnPattern);
+  //         const name = matches ? matches[1] : '';
+  //         if (this.userExists) this.searchEmployees(name);
+  //         this.fullName = name;
+  //         resolve();  // Resolve the promise
+  //       },
+  //       (error: HttpErrorResponse) => {
+  //         reject(error);  // Reject the promise
+  //       }
+  //     )
+  //   });
+  // }
 
 
   public getModules(): void {
@@ -220,17 +275,6 @@ export class AddUser implements OnInit {
     );
   }
 
-  // public getRoles(): void {
-  //   this.roleService.getEveryRole().subscribe(
-  //     (response: Role[]) => {
-  //       this.roles = response;
-  //     },
-  //     (error: HttpErrorResponse) => {
-
-  //     }
-  //   );
-  // }
-
 
   checkRole(roleName: string): boolean {
     let result: boolean = false; // declare a variable to store the result
@@ -243,57 +287,70 @@ export class AddUser implements OnInit {
   }
 
   async startAdding(addUserForm: NgForm): Promise<void> {
-    try {
-      await this.searchUsernameFromAD(addUserForm.value.adUserName);
-      let fromAd = [{name:this.fullName.toUpperCase()}];
-
-          // Fuse.js options
-    const options = {
-      includeScore: true,
-      findAllMatches: true,
-      threshold: 0.5, // This is your 50% likelihood
-      location: 0,
-      distance: 100,
-      maxPatternLength: 32,
-      minMatchCharLength: 1,
-      keys: ["name"]
-    };
-    
-      let fuse = new Fuse(fromAd, options);
-      let match = fuse.search(this.selectedFullName);
-   
-      let percentage = (1-match[0].score)*100;
-      let messageIfOk = " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName +  "  with similiarity of  " + percentage.toFixed(1) +"%";
-      let messageIfNotOk = "User doesn't match";
-      
-
-      
-      this.confirmationService.confirm({
-        message: (percentage < 50)? messageIfNotOk:messageIfOk,
-        header: 'Confirm that these users are the same',
-        icon: 'pi pi-info-circle',
-        acceptLabel: " Yes",
-        rejectLabel: " No",
-        acceptVisible: percentage > 50,
-        accept: () => {
-          this.addUser(addUserForm);
-          this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record Created', life: 5000 });
-        },
-        reject: (type: ConfirmEventType) => {
-          switch (type) {
-            case ConfirmEventType.REJECT:
-              this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 5000 });
-              break;
-            case ConfirmEventType.CANCEL:
-              this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled', life: 5000 });
-              break;
-          }
-        },
-        key: 'positionDialog'
-      });
-    } catch (error) {
-      console.error(error);
+    if(this.selectedOrganizationalUnit && this.value.includes("branch")){
+      addUserForm.form.value.branch = this.selectedOrganizationalUnit;
     }
+    if(this.selectedOrganizationalUnit && this.value.includes("team")){
+      addUserForm.form.value.team = this.selectedOrganizationalUnit;
+    }
+    console.log(this.selectedEmployee)
+    addUserForm.form.value.supervisorId =this.selectedEmployee.supervisorId
+    addUserForm.form.value.supervisorFullName = this.selectedEmployee.supervisorFullName
+    console.log(addUserForm.form.value)
+    console.log(this.selectedFiles1)
+    console.log(this.selectedFiles2)
+
+    // try {
+    //   await this.searchUsernameFromAD(addUserForm.value.adUserName);
+    //   let fromAd = [{name:this.fullName.toUpperCase()}];
+
+    //       // Fuse.js options
+    // const options = {
+    //   includeScore: true,
+    //   findAllMatches: true,
+    //   threshold: 0.5, // This is your 50% likelihood
+    //   location: 0,
+    //   distance: 100,
+    //   maxPatternLength: 32,
+    //   minMatchCharLength: 1,
+    //   keys: ["name"]
+    // };
+    
+    //   let fuse = new Fuse(fromAd, options);
+    //   let match = fuse.search(this.selectedFullName);
+   
+    //   let percentage = (1-match[0].score)*100;
+    //   let messageIfOk = " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName +  "  with similiarity of  " + percentage.toFixed(1) +"%";
+    //   let messageIfNotOk = "User doesn't match";
+      
+
+      
+    //   this.confirmationService.confirm({
+    //     message: (percentage < 50)? messageIfNotOk:messageIfOk,
+    //     header: 'Confirm that these users are the same',
+    //     icon: 'pi pi-info-circle',
+    //     acceptLabel: " Yes",
+    //     rejectLabel: " No",
+    //     acceptVisible: percentage > 50,
+    //     accept: () => {
+    //       this.addUser(addUserForm);
+    //       this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record Created', life: 5000 });
+    //     },
+    //     reject: (type: ConfirmEventType) => {
+    //       switch (type) {
+    //         case ConfirmEventType.REJECT:
+    //           this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 5000 });
+    //           break;
+    //         case ConfirmEventType.CANCEL:
+    //           this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled', life: 5000 });
+    //           break;
+    //       }
+    //     },
+    //     key: 'positionDialog'
+    //   });
+    // } catch (error) {
+    //   console.error(error);
+    // }
   }
 
   public addUser(addUserForm: NgForm): void {
@@ -335,32 +392,117 @@ export class AddUser implements OnInit {
     });
   }
 
-  // public getUser(id: number): User {
-  //   this.userService.getUser(id).subscribe(
-  //     (response: User) => {
-  //       this.user = response;
-  //       this.selectedEmployee = this.user.employee;
-  //       this.selectedState = this.user.active;
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //     }
-  //   );
-  //   return this.user;
-  // }
+  
+
+  getJob(event: any) {
+
+    const searchTerm = event.query;
+    if (searchTerm.length == 0) {
+      this.previousTerm = "";
+    }
+    if (searchTerm.length >= 5) {
+      this.employeeService.getJobByTitle(searchTerm.toUpperCase()).subscribe(
+        (response: any) => {
+          this.searchedJob = response;
+
+        }
+      )
+    }
 
 
-  // public updateUser(updateUser: NgForm): void {
-  //   this.selectedEmployee = null;
-  //   this.selectedState = null;
-  //   this.userService.updateUser(updateUser.value).subscribe(
-  //     (response: User) => {
 
-  //     },
-  //     (error: HttpErrorResponse) => {
+  }
 
-  //     }
-  //   );
-  // }
+  getAllProcess() {
+
+
+    this.employeeService.getAllProcess().subscribe(
+      (response: any) => {
+        this.allProcess = response;
+
+
+      }
+    )
+
+
+
+
+  }
+
+  getSubProcess(event: any) {
+
+
+
+    const searchTerm = event.query;
+    if (searchTerm.length == 0) {
+      this.previousTerm = "";
+    }
+    if (searchTerm.length >= 3) {
+      this.employeeService.getSubProcessByName(searchTerm.toUpperCase()).subscribe(
+        (response: any) => {
+          this.searchedSubProcess = response;
+
+        }
+      )
+    }
+
+
+
+  }
+
+  onValueChange(event) {
+    this.value = event.value
+    if (event.value.includes("branch")) {
+      this.prompt = "Enter Branch Code or Name"
+      this.field = "name"
+    } else {
+      this.prompt = "Search Team By Name"
+      this.field = "externalName"
+    }
+
+  }
+
+  getData(event: any) {
+
+
+    if (this.value.includes("branch")) {
+      const searchTerm = event.query;
+      if (searchTerm.length == 0) {
+        this.previousTerm = "";
+      }
+      if (searchTerm.length >= 3) { // Store search results locally for all search terms longer than or equal to 3 letters
+        this.employeeService.getBranchByName(searchTerm.toUpperCase()).subscribe(
+          (response: any) => {
+            this.searchedOrganizationalUnit = response;
+
+          }
+        )
+      }
+    } else {
+      const searchTerm = event.query;
+      if (searchTerm.length == 0) {
+        this.previousTerm = "";
+      }
+      if (searchTerm.length >= 8) { // Store search results locally for all search terms longer than or equal to 3 letters
+        this.employeeService.getTeamByName(searchTerm.toUpperCase()).subscribe(
+          (response: any) => {
+            this.searchedOrganizationalUnit = response;
+            console.log(this.searchedOrganizationalUnit);
+          }
+        )
+      }
+    }
+
+
+  }
+
+  // In your component.ts file
+onSelectEmployee(selectedItem: any) {
+  this.selectedEmployee = selectedItem; // Assign the selected item to selectedEmployee
+}
+
+
+
 
   onSelect1(event: any) {
     this.selectedFiles1 = event.files[0];

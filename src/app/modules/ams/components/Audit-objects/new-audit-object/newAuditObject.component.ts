@@ -90,12 +90,16 @@ export class NewAuditObjectComponent implements OnDestroy {
   //   });
   // }
 
-  submitAuditObject(checklistForm: NgForm): void {
-    checklistForm.value.auditType = JSON.parse(localStorage.getItem("auditStaff")).auditType
+  submitAuditObject(objectForm: NgForm): void {
+    console.log(JSON.parse(localStorage.getItem("auditStaff")))
+    //hello
+    objectForm.value.auditType = JSON.parse(localStorage.getItem("auditStaff")).auditType
     if (this.update) {
-      // this.updateAuditObjects(checklistForm);
+      // console.log(objectForm.value)
+      this.updateAuditObjects(objectForm);
     } else {
-      // this.addAuditObject(checklistForm);
+      // console.log(objectForm.value)
+      this.addAuditObject(objectForm);
     }
   }
 

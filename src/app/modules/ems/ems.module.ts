@@ -32,14 +32,19 @@ import {
   TooltipModule,
   UtilitiesModule
 } from '@coreui/angular';
-import { EMSComponent } from './upload-employee-data/ems-upload.component';
 import { EMSRoutingModule } from './ems-routing.module';
 import { IconModule } from '@coreui/icons-angular';
 import { MessagesModule } from 'primeng/messages';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { FileUploadModule } from 'primeng/fileupload';
-import { AddUser } from './add-user/add-user.component'
+import { AddUser } from './add-user/add-user.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { CalendarModule} from 'primeng/calendar'
+import { RadioButtonModule } from 'primeng/radiobutton';
+
+
 
 @NgModule({
   imports: [
@@ -81,11 +86,14 @@ import { AddUser } from './add-user/add-user.component'
     PasswordModule,
     DividerModule,
     ProgressSpinnerModule,
+    AutoCompleteModule,
+    SelectButtonModule,
+    CalendarModule,
+    RadioButtonModule
 
     
   ],
   declarations: [
-    EMSComponent,
     AddUser
   ],
   providers: [ConfirmationService, MessageService]
