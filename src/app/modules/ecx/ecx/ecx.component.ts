@@ -42,21 +42,20 @@ export class ECXComponent implements OnInit{
     this.http.get('http://localhost:8080/xml').subscribe(
       data => {
         this.xmlFile = data;
-        // do something with the xml file data
         this.loading = false;
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Xml file generated'
+          detail: 'report file generated'
         });
-        this.display = true; // show the dialog
+        this.display = true; 
       },
       error => {
         this.loading = false;
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'Xml file generation failed'
+          detail: 'report generation failed'
         });
       }
     );

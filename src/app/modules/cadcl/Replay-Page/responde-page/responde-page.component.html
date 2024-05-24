@@ -212,7 +212,6 @@
                                     <div class="mb-4 mt-4"
                                         style="width: 300px !important; height: 75px !important; text-align: center;">
                                         <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
-                                            url="https://www.primefaces.org/cdn/api/upload.php"
                                             accept="image/*,.pdf,.docs,.txt"
                                             (onUpload)="onFileUpload($event)"></p-fileUpload>
                                     </div>
@@ -221,7 +220,7 @@
                         </div>
                         <div *ngIf="!replayChecklist.replayed">
                             <label for="integer" class="block mb-2 mt-3">Attachments: </label>
-                            <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
+                            <p-fileUpload name="demo[]"
                                 (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
                                 <ng-template pTemplate="toolbar">
                                     <div class="py-3">Upload 3 Files</div>

@@ -13,7 +13,7 @@ import { TradeService } from '../../service/trade-services.service';
   providers: [MessageService, ConfirmationService]
 })
 export class TradeActionPlanComponent implements OnInit {
-  public share: TradeModel;
+  public trade: TradeModel;
   msgs: Message[] = [];
   public selectedDate: any;
 
@@ -27,20 +27,20 @@ export class TradeActionPlanComponent implements OnInit {
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    let share = this.activatedRoute.snapshot.paramMap.get("share");
-    this.share = share ? JSON.parse(share) : new TradeModel();
+    let trade = this.activatedRoute.snapshot.paramMap.get("trade");
+    this.trade = trade ? JSON.parse(trade) : new TradeModel();
   }
 
   public approveActionPlan(approveActionPlanForm: NgForm): void {
-    if (this.share) {
+    if (this.trade) {
       let formattedDate = this.selectedDate.getFullYear() + '-' + (this.selectedDate.getMonth() + 1).toString().padStart(2, '0') + '-' + this.selectedDate.getDate().toString().padStart(2, '0');
   
-      let financeData = {
-        ...this.share,
+      let tradeData = {
+        ...this.trade,
         actionPlanDueDate: formattedDate
       };
     
-      this.tradeService.approveActionPlanDate(financeData).subscribe(
+      this.tradeService.approveActionPlanDate(tradeData).subscribe(
         (response: any) => {
           this.messageService.add({
             severity: 'success',
@@ -48,7 +48,7 @@ export class TradeActionPlanComponent implements OnInit {
             detail: "Action plan approved successfully!"
           });
           setTimeout(() => {
-            this.router.navigate(['ICMS/Finance/viewFinance']);
+            this.router.navigate(['ICMS/Trade/viewTrade']);
           }, 1000);
         },
         (error: HttpErrorResponse) => {
@@ -56,7 +56,7 @@ export class TradeActionPlanComponent implements OnInit {
         }
       );
     } else {
-      console.error('Finance object is not initialized');
+      console.error('Trade object is not initialized');
     }
   }
 

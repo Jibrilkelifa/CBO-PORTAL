@@ -36,6 +36,7 @@ export class DetailComponent {
   public selectedBranche: string[] = [];
   public branchList: Branch[] = [];
   selectedFile: any;
+  file: File = null;
 
   ngOnInit(){
     var x = this.activatedRoute.snapshot.paramMap.get("id");
@@ -306,28 +307,6 @@ export class DetailComponent {
     });
 }
 
-// confirm2(event: Event, id: number) {
-//     this.confirmationService.confirm({
-//         target: event.target as EventTarget,
-//         message: 'Are you sure that you want to reject?',
-//         header: 'Reject Confirmation',
-//         icon: 'pi pi-info-circle',
-//         acceptButtonStyleClass:"p-button-danger p-button-text",
-//         rejectButtonStyleClass:"p-button-text p-button-text",
-//         acceptIcon:"none",
-//         rejectIcon:"none",
-
-//         accept: () => {
-//           const rejectionReason = prompt('Please enter the reason for rejection:');
-//           this.rejectResponse(id, rejectionReason);
-//            this.getcaChecklist(this.objectId);
-//         },
-//         reject: () => {
-//             this.messageService.add({ severity: 'error', summary: 'Reject', detail: 'Action cancelled' });
-//         }
-//     });
-// }
-
 confirmClose(event: Event) {
   this.confirmationService.confirm({
       target: event.target as EventTarget,
@@ -375,7 +354,9 @@ getBranchList(): void {
     }
   );
 }
-
+onFileChange(event: any){
+  this.file = event.files[0];
+}
 onUpload(event: any) {
   var formData = new FormData();
     

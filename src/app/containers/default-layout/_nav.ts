@@ -376,6 +376,10 @@ export const navItemsICMSFinanceOWNER = createNavItem(
   ],
 );
 
+
+
+
+
 export const navItemsICMSTradeIC = createNavItem(
   'Trade',
   '/ICMS',
@@ -393,6 +397,9 @@ export const navItemsICMSTradeOWNER = createNavItem(
     createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
   ],
 );
+
+
+
 
 
 
@@ -630,6 +637,15 @@ export const navItemsECXAdmin = createNavItem(
 export const navItemsECXUser = createNavItem('ECX', '/ecx');
 
 export const navItemsCAOAdmin = createNavItem(
+  'CAO Inquiry/Activity',
+  '/cao',
+  [
+    createNavItem('View', '/cao/checklists/checklist'),
+  ],
+  'cib-openstreetmap'
+);
+
+export const navItemsCAOManager = createNavItem(
   'CAO Inquiry/Activity',
   '/cao',
   [

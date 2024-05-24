@@ -8,6 +8,7 @@ import { TimeService } from '../../../../../services/sso-services/time.service';
 import { TradeModel } from "../../models/trade-model";
 import { TradeService } from "../../service/trade-services.service";
 import { AllCategoryService } from 'src/app/services/icms-services/all-category.service';
+import { AllTradeTypeService } from 'src/app/services/icms-services/all-trade-type.service';
 import { AllSubCategoryService } from 'src/app/services/icms-services/all-sub-category.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { StatusService } from 'src/app/services/icms-services/cipm-services/status.service';
@@ -15,11 +16,12 @@ import { Status } from 'src/app/models/icms-models/cipm-models/status';
 import { TradeStatusModel } from '../../models/trade-status-model';
 import { AllIrregularity } from 'src/app/models/icms-models/all-irregularity';
 import { AllCategory } from 'src/app/models/icms-models/all-category';
+import { AllTradeType } from 'src/app/models/icms-models/all-trade-type';
 import { AllSubCategory } from 'src/app/models/icms-models/all-sub-category';
 import { AllIrregularityService } from 'src/app/services/icms-services/all-irregularity.service';
 
 @Component({
-  selector: 'new-share',
+  selector: 'new-trade',
   templateUrl: './new-trade.component.html',
   styleUrls: ['./new-trade.component.scss'],
   providers: [MessageService, ConfirmationService]
@@ -28,6 +30,7 @@ import { AllIrregularityService } from 'src/app/services/icms-services/all-irreg
 export class NewTradeComponent implements OnInit {
   public Trade: TradeModel = new TradeModel();
   public categories: any[] = [];
+  public tradeTypes: any[] = [];
   public subCategories: any[] = [];
   irregularities: AllIrregularity[];
   public update: boolean = false;
@@ -36,13 +39,18 @@ export class NewTradeComponent implements OnInit {
   msgs: Message[] = [];
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
-  public statuses: TradeStatusModel[];
+  statuses: Status[] = [
+    { id: 1, name: 'Open' },
+    { id: 2, name: 'Closed' }
+  ]; 
   isOtherIrregularitySelected: boolean = false;
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
   public selectedIrregularity: AllIrregularity;
   public selectedCategory: AllCategory;
+  public selectedTradeType: AllTradeType;
+
   public selectedSubCategory: AllSubCategory;
   public selectedBranch;
   public selectedTeam;
@@ -57,6 +65,8 @@ export class NewTradeComponent implements OnInit {
     private messageService: MessageService,
     private tradeService: TradeService,
     private categoryService: AllCategoryService,
+    private tradeTypeService: AllTradeTypeService,
+
     private subCategoryService: AllSubCategoryService,
     private activatedRoute: ActivatedRoute,
     private allIrregularityService: AllIrregularityService,
@@ -65,12 +75,12 @@ export class NewTradeComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.Trade.shareDate = new Date();
+    this.Trade.tradeDate = new Date();
     this.primengConfig.ripple = true;
     this.activatedRoute.params.subscribe(params => {
       const id = params['id'];
       if (id) {
-        this.getShare(id);
+        this.getTrade(id);
         this.update = true;
       } else {
         this.selectedstatus = this.statuses.find(status => status.name === 'Open');
@@ -84,6 +94,7 @@ export class NewTradeComponent implements OnInit {
     this.generateCaseId();
     this.getCategories();
     this.getStatus();
+    this.getTradeTypes();
 
   }
 
@@ -99,9 +110,10 @@ export class NewTradeComponent implements OnInit {
           (response: any) => {
             if (response == 0) {
               this.caseId = "0001/" + month + "/" + day + "/" + year;
+              console.log(this.caseId);
             }
             else {
-              this.tradeService.findShareById(response).subscribe(
+              this.tradeService.findTradeById(response).subscribe(
                 (response: any) => {
                   if (response.caseId.slice(-4) === year) {
                     const lastCaseId = parseInt(response.caseId.slice(0, 4));
@@ -110,6 +122,7 @@ export class NewTradeComponent implements OnInit {
                   } else {
                     this.caseId = "0001/" + month + "/" + day + "/" + year;
                   }
+                  console.log(response.caseId);
                 }
               )
             }
@@ -120,10 +133,10 @@ export class NewTradeComponent implements OnInit {
   }
 
 
-  getShare(id: number) {
-    this.tradeService.findShareById(id).subscribe(
+  getTrade(id: number) {
+    this.tradeService.findTradeById(id).subscribe(
       (response: TradeModel) => {
-        response.shareDate = new Date(response.shareDate);
+        response.tradeDate = new Date(response.tradeDate);
         this.Trade = response;
       },
       error => {
@@ -164,9 +177,24 @@ export class NewTradeComponent implements OnInit {
   }
 
   getCategories() {
-    this.categoryService.getAllCategoriesBySubModuleName("SMPIC").subscribe(
+    this.categoryService.getAllCategoriesBySubModuleName("TSIPM").subscribe(
       (response: any[]) => {
         this.categories = response;
+      },
+      error => {
+      }
+    );
+  }
+  getTradeTypes() {
+    this.tradeTypeService.getAllTradeTypesBySubModuleName("TSIPM").subscribe(
+      (response: any[]) => {
+        this.tradeTypes = response;
+        if (this.Trade.tradeStatus) {
+          this.selectedstatus = this.statuses.find(status => status.name === this.Trade.tradeStatus.name);
+
+        } else {
+          console.error("Status is undefined in the response");
+        }
       },
       error => {
       }
@@ -189,7 +217,7 @@ export class NewTradeComponent implements OnInit {
   }
 
   onCategoryChange(event: any) {
-    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("SMPIC", event.value.name).subscribe(
+    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("TSIPM", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
         this.subCategories = response;
@@ -202,12 +230,12 @@ export class NewTradeComponent implements OnInit {
   }
 
 
-  submitShare(form: NgForm) {
+  submitTrade(form: NgForm) {
     if (form.valid) {
       let formValueWithDate = {
         ...form.value,
-        shareDate: this.formatDate(this.Trade.shareDate), // Convert date to string
-        shareStatus: this.selectedstatus,// Attach the status
+        tradeDate: this.formatDate(this.Trade.tradeDate), // Convert date to string
+        tradeStatus: this.selectedstatus,// Attach the status
         team: this.selectedTeam
       };
 
@@ -217,19 +245,19 @@ export class NewTradeComponent implements OnInit {
       if (this.update) {
         let updatedValue = {
           ...this.Trade,
-          shareDate: this.formatDate(this.Trade.shareDate), // Convert date to string
-          shareStatus: this.selectedstatus, // Attach the status
+          tradeDate: this.formatDate(this.Trade.tradeDate), // Convert date to string
+          tradeStatus: this.selectedstatus, // Attach the status
           team: this.selectedTeam
         }
-        this.tradeService.updateShare(updatedValue).subscribe(
+        this.tradeService.updateTrade(updatedValue).subscribe(
           response => {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: "Share updated Successfully!"
+              detail: "Trade updated Successfully!"
             });
             setTimeout(() => {
-              this.router.navigate(['ICMS/Share/viewShare']);
+              this.router.navigate(['ICMS/Trade/viewTrade']);
             }, 1500);
             // handle response
           },
@@ -238,15 +266,15 @@ export class NewTradeComponent implements OnInit {
           }
         );
       } else {
-        this.tradeService.addShare(formValueWithDate).subscribe(
+        this.tradeService.addTrade(formValueWithDate).subscribe(
           response => {
             this.messageService.add({
               severity: 'success',
               summary: 'Success',
-              detail: "Share created Successfully!"
+              detail: "Trade created Successfully!"
             });
             setTimeout(() => {
-              this.router.navigate(['ICMS/Share/viewShare']);
+              this.router.navigate(['ICMS/Trade/viewTrade']);
             }, 1500);
 
             // handle response
