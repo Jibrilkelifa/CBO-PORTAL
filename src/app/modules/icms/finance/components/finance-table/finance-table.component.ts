@@ -138,7 +138,7 @@ export class FinanceTableComponent implements OnDestroy {
     }
 
     else if (roles.indexOf("ROLE_ICMS_FINANCE_OWNER") !== -1) {
-      this.financeService.getFinanceForICMSFINANCEIC(45).subscribe(
+      this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
         (response: FinanceModel[]) => {                                      
           this.FinanceList = response.map(finance => ({
             ...finance,
