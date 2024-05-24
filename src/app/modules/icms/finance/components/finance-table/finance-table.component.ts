@@ -147,7 +147,7 @@ export class FinanceTableComponent implements OnDestroy {
           this.financeListDisplay = this.FinanceList.map((obj: any) => {
             let financeDate = obj.financeDate ? new Date(obj.financeDate) : null;
             let formattedFinanceDate = financeDate ? (financeDate.getMonth() + 1).toString().padStart(2, '0') + '/' + financeDate.getDate().toString().padStart(2, '0') + '/' + financeDate.getFullYear() : null;
-    
+  
             let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
             let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
 
