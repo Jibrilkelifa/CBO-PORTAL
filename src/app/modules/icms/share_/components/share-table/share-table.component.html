@@ -113,10 +113,20 @@
         <td>{{ share?.shareHoldersName }}</td>
         <td>{{ share?.allCategory?.name }}</td>
         <td>{{ share?.allSubCategory?.name }}</td>
-        <td>
+        <!-- <td>
           <div class="w-64 overflow-hidden overflow-ellipsis">
             {{ share?.irregularity?.name }}
           </div>
+        </td> -->
+        <td class="w-64 overflow-hidden overflow-ellipsis">
+          <ng-container
+            *ngIf="share?.irregularity?.name !== 'Other'; else otherIBlock"
+          >
+            {{ share?.irregularity?.name }}
+          </ng-container>
+          <ng-template #otherIBlock>
+            {{ share?.otherIrregularity }}
+          </ng-template>
         </td>
 
         <td>{{ share?.amountInvolved }}</td>

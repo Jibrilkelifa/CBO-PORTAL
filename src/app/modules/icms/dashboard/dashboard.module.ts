@@ -89,5 +89,5 @@ import { TradeServiceDonutChartComponent } from './trade_service_dashboard/trade
   ]
 
 })
-export class DashboardModule {
+export class ICMSDashboardModule {
 }

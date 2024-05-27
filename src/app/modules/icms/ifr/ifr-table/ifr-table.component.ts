@@ -166,13 +166,7 @@ export class FraudTableComponent {
   roles: string[] = [];
 
   updateFrauds(id: number): void {
-    this.getFraud(id);
-    this.router.navigate(['updateFraud', id]);
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Success',
-      detail: "Incident Fraud Updated Successfully"
-    });
+    this.router.navigate(['ICMS/Fraud/updateFraud', id]); 
   }
 
   authorizeFrauds(id: number): void {
@@ -186,9 +180,7 @@ export class FraudTableComponent {
   calculateProvision(id: number): void {
     this.router.navigate(['ICMS/Fraud/calculateProvision', id]);
   }
-  // showFraud(id: number):void {
-  //   this.router.navigate('ICMS/Fraud/showFraud',id)
-  // }
+
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
