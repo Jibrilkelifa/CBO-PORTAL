@@ -199,13 +199,13 @@ export class RespondePageComponent {
 
   uploadedFiles: any[] = [];
 
-  onUpload(event: UploadEvent) {
-    for (let file of event.files) {
-      this.uploadedFiles.push(file);
+  onUpload(event: any) {
+    const fileList: FileList = event.target.files;
+    for (let i = 0; i < fileList.length; i++) {
+        const file: File = fileList[i];
+        this.uploadedFiles.push(file);
     }
-    //this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-  }
-
+}
 
 
   toggleForm() {

@@ -221,20 +221,12 @@
                                 </p-dialog>
                             </div>
                         </div>
-                        <div *ngIf="!replayChecklist.replayed">
+                        <div *ngIf="!replayChecklist.replayed" class="col mb-6">
                             <label for="integer" class="block mb-2 mt-3">Attachments: </label>
-                            <p-fileUpload name="demo[]"
-                                (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
-                                <ng-template pTemplate="toolbar">
-                                    <div class="py-3">Upload 3 Files</div>
-                                </ng-template>
-                                <ng-template pTemplate="content">
-                                    <ul *ngIf="uploadedFiles.length">
-                                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes
-                                        </li>
-                                    </ul>
-                                </ng-template>
-                            </p-fileUpload>
+                            <input type="file" (change)="onUpload($event)" multiple accept="image/*,.pdf,.docx,.txt">
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                            </ul>
                         </div>
 
                     </div>
