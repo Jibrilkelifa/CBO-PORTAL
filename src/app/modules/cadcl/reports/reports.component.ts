@@ -39,6 +39,7 @@ export class ReportsComponent {
     { label: 'FIS', value: 'FIS' },
     { label: 'ERCA', value: 'ERCA' },
     { label: 'Police', value: 'Police' },
+    { label: 'All', value: 'All' },
     { label: 'Other', value: 'other' },
   ];
 
