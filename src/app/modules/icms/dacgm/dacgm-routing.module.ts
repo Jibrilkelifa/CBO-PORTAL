@@ -26,6 +26,13 @@ const routes: Routes = [
         },
       },
       {
+        path: 'updateDACGM/:id',
+        component: NewDACGMComponent,
+        data: {
+          title: 'Update',
+        },
+      },
+      {
         path: 'approveActionPlan',
         component: DACGMPlanComponent,
         data: {

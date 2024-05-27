@@ -73,7 +73,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'calculateProvision',
+        path: 'calculateProvision/:id',
         component: IFRProvisionComponent,
         data: {
           title: 'Calculate Provision for Incident or Fraud',

@@ -130,11 +130,10 @@ export class DACGMTableComponent {
   constructor(private filterService: FilterService, private dacgmService: DACGMService, private organizationalUnitService: OrganizationalUnitService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
 
-  updateDACGMs(id: number): void {
-    this.getDACGM(id);
-    this.router.navigate(['updateDACGM', id]);
-  }
 
+  updateDACGMs(id: number): void {
+    this.router.navigate(['ICMS/DACGM/updateDACGM', id]); 
+  }
 
   escalateDACGM(id: number): void {
     this.dacgmService.escalateDACGM(id).subscribe(

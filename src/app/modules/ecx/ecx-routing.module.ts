@@ -26,10 +26,10 @@ const routes: Routes = [
         },
       },
       {
-        path: 'balance/updateHistory',
+        path: 'balance/updateHistory/:batchNumber',
         component: UpdateHistoryComponent,
         data: {
-          title: 'History',
+          title: 'Update History',
         },
       },
       {

@@ -147,8 +147,7 @@ export class DCQTableComponent {
     private messageService: MessageService, private timeService: TimeService) { }
 
   updateDCQs(id: number): void {
-    this.getDCQ(id);
-    this.router.navigate(['updateDCQ', id]);
+    this.router.navigate(['ICMS/DCQ/updateDCQ', id]); 
   }
   deleteDCQss(id: number): void {
     this.confirmationService.confirm({

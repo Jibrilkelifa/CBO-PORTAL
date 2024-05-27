@@ -6,7 +6,6 @@
     <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle" width="425"></p-confirmDialog>
     <p-button label="Generate xml" icon="pi pi-file" (click)="confirm()" *ngIf="!loading"></p-button>  
     <div *ngIf="loading" [style]="{'margin':'10px'}" >
-      <!-- <p-progressBar [value]="progress"></p-progressBar> -->
       <p-progressSpinner *ngIf="loading" styleClass="w-4rem h-4rem" strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s"></p-progressSpinner>
 
     </div>

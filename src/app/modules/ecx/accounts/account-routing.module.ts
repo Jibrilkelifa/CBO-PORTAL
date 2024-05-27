@@ -25,6 +25,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'updateAccount/:id',
+        component: NewAccountComponent,
+        data: {
+          title: 'Update Account',
+        },
+      },
+      {
         path: 'accountTable',
         component: AccountTableComponent,
         data: {

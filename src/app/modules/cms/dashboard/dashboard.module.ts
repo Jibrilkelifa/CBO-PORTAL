@@ -70,5 +70,5 @@ import { SharedModule } from 'primeng/api';
     DatePipe
   ]
 })
-export class DashboardModule {
+export class COBDashboardModule {
 }

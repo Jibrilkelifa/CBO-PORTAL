@@ -140,8 +140,7 @@ export class CIPMTableComponent {
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
 
   updateCIPMs(id: number): void {
-    this.getCIPM(id);
-    this.router.navigate(['updateCIPM', id]);
+    this.router.navigate(['ICMS/CIPM/updateCIPM', id]); 
   }
 
   authorizeCIPM(id: number): void {

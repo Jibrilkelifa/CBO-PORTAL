@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Module } from '../../../models/sso-models/module';
-import { ModuleService } from '../../../services/sso-services/module.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { ECXServiceService } from '../../../services/ecx-services/ecx-service.service';
@@ -43,7 +42,6 @@ export class UpdateHistoryComponent {
     this.ecxService.getHistory(batchNumber).subscribe(
       (response: any) => {
         this.updateHistory = response.result;
-        console.log(this.updateHistory)
         for (let j = 0; j < this.updateHistory.length; j++) {
           this.flag = this.updateHistory[j].successFlg
           if(this.flag == 'N'){

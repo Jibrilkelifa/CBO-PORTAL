@@ -4,6 +4,8 @@ import { ViewChecklistComponent } from "./Check-List/view-checklist/view-checkli
 import { CreateComponent } from "./Check-List/create/create.component";
 import { ChecklistsComponent } from "./Replay-Page/checklists/checklists.component";
 import { ReportsComponent } from "./reports/reports.component";
+import { DetailComponent } from "./Details-Page/detail/detail.component";
+import { RespondePageComponent } from "./Replay-Page/responde-page/responde-page.component";
 
 
 const routes: Routes = [
@@ -30,6 +32,20 @@ const routes: Routes = [
           component: ChecklistsComponent,
           data: {
             title: 'my checklists'
+          },
+        },
+        {
+          path: 'update/:id',
+          component: DetailComponent,
+          data: {
+            title: 'Check List / Details'
+          },
+        },
+        {
+          path: 'replay/:id',
+          component: RespondePageComponent,
+          data: {
+            title: 'Check List / Details'
           },
         },
         {
