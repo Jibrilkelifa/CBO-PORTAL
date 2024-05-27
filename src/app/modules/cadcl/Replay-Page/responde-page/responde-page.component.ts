@@ -42,22 +42,22 @@ export class RespondePageComponent {
   replayFileLinks: String[];
   cusInfos: CusInfo[] = [];
   cusInfo: CusInfo = new CusInfo();
-  constructor( private activatedRoute: ActivatedRoute,
+  constructor(private activatedRoute: ActivatedRoute,
     private caChecklistService: ChecklistService,
     private caResponseService: CaResponseService,
-    private router:Router,
-    private messageService: MessageService){
-    
+    private router: Router,
+    private messageService: MessageService) {
+
   }
-  
+
   private subscriptions: Subscription[] = [];
   objectId: number;
   caChecklist: CADailyCheckList;
   public replayChecklist: CAReplayCheckList = new CAReplayCheckList();
-  ngOnInit(){
+  ngOnInit() {
     var x = this.activatedRoute.snapshot.paramMap.get("id");
     this.objectId = +x;
-    if(this.objectId){
+    if (this.objectId) {
       this.getcaChecklist(this.objectId);
     }
   }
@@ -67,17 +67,17 @@ export class RespondePageComponent {
     var branch = localStorage.getItem('branchId');
 
     this.subscriptions.push(
-      this.caResponseService.getBranchCaDailyChecklistById(id,branch).subscribe(
+      this.caResponseService.getBranchCaDailyChecklistById(id, branch).subscribe(
         (response: any) => {
           this.caChecklist = response;
           this.replayChecklist = this.caChecklist?.replyCheckLists[0];
-          if(this.caChecklist?.replyCheckLists[0].replayed){
+          if (this.caChecklist?.replyCheckLists[0].replayed) {
             this.newDiv = false;
             this.cusInfos = this.caChecklist?.replyCheckLists[0].cusInfoRes;
             this.replayFileLinks = this.caChecklist?.replyCheckLists[0].attachments.split(";").filter((atach) => atach);
             this.selectedAction = this.caChecklist?.replyCheckLists[0].activityPerformed.toString();
           }
-          
+
           this.fileLinks = this.caChecklist.attachments.split(";").filter((atach) => atach);
         },
         (error: HttpErrorResponse) => {
@@ -86,10 +86,10 @@ export class RespondePageComponent {
       )
     );
   }
-  public replay(updateDivForm: NgForm): void{
+  public replay(updateDivForm: NgForm): void {
     if (this.newDiv) {
       this.replayAChecklist(updateDivForm);
-    }else{
+    } else {
       this.updateReplayAChecklist(updateDivForm);
     }
   }
@@ -101,18 +101,18 @@ export class RespondePageComponent {
     formData.append('description', updateDivForm.value.description);
     formData.append('justification', updateDivForm.value.justification);
     formData.append('checklistId', this.objectId.toString());
-    formData.append('replayedUser',localStorage.getItem('name'));
+    formData.append('replayedUser', localStorage.getItem('name'));
     formData.append('userPosition', localStorage.getItem('title'))
     formData.append('cusResps', JSON.stringify(this.cusInfos));
-    
+
     if (this.other) {
       formData.append('activityPerformed', updateDivForm.value.otherActivityPerformed)
-    }else{
+    } else {
       formData.append('activityPerformed', updateDivForm.value.activityPerformed.value)
     }
 
     for (let index = 0; index < this.uploadedFiles.length; index++) {
-      
+
       formData.append(`file${index + 1}`, this.uploadedFiles[index]);
     }
     this.subscriptions.push(
@@ -135,7 +135,7 @@ export class RespondePageComponent {
               detail: response.message,
             });
           }
-          
+
         })
     );
   }
@@ -147,18 +147,18 @@ export class RespondePageComponent {
     formData.append('description', updateDivForm.value.description);
     formData.append('justification', updateDivForm.value.justification);
     formData.append('checklistId', this.objectId.toString());
-    formData.append('replayedUser',localStorage.getItem('name'));
+    formData.append('replayedUser', localStorage.getItem('name'));
     formData.append('userPosition', localStorage.getItem('title'))
     formData.append('cusResps', JSON.stringify(this.cusInfos));
-    
+
     if (this.other) {
       formData.append('activityPerformed', updateDivForm.value.otherActivityPerformed)
-    }else{
+    } else {
       formData.append('activityPerformed', updateDivForm.value.activityPerformed.value)
     }
 
     for (let index = 0; index < this.uploadedFiles.length; index++) {
-      
+
       formData.append(`file${index + 1}`, this.uploadedFiles[index]);
     }
 
@@ -199,27 +199,27 @@ export class RespondePageComponent {
 
   uploadedFiles: any[] = [];
 
-  onUpload(event: UploadEvent) {
-      for(let file of event.files) {
-          this.uploadedFiles.push(file);
-      }      
-      //this.messageService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
-  }
-
+  onUpload(event: any) {
+    const fileList: FileList = event.target.files;
+    for (let i = 0; i < fileList.length; i++) {
+        const file: File = fileList[i];
+        this.uploadedFiles.push(file);
+    }
+}
 
 
   toggleForm() {
     this.showForm = !this.showForm;
     this.buttonLabel = this.showForm ? 'Cancel' : 'Reply';
-}
+  }
 
-  escalate(){
+  escalate() {
     this.backToList();
   }
 
-  getFile(path: String){
-    this.caChecklistService.getFile(path).subscribe((response: any)  => {
-      
+  getFile(path: String) {
+    this.caChecklistService.getFile(path).subscribe((response: any) => {
+
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -230,9 +230,9 @@ export class RespondePageComponent {
     })
   }
 
-  getFileCl(path: String){
-    this.caChecklistService.getFile(path).subscribe((response: any)  => {
-      
+  getFileCl(path: String) {
+    this.caChecklistService.getFile(path).subscribe((response: any) => {
+
       const blob = new Blob([response], { type: response.type });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -243,27 +243,27 @@ export class RespondePageComponent {
     })
   }
 
-  scrollToBottom(){
-    this.scrollTraget.nativeElement.scrollIntoView({ behavior: 'smooth'})
+  scrollToBottom() {
+    this.scrollTraget.nativeElement.scrollIntoView({ behavior: 'smooth' })
   }
 
   backToList() {
     this.router.navigate(['cao/checklists/checklist']);
   }
 
-  addCusInfo(){
-    
+  addCusInfo() {
+
     if (this.cusInfo.accountNumber) {
-        this.cusInfos.push(this.cusInfo);
-        this.cusInfo = new CusInfo();
+      this.cusInfos.push(this.cusInfo);
+      this.cusInfo = new CusInfo();
     }
   }
-  removeCusInfo(index: number){
+  removeCusInfo(index: number) {
     this.cusInfos.splice(index, 1);
   }
 
-removeCheckListFile(filelink: String) {
-  this.caChecklistService
+  removeCheckListFile(filelink: String) {
+    this.caChecklistService
       .deleteReplyCheklistFile(this.replayChecklist.id, filelink)
       .subscribe((response: any) => {
         if (response.status) {
@@ -282,23 +282,25 @@ removeCheckListFile(filelink: String) {
         }
         this.closeDialog();
       });
-}
+  }
 
-closeDialog() {
-  this.showFilepop = false;
-}
+  closeDialog() {
+    this.showFilepop = false;
+  }
 
-showFileDialog() {
+  showFileDialog() {
     this.showFilepop = true;
-}
+  }
 
-onFileUpload(event: any) {
+  onFileUpload(event: any) {
 
-  var formData = new FormData();
-    
-    formData.append(`file`, event.files[0]);
+    const file: File = event.target.files[0];
+    if (file) {
+      var formData = new FormData();
 
-    this.caChecklistService
+      formData.append(`file`, file);
+
+      this.caChecklistService
         .addReplyCheklistFile(this.replayChecklist.id, formData)
         .subscribe((response: any) => {
           if (response.status) {
@@ -317,11 +319,12 @@ onFileUpload(event: any) {
           }
           this.closeDialog();
         });
+    }
   }
 
   onCategoryChange() {
     this.other = false;
-    if(this.replayChecklist.activityPerformed["value"] == 'other'){
+    if (this.replayChecklist.activityPerformed["value"] == 'other') {
       this.other = true;
     }
   }

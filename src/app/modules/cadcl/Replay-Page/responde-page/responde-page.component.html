@@ -211,27 +211,22 @@
                                 <p-dialog header="Choice and upload new file" [(visible)]="showFilepop">
                                     <div class="mb-4 mt-4"
                                         style="width: 300px !important; height: 75px !important; text-align: center;">
-                                        <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
+                                        <!-- <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
                                             accept="image/*,.pdf,.docs,.txt"
-                                            (onUpload)="onFileUpload($event)"></p-fileUpload>
+                                            (onUpload)="onFileUpload($event)"></p-fileUpload> -->
+                                            <input type="file" class="file-input"
+                                            (change)="onFileUpload($event)" #fileUpload>
                                     </div>
+
                                 </p-dialog>
                             </div>
                         </div>
-                        <div *ngIf="!replayChecklist.replayed">
+                        <div *ngIf="!replayChecklist.replayed" class="col mb-6">
                             <label for="integer" class="block mb-2 mt-3">Attachments: </label>
-                            <p-fileUpload name="demo[]"
-                                (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
-                                <ng-template pTemplate="toolbar">
-                                    <div class="py-3">Upload 3 Files</div>
-                                </ng-template>
-                                <ng-template pTemplate="content">
-                                    <ul *ngIf="uploadedFiles.length">
-                                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes
-                                        </li>
-                                    </ul>
-                                </ng-template>
-                            </p-fileUpload>
+                            <input type="file" (change)="onUpload($event)" multiple accept="image/*,.pdf,.docx,.txt">
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                            </ul>
                         </div>
 
                     </div>
