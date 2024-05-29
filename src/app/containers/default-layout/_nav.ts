@@ -241,6 +241,13 @@ export const navItemsICMSAdmin = createNavItem(
         createNavItem('View Share', '/ICMS/Share/viewShare'),
       ],
     ),
+    createNavItem(
+      'Trade',
+      '/ICMS/Trade',
+      [
+        createNavItem('View Share', '/ICMS/Trade/viewTrade'),
+      ],
+    ),
     // Add more children as needed
   ],
   'cil-chart'
