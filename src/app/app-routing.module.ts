@@ -118,6 +118,11 @@ const routes: Routes = [
           import('./modules/icms/trade/trade.module').then((m) => m.TradeModule)
       },
       {
+        path: 'ICMS/Procurement',
+        loadChildren: () =>
+          import('./modules/icms/procurement/procurement.module').then((m) => m.ProcurementModule)
+      },
+      {
         path: 'ICMS/FireExtinguisher',
         loadChildren: () =>
           import('./modules/icms/fire extinguisher/fire-extinguisher.module').then((m) => m.FireExtinguisherModule)

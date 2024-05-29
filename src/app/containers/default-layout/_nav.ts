@@ -390,6 +390,25 @@ export const navItemsICMSTradeIC = createNavItem(
 );
 
 
+export const navItemsICMSProcurementOWNER = createNavItem(
+  'Procurement',
+  '/ICMS',
+  [
+    createNavItem('View Procurement', '/ICMS/Procurement/viewProcurement'),
+  ],
+);
+
+
+export const navItemsICMSProcurementIC = createNavItem(
+  'Procurement',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/Procurement/addProcurement'),
+    createNavItem('View Procurement', '/ICMS/Procurement/viewProcurement'),
+  ],
+);
+
+
 export const navItemsICMSTradeOWNER = createNavItem(
   'Trade',
   '/ICMS',
