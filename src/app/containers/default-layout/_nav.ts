@@ -241,6 +241,13 @@ export const navItemsICMSAdmin = createNavItem(
         createNavItem('View Share', '/ICMS/Share/viewShare'),
       ],
     ),
+    createNavItem(
+      'Trade',
+      '/ICMS/Trade',
+      [
+        createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
+      ],
+    ),
     // Add more children as needed
   ],
   'cil-chart'
@@ -377,8 +384,23 @@ export const navItemsICMSFinanceOWNER = createNavItem(
 );
 
 
+export const navItemsICMSProcurementOWNER = createNavItem(
+  'Procurement',
+  '/ICMS',
+  [
+    createNavItem('View Procurement', '/ICMS/Procurement/viewProcurement'),
+  ],
+);
 
 
+export const navItemsICMSProcurementIC = createNavItem(
+  'Procurement',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/Procurement/addProcurement'),
+    createNavItem('View Procurement', '/ICMS/Procurement/viewProcurement'),
+  ],
+);
 
 export const navItemsICMSTradeIC = createNavItem(
   'Trade',
@@ -397,10 +419,6 @@ export const navItemsICMSTradeOWNER = createNavItem(
     createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
   ],
 );
-
-
-
-
 
 
 export const navItemsICMSShareIC = createNavItem(
