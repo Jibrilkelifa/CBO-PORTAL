@@ -37,6 +37,7 @@ export class DetailComponent {
   public branchList: Branch[] = [];
   selectedFile: any;
   file: File = null;
+  rejectId: number;
 
   ngOnInit(){
     var x = this.activatedRoute.snapshot.paramMap.get("id");
@@ -56,8 +57,9 @@ export class DetailComponent {
       this.visible = true;
   }
 
-  rejectDialog() {
-      this.rejectVisible =  !this.rejectVisible;
+  rejectDialog(idNumber: number) {
+    this.rejectId = idNumber;
+    this.rejectVisible =  !this.rejectVisible;
   }
 
   showFileDialog(){
@@ -145,12 +147,12 @@ export class DetailComponent {
     this.router.navigate(['cao/checklists/checklist']);
   }
 
-  rejectResponse(rejectForm: NgForm, id: number) {
+  rejectResponse(rejectForm: NgForm) {
     
     this.caChecklistService
-        .rejectBranchRespose(id, rejectForm.value.rejectionReason)
+        .rejectBranchRespose(this.rejectId, rejectForm.value.rejectionReason)
         .subscribe((response: any) => {
-          this.rejectDialog();
+          this.rejectDialog(null);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -263,7 +265,6 @@ export class DetailComponent {
     
     var formData = new FormData();
     this.selectedFile = event.files[0];
-    alert(this.selectedFile)
     formData.append(`file`, this.selectedFile);
 
     this.caChecklistService
