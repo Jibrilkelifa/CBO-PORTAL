@@ -154,7 +154,6 @@ export class NewProcurementComponent implements OnInit {
     this.procurementService.getStatuses().subscribe(
       (response: ProcurementStatusModel[]) => {
         this.statuses = response;
-        console.log("eee", response);
         
         this.selectedstatus = this.statuses.find(status => status.name === "Open");
       },
@@ -221,7 +220,6 @@ export class NewProcurementComponent implements OnInit {
         team: this.selectedTeam
       };
 
-      console.log("rrrr", formValueWithDate);
       
 
       if (this.update) {

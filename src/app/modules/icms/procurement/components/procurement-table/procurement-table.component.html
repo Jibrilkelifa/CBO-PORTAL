@@ -62,18 +62,14 @@
           Sub-category
           <p-sortIcon field="allSubCategory.name"></p-sortIcon>
         </th>
-        <th pSortableColumn="procurementType.name">
-          Procurement Type
-          <p-sortIcon field="rradeType.name"></p-sortIcon>
-        </th>
         <th pSortableColumn="irregularity">
           Irregularity
           <p-sortIcon field="irregularity"></p-sortIcon>
         </th>
-        <!-- <th pSortableColumn="amountInvolved">
-          Amount
+        <th pSortableColumn="amountInvolved">
+          Amount Involved
           <p-sortIcon field="amountInvolved"></p-sortIcon>
-        </th> -->
+        </th>
         <th pSortableColumn="customerName">
           Customer Name
           <p-sortIcon field="customerName"></p-sortIcon>
@@ -103,7 +99,6 @@
         <td>{{ procurement?.referenceNumber }}</td>
         <td>{{ procurement?.allCategory?.name }}</td>
         <td>{{ procurement?.allSubCategory?.name }}</td>
-        <td>{{ procurement?.procurementType?.name }}</td>
         <td
           pTooltip="{{ procurement?.irregularity?.name }}"
           tooltipPosition="top"

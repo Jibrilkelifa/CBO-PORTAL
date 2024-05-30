@@ -20,12 +20,12 @@ export class ProcurementModel {
     branch: Branch;
     team: Team;
     actionTaken:boolean;
-     actionPlanDueDate: string;
+    actionPlanDueDate: string;
 
 
-   // tradeType:any;
-    // tradeNumber: string; 
-    // tradeHoldersName: string; 
-    //otherIrregularity: string; 
+  // tradeType:any;
+  // tradeNumber: string; 
+  // tradeHoldersName: string; 
+  //otherIrregularity: string; 
 
 }
