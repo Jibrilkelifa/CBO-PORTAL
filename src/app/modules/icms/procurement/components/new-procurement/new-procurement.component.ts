@@ -40,14 +40,14 @@ export class NewProcurementComponent implements OnInit {
   statuses: Status[] = [
     { id: 1, name: 'Open' },
     { id: 2, name: 'Closed' }
-  ]; 
+  ];
   isOtherIrregularitySelected: boolean = false;
   categoryName: string;
   public showOtherProductTypes: boolean = false;
   caseId: string;
   public selectedIrregularity: AllIrregularity;
   public selectedCategory: AllCategory;
- 
+
 
   public selectedSubCategory: AllSubCategory;
   public selectedBranch;
@@ -154,7 +154,6 @@ export class NewProcurementComponent implements OnInit {
     this.procurementService.getStatuses().subscribe(
       (response: ProcurementStatusModel[]) => {
         this.statuses = response;
-        
         this.selectedstatus = this.statuses.find(status => status.name === "Open");
       },
       (error: HttpErrorResponse) => {
@@ -163,18 +162,15 @@ export class NewProcurementComponent implements OnInit {
     );
   }
 
-  onProductTypeChange(event: any) {
-    this.showOtherProductTypes = event.value === 'Other';
-  }
-
   onIrregularityChange(event: any) {
     this.isOtherIrregularitySelected = (event.value.name === 'Other');
   }
 
   getCategories() {
-    this.categoryService.getAllCategoriesBySubModuleName("TSIPM").subscribe(
+    this.categoryService.getAllCategoriesBySubModuleName("PFPIC").subscribe(
       (response: any[]) => {
         this.categories = response;
+        this.subCategories = response;
       },
       error => {
       }
@@ -188,7 +184,6 @@ export class NewProcurementComponent implements OnInit {
         this.irregularities = response;
       },
       (error: HttpErrorResponse) => {
-
       }
     )
   }
@@ -198,11 +193,10 @@ export class NewProcurementComponent implements OnInit {
   }
 
   onCategoryChange(event: any) {
-    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("TSIPM", event.value.name).subscribe(
+    this.subCategoryService.getAllSubCategoriesBySubModuleNameAndCategoryName("PFPIC", event.value.name).subscribe(
       (response: any[]) => {
         this.categoryName = event.value.name;
         this.subCategories = response;
-
       },
       (error: HttpErrorResponse) => {
 
@@ -219,8 +213,6 @@ export class NewProcurementComponent implements OnInit {
         procurementStatus: this.selectedstatus,// Attach the status
         team: this.selectedTeam
       };
-
-      
 
       if (this.update) {
         let updatedValue = {

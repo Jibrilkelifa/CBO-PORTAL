@@ -144,10 +144,6 @@ export class NewShareComponent implements OnInit {
     }
   }
 
-  onProductTypeChange(event: any) {
-    this.showOtherProductTypes = event.value === 'Other';
-  }
-
   onIrregularityChange(event: any) {
     this.isOtherIrregularitySelected = (event.value.name === 'Other');
   }
@@ -178,6 +174,7 @@ export class NewShareComponent implements OnInit {
       (response: any[]) => {
         this.categoryName = event.value.name;
         this.subCategories = response;
+        
 
       },
       (error: HttpErrorResponse) => {
