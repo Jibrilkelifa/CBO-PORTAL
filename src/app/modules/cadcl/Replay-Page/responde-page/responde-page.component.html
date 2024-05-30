@@ -135,15 +135,15 @@
                     <div class="col mb-4">
 
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.accountNumber"
-                            name="accountNumber" [style]="{'width':'15vw','height':'45px'}" />
+                            name="accountNumber" [style]="{'width':'15vw','height':'45px'}" required/>
                     </div>
                     <div class="col mb-4">
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.customerName"
-                            name="customerName" [style]="{'width':'15vw','height':'45px'}" />
+                            name="customerName" [style]="{'width':'15vw','height':'45px'}" required/>
                     </div>
                     <div class="col mb-3">
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.amount" name="amount"
-                            [style]="{'width':'15vw','height':'45px'}" />
+                            [style]="{'width':'15vw','height':'45px'}" required/>
                     </div>
                     <div class="col mb-3">
                         <p-button (click)="addCusInfo()" [style]="{'height':'45px'}"><i class="pi pi-plus"
@@ -217,7 +217,6 @@
                                             <input type="file" class="file-input"
                                             (change)="onFileUpload($event)" #fileUpload>
                                     </div>
-
                                 </p-dialog>
                             </div>
                         </div>
