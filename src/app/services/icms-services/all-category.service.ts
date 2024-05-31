@@ -20,8 +20,11 @@ export class AllCategoryService {
     };
     
     //this.apiServiceUrl = localStorage.getItem('url_4');
-    this.apiServiceUrl = 'http://10.1.125.58:8084';
+        this.apiServiceUrl = 'http://10.1.125.58:8084';
+        
+       //this.apiServiceUrl = 'http://localhost:8084';
 
+    
     
   }
 

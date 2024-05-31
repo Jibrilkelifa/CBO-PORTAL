@@ -27,9 +27,13 @@ export class AccountTableComponent {
     this.getAccountInfos();
     this.primengConfig.ripple = true;
   }
-  updateAccountInfos(id: number): void{
-    this.getAccountInfo(id);
-    this.router.navigate(['updateAccount',id]);
+  // updateAccountInfos(id: number): void{
+  //   this.getAccountInfo(id);
+  //   this.router.navigate(['updateAccount',id]);
+  // }
+
+  updateAccountInfos(id: number): void {
+    this.router.navigate(['ecx/account/updateAccount', id]); 
   }
 
   deleteBox(id: number):void{

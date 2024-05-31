@@ -135,15 +135,15 @@
                     <div class="col mb-4">
 
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.accountNumber"
-                            name="accountNumber" [style]="{'width':'15vw','height':'45px'}" />
+                            name="accountNumber" [style]="{'width':'15vw','height':'45px'}" required/>
                     </div>
                     <div class="col mb-4">
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.customerName"
-                            name="customerName" [style]="{'width':'15vw','height':'45px'}" />
+                            name="customerName" [style]="{'width':'15vw','height':'45px'}" required/>
                     </div>
                     <div class="col mb-3">
                         <input pInputText id="integer" pKeyFilter="int" [(ngModel)]="cusInfo.amount" name="amount"
-                            [style]="{'width':'15vw','height':'45px'}" />
+                            [style]="{'width':'15vw','height':'45px'}" required/>
                     </div>
                     <div class="col mb-3">
                         <p-button (click)="addCusInfo()" [style]="{'height':'45px'}"><i class="pi pi-plus"
@@ -211,28 +211,21 @@
                                 <p-dialog header="Choice and upload new file" [(visible)]="showFilepop">
                                     <div class="mb-4 mt-4"
                                         style="width: 300px !important; height: 75px !important; text-align: center;">
-                                        <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
-                                            url="https://www.primefaces.org/cdn/api/upload.php"
+                                        <!-- <p-fileUpload mode="basic" chooseLabel="Choose" name="file"
                                             accept="image/*,.pdf,.docs,.txt"
-                                            (onUpload)="onFileUpload($event)"></p-fileUpload>
+                                            (onUpload)="onFileUpload($event)"></p-fileUpload> -->
+                                            <input type="file" class="file-input"
+                                            (change)="onFileUpload($event)" #fileUpload>
                                     </div>
                                 </p-dialog>
                             </div>
                         </div>
-                        <div *ngIf="!replayChecklist.replayed">
+                        <div *ngIf="!replayChecklist.replayed" class="col mb-6">
                             <label for="integer" class="block mb-2 mt-3">Attachments: </label>
-                            <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php"
-                                (onUpload)="onUpload($event)" [multiple]="true" accept="image/*,.pdf,.docs,.txt">
-                                <ng-template pTemplate="toolbar">
-                                    <div class="py-3">Upload 3 Files</div>
-                                </ng-template>
-                                <ng-template pTemplate="content">
-                                    <ul *ngIf="uploadedFiles.length">
-                                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes
-                                        </li>
-                                    </ul>
-                                </ng-template>
-                            </p-fileUpload>
+                            <input type="file" (change)="onUpload($event)" multiple accept="image/*,.pdf,.docx,.txt">
+                            <ul *ngIf="uploadedFiles.length">
+                                <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                            </ul>
                         </div>
 
                     </div>

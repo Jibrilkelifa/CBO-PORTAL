@@ -24,89 +24,103 @@ export class TradeService {
 
   constructor(private http: HttpClient) { }
 
-  public addShare(shareModel: TradeModel): Observable<any> {
+  public addTrade(tradeModel: TradeModel): Observable<any> {
     this.init();
     return this.http.post(
-      `${this.apiServiceUrl}/Share/add`,
-      shareModel,
+      `${this.apiServiceUrl}/Trade/add`,
+      tradeModel,
       this.httpOptions
     );
   }
   public getSize(): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/Share/getSize`, this.httpOptions)
+    return this.http.get<any>(`${this.apiServiceUrl}/Trade/getSize`, this.httpOptions)
   }
 
-  public getAllShare(): Observable<any> {
+  public getAllTradeType(): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/Share/getAll`,
+      `${this.apiServiceUrl}/Trade/getAllTradeType`,
+      this.httpOptions
+    );
+  }
+  
+  public getAllTrade(): Observable<any> {
+    this.init();
+    return this.http.get<any>(
+      `${this.apiServiceUrl}/Trade/getAll`,
       this.httpOptions
     );
   }
 
-  public getShareForBranch(id: number): Observable<any> {
+  public getTradeForBranch(id: number): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/Share/findByOrganizationalUnitId/${id}`, this.httpOptions)
+    return this.http.get<any>(`${this.apiServiceUrl}/Trade/findByOrganizationalUnitId/${id}`, this.httpOptions)
   }
 
-  public getShareForDistrict(id: number): Observable<any> {
+  public getTradeForDistrict(id: number): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/Share/findBySubProcessId/${id}`, this.httpOptions)
+    return this.http.get<any>(`${this.apiServiceUrl}/Trade/findBySubProcessId/${id}`, this.httpOptions)
   }
 
-  public updateShare(shareModel: any): Observable<any> {
+  public updateTrade(tradeModel: any): Observable<any> {
     this.init();
     return this.http.put(
-      `${this.apiServiceUrl}/Share/update`,
-      shareModel,
+      `${this.apiServiceUrl}/Trade/update`,
+      tradeModel,
       this.httpOptions
     );
   }
 
-  public deleteShare(id: number): Observable<any> {
+  public deleteTrade(id: number): Observable<any> {
     this.init();
     return this.http.delete(
-      `${this.apiServiceUrl}/Share/delete/${id}`,
+      `${this.apiServiceUrl}/Trade/delete/${id}`,
       this.httpOptions
     );
   }
 
-  public findShareById(id: number): Observable<any> {
+  public findTradeById(id: number): Observable<any> {
     this.init();
+    console.log(id);
     return this.http.get<any>(
-      `${this.apiServiceUrl}/Share/find/${id}`,
+      `${this.apiServiceUrl}/Trade/find/${id}`,
       this.httpOptions
     );
   }
 
   public getStatuses(): Observable<any> {
     this.init();
-    return this.http.get<any>(`${this.apiServiceUrl}/ShareStatus/getAll`, this.httpOptions)
+    return this.http.get<any>(`${this.apiServiceUrl}/TradeStatus/getAll`, this.httpOptions)
   }
 
-  public findAllShareBYBranch(branchId: number): Observable<any> {
+  public findAllTradeBYBranch(branchId: number): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/Share/branch/${branchId}`,
+      `${this.apiServiceUrl}/Trade/branch/${branchId}`,
       this.httpOptions
     );
   }
 
-  public approveActionPlanDate(share: TradeModel): Observable<any> {
+  public approveActionPlanDate(trade: TradeModel): Observable<any> {
     this.init();
+    console.log(trade )
     const body = {
-      share: share
+      trade: trade
     };
-    return this.http.patch<any>(`${this.apiServiceUrl}/Share/approveActionPlan/${share?.id}`, share, this.httpOptions)
+    return this.http.patch<any>(`${this.apiServiceUrl}/Trade/approveActionPlan/${trade?.id}`, trade, this.httpOptions)
   }
 
-  public findAllShareSubProcess(subProcessId: number): Observable<any> {
+  public findAllTradeSubProcess(subProcessId: number): Observable<any> {
     this.init();
     return this.http.get<any>(
-      `${this.apiServiceUrl}/Share/subProcess/${subProcessId}`,
+      `${this.apiServiceUrl}/Trade/subProcess/${subProcessId}`,
       this.httpOptions
     );
   }
+
+
+
+
 
 }

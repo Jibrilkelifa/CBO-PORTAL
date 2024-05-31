@@ -36,6 +36,8 @@ export class DetailComponent {
   public selectedBranche: string[] = [];
   public branchList: Branch[] = [];
   selectedFile: any;
+  file: File = null;
+  rejectId: number;
 
   ngOnInit(){
     var x = this.activatedRoute.snapshot.paramMap.get("id");
@@ -55,8 +57,9 @@ export class DetailComponent {
       this.visible = true;
   }
 
-  rejectDialog() {
-      this.rejectVisible =  !this.rejectVisible;
+  rejectDialog(idNumber: number) {
+    this.rejectId = idNumber;
+    this.rejectVisible =  !this.rejectVisible;
   }
 
   showFileDialog(){
@@ -144,12 +147,12 @@ export class DetailComponent {
     this.router.navigate(['cao/checklists/checklist']);
   }
 
-  rejectResponse(rejectForm: NgForm, id: number) {
+  rejectResponse(rejectForm: NgForm) {
     
     this.caChecklistService
-        .rejectBranchRespose(id, rejectForm.value.rejectionReason)
+        .rejectBranchRespose(this.rejectId, rejectForm.value.rejectionReason)
         .subscribe((response: any) => {
-          this.rejectDialog();
+          this.rejectDialog(null);
           if (response.status) {
             this.messageService.add({
               severity: 'success',
@@ -262,7 +265,6 @@ export class DetailComponent {
     
     var formData = new FormData();
     this.selectedFile = event.files[0];
-    alert(this.selectedFile)
     formData.append(`file`, this.selectedFile);
 
     this.caChecklistService
@@ -305,28 +307,6 @@ export class DetailComponent {
         }
     });
 }
-
-// confirm2(event: Event, id: number) {
-//     this.confirmationService.confirm({
-//         target: event.target as EventTarget,
-//         message: 'Are you sure that you want to reject?',
-//         header: 'Reject Confirmation',
-//         icon: 'pi pi-info-circle',
-//         acceptButtonStyleClass:"p-button-danger p-button-text",
-//         rejectButtonStyleClass:"p-button-text p-button-text",
-//         acceptIcon:"none",
-//         rejectIcon:"none",
-
-//         accept: () => {
-//           const rejectionReason = prompt('Please enter the reason for rejection:');
-//           this.rejectResponse(id, rejectionReason);
-//            this.getcaChecklist(this.objectId);
-//         },
-//         reject: () => {
-//             this.messageService.add({ severity: 'error', summary: 'Reject', detail: 'Action cancelled' });
-//         }
-//     });
-// }
 
 confirmClose(event: Event) {
   this.confirmationService.confirm({
@@ -375,7 +355,9 @@ getBranchList(): void {
     }
   );
 }
-
+onFileChange(event: any){
+  this.file = event.files[0];
+}
 onUpload(event: any) {
   var formData = new FormData();
     

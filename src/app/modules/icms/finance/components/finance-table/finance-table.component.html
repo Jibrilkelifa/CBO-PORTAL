@@ -193,6 +193,13 @@
               class="p-button-sm w-20 h-10 p-2"
               label="Update"
             ></button>
+            <button *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+            pButton
+            (click)="deleteFinance(finance.id)"
+            [ngClass]="{ updateBlue: true }"
+            class="p-button-sm w-20 h-10 p-2"
+            label="Delete"
+          ></button>
           </div>
         </td>
       </tr>

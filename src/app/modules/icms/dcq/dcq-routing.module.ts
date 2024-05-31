@@ -24,6 +24,13 @@ const routes: Routes = [
         },
       },
       {
+        path: 'updateDCQ/:id',
+        component: NewDCQComponent,
+        data: {
+          title: 'Update',
+        },
+      },
+      {
         path: 'viewDCQ',
         component: DCQTableComponent,
         data: {

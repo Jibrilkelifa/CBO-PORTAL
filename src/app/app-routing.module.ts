@@ -3,16 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 import { LoginComponent } from './modules/sso/login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
-import { NewCIPMComponent } from './modules/icms/cipm/new-cipm/new-cipm.component';
-import { NewDACGMComponent } from './modules/icms/dacgm/new-dacgm/new-dacgm.component'
-import { NewDCQComponent } from './modules/icms/dcq/new-dcq/new-dcq.component';
-import { NewFraudComponent } from './modules/icms/ifr/new-ifr/new-ifr.component';
-import { UpdateHistoryComponent } from './modules/ecx/ecx-history/update-history.component';
-import { NewAccountComponent } from './modules/ecx/accounts/newAccount/newAccount.component';
-import { IFRProvisionComponent } from './modules/icms/ifr/ifr-provision/ifr-provision.component';
 import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
-import { DetailComponent } from './modules/cadcl/Details-Page/detail/detail.component';
-import { RespondePageComponent } from './modules/cadcl/Replay-Page/responde-page/responde-page.component';
 
 const routes: Routes = [
   {
@@ -29,60 +20,32 @@ const routes: Routes = [
 
     children: [
       {
-        path: 'updateAccount/:id', component: NewAccountComponent, data: { title: 'Account / Update Account' }
-      },
-      {
-        path: 'ecx/balance/updateHistory/:batchNumber', component: UpdateHistoryComponent, data: { title: 'History / Update History' }
-      },
-      {
-        path: 'cao/checklists/update/:id', component: DetailComponent, data: { title: 'Check List / Details' }
-      },
-      {
-        path: 'cao/checklists/replay/:id', component: RespondePageComponent, data: { title: 'Check List / Details' }
-      },
-      {
-        path: 'updateCIPM/:id', component: NewCIPMComponent, data: { title: 'CIPM / Update CIPM' }
-      },
-      {
-        path: 'updateDACGM/:id', component: NewDACGMComponent, data: { title: 'DACGM / Update DACGM' }
-      },
-      {
-        path: 'ICMS/Fraud/calculateProvision/:id', component: IFRProvisionComponent, data: { title: 'Fraud /  plan' }
-      },
-
-      {
         path: 'ICMS/DACGM/approveActionPlan/:id', component: DACGMPlanComponent, data: { title: 'Fraud /  escalated' }
-      },
-      {
-        path: 'updateDCQ/:id', component: NewDCQComponent, data: { title: 'Dishonoured Cheque / Update Dishonoured Cheque' }
-      },
-      {
-        path: 'updateFraud/:id', component: NewFraudComponent, data: { title: 'Incident Fraud Component / Update Incident Fraud Component' }
-      },
-      {
-        path: 'cc_dashboard',
-        loadChildren: () =>
-          import('./modules/cc/dashboard/dashboard.module').then((m) => m.DashboardModule)
-      },
-      {
-        path: 'icms_dashboard',
-        loadChildren: () =>
-          import('./modules/icms/dashboard/dashboard.module').then((m) => m.DashboardModule)
-      },
-      {
-        path: 'cms_dashboard',
-        loadChildren: () =>
-          import('./modules/cms/dashboard/dashboard.module').then((m) => m.DashboardModule)
-      },
-      {
-        path: 'sms_dashboard',
-        loadChildren: () =>
-          import('./modules/sms/sms.module').then((m) => m.SmsModule )
       },
       {
         path: 'default_dashboard',
         loadChildren: () =>
           import('./containers/default-layout/default-dashboard/default-dashboard.module').then((m) => m.DefaultDashboardModule)
+      },
+      {
+        path: 'cc_dashboard',
+        loadChildren: () =>
+          import('./modules/cc/dashboard/dashboard.module').then((m) => m.CCDashboardModule)
+      },
+      {
+        path: 'icms_dashboard',
+        loadChildren: () =>
+          import('./modules/icms/dashboard/dashboard.module').then((m) => m.ICMSDashboardModule)
+      },
+      {
+        path: 'cms_dashboard',
+        loadChildren: () =>
+          import('./modules/cms/dashboard/dashboard.module').then((m) => m.COBDashboardModule)
+      },
+      {
+        path: 'sms_dashboard',
+        loadChildren: () =>
+          import('./modules/sms/sms.module').then((m) => m.SmsModule)
       },
       {
         path: 'CMS',
@@ -101,27 +64,6 @@ const routes: Routes = [
       },
       {
         path: 'user',
-        loadChildren: () =>
-          import('./modules/sso/user/user.module').then((m) => m.UserModule)
-      },
-      {
-        path: 'ICMS/user',
-        loadChildren: () =>
-          import('./modules/sso/user/user.module').then((m) => m.UserModule)
-      },
-      {
-        path: 'ecx/user',
-        loadChildren: () =>
-          import('./modules/sso/user/user.module').then((m) => m.UserModule)
-      },
-      {
-        path: "sasv/user",
-        loadChildren: () =>
-          import("./modules/sso/user/user.module").then((m) => m.UserModule),
-      },
-
-      {
-        path: 'CC/user',
         loadChildren: () =>
           import('./modules/sso/user/user.module').then((m) => m.UserModule)
       },
@@ -145,8 +87,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/cit/cit.module').then((m) => m.CitModule),
       },
-
-    
       {
         path: 'ICMS/CIPM',
         loadChildren: () =>
@@ -171,6 +111,16 @@ const routes: Routes = [
         path: 'ICMS/Finance',
         loadChildren: () =>
           import('./modules/icms/finance/finance.module').then((m) => m.FinanceModule)
+      },
+      {
+        path: 'ICMS/Trade',
+        loadChildren: () =>
+          import('./modules/icms/trade/trade.module').then((m) => m.TradeModule)
+      },
+      {
+        path: 'ICMS/Procurement',
+        loadChildren: () =>
+          import('./modules/icms/procurement/procurement.module').then((m) => m.ProcurementModule)
       },
       {
         path: 'ICMS/FireExtinguisher',

@@ -3,8 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NewCIPMComponent } from './new-cipm/new-cipm.component';
 import { CIPMTableComponent } from './cipm-table/cipm-table.component';
 import { NewCTComponent } from './new-ct/new-ct.component';
-import {CIPMExpiringComponent} from './cipm-expiring/cipm-expiring.component';
-import {CIPMExpiredComponent} from './cipm-expired/cipm-expired.component';
+import { CIPMExpiringComponent } from './cipm-expiring/cipm-expiring.component';
+import { CIPMExpiredComponent } from './cipm-expired/cipm-expired.component';
 
 const routes: Routes = [
   {
@@ -30,6 +30,13 @@ const routes: Routes = [
         component: CIPMTableComponent,
         data: {
           title: 'View Collateral Insurance Policy Monitoring',
+        },
+      }, 
+      {
+        path: 'updateCIPM/:id',
+        component: NewCIPMComponent,
+        data: {
+          title: 'Update',
         },
       },
       {
@@ -68,5 +75,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CIPMRoutingModule {}
+export class CIPMRoutingModule { }
 

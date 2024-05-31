@@ -20,12 +20,12 @@ interface Column {
 }
 
 @Component({
-  selector: 'share-table',
+  selector: 'Trade-table',
   templateUrl: './trade-table.component.html',
   styleUrls: ['./trade-table.component.scss'],
 })
 export class TradeTableComponent implements OnDestroy {
-  public ShareList: TradeModel[] = [];
+  public TradeList: TradeModel[] = [];
 
   approved: false;
 
@@ -52,7 +52,7 @@ export class TradeTableComponent implements OnDestroy {
   ngOnInit() {
     this.populateRoles();
     this.getCurrentDate();
-    this.getShareList(this.roles);
+    this.getTradeList(this.roles);
   }
 
   populateRoles(): void {
@@ -68,15 +68,16 @@ export class TradeTableComponent implements OnDestroy {
 
 
 
-  public getShareList(roles: string[]): void {
+  public getTradeList(roles: string[]): void {
+
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.tradeService.getAllShare().subscribe(
+      this.tradeService.getAllTrade().subscribe(
         (response: TradeModel[]) => {
           console.log(";;;",response);
-          //this.ShareList = response;
-          this.ShareList = response.map(share => ({
-            ...share,
-            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
+          //this.TradeList = response;
+          this.TradeList = response.map(trade => ({
+            ...trade,
+            daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
           }));          
         },
         (error: HttpErrorResponse) => {
@@ -84,16 +85,16 @@ export class TradeTableComponent implements OnDestroy {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_SHARE_IC") !== -1) {
-      this.tradeService.getShareForDistrict(this.subProcessId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_TRADE_IC") !== -1) {
+      this.tradeService.getTradeForDistrict(this.subProcessId).subscribe(
         (response: TradeModel[]) => {  
           console.log("PPP",response);
 
-          //this.ShareList = response;
+          //this.TradeList = response;
                                                
-          this.ShareList = response.map(share => ({
-            ...share,
-            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
+          this.TradeList = response.map(trade => ({
+            ...trade,
+            daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
           }));
         },
         (error: HttpErrorResponse) => {
@@ -105,12 +106,12 @@ export class TradeTableComponent implements OnDestroy {
   }
   
 
-  updateShare(id: number): void {
-    this.router.navigate(['ICMS/Share/updateShare', id]); 
+  updateTrade(id: number): void {
+    this.router.navigate(['ICMS/Trade/updateTrade', id]); 
   }
 
-  approveActionPlan(share: TradeModel): void {    
-    this.router.navigate(['ICMS/Share/approveActionPlan', { share: JSON.stringify(share) }]);
+  approveActionPlan(trade: TradeModel): void {    
+    this.router.navigate(['ICMS/Trade/approveActionPlan', { trade: JSON.stringify(trade) }]);
   }
   
   public daysPastDue(dateString: string): number {

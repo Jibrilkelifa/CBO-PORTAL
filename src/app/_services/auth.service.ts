@@ -109,6 +109,7 @@ export class AuthService {
     "ROLE_ECX_ADMIN": 'default_dashboard',
     "ROLE_ECX_USER": 'default_dashboard',
     "ROLE_CAO_ADMIN": 'default_dashboard',
+    "ROLE_CAO_MANAGER": 'default_dashboard',
     "ROLE_CAO_USER": 'default_dashboard',
     "ROLE_CMS_ADMIN": 'cms_dashboard',
     "ROLE_CMS_USER": 'default_dashboard',
