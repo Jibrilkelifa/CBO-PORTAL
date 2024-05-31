@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup,NgForm, Validators } from '@angular/forms';
 // import { User } from '../../../../models/sso-models/user';
 // import { Role } from "../../../../models/role";
 // import { UserService } from '../../../../services/sso-services/user.service';
@@ -26,6 +26,7 @@ import { Employee } from '../../ams/models/employee';
 })
 
 export class AddUser implements OnInit {
+  addUserForm: FormGroup;
   searchedJob: any;
   selectedJob:any;
   // public users: User[] = [];
@@ -95,20 +96,19 @@ export class AddUser implements OnInit {
   prompt: String;
   field: String;
   searchedOrganizationalUnit: any;
-  sex!:String;
+  sex: any[] = [
+    { name: 'Male', key: 'M' },
+    { name: 'Female', key: 'F' },
+];
 
   constructor(
-    private router: Router,
     private timeService: TimeService,
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
     private messageService: MessageService,
-    // private userService: UserService,
     private moduleService: ModuleService,
-    private organizationalUnitService: OrganizationalUnitService,
     private roleService: RoleService,
-    private adUserService: ADUserService,
-    private confirmationService: ConfirmationService
+    private fb: FormBuilder,
   ) { }
 
   ngOnInit() {
@@ -127,6 +127,19 @@ export class AddUser implements OnInit {
     this.maxDate = this.myDate;
     this.prompt = "Enter Branch Code or Name"
     this.field = "name"
+
+    this.addUserForm = this.fb.group({
+      employeeId: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
+      employeeFullName: ['', [Validators.pattern('[a-zA-Z\\s]*')]],
+      job: ['', [Validators.required]],
+      supervisor: ['', [Validators.required]],
+      process: [''],
+      subProcess: [''],
+      companyEntryDate: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+    });
+    
+
   }
 
   populateRoles(): void {
@@ -140,23 +153,6 @@ export class AddUser implements OnInit {
   }
 
 
-  // populateEmployeeData() {
-  
- 
-  //   this.selectedTab1 = false;
-  //   this.selectedTab2 = true;
-  //   this.selectedEmployeeId = this.selectedEmployee.employeeId;
-  //   this.selectedFullName = this.selectedEmployee.employeeFullName;
-  //   this.selectedJobTitle = this.selectedEmployee.job.title;
-  //   this.selectedGender = this.selectedEmployee.gender;
-    
-  //   this.selectedSubProcess = this.selectedEmployee.subProcess.name;
-  //   this.selectedProcess = this.selectedEmployee.process.name;
-
-  //   this.selectedWorkCenter = this.selectedEmployee.branch == null ? "HO" : "DISTRICT";
-  //   this.selectedOrganizationalUnit = this.selectedEmployee.branch?.name ?? this.selectedEmployee.team?.externalName ?? "Elite";
-
-  // }
 
   getEmployeeData(event: any) {
 
@@ -275,6 +271,7 @@ export class AddUser implements OnInit {
     );
   }
 
+  
 
   checkRole(roleName: string): boolean {
     let result: boolean = false; // declare a variable to store the result
@@ -286,110 +283,71 @@ export class AddUser implements OnInit {
     return result; // return the result at the end of the function
   }
 
-  async startAdding(addUserForm: NgForm): Promise<void> {
-    if(this.selectedOrganizationalUnit && this.value.includes("branch")){
-      addUserForm.form.value.branch = this.selectedOrganizationalUnit;
+
+
+  async startAdding(): Promise<void> {
+    if (this.addUserForm.valid){
+      if(this.selectedOrganizationalUnit && this.value.includes("branch")){
+        this.addUserForm.value.branch  = this.selectedOrganizationalUnit;
+      }
+
+      if(this.selectedOrganizationalUnit && this.value.includes("team")){
+        this.addUserForm.value.team = this.selectedOrganizationalUnit;
+      }
+
+
+      this.addUserForm.value.supervisorId =this.selectedEmployee.supervisorId;
+      this.addUserForm.value.supervisorFullName = this.selectedEmployee.employeeFullName;
+      this.addUser();
+
     }
-    if(this.selectedOrganizationalUnit && this.value.includes("team")){
-      addUserForm.form.value.team = this.selectedOrganizationalUnit;
-    }
-    console.log(this.selectedEmployee)
-    addUserForm.form.value.supervisorId =this.selectedEmployee.supervisorId
-    addUserForm.form.value.supervisorFullName = this.selectedEmployee.supervisorFullName
-    console.log(addUserForm.form.value)
-    console.log(this.selectedFiles1)
-    console.log(this.selectedFiles2)
-
-    // try {
-    //   await this.searchUsernameFromAD(addUserForm.value.adUserName);
-    //   let fromAd = [{name:this.fullName.toUpperCase()}];
-
-    //       // Fuse.js options
-    // const options = {
-    //   includeScore: true,
-    //   findAllMatches: true,
-    //   threshold: 0.5, // This is your 50% likelihood
-    //   location: 0,
-    //   distance: 100,
-    //   maxPatternLength: 32,
-    //   minMatchCharLength: 1,
-    //   keys: ["name"]
-    // };
-    
-    //   let fuse = new Fuse(fromAd, options);
-    //   let match = fuse.search(this.selectedFullName);
-   
-    //   let percentage = (1-match[0].score)*100;
-    //   let messageIfOk = " From AD:  " + this.fullName.toUpperCase() + "  ,From Employee Management System:  " + this.selectedFullName +  "  with similiarity of  " + percentage.toFixed(1) +"%";
-    //   let messageIfNotOk = "User doesn't match";
-      
-
-      
-    //   this.confirmationService.confirm({
-    //     message: (percentage < 50)? messageIfNotOk:messageIfOk,
-    //     header: 'Confirm that these users are the same',
-    //     icon: 'pi pi-info-circle',
-    //     acceptLabel: " Yes",
-    //     rejectLabel: " No",
-    //     acceptVisible: percentage > 50,
-    //     accept: () => {
-    //       this.addUser(addUserForm);
-    //       this.messageService.add({ severity: 'info', summary: 'Confirmed', detail: 'Record Created', life: 5000 });
-    //     },
-    //     reject: (type: ConfirmEventType) => {
-    //       switch (type) {
-    //         case ConfirmEventType.REJECT:
-    //           this.messageService.add({ severity: 'error', summary: 'Rejected', detail: 'You have rejected', life: 5000 });
-    //           break;
-    //         case ConfirmEventType.CANCEL:
-    //           this.messageService.add({ severity: 'warn', summary: 'Cancelled', detail: 'You have cancelled', life: 5000 });
-    //           break;
-    //       }
-    //     },
-    //     key: 'positionDialog'
-    //   });
-    // } catch (error) {
-    //   console.error(error);
-    // }
+ 
+ 
   }
 
-  public addUser(addUserForm: NgForm): void {
-    let time: string;
-    let roles: any[];
-    this.timeService.getDateTime().toPromise().then((dateTime) => {
-      time = dateTime;
-      return this.roleService.getRolesForModules(addUserForm.value.modules).toPromise();
-    }).then((moduleRoles) => {
-      roles = moduleRoles;
-      const filteredRoles = roles.filter(role => role.name.includes("ADMIN"));
-      const formData = new FormData();
+  public addUser(): void {
+    this.employeeService.addEmployee(this.addUserForm.value).subscribe(
+      (response: any) => {
+        this.searchedJob = response;
 
-      formData.append('username', addUserForm.value.adUserName);
-      formData.append('active', 'true');
-      formData.append('createdAt', time);
-      formData.append('updatedAt', time);
-      formData.append('id', addUserForm.value.employeeId);
-
-      if (this.selectedFiles1) {
-        formData.append('employeeImage', this.selectedFiles1);
-        this.selectedFiles1 = undefined;
       }
+    )
+    // let time: string;
+    // let roles: any[];
+    // this.timeService.getDateTime().toPromise().then((dateTime) => {
+    //   time = dateTime;
+    //   return this.roleService.getRolesForModules(addUserForm.value.modules).toPromise();
+    // }).then((moduleRoles) => {
+    //   roles = moduleRoles;
+    //   const filteredRoles = roles.filter(role => role.name.includes("ADMIN"));
+    //   const formData = new FormData();
 
-      if (this.selectedFiles2) {
-        formData.append('signatureImage', this.selectedFiles2);
-        this.selectedFiles2 = undefined;
-      }
+    //   formData.append('username', addUserForm.value.adUserName);
+    //   formData.append('active', 'true');
+    //   formData.append('createdAt', time);
+    //   formData.append('updatedAt', time);
+    //   formData.append('id', addUserForm.value.employeeId);
+
+    //   if (this.selectedFiles1) {
+    //     formData.append('employeeImage', this.selectedFiles1);
+    //     this.selectedFiles1 = undefined;
+    //   }
+
+    //   if (this.selectedFiles2) {
+    //     formData.append('signatureImage', this.selectedFiles2);
+    //     this.selectedFiles2 = undefined;
+    //   }
       
 
-      // formData.append('roles', new Blob([JSON.stringify(this.selectedRole)], { type: 'application/json' }));
+    //   // formData.append('roles', new Blob([JSON.stringify(this.selectedRole)], { type: 'application/json' }));
    
-      // return this.userService.addUser(formData).toPromise();
-    }).then((response: any) => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is created.' });
-      // setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
-    }).catch((errors: HttpErrorResponse) => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });
-    });
+    //   // return this.userService.addUser(formData).toPromise();
+    // }).then((response: any) => {
+    //   this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User is created.' });
+    //   // setTimeout(() => { this.router.navigate(['viewAdmins']); }, 1000);
+    // }).catch((errors: HttpErrorResponse) => {
+    //   this.messageService.add({ severity: 'error', summary: 'Error', detail: errors.error.message });
+    // });
   }
 
   
@@ -500,6 +458,11 @@ export class AddUser implements OnInit {
 onSelectEmployee(selectedItem: any) {
   this.selectedEmployee = selectedItem; // Assign the selected item to selectedEmployee
 }
+  // In your component.ts file
+  onSelectOU(selectedItem: any) {
+    this.selectedOrganizationalUnit = selectedItem; // Assign the selected item to selectedEmployee
+  }
+  
 
 
 

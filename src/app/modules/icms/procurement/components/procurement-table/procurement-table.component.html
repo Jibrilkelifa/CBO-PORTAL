@@ -161,7 +161,7 @@
             <div
               class="flex gap-2 mr-2"
               *ngIf="
-                this.roles.includes('ROLE_ICMS_TRADE_OWNER') &&
+                this.roles.includes('ROLE_ICMS_PROCUREMENT_OWNER') &&
                 !procurement?.actionTaken &&
                 procurement?.procurementStatus?.name === 'Open'
               "
@@ -176,7 +176,7 @@
             </div>
             <div
               class="flex gap-2"
-              *ngIf="this.roles.includes('ROLE_ICMS_TRADE_IC')"
+              *ngIf="this.roles.includes('ROLE_ICMS_PROCUREMENT_IC')"
             >
               <button
                 pButton

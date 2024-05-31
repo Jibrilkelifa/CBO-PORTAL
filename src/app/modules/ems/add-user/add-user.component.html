@@ -1,4 +1,4 @@
-<form #addUserForm="ngForm">
+<!-- <form #addUserForm="ngForm">
   <div class="flex flex-wrap gap-2 mb-4">
     <div class="flex-auto">
       <label for="alphabetic" class=" block mb-2"> Employee ID: </label>
@@ -126,5 +126,122 @@
         (click)="startAdding(addUserForm)"></button>
         
     </div>
+  </div>
+</form> -->
+
+
+<form [formGroup]="addUserForm" (ngSubmit)="startAdding()">
+  <div class="flex flex-wrap gap-2 mb-4">
+    <div class="flex-auto">
+      <label for="alphabetic" class="block mb-2"> Employee ID: </label>
+      <input type="text" pInputText id="empId" formControlName="employeeId" [style]="{'width':'30vw','height':'45px'}" required pKeyFilter="int"/>
+    </div>
+    <div class="flex-auto">
+      <label for="alphabetic" class="block mb-2"> Full Name: </label>
+      <input type="text" pInputText id="fullName" formControlName="employeeFullName" [style]="{'width':'30vw','height':'45px'}" required  pKeyFilterPattern="[a-zA-Z\s]*" />
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-4">
+    <div class="flex-auto">
+      <label for="alphabetic" class="block mb-2"> Job : </label>
+      <p-autoComplete  field="title" id="job" formControlName="job" placeholder="Search Job By Title" [suggestions]="searchedJob" (completeMethod)="getJob($event)" [inputStyle]="{'width':'30vw'}" />
+    </div>
+    <div class="flex-auto">
+      <label for="employeeImage" class="block mb-2"> Supervisor: </label>
+      <p-autoComplete (onSelect)="onSelectEmployee($event)"    field="supervisorFullName" formControlName="supervisor" placeholder="Search Supervisor Fullname" [suggestions]="searchedEmployees" (completeMethod)="getSupervisorData($event)" [inputStyle]="{'width':'30vw'}" />
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-4">
+    <div class="flex-auto">
+      <label for="alphanumeric" class="block mb-2"> Process: </label>
+      <p-dropdown [options]="allProcess" formControlName="process" [filter]="true" filterBy="name" [showClear]="true" placeholder="Choose Process"  [style]="{'width':'30vw','height':'45px'}" optionLabel="name">
+        <ng-template let-item pTemplate="item">
+          {{ item.name }}
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="flex-auto">
+      <label for="alphanumeric2" class="block mb-2"> Sub Process: </label>
+      <p-autoComplete  field="name" id="subProcess" formControlName="subProcess" placeholder="Search District By Name" [suggestions]="searchedSubProcess" (completeMethod)="getSubProcess($event)" [inputStyle]="{'width':'30vw'}" />
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-10">
+    <div class="flex-auto mt-2" [style]="{'width':'30vw','height':'45px'}">
+      <label for="number" class="flex mb-2"> Entry Date: </label>
+      <p-calendar id="number" formControlName="companyEntryDate"  dateFormat="dd/mm/yy" [style]="{'width':'30vw','height':'45px'}" placeholder="Entry Date" />
+    </div>
+    <div class="flex-auto">
+      <p-selectButton [options]="stateOptions"  optionLabel="label" optionValue="value"
+        (onChange)="onValueChange($event)"></p-selectButton>
+      <p-autoComplete   placeholder="{{prompt}}" name="organizationalUnit"
+        [suggestions]="searchedOrganizationalUnit" (completeMethod)="getData($event)" field="{{field}}"
+         class="clickable-button"
+        [inputStyle]="{'width':'30vw'}"  (onSelect)="onSelectOU($event)"  ></p-autoComplete>
+    </div>
+  </div>
+
+  <!-- <div class="flex flex-wrap gap-2 mb-4">
+    <div class="flex align-items-center">
+      <label class="block ">Gender:</label>
+      <div class="flex align-items-center">
+        <div *ngFor="let gender of sex" class="field-checkbox">
+          <p-radioButton [inputId]="gender.key" [value]="sex" formControlName="gender"></p-radioButton>
+          <label [for]="gender.key" class="ml-2">{{ gender.name }}</label>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="flex flex-wrap gap-2 mb-4">
+    <div class="flex align-items-center">
+      <label class="block mr-3">Gender:</label>
+      <div class="flex align-items-center" >
+        <p-radioButton formControlName="gender"  name="gender" value="Male"  inputId="male" />
+        <label for="male" class="ml-2 mr-4">Male</label>
+        <p-radioButton formControlName="gender" name="gender" value="Female"  inputId="female" />
+        <label for="female" class="ml-2">Female</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-8">
+    <div class="flex-auto">
+      <label for="employeeImage" class=" block mb-2"> Employee Image: </label>
+      <p-fileUpload name="employeeImage" (onSelect)="onSelect1($event)" [showUploadButton]=false accept="image/*"
+        [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000">
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+
+    <div class="flex-auto">
+      <label for="writtenOff" class=" block mb-2"> signature</label>
+      <p-fileUpload name="writtenOff" (onSelect)="onSelect2($event)" [showUploadButton]=false accept="image/*"
+        [style]="{'width':'30vw','height':'45px'}" [maxFileSize]="1000000" required>
+
+        <ng-template pTemplate="content">
+          <ul *ngIf="uploadedFiles.length">
+            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+          </ul>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+  </div>
+
+  <div class="button-container">
+    <div class="spacer"></div>
+    <p-toast></p-toast>
+    <p-button 
+      [disabled]="addUserForm.invalid" 
+      label="Search" 
+      class="submit-button" 
+      label="Create User"
+      type="submit" />
   </div>
 </form>

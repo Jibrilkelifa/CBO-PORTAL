@@ -101,7 +101,8 @@ export class AuditUniverseComponent implements OnDestroy {
       this.auditUniverseService.getRiskLevel().subscribe(
         (response: any) => {
           this.riskLevel = response.result;   
-          this.riskLevelNonEmpty = response.status
+          console.log(this.riskLevel);
+          this.riskLevelNonEmpty = response.status;
           
       
 

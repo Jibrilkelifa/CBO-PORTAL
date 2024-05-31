@@ -36,11 +36,14 @@ export class EMSService {
     formData.append('file', file);
     return this.http.post<any>(`${this.apiServiceUrl}/EMS/uploadEmployeeData`, formData, this.httpOptions);
   }
+  addEmployee(employee:any): Observable<any> {
+    this.init()
+    return this.http.post<any>(`${this.apiServiceUrl}/ems/api/addEmployee/addEmployee`,employee,this.httpOptions)
+  }
 
   getEmployeeById(id: number): Observable<any> {
     this.init();
     return this.http.get<Employee>(`http://10.1.125.58:8082/ems/api/getEmployeeById/${id}`, this.httpOptions2)
-
   }
 
   getDirectorBySubProcessId(id: number): Observable<any> {

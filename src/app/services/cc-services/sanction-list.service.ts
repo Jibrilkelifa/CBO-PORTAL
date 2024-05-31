@@ -11,6 +11,7 @@ import { UK_ } from 'src/app/models/sanction-models/UK_';
 import { OFAC_ } from 'src/app/models/sanction-models/OFAC_';
 import { unWeeklyIntersection } from 'src/app/models/sanction-models/unWeeklyIntersection';
 import { Deliquent_ } from 'src/app/models/sanction-models/Deliquent_';
+import { Dutch } from 'src/app/models/sanction-models/Dutch';
 
 
 @Injectable({
@@ -29,6 +30,7 @@ export class SanctionListService {
   private BOFAC;
   private BW;
   private DE;
+  private DUE;
   private AddDeliquentURL;
   private DeleteDeliquentURL;
   private DeleteDeliquentURLByTin;
@@ -38,6 +40,7 @@ export class SanctionListService {
   private GetBusinessContinuityById;
   private DeleteBusinessContinuityURL;
   private checkDeliquentUpdate;
+  private checkDutchUpdate;
   private checkBusinessContinuityUpdate;
   private checkUkUpdate;
   private checkEuUpdate;
@@ -52,6 +55,7 @@ export class SanctionListService {
 
 
    this.apiServiceUrl = localStorage.getItem("url_3");
+  // this.apiServiceUrl = "http://localhost:8083"
   
 
     this.BUI = this.apiServiceUrl + "/api/v1/un_all_individuals_optimized"
@@ -65,6 +69,7 @@ export class SanctionListService {
     this.BOFAC = this.apiServiceUrl + "/api/v1/ofac_all_optimized"
     this.BW = this.apiServiceUrl + "/api/v1/check"
     this.DE = this.apiServiceUrl + "/api/v1/deliquent_list_all_from_db_optimized"
+    this.DUE = this.apiServiceUrl + "/risk-management-api/dutch_list_all_from_db_optimized"
     this.AddDeliquentURL =this.apiServiceUrl + "/api/v1/create_deliquent_user"
     this.DeleteDeliquentURL = this.apiServiceUrl + "/api/v1/delete_deliquent_user"
     this.DeleteDeliquentURLByTin = this.apiServiceUrl + "/api/v1/delete_deliquent_user_by_tin"
@@ -74,6 +79,7 @@ export class SanctionListService {
     this.GetBusinessContinuityById = this.apiServiceUrl + "/api/v1/get_business_continuity_by_id"
     this.DeleteBusinessContinuityURL = this.apiServiceUrl + "/api/v1/delete_businessc_user"
     this.checkDeliquentUpdate = this.apiServiceUrl + "/api/v1/checkDeliquentUpdate"
+    this.checkDeliquentUpdate = this.apiServiceUrl + "risk-management-api/checkDutchUpdate";
     this.checkBusinessContinuityUpdate = this.apiServiceUrl + "/api/v1/checkBusinessContinuityUpdate"
     this.checkUkUpdate = this.apiServiceUrl + "/api/v1/checkUkUpdate"
     this.checkEuUpdate = this.apiServiceUrl + "/api/v1/checkEuUpdate"
@@ -135,6 +141,11 @@ export class SanctionListService {
     return this.httpClient.get<Deliquent_[]>(this.DE);
   
   }
+  getAllDu(): Observable<Dutch[]> {
+    this.init();
+    return this.httpClient.get<Dutch[]>(this.DUE);
+  
+  }
   getUnWeeklyIntersection(): Observable<unWeeklyIntersection[]> {
     this.init();
     return this.httpClient.get<unWeeklyIntersection[]>(this.BW);
@@ -181,6 +192,10 @@ public checkDeliquentUpdateF(): Observable<any> {
   this.init();
   return this.httpClient.get(this.checkDeliquentUpdate);
 }
+public checkDutchUpdateF(): Observable<any> {
+  this.init();
+  return this.httpClient.get(this.checkDutchUpdate);
+}
 public checkBusinessContinuityUpdateF(): Observable<any> {
   this.init();
   return this.httpClient.get(this.checkBusinessContinuityUpdate);
@@ -204,6 +219,50 @@ public checkAdverserUpdateF(): Observable<any> {
   return this.httpClient.get(this.checkAdverserUpdate);
 }
 
+
+searchUnIndividual(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/un_individual/search/${keyword}`);
+}
+searchUnEntity(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/un_entity/search/${keyword}`);
+}
+searchUk(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/uk_designation/search/${keyword}`);
+}
+searchEu(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/eu/search/${keyword}`);
+}
+
+searchBc(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/bc/search/${keyword}`);
+}
+searchPep(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/pep/search/${keyword}`);
+}
+searchAdverser(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/adverser/search/${keyword}`);
+}
+
+searchOfac(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/ofac/search/${keyword}`);
+}
+searchDeliquent(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/dl/search/${keyword}`);
+}
+searchDutch(keyword: string): Observable<any[]> {
+  this.init();
+  console.log("WE been here")
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/dutch/search/${keyword}`);
+}
 
 
 

@@ -18,10 +18,7 @@
 
 </div>
 
-<div class="flex justify-between">
-  <div></div>
-  <p-button *ngIf="!riskLevelNonEmpty" label="Create new risk level" (click)="createNewRiskLevel()"></p-button>
-</div>
+
 
 <div class="card">
   <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Risk Level</h5>
@@ -33,6 +30,7 @@
         <th>Low</th>
         <th>Medium</th>
         <th>High</th>
+        <th>Audit Type</th>
         <th scope="col">Actions</th>
       </tr>
 
@@ -41,8 +39,9 @@
       <tr>
         <td>{{ rowIndex + 1 }}</td>
         <td>{{ riskLevel.low }}</td>
-        <td>{{ riskLevel?.medium }}</td>
-        <td>{{ riskLevel?.high }}</td>
+        <td>{{ riskLevel.medium }}</td>
+        <td>{{ riskLevel.high }}</td>
+        <td>{{ riskLevel.auditType}}</td>
         <td>
           <div class="flex gap-2">
             <button pButton (click)="updateRiskLevel(riskLevel)" [ngClass]="{ updateBlue: true }"
