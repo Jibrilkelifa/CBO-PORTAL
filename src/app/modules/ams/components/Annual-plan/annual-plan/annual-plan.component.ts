@@ -77,6 +77,7 @@ export class AnnualPlanComponent {
       this.annualPlanService.getAnnualPlans().subscribe(
         (response: any) => {
           this.annualPlans = response.result;
+          console.log(this.annualPlans[0])
           this.annualPlanDisplay = this.annualPlans.map((obj: any) => ({
             ...obj,
             auditObjectName: obj.auditObect
@@ -205,12 +206,14 @@ export class AnnualPlanComponent {
     });
   }
 
-  approveAnnualPlan(addDivForm: NgForm): void {
+  approveAnnualPlan(addDivForm: number): void {
+
+  
 
   
     this.subscriptions.push(
       this.annualPlanService
-        .approveAnnualPlan(addDivForm.value.id)
+        .approveAnnualPlan(addDivForm)
         .subscribe(
           (response: any) => {
 
