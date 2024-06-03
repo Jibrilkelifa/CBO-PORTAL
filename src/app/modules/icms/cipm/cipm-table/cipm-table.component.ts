@@ -2,11 +2,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
 import { CIPM } from '../../../../models/icms-models/cipm-models/cipm';
 import { CIPMService } from '../../../../services/icms-services/cipm-services/cipm.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
 import * as XLSX from 'xlsx';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 
 
 interface Column {
@@ -29,11 +41,17 @@ export class CIPMTableComponent {
   public cipme: CIPM[] = [];
   public cipmR: CIPM[] = [];
 
+
   selectedCIPM: CIPM;
   deleteId: number = 0;
   msgs: Message[] = [];
   position: string;
   districtId: number;
+
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+  public cipmDisplay: any[] = [];
+
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -50,6 +68,35 @@ export class CIPMTableComponent {
     this.getCurrentDate();
     this.getCIPMs(this.roles);
     this.primengConfig.ripple = true;
+
+    this.cols = [
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch Name' },
+      { field: 'borrowerName', header: 'Borrower Name' },
+      { field: 'loanAccount', header: 'Loan Account' },
+      { field: 'loanType', header: 'Loan Type' },
+      { field: 'collateralType.name', header: 'Collateral Type' },
+      { field: 'mortgagorName', header: 'Mortgagor Name' },
+      { field: 'insuranceCoverageType.name', header: 'Insurance Policy Coverage Type' },
+      { field: 'collateralEstimationValue', header: 'Collateral Estimation Value' },
+      { field: 'sumInsured', header: 'Sum insured' },
+      { field: 'policyNumber', header: 'Policy number' },
+      { field: 'referenceNumber', header: 'Reference number' },
+      { field: 'insuredName', header: 'Insured name' },
+      { field: 'bbranch', header: 'Branch' },
+      { field: 'insuranceCompany', header: 'Insurance Company' },
+      { field: 'insuranceDistrict', header: 'District' },
+      { field: 'insuranceBranch', header: 'Insurance Branch' },
+      { field: 'status.name', header: 'Status' },
+      { field: 'insuranceExpireDate', header: 'Insurance expire date' },
+      { field: 'daysLeftToExpire', header: 'Days left to expire' },
+    ];
+
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
 
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
@@ -108,17 +155,21 @@ export class CIPMTableComponent {
 
   calculateDaysLeftToExpire(expiryDate: string): number {
     if (!expiryDate) return null; // Add this line to handle null or undefined expiryDate
+    if (!expiryDate) return null; // Add this line to handle null or undefined expiryDate
     let date = new Date(expiryDate);
+    if (isNaN(date.getTime())) return null; // Add this line to handle invalid dates
     if (isNaN(date.getTime())) return null; // Add this line to handle invalid dates
     let daysLeftToExpire = (date.getTime() - this.currentDate.getTime()) / (1000 * 3600 * 24);
     return Math.ceil(daysLeftToExpire);
   }
 
 
+
   millisFromNowTo(expiryDate: string): string {
 
     return (this.calculateDaysLeftToExpire(expiryDate)).toString();
   }
+
 
 
 
@@ -132,6 +183,7 @@ export class CIPMTableComponent {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
+
 
   branchId: string = localStorage.getItem('branchId');
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
@@ -185,6 +237,8 @@ export class CIPMTableComponent {
       }
     });
   }
+
+
 
 
 

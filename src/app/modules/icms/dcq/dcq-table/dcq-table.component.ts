@@ -2,11 +2,24 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService } from 'primeng/api';
 import { DCQService } from '../../../../services/icms-services/dcq-services/dcq.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
 import { DCQ } from '../../../../models/icms-models/dcq-models/dcq';
 import * as XLSX from 'xlsx';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
+
 
 
 interface Column {
@@ -36,7 +49,12 @@ export class DCQTableComponent {
   exportColumns!: ExportColumn[];
   cols!: Column[];
 
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+
   primengConfig: any;
+
+  public dcqDisplay: any[] = [];
 
   public dcqDisplay: any[] = [];
 
@@ -47,6 +65,29 @@ export class DCQTableComponent {
     this.populateRoles();
     this.getDCQs(this.roles);
     this.getCurrentDate();
+
+    this.cols = [
+      { field: 'datePresented', header: 'Date presented' },
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'fullNameOfDrawer', header: 'Full name of drawer' },
+      { field: 'accountNumber', header: 'Account number' },
+      { field: 'tin', header: 'Tin number' },
+      { field: 'drawerAddress', header: 'Drawer address' },
+      { field: 'amountInBirr', header: 'Amount in bumber' },
+      { field: 'chequeNumber', header: 'Cheque Number' },
+      { field: 'chequeType.name', header: 'Cheque type' },
+      { field: 'nameOfBeneficiary', header: 'Name of beneficiary' },
+      { field: 'frequency', header: 'Frequency' },
+      { field: 'actionTaken.name', header: 'Action taken' },
+    ];
+
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field,
+    }));
+
 
     this.cols = [
       { field: 'datePresented', header: 'Date presented' },
@@ -148,7 +189,65 @@ export class DCQTableComponent {
 
   updateDCQs(id: number): void {
     this.router.navigate(['ICMS/DCQ/updateDCQ', id]); 
+    this.router.navigate(['ICMS/DCQ/updateDCQ', id]); 
   }
+  deleteDCQss(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.DCQService.deleteDCQ(id).subscribe(
+          (response: void) => {
+            this.getDCQs(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted dishonoured cheque successfully"
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+    
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
+      },
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
+      }
+    });
+  }
+
+ 
+ 
+ 
+  
+
+  // confirmPosition(position: string, id: number) {
+  //   this.position = position;
+  //   this.confirmationService.confirm({
+  //     message: 'Do you want to delete this record?',
+  //     header: 'Delete Confirmation',
+  //     icon: 'pi pi-info-circle',
+  //     accept: () => {
+  //       this.deleteDCQ(id);
+  //       this.msgs = [{ severity: 'success', summary: 'Confirmed', detail: 'Record deleted' }];
+  //     },
+  //     reject: () => {
+  //       this.msgs = [{ severity: 'error', summary: 'Rejected', detail: 'Record not deleted' }];
+  //     },
+  //     key: "positionDialog"
+  //   });
+  // }
   deleteDCQss(id: number): void {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this record?',
@@ -266,6 +365,46 @@ private formatDate(date: Date): string {
       }
     );
     return this.DCQR;
+  }
+
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.dcqDisplay.map((plan, index) => ({
+        // Add the rest of the fields here
+        'Date presented': plan['Date presented'],
+        'Sub Process': plan['subprocess.name'],
+        'Branch Name': plan['branch.name'],
+        'Full name of drawer': plan.fullNameOfDrawer,
+        'Account Number': plan.accountNumber,
+        'Tin': plan.tin,
+        'Drawer address': plan.drawerAddress,
+        'Amount in birr': plan.amountInBirr !== null ? plan.amountInBirr : null,
+        'Cheque number': plan.chequeNumber,
+        'Check type': plan['chequeType.name'],
+        'Name of beneficiary': plan.nameOfBeneficiary,
+        'Frequency': plan.frequency,
+        'Action taken': plan['actionTaken.name'],
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Dishounered cheque');
+    });
+  }
+
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('Daily_activity_gap', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
 

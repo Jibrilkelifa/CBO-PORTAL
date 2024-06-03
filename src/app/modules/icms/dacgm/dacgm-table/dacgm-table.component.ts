@@ -2,10 +2,23 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig, SortEvent } from 'primeng/api';
 import { DACGM } from '../../../../models/icms-models/dacgm-models/dacgm';
 import { DACGMService } from '../../../../services/icms-services/dacgm-services/dacgm.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
+import * as FileSaver from 'file-saver';
+
+
+interface Column {
+  field: string;
+  header: string;
+  customExportHeader?: string;
+}
+interface ExportColumn {
+  title: string;
+  dataKey: string;
+}
 import * as FileSaver from 'file-saver';
 
 
@@ -48,6 +61,12 @@ export class DACGMTableComponent {
 
 
 
+  exportColumns!: ExportColumn[];
+  cols!: Column[];
+  public dacgmDisplay: any[] = [];
+
+
+
 
   ngOnInit() {
     this.populateRoles();
@@ -55,6 +74,28 @@ export class DACGMTableComponent {
     this.getDACGMs(this.roles);
     this.primengConfig.ripple = true;
 
+    this.cols = [
+      { field: 'subprocess.name', header: 'Sub process' },
+      { field: 'branch.name', header: 'Branch' },
+      { field: 'date', header: 'Date' },
+      { field: 'caseId', header: 'Case ID' },
+      { field: 'irregularity.allSubCategory.allcategory.name', header: 'Category' },
+      { field: 'irregularity.allSubCategory.name', header: 'Sub category' },
+      { field: 'irregularity.name', header: 'Irregularity' },
+      { field: 'amountInvolved', header: 'Amount involved' },
+      { field: 'accountName', header: 'Account name' },
+      { field: 'accountNumber', header: 'Account number' },
+      { field: 'responsiblePerson', header: 'Responsible person' },
+      { field: 'activityStatus.name', header: 'Activity status' },
+      { field: 'actionPlanDueDate', header: 'Action plan due date' },
+    ];
+
+
+    this.exportColumns = this.cols.map((col) => ({
+      title: col.header,
+      dataKey: col.field.replace(/\?/g, ''),
+    }));
+    
     this.cols = [
       { field: 'subprocess.name', header: 'Sub process' },
       { field: 'branch.name', header: 'Branch' },
@@ -131,7 +172,9 @@ export class DACGMTableComponent {
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
 
 
+
   updateDACGMs(id: number): void {
+    this.router.navigate(['ICMS/DACGM/updateDACGM', id]); 
     this.router.navigate(['ICMS/DACGM/updateDACGM', id]); 
   }
 
@@ -141,11 +184,13 @@ export class DACGMTableComponent {
         this.escalatedByManager = true;
         this.getDACGMs(this.roles);
 
+
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: "This Daily Activity Gap monitoring Escalated successfully!"
         });
+
 
         setTimeout(() => {
           // Clear the success message after 5 seconds
@@ -158,12 +203,45 @@ export class DACGMTableComponent {
     );
   }
 
+
   clearSuccessMessage(): void {
     // Clear the success message
     this.messageService.clear();
   }
 
   deleteBox(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.dacgmService.deleteDACGM(id).subscribe(
+          (response: void) => {
+            this.getDACGMs(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted DACGM successfully"
+            });
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+    
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
+      },
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
+      }
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this record?',
       header: 'Confirmation',
@@ -285,6 +363,48 @@ private formatDate(date: Date): string {
     );
     return this.dacgmR;
   }
+
+  exportExcel() {
+    import('xlsx').then((xlsx) => {
+      const data = this.dacgmDisplay.map((plan, index) => ({
+        // Add the rest of the fields here
+        'Sub Process': plan['subprocess.name'],
+        'Branch Name': plan['branch.name'],
+        'Date': plan.date,
+        'Case ID': plan.caseId,
+        Category: plan['irregularity.allSubCategory.allcategory.name'],
+        'Sub Category': plan['irregularity.allSubCategory.name'],
+        Irregularity: plan['irregularity.name'] === 'Other' ? plan['otherIrregularity'] : plan['irregularity.name'],        
+        'Amount Involved': plan.amountInvolved !== null ? plan.amountInvolved : null,
+        'Account Name': plan.accountName,
+        'Account Number': plan.accountNumber,
+        'Responsible Person': plan.responsiblePerson,
+        'Activity Status': plan['activityStatus.name'],
+        'Action Plan Due Date': plan.actionPlanDueDate
+      }));
+      const worksheet = xlsx.utils.json_to_sheet(data);
+      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
+      this.saveAsExcelFile(excelBuffer, 'Daily activity gap');
+    });
+  }
+  
+
+
+  saveAsExcelFile(buffer: any, fileName: string): void {
+    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+    let EXCEL_EXTENSION = '.xlsx';
+    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
+    const url = window.URL.createObjectURL(data);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+
 
   exportExcel() {
     import('xlsx').then((xlsx) => {
