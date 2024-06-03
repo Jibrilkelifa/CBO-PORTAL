@@ -186,153 +186,73 @@ export class FraudTableComponent {
   }
 
 
-  public getFrauds(roles: string[]): void {
+public getFrauds(roles: string[]): void {
+    let fraudObservable;
+
     if (roles.includes("ROLE_ICMS_ADMIN") || roles.includes("ROLE_ICMS_PROVISION")) {
-      this.fraudService.getFrauds().subscribe(
-        (response: IFR[]) => {
-          this.frauds = response;
-          this.IFRDisplay = this.frauds.map((obj: any) => {
-            let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
-            let formattedFraudOccurrenceDate = fraudOccurrenceDate ? (fraudOccurrenceDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getDate().toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getFullYear() : null;
-
-            let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
-            let formattedFraudDetectionDate = fraudDetectionDate ? (fraudDetectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudDetectionDate.getDate().toString().padStart(2, '0') + '/' + fraudDetectionDate.getFullYear() : null;
-
-            return {
-              'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              'team.externalName': obj.team ? obj.team.externalName : null,
-              'caseId': obj.caseId,
-              'suspectedFraudsterName': obj.suspectedFraudsterName,
-              'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
-              'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
-              'otherFraudType': obj.otherFraudType,
-              'fraudCause': obj.fraudCause,
-              'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
-              'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
-              'fraudAmount': parseFloat(obj.fraudAmount) || 0,
-              'fraudOccurrenceDate': formattedFraudOccurrenceDate,
-              'fraudDetectionDate': formattedFraudDetectionDate,
-              'reasonForDelay': obj.reasonForDelay,
-              'fraudOccurrencePlace': obj.fraudOccurrencePlace,
-              'fraudCommittingTechnique': obj.fraudCommittingTechnique,
-              'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name, 'otherFraudCategory': obj.otherFraudCategory,
-              'actionTaken': obj.actionTaken,
-              'amountRecovered': parseFloat(obj.amountRecovered) || 0,
-              'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
-              'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
-              'otherComment': obj.otherComment,
-              'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
-              // 'daysSinceFraudDetection': obj.daysSinceFraudDetection,
-              'daysSinceFraudDetection': obj.formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(obj.formattedFraudDetectionDate) : null, // Added this line
-              'isAuthorized': obj.isAuthorized,
-            };
-          });
-
-
-        },
-        (error: HttpErrorResponse) => {
-
-
-        }
-      );
+        fraudObservable = this.fraudService.getFrauds();
+    } else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+        fraudObservable = this.fraudService.getFraudForBranch(this.branchId);
+    } else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
+        fraudObservable = this.fraudService.getFraudForDistrict(this.subProcessId);
     }
-    else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
-      this.fraudService.getFraudForBranch(this.branchId).subscribe(
-        (response: IFR[]) => {
-          this.frauds = response;
-          this.IFRDisplay = this.frauds.map((obj: any) => {
-            let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
-            let formattedFraudOccurrenceDate = fraudOccurrenceDate ? (fraudOccurrenceDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getDate().toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getFullYear() : null;
 
-            let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
-            let formattedFraudDetectionDate = fraudDetectionDate ? (fraudDetectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudDetectionDate.getDate().toString().padStart(2, '0') + '/' + fraudDetectionDate.getFullYear() : null;
-
-            return {
-              'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              'team.externalName': obj.team ? obj.team.externalName : null,
-              'caseId': obj.caseId,
-              'suspectedFraudsterName': obj.suspectedFraudsterName,
-              'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
-              'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
-              'otherFraudType': obj.otherFraudType,
-              'fraudCause': obj.fraudCause,
-              'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
-              'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
-              'fraudAmount': parseFloat(obj.fraudAmount) || 0,
-              'fraudOccurrenceDate': formattedFraudOccurrenceDate,
-              'fraudDetectionDate': formattedFraudDetectionDate,
-              'reasonForDelay': obj.reasonForDelay,
-              'fraudOccurrencePlace': obj.fraudOccurrencePlace,
-              'fraudCommittingTechnique': obj.fraudCommittingTechnique,
-              'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name, 'otherFraudCategory': obj.otherFraudCategory,
-              'actionTaken': obj.actionTaken,
-              'amountRecovered': parseFloat(obj.amountRecovered) || 0,
-              'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
-              'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
-              'otherComment': obj.otherComment,
-              'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
-              'daysSinceFraudDetection': obj.formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(obj.formattedFraudDetectionDate) : null, // Added this line
-              'isAuthorized': obj.isAuthorized,
-            };
-          });
-
-        },
-        (error: HttpErrorResponse) => {
-
-
-        }
-      );
+    if (fraudObservable) {
+        fraudObservable.subscribe(
+            (response: IFR[]) => {
+                this.frauds = response;
+                this.IFRDisplay = this.frauds.map(this.formatFraudData.bind(this));
+            },
+            (error: HttpErrorResponse) => {
+                console.error(error);
+            }
+        );
     }
-    else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
-      this.fraudService.getFraudForDistrict(this.subProcessId).subscribe(
-        (response: IFR[]) => {
-          this.frauds = response;
-          this.IFRDisplay = this.frauds.map((obj: any) => {
-            let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
-            let formattedFraudOccurrenceDate = fraudOccurrenceDate ? (fraudOccurrenceDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getDate().toString().padStart(2, '0') + '/' + fraudOccurrenceDate.getFullYear() : null;
+}
 
-            let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
-            let formattedFraudDetectionDate = fraudDetectionDate ? (fraudDetectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + fraudDetectionDate.getDate().toString().padStart(2, '0') + '/' + fraudDetectionDate.getFullYear() : null;
+private formatFraudData(obj: any): any {
+    let fraudOccurrenceDate = obj.fraudOccurrenceDate ? new Date(obj.fraudOccurrenceDate) : null;
+    let formattedFraudOccurrenceDate = fraudOccurrenceDate ? this.formatDate(fraudOccurrenceDate) : null;
 
-            return {
-              'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              'team.externalName': obj.team ? obj.team.externalName : null,
-              'caseId': obj.caseId,
-              'suspectedFraudsterName': obj.suspectedFraudsterName,
-              'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
-              'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
-              'otherFraudType': obj.otherFraudType,
-              'fraudCause': obj.fraudCause,
-              'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
-              'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
-              'fraudAmount': parseFloat(obj.fraudAmount) || 0,
-              'fraudOccurrenceDate': formattedFraudOccurrenceDate,
-              'fraudDetectionDate': formattedFraudDetectionDate,
-              'reasonForDelay': obj.reasonForDelay,
-              'fraudOccurrencePlace': obj.fraudOccurrencePlace,
-              'fraudCommittingTechnique': obj.fraudCommittingTechnique,
-              'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name, 'otherFraudCategory': obj.otherFraudCategory,
-              'actionTaken': obj.actionTaken,
-              'amountRecovered': parseFloat(obj.amountRecovered) || 0,
-              'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
-              'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
-              'otherComment': obj.otherComment,
-              'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
-              'daysSinceFraudDetection': obj.formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(obj.formattedFraudDetectionDate) : null, // Added this line
-              'isAuthorized': obj.isAuthorized,
-            };
-          });
+    let fraudDetectionDate = obj.fraudDetectionDate ? new Date(obj.fraudDetectionDate) : null;
+    let formattedFraudDetectionDate = fraudDetectionDate ? this.formatDate(fraudDetectionDate) : null;
 
-        },
-        (error: HttpErrorResponse) => {
+    return {
+        'subProcess.name': obj.subProcess ? obj.subProcess.name : null,
+        'branch.name': obj.branch ? obj.branch.name : null,
+        'team.externalName': obj.team ? obj.team.externalName : null,
+        'caseId': obj.caseId,
+        'suspectedFraudsterName': obj.suspectedFraudsterName,
+        'suspectedFraudsterAddress': obj.suspectedFraudsterAddress,
+        'fraudType.name': obj.fraudType ? obj.fraudType.name : null,
+        'otherFraudType': obj.otherFraudType,
+        'fraudCause': obj.fraudCause,
+        'suspectedFraudsterProfession.name': obj.suspectedFraudsterProfession ? obj.suspectedFraudsterProfession.name : null,
+        'otherSuspectedFraudsterProfession': obj.otherSuspectedFraudsterProfession,
+        'fraudAmount': parseFloat(obj.fraudAmount) || 0,
+        'fraudOccurrenceDate': formattedFraudOccurrenceDate,
+        'fraudDetectionDate': formattedFraudDetectionDate,
+        'reasonForDelay': obj.reasonForDelay,
+        'fraudOccurrencePlace': obj.fraudOccurrencePlace,
+        'fraudCommittingTechnique': obj.fraudCommittingTechnique,
+        'Fraud Category Name': obj.allCategory && obj.allCategory.name === 'Other' ? obj.otherFraudCategory : obj.allCategory.name,
+        'otherFraudCategory': obj.otherFraudCategory,
+        'actionTaken': obj.actionTaken,
+        'amountRecovered': parseFloat(obj.amountRecovered) || 0,
+        'provisionHeld': obj.provisionHeld !== null ? obj.provisionHeld : 'Not yet calculated',
+        'reasonForFailedFraudAttempt': obj.reasonForFailedFraudAttempt,
+        'otherComment': obj.otherComment,
+        'caseStatus.name': obj.caseStatus ? obj.caseStatus.name : null,
+        'daysSinceFraudDetection': formattedFraudDetectionDate ? this.calculateDaysSinceFraudDetection(formattedFraudDetectionDate) : null,
+        'isAuthorized': obj.isAuthorized,
+    };
+}
 
-        }
-      );
-    }
-  }
+private formatDate(date: Date): string {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
+
+
   deleteFrauds(id: number): void {
     this.confirmationService.confirm({
       message: 'Are you sure you want to delete this record?',

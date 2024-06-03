@@ -37,6 +37,7 @@ export class FinanceTableComponent implements OnDestroy {
   branchId: number = Number(localStorage.getItem('branchId'));
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   //teamId: number = JSON.parse(localStorage.getItem("team")).id;
+  //teamId: number = JSON.parse(localStorage.getItem("team")).id;
 
   currentDate: Date;
 
@@ -48,7 +49,7 @@ export class FinanceTableComponent implements OnDestroy {
     private timeService: TimeService,
     private router: Router,
     private confirmationService: ConfirmationService
-,
+    ,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -72,118 +73,67 @@ export class FinanceTableComponent implements OnDestroy {
 
 
   public getFinanceList(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.financeService.getAllFinance().subscribe(
+    let financeObservable;
+
+    if (roles.includes("ROLE_ICMS_ADMIN")) {
+      financeObservable = this.financeService.getAllFinance();
+    } else if (roles.includes("ROLE_ICMS_FINANCE_IC")) {
+      financeObservable = this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId);
+    } else if (roles.includes("ROLE_ICMS_FINANCE_OWNER")) {
+      financeObservable = this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId);
+    }
+
+    if (financeObservable) {
+      financeObservable.subscribe(
         (response: FinanceModel[]) => {
           this.FinanceList = response.map(finance => ({
             ...finance,
             daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
-          }));    
-          this.financeListDisplay = this.FinanceList.map((obj: any) => {
-            let financeDate = obj.financeDate ? new Date(obj.financeDate) : null;
-            let formattedFinanceDate = financeDate ? (financeDate.getMonth() + 1).toString().padStart(2, '0') + '/' + financeDate.getDate().toString().padStart(2, '0') + '/' + financeDate.getFullYear() : null;
-    
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              financeDate: formattedFinanceDate,
-              caseId: obj.caseId,
-              accountNumber: obj.accountNumber,
-              'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
-              'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
-              irregularity: obj.irregularity,
-              amount: parseFloat(obj.amount) || 0,
-              responsiblePerson: obj.responsiblePerson,
-              actionPlanDueDate: formattedActionPlanDueDate,
-              'financeStatus.name': obj.financeStatus ? obj.financeStatus.name : null,
-            };
-          });      
-        },
-        (error: HttpErrorResponse) => {
-          // Handle error
-        }
-      );
-    }
-    else if (roles.indexOf("ROLE_ICMS_FINANCE_IC") !== -1) {
-      this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {                                   
-          this.FinanceList = response.map(finance => ({
-            ...finance,
-            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
           }));
-          this.financeListDisplay = this.FinanceList.map((obj: any) => {
-            let financeDate = obj.financeDate ? new Date(obj.financeDate) : null;
-            let formattedFinanceDate = financeDate ? (financeDate.getMonth() + 1).toString().padStart(2, '0') + '/' + financeDate.getDate().toString().padStart(2, '0') + '/' + financeDate.getFullYear() : null;
-    
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              financeDate: formattedFinanceDate,
-              caseId: obj.caseId,
-              accountNumber: obj.accountNumber,
-              'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
-              'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
-              irregularity: obj.irregularity,
-              amount: parseFloat(obj.amount) || 0,
-              responsiblePerson: obj.responsiblePerson,
-              actionPlanDueDate: formattedActionPlanDueDate,
-              'financeStatus.name': obj.financeStatus ? obj.financeStatus.name : null,
-            };
-          });  
+          this.financeListDisplay = this.FinanceList.map(this.formatFinanceData.bind(this));
         },
         (error: HttpErrorResponse) => {
-          // Handle error
+          console.error(error);
         }
       );
     }
-
-    else if (roles.indexOf("ROLE_ICMS_FINANCE_OWNER") !== -1) {
-      this.financeService.getFinanceForICMSFINANCEIC(this.subProcessId).subscribe(
-        (response: FinanceModel[]) => {                                      
-          this.FinanceList = response.map(finance => ({
-            ...finance,
-            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
-          }));
-          this.financeListDisplay = this.FinanceList.map((obj: any) => {
-            let financeDate = obj.financeDate ? new Date(obj.financeDate) : null;
-            let formattedFinanceDate = financeDate ? (financeDate.getMonth() + 1).toString().padStart(2, '0') + '/' + financeDate.getDate().toString().padStart(2, '0') + '/' + financeDate.getFullYear() : null;
-  
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              financeDate: formattedFinanceDate,
-              caseId: obj.caseId,
-              accountNumber: obj.accountNumber,
-              'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
-              'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
-              irregularity: obj.irregularity,
-              amount: parseFloat(obj.amount) || 0,
-              responsiblePerson: obj.responsiblePerson,
-              actionPlanDueDate: formattedActionPlanDueDate,
-              'financeStatus.name': obj.financeStatus ? obj.financeStatus.name : null,
-            };
-          });  
-        },
-        (error: HttpErrorResponse) => {
-          // Handle error
-        }
-      );
-    }
-
   }
-  
+
+  private formatFinanceData(obj: any): any {
+    let financeDate = obj.financeDate ? new Date(obj.financeDate) : null;
+    let formattedFinanceDate = financeDate ? this.formatDate(financeDate) : null;
+
+    let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
+    let formattedActionPlanDueDate = actionPlanDueDate ? this.formatDate(actionPlanDueDate) : null;
+
+    return {
+      financeDate: formattedFinanceDate,
+      caseId: obj.caseId,
+      accountNumber: obj.accountNumber,
+      'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
+      'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
+      irregularity: obj.irregularity,
+      amount: parseFloat(obj.amount) || 0,
+      responsiblePerson: obj.responsiblePerson,
+      actionPlanDueDate: formattedActionPlanDueDate,
+      'financeStatus.name': obj.financeStatus ? obj.financeStatus.name : null,
+    };
+  }
+
+  private formatDate(date: Date): string {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+  }
+
+
 
   updateFinace(id: number): void {
-    this.router.navigate(['ICMS/Finance/updateFinance', id]); 
+    this.router.navigate(['ICMS/Finance/updateFinance', id]);
   }
 
-  approveActionPlan(finance: FinanceModel): void {    
+  approveActionPlan(finance: FinanceModel): void {
     this.router.navigate(['ICMS/Finance/approveActionPlan', { finance: JSON.stringify(finance) }]);
   }
-  
+
   public daysPastDue(dateString: string): number {
     let dueDate = new Date(dateString);
     let today = new Date();
@@ -191,8 +141,8 @@ export class FinanceTableComponent implements OnDestroy {
     let differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
   }
-  
-  
+
+
   getCurrentDate() {
     this.timeService.getDate().subscribe(
       (response: any) => {
@@ -246,8 +196,8 @@ export class FinanceTableComponent implements OnDestroy {
       }
     });
   }
-  
-  
+
+
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
@@ -262,7 +212,7 @@ export class FinanceTableComponent implements OnDestroy {
         'Case ID': plan.caseId,
         'Account Number': plan.accountNumber,
         Category: plan['allSubCategory.allcategory.name'],
-        'Sub Category': plan['allSubCategory.name'],        
+        'Sub Category': plan['allSubCategory.name'],
         Irregularity: plan['irregularity'],
         'Amount ': plan.amount !== null ? plan.amount : null,
         'Responsible Person': plan.responsiblePerson,
@@ -290,5 +240,5 @@ export class FinanceTableComponent implements OnDestroy {
     document.body.removeChild(link);
   }
 
- 
+
 }

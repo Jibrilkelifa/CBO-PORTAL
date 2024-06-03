@@ -208,106 +208,55 @@ export class DCQTableComponent {
   // }
 
   public getDCQs(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1 || roles.indexOf("ROLE_ICMS_BANKING_OPERATION") !== -1) {
-      this.DCQService.getDCQs().subscribe(
-        (response: DCQ[]) => {
-          this.DCQs = response;
-          this.dcqDisplay = this.DCQs.map((obj: any) => {
-            let date = new Date(obj.date);
-            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
-            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
+    let dcqObservable;
 
-            return {
-              'Date presented': formattedDatePresented,
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              fullNameOfDrawer: obj.fullNameOfDrawer,
-              accountNumber: obj.accountNumber,
-              tin: obj.tin,
-              drawerAddress: obj.drawerAddress,
-              amountInBirr: parseFloat(obj.amountInBirr) || 0,
-              chequeNumber: obj.chequeNumber,
-              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
-              nameOfBeneficiary: obj.nameOfBeneficiary,
-              frequency: obj.frequency,
-              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
-
-        }
-      );
+    if (roles.includes("ROLE_ICMS_ADMIN") || roles.includes("ROLE_ICMS_BANKING_OPERATION")) {
+        dcqObservable = this.DCQService.getDCQs();
+    } else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+        dcqObservable = this.DCQService.getDCQForBranch(this.branchId);
+    } else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
+        dcqObservable = this.DCQService.getDCQForDistrict(this.subProcessId);
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.DCQService.getDCQForBranch(this.branchId).subscribe(
-        (response: DCQ[]) => {
-          this.DCQs = response;
-          this.dcqDisplay = this.DCQs.map((obj: any) => {
-            let date = new Date(obj.date);
-            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
-            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
 
-            return {
-              'Date presented': formattedDatePresented,
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              fullNameOfDrawer: obj.fullNameOfDrawer,
-              accountNumber: obj.accountNumber,
-              tin: obj.tin,
-              drawerAddress: obj.drawerAddress,
-              amountInBirr: parseFloat(obj.amountInBirr) || 0,
-              chequeNumber: obj.chequeNumber,
-              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
-              nameOfBeneficiary: obj.nameOfBeneficiary,
-              frequency: obj.frequency,
-              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
-
-
-        }
-      );
+    if (dcqObservable) {
+        dcqObservable.subscribe(
+            (response: DCQ[]) => {
+                this.DCQs = response;
+                this.dcqDisplay = this.DCQs.map(this.formatDCQData.bind(this));
+            },
+            (error: HttpErrorResponse) => {
+                console.error(error);
+            }
+        );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-      // this.organizationalUnitService.getOrganizationalUnit(this.branchId).subscribe(branchId => {
-      //   this.districtId = branchId?.subProcess?.id
-      // });
-      this.DCQService.getDCQForDistrict(this.subProcessId).subscribe(
-        (response: DCQ[]) => {
-          this.DCQs = response;
-          this.dcqDisplay = this.DCQs.map((obj: any) => {
-            let date = new Date(obj.date);
-            let datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
-            let formattedDatePresented = datePresented ? (datePresented.getMonth() + 1).toString().padStart(2, '0') + '/' + datePresented.getDate().toString().padStart(2, '0') + '/' + datePresented.getFullYear() : null;
+}
 
-            return {
-              'Date presented': formattedDatePresented,
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              fullNameOfDrawer: obj.fullNameOfDrawer,
-              accountNumber: obj.accountNumber,
-              tin: obj.tin,
-              drawerAddress: obj.drawerAddress,
-              amountInBirr: parseFloat(obj.amountInBirr) || 0,
-              chequeNumber: obj.chequeNumber,
-              'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
-              nameOfBeneficiary: obj.nameOfBeneficiary,
-              frequency: obj.frequency,
-              'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
-            };
-          });
+private formatDCQData(obj: any): any {
+    const date = new Date(obj.date);
+    const datePresented = obj.datePresented ? new Date(obj.datePresented) : null;
+    const formattedDatePresented = datePresented ? this.formatDate(datePresented) : null;
 
-        },
-        (error: HttpErrorResponse) => {
+    return {
+        'Date presented': formattedDatePresented,
+        'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+        'branch.name': obj.branch ? obj.branch.name : null,
+        fullNameOfDrawer: obj.fullNameOfDrawer,
+        accountNumber: obj.accountNumber,
+        tin: obj.tin,
+        drawerAddress: obj.drawerAddress,
+        amountInBirr: parseFloat(obj.amountInBirr) || 0,
+        chequeNumber: obj.chequeNumber,
+        'chequeType.name': obj.chequeType ? obj.chequeType.name : null,
+        nameOfBeneficiary: obj.nameOfBeneficiary,
+        frequency: obj.frequency,
+        'actionTaken.name': obj.actionTaken ? obj.actionTaken.name : null,
+    };
+}
 
+private formatDate(date: Date): string {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
 
-        }
-      );
-    }
-  }
 
   public deleteDCQ(): void {
     this.DCQService.deleteDCQ(this.deleteId).subscribe(

@@ -70,118 +70,57 @@ export class ShareTableComponent implements OnDestroy {
 
 
   public getShareList(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.shareService.getAllShare().subscribe(
-        (response: ShareModel[]) => {
+    let shareObservable;
 
-          this.ShareList = response.map(share => ({
-            ...share,
-            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
-          }));   
-          this.shareListDisplay = this.ShareList.map((obj: any) => {
-            let shareDate = obj.shareDate ? new Date(obj.shareDate) : null;
-            let formattedShareDate = shareDate ? (shareDate.getMonth() + 1).toString().padStart(2, '0') + '/' + shareDate.getDate().toString().padStart(2, '0') + '/' + shareDate.getFullYear() : null;
-    
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              shareDate: formattedShareDate,
-              caseId: obj.caseId,
-              shareNumber: obj.shareNumber,
-              shareHoldersName: obj.shareHoldersName,
-              'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
-              'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              'otherIrregularity': obj.otherIrregularity,              
-              amountInvolved: parseFloat(obj.amountInvolved) || 0,
-              responsiblePerson: obj.responsiblePerson,
-              actionPlanDueDate: formattedActionPlanDueDate,
-              'shareStatus.name': obj.shareStatus ? obj.shareStatus.name : null,
-            };
-          });           
-        },
-        (error: HttpErrorResponse) => {
-          // Handle error
-        }
-      );
-    }
-    else if (roles.indexOf("ROLE_ICMS_SHARE_IC") !== -1) {
-      this.shareService.getShareForDistrict(this.subProcessId).subscribe(
-        (response: ShareModel[]) => { 
-             
-          this.ShareList = response.map(share => ({
-            ...share,
-            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
-          }));
-          this.shareListDisplay = this.ShareList.map((obj: any) => {
-            let shareDate = obj.shareDate ? new Date(obj.shareDate) : null;
-            let formattedShareDate = shareDate ? (shareDate.getMonth() + 1).toString().padStart(2, '0') + '/' + shareDate.getDate().toString().padStart(2, '0') + '/' + shareDate.getFullYear() : null;
-    
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              shareDate: formattedShareDate,
-              caseId: obj.caseId,
-              shareNumber: obj.shareNumber,
-              shareHoldersName: obj.shareHoldersName,
-              'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
-              'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              'otherIrregularity': obj.otherIrregularity,              
-              amountInvolved: parseFloat(obj.amountInvolved) || 0,
-              responsiblePerson: obj.responsiblePerson,
-              actionPlanDueDate: formattedActionPlanDueDate,
-              'shareStatus.name': obj.shareStatus ? obj.shareStatus.name : null,
-            };
-          });   
-        },
-        (error: HttpErrorResponse) => {
-          // Handle error
-        }
-      );
+    if (roles.includes("ROLE_ICMS_ADMIN")) {
+        shareObservable = this.shareService.getAllShare();
+    } else if (roles.includes("ROLE_ICMS_SHARE_IC") || roles.includes("ROLE_ICMS_SHARE_OWNER")) {
+        shareObservable = this.shareService.getShareForDistrict(this.subProcessId);
     }
 
-    else if (roles.indexOf("ROLE_ICMS_SHARE_OWNER") !== -1) {
-      this.shareService.getShareForDistrict(this.subProcessId).subscribe(
-        (response: ShareModel[]) => { 
-          
-                                               
-          this.ShareList = response.map(share => ({
-            ...share,
-            daysPastDue: this.daysPastDue(share.actionPlanDueDate)
-          }));
-          this.shareListDisplay = this.ShareList.map((obj: any) => {
-            let shareDate = obj.shareDate ? new Date(obj.shareDate) : null;
-            let formattedShareDate = shareDate ? (shareDate.getMonth() + 1).toString().padStart(2, '0') + '/' + shareDate.getDate().toString().padStart(2, '0') + '/' + shareDate.getFullYear() : null;
-    
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              shareDate: formattedShareDate,
-              caseId: obj.caseId,
-              shareNumber: obj.shareNumber,
-              shareHoldersName: obj.shareHoldersName,
-              'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
-              'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              'otherIrregularity': obj.otherIrregularity,              
-              amountInvolved: parseFloat(obj.amountInvolved) || 0,
-              responsiblePerson: obj.responsiblePerson,
-              actionPlanDueDate: formattedActionPlanDueDate,
-              'shareStatus.name': obj.shareStatus ? obj.shareStatus.name : null,
-            };
-          });   
-        },
-        (error: HttpErrorResponse) => {
-          // Handle error
-        }
-      );
+    if (shareObservable) {
+        shareObservable.subscribe(
+            (response: ShareModel[]) => {
+                this.ShareList = response.map(share => ({
+                    ...share,
+                    daysPastDue: this.daysPastDue(share.actionPlanDueDate)
+                }));
+                this.shareListDisplay = this.ShareList.map(this.formatShareData.bind(this));
+            },
+            (error: HttpErrorResponse) => {
+                console.error(error);
+            }
+        );
     }
+}
 
-  }
+private formatShareData(obj: any): any {
+    let shareDate = obj.shareDate ? new Date(obj.shareDate) : null;
+    let formattedShareDate = shareDate ? this.formatDate(shareDate) : null;
+
+    let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
+    let formattedActionPlanDueDate = actionPlanDueDate ? this.formatDate(actionPlanDueDate) : null;
+
+    return {
+        shareDate: formattedShareDate,
+        caseId: obj.caseId,
+        shareNumber: obj.shareNumber,
+        shareHoldersName: obj.shareHoldersName,
+        'allSubCategory.allcategory.name': obj.allSubCategory && obj.allSubCategory.allcategory ? obj.allSubCategory.allcategory.name : null,
+        'allSubCategory.name': obj.allSubCategory ? obj.allSubCategory.name : null,
+        'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
+        otherIrregularity: obj.otherIrregularity,              
+        amountInvolved: parseFloat(obj.amountInvolved) || 0,
+        responsiblePerson: obj.responsiblePerson,
+        actionPlanDueDate: formattedActionPlanDueDate,
+        'shareStatus.name': obj.shareStatus ? obj.shareStatus.name : null,
+    };
+}
+
+private formatDate(date: Date): string {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
+
   
 
   updateShare(id: number): void {

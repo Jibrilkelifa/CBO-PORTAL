@@ -32,8 +32,6 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   currentDate: Date;
   public fireExtinguisherDisplay: any[] = [];
 
-
-
   private subscriptions: Subscription[] = [];
   roles: string[] = [];
   branchId: string = localStorage.getItem('branchId');
@@ -44,7 +42,10 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     private router: Router,
     private timeService: TimeService,
     private confirmationService: ConfirmationService
+  
   ) { }
+
+
 
 
 
@@ -92,107 +93,59 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   
 
   public getFireExtinguisherList(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.fireExtinguisherService.getAllFireExtinguisher().subscribe(
-        (response: any[]) => {
-          this.fireExtinguisherList = response;
-          if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-            this.fireExtinguisherService.getAllFireExtinguisher().subscribe(
-              (response: any[]) => {
+    let extinguisherObservable;
+
+    if (roles.includes("ROLE_ICMS_ADMIN")) {
+        extinguisherObservable = this.fireExtinguisherService.getAllFireExtinguisher();
+    } else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+        extinguisherObservable = this.fireExtinguisherService.findAllFireExtinguisherBYBranch(this.branchId);
+    } else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
+        extinguisherObservable = this.fireExtinguisherService.findAllFireExtinguisherSubProcess(this.subProcessId);
+    }
+
+    if (extinguisherObservable) {
+        extinguisherObservable.subscribe(
+            (response: any[]) => {
                 this.fireExtinguisherList = response;
-                this.fireExtinguisherDisplay = this.fireExtinguisherList.map((obj: any) => {
-                  let inspectionDate = obj.inspectionDate ? new Date(obj.inspectionDate) : null;
-                  let formattedInspectionDate = inspectionDate ? (inspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + inspectionDate.getDate().toString().padStart(2, '0') + '/' + inspectionDate.getFullYear() : null;
-          
-                  let nextInspectionDate = obj.nextInspectionDate ? new Date(obj.nextInspectionDate) : null;
-                  let formattedNextInspectionDate = nextInspectionDate ? (nextInspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + nextInspectionDate.getDate().toString().padStart(2, '0') + '/' + nextInspectionDate.getFullYear() : null;
-          
-                  return {
-                    'branch.name': obj.branch ? obj.branch.name : null,
-                    'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-                    extinguisherSerialNumber: obj.extinguisherSerialNumber,
-                    size: obj.size,
-                    inspectionDate: formattedInspectionDate,
-                    nextInspectionDate: formattedNextInspectionDate,
-                    daysLeftForInspection: obj.nextInspectionDate ? this.calculateDaysLeftToExpire(obj.nextInspectionDate) : null, // Added this line
-                    status: obj.status,
-                  };
-                });
-              },
-              (error: HttpErrorResponse) => {
-                console.log(error);
-              }
-            );
-          }
-        },
-        (error: HttpErrorResponse) => {
-
-        }
-      );
+                this.fireExtinguisherDisplay = this.fireExtinguisherList.map(this.formatFireExtinguisherData.bind(this));
+            },
+            (error: HttpErrorResponse) => {
+                console.error(error);
+            }
+        );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.fireExtinguisherService.findAllFireExtinguisherBYBranch(this.branchId).subscribe(
-        (response: any[]) => {
-          this.fireExtinguisherList = response;
-          this.fireExtinguisherDisplay = this.fireExtinguisherList.map((obj: any) => {
-            let inspectionDate = obj.inspectionDate ? new Date(obj.inspectionDate) : null;
-            let formattedInspectionDate = inspectionDate ? (inspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + inspectionDate.getDate().toString().padStart(2, '0') + '/' + inspectionDate.getFullYear() : null;
-    
-            let nextInspectionDate = obj.nextInspectionDate ? new Date(obj.nextInspectionDate) : null;
-            let formattedNextInspectionDate = nextInspectionDate ? (nextInspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + nextInspectionDate.getDate().toString().padStart(2, '0') + '/' + nextInspectionDate.getFullYear() : null;
-    
-            return {
-              'branch.name': obj.branch ? obj.branch.name : null,
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              extinguisherSerialNumber: obj.extinguisherSerialNumber,
-              size: obj.size,
-              inspectionDate: formattedInspectionDate,
-              nextInspectionDate: formattedNextInspectionDate,
-              daysLeftForInspection: obj.nextInspectionDate ? this.calculateDaysLeftToExpire(obj.nextInspectionDate) : null, // Added this line
-              status: obj.status,
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
+}
 
-        }
-      );
-    }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-      this.fireExtinguisherService.findAllFireExtinguisherSubProcess(this.subProcessId).subscribe(
-        (response: any[]) => {
-          this.fireExtinguisherList = response;
-          this.fireExtinguisherDisplay = this.fireExtinguisherList.map((obj: any) => {
-            let inspectionDate = obj.inspectionDate ? new Date(obj.inspectionDate) : null;
-            let formattedInspectionDate = inspectionDate ? (inspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + inspectionDate.getDate().toString().padStart(2, '0') + '/' + inspectionDate.getFullYear() : null;
-    
-            let nextInspectionDate = obj.nextInspectionDate ? new Date(obj.nextInspectionDate) : null;
-            let formattedNextInspectionDate = nextInspectionDate ? (nextInspectionDate.getMonth() + 1).toString().padStart(2, '0') + '/' + nextInspectionDate.getDate().toString().padStart(2, '0') + '/' + nextInspectionDate.getFullYear() : null;
-    
-            return {
-              'branch.name': obj.branch ? obj.branch.name : null,
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              extinguisherSerialNumber: obj.extinguisherSerialNumber,
-              size: obj.size,
-              inspectionDate: formattedInspectionDate,
-              nextInspectionDate: formattedNextInspectionDate,
-              daysLeftForInspection: obj.nextInspectionDate ? this.calculateDaysLeftToExpire(obj.nextInspectionDate) : null, // Added this line
-              status: obj.status,
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
+private formatFireExtinguisherData(obj: any): any {
+    let inspectionDate = obj.inspectionDate ? new Date(obj.inspectionDate) : null;
+    let formattedInspectionDate = inspectionDate ? this.formatDate(inspectionDate) : null;
 
-        }
-      );
+    let nextInspectionDate = obj.nextInspectionDate ? new Date(obj.nextInspectionDate) : null;
+    let formattedNextInspectionDate = nextInspectionDate ? this.formatDate(nextInspectionDate) : null;
 
+    return {
+        'branch.name': obj.branch ? obj.branch.name : null,
+        'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+        extinguisherSerialNumber: obj.extinguisherSerialNumber,
+        size: obj.size,
+        inspectionDate: formattedInspectionDate,
+        nextInspectionDate: formattedNextInspectionDate,
+        daysLeftForInspection: obj.nextInspectionDate ? this.calculateDaysLeftToExpire(obj.nextInspectionDate) : null,
+        status: obj.status,
+    };
+}
 
-    }
-  }
+private formatDate(date: Date): string {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
+
 
   updateFireExtinguisher(id: number): void {
     this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]);
+    this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]);
   }
+
+
 
   calculateDaysLeft(expiryDate: string): number {
     let date = new Date(expiryDate);

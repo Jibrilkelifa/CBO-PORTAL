@@ -69,16 +69,13 @@ export class ProcurementTableComponent implements OnDestroy {
 
 
   public getProcurementList(roles: string[]): void {
-    console.log("11111");
-    
-
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.procurementService.getAllProcurement().subscribe(
         (response: ProcurementModel[]) => {
           this.ProcurementList = response.map(procurement => ({
             ...procurement,
             daysPastDue: this.daysPastDue(procurement.actionPlanDueDate)
-          }));          
+          }));
         },
         (error: HttpErrorResponse) => {
           // Handle error
@@ -87,10 +84,7 @@ export class ProcurementTableComponent implements OnDestroy {
     }
     else if (roles.indexOf("ROLE_ICMS_PROCUREMENT_IC") !== -1) {
       this.procurementService.getProcurementForICMSPROCUREMENTIC(this.subProcessId).subscribe(
-        (response: ProcurementModel[]) => {  
-          console.log("4444", response);
-          
-                                               
+        (response: ProcurementModel[]) => {
           this.ProcurementList = response.map(procurement => ({
             ...procurement,
             daysPastDue: this.daysPastDue(procurement.actionPlanDueDate)
@@ -103,11 +97,11 @@ export class ProcurementTableComponent implements OnDestroy {
     }
     else if (roles.indexOf("ROLE_ICMS_PROCUREMENT_OWNER") !== -1) {
       this.procurementService.getProcurementForICMSPROCUREMENTIC(this.subProcessId).subscribe(
-        (response: ProcurementModel[]) => {                                      
+        (response: ProcurementModel[]) => {
           this.ProcurementList = response.map(finance => ({
             ...finance,
             daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
-          })); 
+          }));
         },
         (error: HttpErrorResponse) => {
           // Handle error
@@ -116,16 +110,16 @@ export class ProcurementTableComponent implements OnDestroy {
     }
 
   }
-  
+
 
   updateProcurement(id: number): void {
-    this.router.navigate(['ICMS/Procurement/updateProcurement', id]); 
+    this.router.navigate(['ICMS/Procurement/updateProcurement', id]);
   }
 
-  approveActionPlan(procurement: ProcurementModel): void {    
+  approveActionPlan(procurement: ProcurementModel): void {
     this.router.navigate(['ICMS/Procurement/approveActionPlan', { procurement: JSON.stringify(procurement) }]);
   }
-  
+
   public daysPastDue(dateString: string): number {
     let dueDate = new Date(dateString);
     let today = new Date();
@@ -133,8 +127,8 @@ export class ProcurementTableComponent implements OnDestroy {
     let differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
     return differenceInDays;
   }
-  
-  
+
+
   getCurrentDate() {
     this.timeService.getDate().subscribe(
       (response: any) => {
@@ -154,7 +148,7 @@ export class ProcurementTableComponent implements OnDestroy {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
-  
+
 
   ngOnDestroy() {
     for (const subscription of this.subscriptions) {
@@ -162,5 +156,5 @@ export class ProcurementTableComponent implements OnDestroy {
     }
   }
 
- 
+
 }

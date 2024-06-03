@@ -109,6 +109,7 @@ export class AddUser implements OnInit {
     private moduleService: ModuleService,
     private roleService: RoleService,
     private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -301,6 +302,7 @@ export class AddUser implements OnInit {
       this.addUser();
 
     }
+    
  
  
   }
@@ -308,7 +310,19 @@ export class AddUser implements OnInit {
   public addUser(): void {
     this.employeeService.addEmployee(this.addUserForm.value).subscribe(
       (response: any) => {
-        this.searchedJob = response;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: "Employee Added Successfully!"
+        });
+        setTimeout(() => {
+          this.router.navigate(['ems/addEmployee']);
+        }, 1500);
+
+        // handle response
+
+
+        // this.searchedJob = response;
 
       }
     )

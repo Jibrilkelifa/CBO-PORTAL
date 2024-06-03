@@ -33,7 +33,7 @@ const routes: Routes = [
         },
       },
       {
-        path: 'approveActionPlan',
+        path: 'approveActionPlan/:id',
         component: DACGMPlanComponent,
         data: {
           title: 'approve Action Plan due date',
