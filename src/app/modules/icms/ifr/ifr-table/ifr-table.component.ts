@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
-import { ConfirmEventType, ConfirmationService, FilterService, Message, MessageService, PrimeNGConfig } from 'primeng/api';
 import { IFRService } from '../../../../services/icms-services/ifr-services/ifr.service';
 import { TimeService } from '../../../../services/sso-services/time.service';
 import { OrganizationalUnitService } from '../../../../services/sso-services/organizational-unit.service'
@@ -11,18 +10,6 @@ import * as XLSX from 'xlsx';
 import { DialogService } from 'primeng/dynamicdialog';
 import { SingleFraudCaseTableComponent } from '../ifr-single-case/ifr-single-case-table.component';
 import { ShowIFRComponent } from '../show/show-ifr.component';
-
-
-interface ExportColumn {
-  title: string;
-  dataKey: string;
-}
-
-interface Column {
-  field: string;
-  header: string;
-  customExportHeader?: string;
-}
 
 
 interface ExportColumn {
@@ -45,9 +32,7 @@ interface Column {
 export class FraudTableComponent {
 
   constructor(private filterService: FilterService, private dialogService: DialogService, private fraudService: IFRService, private router: Router, private confirmationService: ConfirmationService,
-  constructor(private filterService: FilterService, private dialogService: DialogService, private fraudService: IFRService, private router: Router, private confirmationService: ConfirmationService,
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService, private organizationalUnitService: OrganizationalUnitService) { }
-
 
 
   daysSinceFraudDetection: number;
@@ -60,11 +45,6 @@ export class FraudTableComponent {
   position: string;
   districtId: number;
   currentDate: Date;
-
-  exportColumns!: ExportColumn[];
-  cols!: Column[];
-  public IFRDisplay: any[] = [];
-
 
   exportColumns!: ExportColumn[];
   cols!: Column[];
@@ -113,51 +93,15 @@ export class FraudTableComponent {
       dataKey: col.field,
     }));
 
-
-    this.cols = [
-      { field: 'subProcess.name', header: 'Name' },
-      { field: 'branch.name', header: 'Name' },
-      { field: 'caseId', header: 'CaseId' },
-      { field: 'suspectedFraudsterName', header: 'Suspected Fraudster Name' },
-      { field: 'suspectedFraudsterAddress', header: 'Suspected Fraudster Address' },
-      { field: 'fraudType.name', header: 'Name' },
-      { field: 'fraudCause', header: 'Fraud Cause' },
-      { field: 'suspectedFraudsterProfession.name', header: 'Name' },
-      { field: 'fraudAmount', header: 'Fraud Amount' },
-      { field: 'fraudOccurrenceDate', header: 'FraudOccurrence Date' },
-      { field: 'fraudDetectionDate', header: 'FraudDetection Date' },
-      { field: 'reasonForDelay', header: 'Reason For Delay' },
-      { field: 'fraudOccurrencePlace', header: 'Fraud Occurrence Place' },
-      { field: 'fraudCommittingTechnique', header: 'Fraud Committing Technique' },
-      { field: 'fraudCategory.name', header: 'Name' },
-      { field: 'actionTaken', header: 'Action Taken' },
-      { field: 'amountRecovered', header: 'Amount Recovered' },
-      { field: 'provisionHeld', header: 'Provision Held' },
-      { field: 'reasonForFailedFraudAttempt', header: 'Reason For Failed Fraud Attempt' },
-      { field: 'otherComment', header: 'Other Comment' },
-      { field: 'caseStatus.name', header: 'Name' },
-      { field: 'daysSinceFraudDetection', header: 'Days Since Fraud Detection' },
-      { field: 'isAuthorized', header: 'Is Authorized' },
-    ];
-
-
-    this.exportColumns = this.cols.map((col) => ({
-      title: col.header,
-      dataKey: col.field,
-    }));
-
   }
 
   populateRoles(): void {
     let index = 0;
     let cond = localStorage.getItem('role_' + index);
     while (cond) {
-    let cond = localStorage.getItem('role_' + index);
-    while (cond) {
 
       this.roles.push(cond);
       index++;
-      cond = localStorage.getItem('role_' + index);
       cond = localStorage.getItem('role_' + index);
     }
   }
@@ -207,7 +151,6 @@ export class FraudTableComponent {
   calculateDaysSinceFraudDetection(fraudDetectionDate: string): number {
     let date = new Date(fraudDetectionDate);
     let daysSinceFraudDetection = (this.currentDate.getTime() - date.getTime()) / (1000 * 3600 * 24);
-    let daysSinceFraudDetection = (this.currentDate.getTime() - date.getTime()) / (1000 * 3600 * 24);
     return Math.ceil(daysSinceFraudDetection);
   }
 
@@ -224,7 +167,6 @@ export class FraudTableComponent {
 
   updateFrauds(id: number): void {
     this.router.navigate(['ICMS/Fraud/updateFraud', id]); 
-    this.router.navigate(['ICMS/Fraud/updateFraud', id]); 
   }
 
   authorizeFrauds(id: number): void {
@@ -239,13 +181,12 @@ export class FraudTableComponent {
     this.router.navigate(['ICMS/Fraud/calculateProvision', id]);
   }
 
-
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
 
 
-  public getFrauds(roles: string[]): void {
+public getFrauds(roles: string[]): void {
     let fraudObservable;
 
     if (roles.includes("ROLE_ICMS_ADMIN") || roles.includes("ROLE_ICMS_PROVISION")) {
@@ -349,7 +290,6 @@ private formatDate(date: Date): string {
   }
 
 
-
   public getFraud(id: number): IFR[] {
     this.fraudService.getFraud(id).subscribe(
       (response: IFR) => {
@@ -388,54 +328,6 @@ private formatDate(date: Date): string {
       contentStyle: { 'min-height': 'auto', overflow: 'auto' },
       baseZIndex: 10000,
     });
-  }
-
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const data = this.IFRDisplay.map((plan, index) => ({
-        'Sub Process Name': plan['subProcess.name'],
-        'Branch/Team Name': plan['team.externalName'] ? plan['team.externalName'] : plan['branch.name'],
-        'Case Id': plan.caseId,
-        'Suspected Fraudster Name': plan.suspectedFraudsterName,
-        'Suspected Fraudster Address': plan.suspectedFraudsterAddress,
-        'Fraud Type Name': plan['fraudType.name'] === 'Other' ? plan['otherFraudType'] : plan['fraudType.name'],
-        'Fraud Cause': plan.fraudCause,
-        'Suspected Fraudster Profession Name': plan['suspectedFraudsterProfession.name'] === 'Other' ? plan['otherSuspectedFraudsterProfession'] : plan['suspectedFraudsterProfession.name'],
-        'Fraud Amount': plan.fraudAmount,
-        'Fraud Occurrence Date': plan.fraudOccurrenceDate,
-        'Fraud Detection Date': plan.fraudDetectionDate,
-        'Reason For Delay': plan.reasonForDelay,
-        'Fraud Occurrence Place': plan.fraudOccurrencePlace,
-        'Fraud Committing Technique': plan.fraudCommittingTechnique,
-        'Fraud Category Name': plan['Fraud Category Name'],
-        'Action Taken': plan.actionTaken,
-        'Amount Recovered': plan.amountRecovered,
-        'Provision Held': plan.provisionHeld,
-        'Reason For Failed Fraud Attempt': plan.reasonForFailedFraudAttempt,
-        'Other Comment': plan.otherComment,
-        'Case Status Name': plan['caseStatus.name'],
-        'Days Since Fraud Detection': plan.fraudDetectionDate ? this.calculateDaysSinceFraudDetection(plan.fraudDetectionDate) : null,
-        'Is Authorized': plan.isAuthorized,
-      }));
-      const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'Extinguisher Inspection');
-    });
-  }
-
-
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    const url = window.URL.createObjectURL(data);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
 
   exportExcel() {

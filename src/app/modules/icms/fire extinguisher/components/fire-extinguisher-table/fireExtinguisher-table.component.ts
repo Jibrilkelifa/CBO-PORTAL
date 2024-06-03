@@ -2,10 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { FireExtinguisherService } from '../../service/fireExtinguisher-services.service';
 import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
-import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { TimeService } from 'src/app/services/sso-services/time.service';
 import { TimeService } from 'src/app/services/sso-services/time.service';
 
 interface ExportColumn {
@@ -34,16 +32,7 @@ export class FireExtinguisherTableComponent implements OnDestroy {
   currentDate: Date;
   public fireExtinguisherDisplay: any[] = [];
 
-
-  currentDate: Date;
-  public fireExtinguisherDisplay: any[] = [];
-
-
-
   private subscriptions: Subscription[] = [];
-  roles: string[] = [];
-  branchId: string = localStorage.getItem('branchId');
-  subProcessId: number = Number(localStorage.getItem('subProcessId'));
   roles: string[] = [];
   branchId: string = localStorage.getItem('branchId');
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
@@ -53,9 +42,7 @@ export class FireExtinguisherTableComponent implements OnDestroy {
     private router: Router,
     private timeService: TimeService,
     private confirmationService: ConfirmationService
-    private router: Router,
-    private timeService: TimeService,
-    private confirmationService: ConfirmationService
+  
   ) { }
 
 
@@ -158,28 +145,7 @@ private formatDate(date: Date): string {
     this.router.navigate(['ICMS/FireExtinguisher/updateFireExtinguisher', id]);
   }
 
-  calculateDaysLeft(expiryDate: string): number {
-    let date = new Date(expiryDate);
-    date.setUTCHours(0, 0, 0, 0); // Set time to start of the day for expiryDate in UTC
-  
-    let currentDate = new Date();
-    currentDate.setUTCHours(0, 0, 0, 0); // Set time to start of the day for currentDate in UTC
-  
-    let daysLeftToExpire = (date.getTime() - currentDate.getTime()) / (1000 * 3600 * 24);
-    return Math.floor(daysLeftToExpire);
-  }
-  
-  
 
-  getCurrentDate() {
-    this.timeService.getDate().subscribe(
-      (response: any) => {
-
-        this.currentDate = new Date(response.time);
-
-      }
-    );
-  }
 
   calculateDaysLeft(expiryDate: string): number {
     let date = new Date(expiryDate);
@@ -209,73 +175,6 @@ private formatDate(date: Date): string {
       subscription.unsubscribe();
     }
   }
-
-  deleteFireExtinguisher(id: number): void {
-    this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this record?',
-      header: 'Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => {
-        this.fireExtinguisherService.deleteFireExtinguisher(id).subscribe(
-          (response: void) => {
-            this.getFireExtinguisherList(this.roles);
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Success',
-              detail: "Deleted Fire Extinguisher successfully"
-            });
-            setTimeout(() => {
-            }, 1000);
-          },
-          (error: HttpErrorResponse) => {
-            console.log(error);
-          }
-        );
-      },
-      reject: (type: ConfirmEventType) => {
-        if (type === ConfirmEventType.REJECT) {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'You have rejected'
-          });
-        }
-      }
-    });
-  }
-  
-  exportExcel() {
-    import('xlsx').then((xlsx) => {
-      const data = this.fireExtinguisherDisplay.map((plan, index) => ({
-        'Branch': plan['branch.name'],
-        'Sub process': plan['subprocess.name'],
-        'Extinguisher serial number': plan.extinguisherSerialNumber,
-        'Size': plan.size,
-        'Inspection date': plan.inspectionDate,
-        'Next inpection date': plan.nextInspectionDate,
-        'Days left for inspection': plan.daysLeftForInspection, // This line will add 'Days left for inspection' to the Excel sheet
-        'Status': plan.status,
-      }));
-      const worksheet = xlsx.utils.json_to_sheet(data);
-      const workbook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-      const excelBuffer: any = xlsx.write(workbook, { bookType: 'xlsx', type: 'array' });
-      this.saveAsExcelFile(excelBuffer, 'Extinguisher Inspection');
-    });
-  }
-
-  saveAsExcelFile(buffer: any, fileName: string): void {
-    let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    let EXCEL_EXTENSION = '.xlsx';
-    const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
-    const url = window.URL.createObjectURL(data);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('DACGM', fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-
 
   deleteFireExtinguisher(id: number): void {
     this.confirmationService.confirm({
