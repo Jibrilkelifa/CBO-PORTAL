@@ -12,7 +12,24 @@
   </div>
 </div>
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Trade Table</h5>
+  <div class="flex justify-between">
+    <div class="spacer">
+      <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Trade Table</h5>
+    </div>
+    <div class="flex">
+      <button
+        type="button"
+        pButton
+        pRipple
+        (click)="exportExcel()"
+        class="p-button text-blue-600 text-white m-2 p-2"
+        pTooltip="XLS"
+        tooltipPosition="bottom"
+      >
+        Download as excel
+      </button>
+    </div>
+  </div>
   <p-table
     #dt
     [columns]="cols"
