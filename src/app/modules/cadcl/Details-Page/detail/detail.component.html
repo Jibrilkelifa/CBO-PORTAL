@@ -130,7 +130,7 @@
                         <div class="card flex justify-content-center" style="border: none;">
                                 <p-accordion *ngFor="let checklistItem of caChecklist?.replyCheckLists">
                                         <p-accordionTab id="{{checklistItem?.id}}">
-                                                <ng-template pTemplate="header">
+                                                <ng-template pTemplate="header" id="{{checklistItem.id}}">
                                                         <span class="flex align-items-center gap-1 w-full">
                                                                 <span class="font-bold white-space-nowrap">{{checklistItem?.branchName
                                                                         || 'unknown'}}</span>
@@ -248,14 +248,13 @@
                                                                         (click)="confirm1($event, checklistItem.id)">Accept</button>
                                                                 <button *ngIf="!checklistItem?.rejected"
                                                                         style="background: none; color: red; display: inline;"
-                                                                        (click)="rejectDialog()">Reject</button>
+                                                                        (click)="rejectDialog(checklistItem.id)">Reject</button>
                                                         </div>
                                                         <div *ngIf="rejectVisible">
                                                                 <p-dialog header="Reason of rejection"
                                                                         [(visible)]="rejectVisible">
-
                                                                         <form #rejectForm="ngForm"
-                                                                                (ngSubmit)="rejectResponse(rejectForm,  checklistItem.id)"
+                                                                                (ngSubmit)="rejectResponse(rejectForm)"
                                                                                 style="width: 30% !important; height: 150px ">
                                                                                 <div class="mb-4 mt-4">
                                                                                         <textarea rows="2" cols="30"
@@ -263,11 +262,18 @@
                                                                                                 [autoResize]="true"
                                                                                                 [ngModel]="checklistItem?.rejectionReason"
                                                                                                 name="rejectionReason"
-                                                                                                [style]="{'width':'20vw'}" required></textarea>
+                                                                                                [style]="{'width':'20vw'}"
+                                                                                                required></textarea>
                                                                                 </div>
-                                                                                <div class="flex align-items-center gap-5">
-                                                                                        <p-button label="Submit" [disabled]="rejectForm.invalid!" type="submit" class="w-full" ></p-button>
-                                                                                        <p-button label="Cancel" (click)="rejectDialog()"  class="w-full"></p-button>
+                                                                                <div
+                                                                                        class="flex align-items-center gap-5">
+                                                                                        <p-button label="Submit"
+                                                                                                [disabled]="rejectForm.invalid!"
+                                                                                                type="submit"
+                                                                                                class="w-full"></p-button>
+                                                                                        <p-button label="Cancel"
+                                                                                                (click)="rejectDialog(null)"
+                                                                                                class="w-full"></p-button>
                                                                                 </div>
                                                                         </form>
                                                                 </p-dialog>

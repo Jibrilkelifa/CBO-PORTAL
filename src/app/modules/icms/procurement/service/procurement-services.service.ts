@@ -37,13 +37,6 @@ export class ProcurementService {
     return this.http.get<any>(`${this.apiServiceUrl}/Procurement/getSize`, this.httpOptions)
   }
 
-  public getAllProcurementType(): Observable<any> {
-    this.init();
-    return this.http.get<any>(
-      `${this.apiServiceUrl}/Procurement/getAllProcurementType`,
-      this.httpOptions
-    );
-  }
   
   public getAllProcurement(): Observable<any> {
     this.init();
@@ -58,7 +51,7 @@ export class ProcurementService {
     return this.http.get<any>(`${this.apiServiceUrl}/Procurement/findByOrganizationalUnitId/${id}`, this.httpOptions)
   }
 
-  public getProcurementForDistrict(id: number): Observable<any> {
+  public getProcurementForICMSPROCUREMENTIC(id: number): Observable<any> {
     this.init();
     return this.http.get<any>(`${this.apiServiceUrl}/Procurement/findBySubProcessId/${id}`, this.httpOptions)
   }

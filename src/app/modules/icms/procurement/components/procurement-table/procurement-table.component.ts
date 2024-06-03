@@ -69,12 +69,12 @@ export class ProcurementTableComponent implements OnDestroy {
 
 
   public getProcurementList(roles: string[]): void {
+    console.log("11111");
+    
 
     if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
       this.procurementService.getAllProcurement().subscribe(
         (response: ProcurementModel[]) => {
-          console.log(";;;",response);
-          //this.ProcurementList = response;
           this.ProcurementList = response.map(procurement => ({
             ...procurement,
             daysPastDue: this.daysPastDue(procurement.actionPlanDueDate)
@@ -85,17 +85,29 @@ export class ProcurementTableComponent implements OnDestroy {
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_TRADE_IC") !== -1) {
-      this.procurementService.getProcurementForDistrict(this.subProcessId).subscribe(
+    else if (roles.indexOf("ROLE_ICMS_PROCUREMENT_IC") !== -1) {
+      this.procurementService.getProcurementForICMSPROCUREMENTIC(this.subProcessId).subscribe(
         (response: ProcurementModel[]) => {  
-          console.log("PPP",response);
-
-          //this.ProcurementList = response;
+          console.log("4444", response);
+          
                                                
           this.ProcurementList = response.map(procurement => ({
             ...procurement,
             daysPastDue: this.daysPastDue(procurement.actionPlanDueDate)
           }));
+        },
+        (error: HttpErrorResponse) => {
+          // Handle error
+        }
+      );
+    }
+    else if (roles.indexOf("ROLE_ICMS_PROCUREMENT_OWNER") !== -1) {
+      this.procurementService.getProcurementForICMSPROCUREMENTIC(this.subProcessId).subscribe(
+        (response: ProcurementModel[]) => {                                      
+          this.ProcurementList = response.map(finance => ({
+            ...finance,
+            daysPastDue: this.daysPastDue(finance.actionPlanDueDate)
+          })); 
         },
         (error: HttpErrorResponse) => {
           // Handle error

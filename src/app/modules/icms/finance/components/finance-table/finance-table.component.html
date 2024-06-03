@@ -1,4 +1,5 @@
 <p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog>
 <div class="flex justify-between mb-3">
   <div class="flex">
     <span class="p-input-icon-left ml-auto">
@@ -148,7 +149,8 @@
                 else otherText
               "
             >
-              {{ absoluteValue(daysPastDue(finance?.actionPlanDueDate)) }} days past due
+              {{ absoluteValue(daysPastDue(finance?.actionPlanDueDate)) }} days
+              past due
             </ng-container>
             <ng-template #otherText> </ng-template>
           </ng-container>
@@ -192,6 +194,18 @@
               [ngClass]="{ updateBlue: true }"
               class="p-button-sm w-20 h-10 p-2"
               label="Update"
+            ></button>
+          </div>
+          <div
+            class="flex gap-2 mr-2"
+            *ngIf="this.roles.includes('ROLE_ICMS_ADMIN')"
+          >
+            <button
+              pButton
+              (click)="deleteFinance(finance.id)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-20 h-10 p-2"
+              label="Delete"
             ></button>
           </div>
         </td>

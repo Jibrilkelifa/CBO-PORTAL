@@ -102,7 +102,6 @@ export const navItemsAMSManager = createNavItem(
         createNavItem('Auditors', '/ams/audit-staff'),
         createNavItem('Audit universe', '/ams/audit-universe'),
         createNavItem('Audit object', '/ams/audit-object'),
-        createNavItem('Audit Type', '/ams/audit-type'),
         createNavItem('Risk item', '/ams/risk-item'),
       ],
       'cil-settings'
@@ -155,6 +154,8 @@ export const navItemsAMSDirector = createNavItem(
   [
     createNavItem('Audit Engagement', '/ams/audit-engagement'),
     createNavItem('Audit Schedule', '/ams/audit-schedule'),
+    createNavItem('Audit Type', '/ams/audit-type'),
+
   ],
   'cil-drop'
 );
@@ -245,7 +246,14 @@ export const navItemsICMSAdmin = createNavItem(
       'Trade',
       '/ICMS/Trade',
       [
-        createNavItem('View Share', '/ICMS/Trade/viewTrade'),
+        createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
+      ],
+    ),
+    createNavItem(
+      'Procurement',
+      '/ICMS/Procurement',
+      [
+        createNavItem('View Procurement', '/ICMS/Procurement/viewProcurement'),
       ],
     ),
     // Add more children as needed
@@ -384,19 +392,6 @@ export const navItemsICMSFinanceOWNER = createNavItem(
 );
 
 
-
-
-
-export const navItemsICMSTradeIC = createNavItem(
-  'Trade',
-  '/ICMS',
-  [
-    createNavItem('Add data', '/ICMS/Trade/addTrade'),
-    createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
-  ],
-);
-
-
 export const navItemsICMSProcurementOWNER = createNavItem(
   'Procurement',
   '/ICMS',
@@ -415,6 +410,15 @@ export const navItemsICMSProcurementIC = createNavItem(
   ],
 );
 
+export const navItemsICMSTradeIC = createNavItem(
+  'Trade',
+  '/ICMS',
+  [
+    createNavItem('Add data', '/ICMS/Trade/addTrade'),
+    createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
+  ],
+);
+
 
 export const navItemsICMSTradeOWNER = createNavItem(
   'Trade',
@@ -423,10 +427,6 @@ export const navItemsICMSTradeOWNER = createNavItem(
     createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
   ],
 );
-
-
-
-
 
 
 export const navItemsICMSShareIC = createNavItem(

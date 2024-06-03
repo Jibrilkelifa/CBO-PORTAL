@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy } from '@angular/core';
 import { FinanceService } from '../../service/finance-services.service';
-import { MessageService } from 'primeng/api';
+import { ConfirmEventType, ConfirmationService, MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { FinanceModel } from '../../models/finance-model';
@@ -47,6 +47,8 @@ export class FinanceTableComponent implements OnDestroy {
     private messageService: MessageService,
     private timeService: TimeService,
     private router: Router,
+    private confirmationService: ConfirmationService
+,
     private cdr: ChangeDetectorRef
   ) { }
 
@@ -210,6 +212,41 @@ export class FinanceTableComponent implements OnDestroy {
   absoluteValue(number: number): number {
     return Math.abs(number);
   }
+
+  deleteFinance(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Are you sure you want to delete this record?',
+      header: 'Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.financeService.deleteFinance(id).subscribe(
+          (response: void) => {
+            this.getFinanceList(this.roles);
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Success',
+              detail: "Deleted Finance successfully"
+            });
+            setTimeout(() => {
+            }, 1000);
+          },
+          (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        );
+      },
+      reject: (type: ConfirmEventType) => {
+        if (type === ConfirmEventType.REJECT) {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'You have rejected'
+          });
+        }
+      }
+    });
+  }
+  
   
 
   ngOnDestroy() {
