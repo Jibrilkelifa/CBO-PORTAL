@@ -140,7 +140,7 @@ export class CIPMTableComponent {
     private messageService: MessageService, private primengConfig: PrimeNGConfig, private timeService: TimeService) { }
 
   updateCIPMs(id: number): void {
-    this.router.navigate(['ICMS/CIPM/updateCIPM', id]); 
+    this.router.navigate(['ICMS/CIPM/updateCIPM', id]);
   }
 
   authorizeCIPM(id: number): void {
@@ -167,7 +167,7 @@ export class CIPMTableComponent {
             setTimeout(() => {
               window.location.reload();
             }, 2000);
-    
+
           },
           (error: HttpErrorResponse) => {
             console.log(error);
@@ -189,121 +189,58 @@ export class CIPMTableComponent {
 
 
   public getCIPMs(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.cipmService.getCIPMs().subscribe(
+    let cipmObservable;
+
+    if (roles.includes("ROLE_ICMS_ADMIN")) {
+      cipmObservable = this.cipmService.getCIPMs();
+    } else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+      cipmObservable = this.cipmService.getCIPMForBranch(this.branchId);
+    } else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR") || roles.includes("ROLE_ICMS_IFB")) {
+      cipmObservable = this.cipmService.getCIPMForDistrict(this.subProcessId);
+    }
+
+    if (cipmObservable) {
+      cipmObservable.subscribe(
         (response: CIPM[]) => {
           this.cipms = response;
-          this.cipmDisplay = this.cipms.map((obj: any) => {
-            let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
-            let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
-
-            return {
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              borrowerName: obj.borrowerName,
-              loanAccount: obj.loanAccount,
-              loanType: obj.loanType,
-              'Collateral Type': obj.collateralType ? obj.collateralType.name: null, 
-              'otherCollateralType': obj.otherCollateralType,
-              mortgagorName: obj.mortgagorName,
-              'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null, 
-              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
-              collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
-              sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
-              policyNumber: obj.policyNumber,
-              referenceNumber: obj.referenceNumber,
-              insuredName: obj.insuredName,
-              'status.name': obj.status ? obj.status.name : null,
-              insuranceExpireDate: formattedInsuranceExpireDate,
-              daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
-            };
-          });
-
+          this.cipmDisplay = this.cipms.map(this.formatCIPMData.bind(this));
         },
         (error: HttpErrorResponse) => {
-          console.log(error);
+          console.error(error);
         }
       );
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.cipmService.getCIPMForBranch(this.branchId).subscribe(
-        (response: CIPM[]) => {
-          this.cipms = response;
-          this.cipmDisplay = this.cipms.map((obj: any) => {
-            let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
-            let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
+  }
 
-            return {
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              borrowerName: obj.borrowerName,
-              loanAccount: obj.loanAccount,
-              loanType: obj.loanType,
-              'Collateral Type': obj.collateralType ? obj.collateralType.name: null, 
-              'otherCollateralType': obj.otherCollateralType,
-              mortgagorName: obj.mortgagorName,
-              'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null, 
-              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
-              collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
-              sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
-              policyNumber: obj.policyNumber,
-              referenceNumber: obj.referenceNumber,
-              insuredName: obj.insuredName,
-              'status.name': obj.status ? obj.status.name : null,
-              insuranceExpireDate: formattedInsuranceExpireDate,
-              daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
-            };
-          });
+  private formatCIPMData(obj: any): any {
+    const insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
+    const formattedInsuranceExpireDate = insuranceExpireDate ?
+      `${(insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0')}/${insuranceExpireDate.getDate().toString().padStart(2, '0')}/${insuranceExpireDate.getFullYear()}` : null;
 
-          //      alert(this.subProcessId);
-        },
-        (error: HttpErrorResponse) => {
-
-        }
-      );
-    }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") || roles.indexOf("ROLE_ICMS_IFB") !== -1) {
-      this.cipmService.getCIPMForDistrict(this.subProcessId).subscribe(
-
-        (response: CIPM[]) => {
-          this.cipms = response;
-          this.cipmDisplay = this.cipms.map((obj: any) => {
-            let insuranceExpireDate = obj.insuranceExpireDate ? new Date(obj.insuranceExpireDate) : null;
-            let formattedInsuranceExpireDate = insuranceExpireDate ? (insuranceExpireDate.getMonth() + 1).toString().padStart(2, '0') + '/' + insuranceExpireDate.getDate().toString().padStart(2, '0') + '/' + insuranceExpireDate.getFullYear() : null;
-
-            return {
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              borrowerName: obj.borrowerName,
-              loanAccount: obj.loanAccount,
-              loanType: obj.loanType,
-              'Collateral Type': obj.collateralType ? obj.collateralType.name: null, 
-              'otherCollateralType': obj.otherCollateralType,
-              mortgagorName: obj.mortgagorName,
-              'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null, 
-              'otherInsuranceCoverageType': obj.otherInsuranceCoverageType,
-              collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0, // Changed to number format
-              sumInsured: parseFloat(obj.sumInsured) || 0, // Changed to number format
-              policyNumber: obj.policyNumber,
-              referenceNumber: obj.referenceNumber,
-              insuredName: obj.insuredName,
-              bbranch:obj.bbranch,
-              insuranceComapanyName:obj.insuranceComapanyName,
-              insuranceDistrict:obj.insuranceDistrict,
-              insuranceBranch:obj.insuranceBranch,
-              'status.name': obj.status ? obj.status.name : null,
-              insuranceExpireDate: formattedInsuranceExpireDate,
-              daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null, // Added this line
-            };
-          });
-
-        },
-        (error: HttpErrorResponse) => {
-
-        }
-      );
-
-    }
+    return {
+      'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+      'branch.name': obj.branch ? obj.branch.name : null,
+      borrowerName: obj.borrowerName,
+      loanAccount: obj.loanAccount,
+      loanType: obj.loanType,
+      'Collateral Type': obj.collateralType ? obj.collateralType.name : null,
+      otherCollateralType: obj.otherCollateralType,
+      mortgagorName: obj.mortgagorName,
+      'Insurance Policy Coverage Type': obj.insuranceCoverageType ? obj.insuranceCoverageType.name : null,
+      otherInsuranceCoverageType: obj.otherInsuranceCoverageType,
+      collateralEstimationValue: parseFloat(obj.collateralEstimationValue) || 0,
+      sumInsured: parseFloat(obj.sumInsured) || 0,
+      policyNumber: obj.policyNumber,
+      referenceNumber: obj.referenceNumber,
+      insuredName: obj.insuredName,
+      'status.name': obj.status ? obj.status.name : null,
+      insuranceExpireDate: formattedInsuranceExpireDate,
+      daysLeftToExpire: obj.insuranceExpireDate ? this.calculateDaysLeftToExpire(obj.insuranceExpireDate) : null,
+      bbranch: obj.bbranch,
+      insuranceComapanyName: obj.insuranceComapanyName,
+      insuranceDistrict: obj.insuranceDistrict,
+      insuranceBranch: obj.insuranceBranch
+    };
   }
 
   public deleteCIPM(): void {
@@ -353,10 +290,10 @@ export class CIPMTableComponent {
         'Policy number': plan.policyNumber,
         'Reference number': plan.referenceNumber,
         'Insured name': plan.insuredName,
-        'Branch':plan.bbranch,
-        'Insurance Company':plan.insuranceComapanyName,
-        'District':plan.insuranceDistrict,
-        'Insurance Branch':plan.insuranceBranch,
+        'Branch': plan.bbranch,
+        'Insurance Company': plan.insuranceComapanyName,
+        'District': plan.insuranceDistrict,
+        'Insurance Branch': plan.insuranceBranch,
         'Status': plan['status.name'],
         'Insurance expire date': plan.insuranceExpireDate,
         'Days left to expire': plan.daysLeftToExpire, // This line will add 'Days left to expire' to the Excel sheet
@@ -367,7 +304,7 @@ export class CIPMTableComponent {
       this.saveAsExcelFile(excelBuffer, 'Insurance Policy');
     });
   }
-  
+
 
 
 

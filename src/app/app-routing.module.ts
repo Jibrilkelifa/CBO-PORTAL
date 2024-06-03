@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { DefaultLayoutComponent } from './containers';
 import { LoginComponent } from './modules/sso/login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
-import { DACGMPlanComponent } from './modules/icms/dacgm/dacgm-Plan/dacgm-action.component';
 
 const routes: Routes = [
   {
@@ -19,9 +18,6 @@ const routes: Routes = [
     data: { title: 'Home' },
 
     children: [
-      {
-        path: 'ICMS/DACGM/approveActionPlan/:id', component: DACGMPlanComponent, data: { title: 'Fraud /  escalated' }
-      },
       {
         path: 'default_dashboard',
         loadChildren: () =>

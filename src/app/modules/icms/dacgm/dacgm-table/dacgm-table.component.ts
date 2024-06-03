@@ -200,112 +200,57 @@ export class DACGMTableComponent {
   }
 
   public getDACGMs(roles: string[]): void {
-    if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-      this.dacgmService.getDACGMs().subscribe(
-        (response: any) => {
-          this.dacgms = response;
-          this.dacgmDisplay = this.dacgms.map((obj: any) => {
-            let date = new Date(obj.date);
-            let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+    let dacgmObservable;
 
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              date: formattedDate,
-              caseId: obj.caseId,
-              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
-              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              'otherIrregularity': obj.otherIrregularity,
-              amountInvolved: parseFloat(obj.amountInvolved) || 0,
-              accountName: obj.accountName,
-              accountNumber: obj.accountNumber,
-              responsiblePerson: obj.responsiblePerson,
-              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
-              actionPlanDueDate: formattedActionPlanDueDate
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
-          console.log(error);
-        }
-      );
+    if (roles.includes("ROLE_ICMS_ADMIN")) {
+        dacgmObservable = this.dacgmService.getDACGMs();
+    } else if (roles.includes("ROLE_ICMS_BRANCH_IC") || roles.includes("ROLE_ICMS_BRANCH_MANAGER")) {
+        dacgmObservable = this.dacgmService.getDACGMForBranch(this.branchId);
+    } else if (roles.includes("ROLE_ICMS_DISTRICT_IC") || roles.includes("ROLE_ICMS_DISTRICT_DIRECTOR")) {
+        dacgmObservable = this.dacgmService.getDACGMForDistrict(this.subProcessId);
     }
-    else if (roles.indexOf("ROLE_ICMS_BRANCH_IC") !== -1 || roles.indexOf("ROLE_ICMS_BRANCH_MANAGER") !== -1) {
-      this.dacgmService.getDACGMForBranch(this.branchId).subscribe(
-        (response: DACGM[]) => {
 
-          this.dacgms = response;
-          this.dacgmDisplay = this.dacgms.map((obj: any) => {
-            let date = new Date(obj.date);
-            let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
-
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
-
-            return {
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              date: formattedDate,
-              caseId: obj.caseId,
-              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
-              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              'otherIrregularity': obj.otherIrregularity,
-              amountInvolved: parseFloat(obj.amountInvolved) || 0,
-              accountName: obj.accountName,
-              accountNumber: obj.accountNumber,
-              responsiblePerson: obj.responsiblePerson,
-              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
-              actionPlanDueDate: formattedActionPlanDueDate
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
-
-        }
-      );
+    if (dacgmObservable) {
+        dacgmObservable.subscribe(
+            (response: DACGM[]) => {
+                this.dacgms = response;
+                this.dacgmDisplay = this.dacgms.map(this.formatDACGMData.bind(this));
+            },
+            (error: HttpErrorResponse) => {
+                console.error(error);
+            }
+        );
     }
-    else if (roles.indexOf("ROLE_ICMS_DISTRICT_IC") !== -1 || roles.indexOf("ROLE_ICMS_DISTRICT_DIRECTOR") !== -1) {
-      this.dacgmService.getDACGMForDistrict(this.subProcessId).subscribe(
-        (response: DACGM[]) => {
-          this.dacgms = response;
-          this.dacgmDisplay = this.dacgms.map((obj: any) => {
-            let date = new Date(obj.date);
-            let formattedDate = (date.getMonth() + 1).toString().padStart(2, '0') + '/' + date.getDate().toString().padStart(2, '0') + '/' + date.getFullYear();
+}
 
-            let actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
-            let formattedActionPlanDueDate = actionPlanDueDate ? (actionPlanDueDate.getMonth() + 1).toString().padStart(2, '0') + '/' + actionPlanDueDate.getDate().toString().padStart(2, '0') + '/' + actionPlanDueDate.getFullYear() : null;
+private formatDACGMData(obj: any): any {
+    const date = new Date(obj.date);
+    const formattedDate = this.formatDate(date);
 
-            return {
-              'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
-              'branch.name': obj.branch ? obj.branch.name : null,
-              date: formattedDate,
-              caseId: obj.caseId,
-              'irregularity.allSubCategory.allcategory.name': obj.irregularity && obj.irregularity.allSubCategory && obj.irregularity.allSubCategory.allcategory ? obj.irregularity.allSubCategory.allcategory.name : null,
-              'irregularity.allSubCategory.name': obj.irregularity && obj.irregularity.allSubCategory ? obj.irregularity.allSubCategory.name : null,
-              'irregularity.name': obj.irregularity ? obj.irregularity.name : null,
-              'otherIrregularity': obj.otherIrregularity,
-              amountInvolved: parseFloat(obj.amountInvolved) || 0,
-              accountName: obj.accountName,
-              accountNumber: obj.accountNumber,
-              responsiblePerson: obj.responsiblePerson,
-              'activityStatus.name': obj.activityStatus ? obj.activityStatus.name : null,
-              actionPlanDueDate: formattedActionPlanDueDate
-            };
-          });
-        },
-        (error: HttpErrorResponse) => {
+    const actionPlanDueDate = obj.actionPlanDueDate ? new Date(obj.actionPlanDueDate) : null;
+    const formattedActionPlanDueDate = actionPlanDueDate ? this.formatDate(actionPlanDueDate) : null;
 
-        }
-      );
+    return {
+        'subprocess.name': obj.subProcess ? obj.subProcess.name : null,
+        'branch.name': obj.branch ? obj.branch.name : null,
+        date: formattedDate,
+        caseId: obj.caseId,
+        'irregularity.allSubCategory.allcategory.name': obj.irregularity?.allSubCategory?.allcategory?.name || null,
+        'irregularity.allSubCategory.name': obj.irregularity?.allSubCategory?.name || null,
+        'irregularity.name': obj.irregularity?.name || null,
+        otherIrregularity: obj.otherIrregularity,
+        amountInvolved: parseFloat(obj.amountInvolved) || 0,
+        accountName: obj.accountName,
+        accountNumber: obj.accountNumber,
+        responsiblePerson: obj.responsiblePerson,
+        'activityStatus.name': obj.activityStatus?.name || null,
+        actionPlanDueDate: formattedActionPlanDueDate
+    };
+}
 
-
-    }
-  }
+private formatDate(date: Date): string {
+    return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+}
 
   public deleteDACGM(): void {
     this.dacgmService.deleteDACGM(this.deleteId).subscribe(
