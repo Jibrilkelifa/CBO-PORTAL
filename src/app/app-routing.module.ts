@@ -44,26 +44,6 @@ const routes: Routes = [
           import('./modules/sms/sms.module').then((m) => m.SmsModule)
       },
       {
-        path: 'cc_dashboard',
-        loadChildren: () =>
-          import('./modules/cc/dashboard/dashboard.module').then((m) => m.CCDashboardModule)
-      },
-      {
-        path: 'icms_dashboard',
-        loadChildren: () =>
-          import('./modules/icms/dashboard/dashboard.module').then((m) => m.ICMSDashboardModule)
-      },
-      {
-        path: 'cms_dashboard',
-        loadChildren: () =>
-          import('./modules/cms/dashboard/dashboard.module').then((m) => m.COBDashboardModule)
-      },
-      {
-        path: 'sms_dashboard',
-        loadChildren: () =>
-          import('./modules/sms/sms.module').then((m) => m.SmsModule)
-      },
-      {
         path: 'CMS',
         loadChildren: () =>
           import('./modules/cms/cms.module').then((m) => m.CMSModule)
