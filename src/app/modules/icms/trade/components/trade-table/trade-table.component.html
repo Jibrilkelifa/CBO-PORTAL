@@ -11,6 +11,11 @@
     </span>
   </div>
 </div>
+
+<div *ngIf="loading" class="loading-indicator">
+  <!-- Replace with your preferred loading spinner -->
+  <p-progressSpinner></p-progressSpinner>
+</div>
 <div class="card">
   <div class="flex justify-between">
     <div class="spacer">

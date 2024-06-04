@@ -37,6 +37,9 @@ export class TradeTableComponent implements OnDestroy {
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   teamId: number = JSON.parse(localStorage.getItem("team")).id;
 
+  loading: boolean = true; 
+
+
   currentDate: Date;
 
   private subscriptions: Subscription[] = [];
@@ -67,46 +70,6 @@ export class TradeTableComponent implements OnDestroy {
   }
 
 
-
-  // public getTradeList(roles: string[]): void {
-
-  //   if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-  //     this.tradeService.getAllTrade().subscribe(
-  //       (response: TradeModel[]) => {
-  //         console.log(";;;",response);
-  //         //this.TradeList = response;
-  //         this.TradeList = response.map(trade => ({
-  //           ...trade,
-  //           daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
-  //         }));          
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         // Handle error
-  //       }
-  //     );
-  //   }
-  //   else if (roles.indexOf("ROLE_ICMS_TRADE_IC") !== -1) {
-  //     this.tradeService.getTradeForDistrict(this.subProcessId).subscribe(
-  //       (response: TradeModel[]) => {  
-  //         console.log("PPP",response);
-
-  //         //this.TradeList = response;
-                                               
-  //         this.TradeList = response.map(trade => ({
-  //           ...trade,
-  //           daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
-  //         }));
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         // Handle error
-  //       }
-  //     );
-  //   }
-    
-
-  // }
-
-
   public getTradeList(roles: string[]): void {
     let tradeObservable;
 
@@ -126,9 +89,11 @@ export class TradeTableComponent implements OnDestroy {
             daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
           }));
           this.tradeListDisplay = this.TradeList.map(this.formatTradeData.bind(this));
+          this.loading = false;
         },
         (error: HttpErrorResponse) => {
           console.error(error);
+          this.loading = false;
         }
       );
     }
