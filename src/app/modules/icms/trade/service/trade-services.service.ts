@@ -44,6 +44,10 @@ export class TradeService {
       this.httpOptions
     );
   }
+  public getTradeForICMSTRADEIC(id: number): Observable<any> {
+    this.init();
+    return this.http.get<any>(`${this.apiServiceUrl}/Trade/findBySubProcessId/${id}`, this.httpOptions)
+  }
   
   public getAllTrade(): Observable<any> {
     this.init();

@@ -260,9 +260,13 @@ searchDeliquent(keyword: string): Observable<any[]> {
 }
 searchDutch(keyword: string): Observable<any[]> {
   this.init();
-  console.log("WE been here")
   return this.httpClient.get<any[]>(`${this.apiServiceUrl}/dutch/search/${keyword}`);
 }
+searchCanada(keyword: string): Observable<any[]> {
+  this.init();
+  return this.httpClient.get<any[]>(`${this.apiServiceUrl}/canada/search/${keyword}`);
+}
+
 
 
 

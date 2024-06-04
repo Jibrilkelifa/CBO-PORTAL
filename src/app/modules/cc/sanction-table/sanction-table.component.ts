@@ -51,6 +51,7 @@ export class SanctionTableComponent implements OnInit {
   asro_all_ofac_sanction: any[] = [];
   asro_all_deliquent_sanction: any[] = [];
   asro_all_dutch_sanction: any[] = [];
+  asro_all_canada_sanction:any[] = [];
 
 
 
@@ -149,7 +150,6 @@ Math: any;
 
 
   getSearchResult(fullName: string) {
-    console.log("here i am to wor "+fullName)
     if (fullName) {
       this.sanctionListService.searchUnIndividual(fullName).subscribe(
         data => this.asro_all_un_individual = data,
@@ -183,19 +183,23 @@ Math: any;
 
       this.sanctionListService.searchAdverser(fullName).subscribe(
         data => this.asro_all_adverser_sanction = data,
-        error => console.error('Error fetching Business Continuity results:', error)
+        error => console.error('Error fetching results:', error)
       );
       this.sanctionListService.searchOfac(fullName).subscribe(
         data => this.asro_all_ofac_sanction = data,
-        error => console.error('Error fetching Business Continuity results:', error)
+        error => console.error('Error fetching results:', error)
       );
       this.sanctionListService.searchDeliquent(fullName).subscribe(
         data => this.asro_all_deliquent_sanction = data,
-        error => console.error('Error fetching Business Continuity results:', error)
+        error => console.error('Error fetching results:', error)
       );
       this.sanctionListService.searchDutch(fullName).subscribe(
         data => this.asro_all_dutch_sanction = data,
-        error => console.error('Error fetching Business Continuity results:', error)
+        error => console.error('Error fetching  results:', error)
+      );
+      this.sanctionListService.searchCanada(fullName).subscribe(
+        data => this.asro_all_canada_sanction = data,
+        error => console.error('Error fetching  results:', error)
       );
     }
   }
