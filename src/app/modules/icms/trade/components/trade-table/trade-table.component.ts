@@ -80,6 +80,7 @@ export class TradeTableComponent implements OnDestroy {
     } else if (roles.includes("ROLE_ICMS_TRADE_OWNER")) {
       tradeObservable = this.tradeService.getTradeForICMSTRADEIC(this.subProcessId);
     }
+}
 
   public getTradeList(roles: string[]): void {
     let tradeObservable;
