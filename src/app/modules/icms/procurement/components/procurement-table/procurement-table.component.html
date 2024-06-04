@@ -1,4 +1,5 @@
 <p-toast position="top-right"></p-toast>
+<p-confirmDialog header="Confirmation" width="425"></p-confirmDialog>
 <div class="flex justify-between mb-3">
   <div class="flex">
     <span class="p-input-icon-left ml-auto">
@@ -12,7 +13,27 @@
   </div>
 </div>
 <div class="card">
-  <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">Procurement Table</h5>
+  <div class="flex justify-between">
+  <div class="spacer">
+    <h5 class="text-2xl font-bold text-blue-600 my-3 pl-4">
+      Procurement Table
+    </h5>
+  </div>
+  <div class="flex">
+    <button
+      type="button"
+      pButton
+      pRipple
+      (click)="exportExcel()"
+      class="p-button text-blue-600 text-white m-2 p-2"
+      pTooltip="XLS"
+      tooltipPosition="bottom"
+    >
+      Download as excel
+    </button>
+  </div>
+</div>
+
   <p-table
     #dt
     [columns]="cols"
@@ -82,8 +103,7 @@
           Action Plan Due Date<p-sortIcon></p-sortIcon>
         </th>
         <th scope="col" pSortableColumn="">Past Due</th>
-        
-     
+
         <th pSortableColumn="procurementStatus.name">
           Status
           <p-sortIcon field="procurementStatus.name"></p-sortIcon>
@@ -122,14 +142,14 @@
               procurement?.procurementStatus.name === 'Open' &&
               daysPastDue(procurement?.actionPlanDueDate) > 0,
             closed:
-            procurement?.procurementStatus.name === 'Closed' &&
+              procurement?.procurementStatus.name === 'Closed' &&
               !procurement?.actionPlanDueDate
           }"
         >
           <ng-container
             *ngIf="
               procurement?.procurementStatus?.name === 'Open' &&
-              procurement?.actionPlanDueDate !== null;
+                procurement?.actionPlanDueDate !== null;
               else closedStatus
             "
           >
@@ -139,7 +159,10 @@
                 else otherText
               "
             >
-              {{ absoluteValue(daysPastDue(procurement?.actionPlanDueDate)) }} days past due
+              {{
+                absoluteValue(daysPastDue(procurement?.actionPlanDueDate))
+              }}
+              days past due
             </ng-container>
             <ng-template #otherText> </ng-template>
           </ng-container>
@@ -155,39 +178,38 @@
           </ng-template>
         </td>
 
-
-          <td>{{ procurement?.procurementStatus?.name }}</td>
-          <td >
-            <div
-              class="flex gap-2 mr-2"
-              *ngIf="
-                this.roles.includes('ROLE_ICMS_PROCUREMENT_OWNER') &&
-                !procurement?.actionTaken &&
-                procurement?.procurementStatus?.name === 'Open'
-              "
-            >
-              <button
-                pButton
-                (click)="approveActionPlan(procurement)"
-                [ngClass]="{ updateBlue: true }"
-                class="p-button-sm w-24 h-10 p-2"
-                label="Take action"
-              ></button>
-            </div>
-            <div
-              class="flex gap-2"
-              *ngIf="this.roles.includes('ROLE_ICMS_PROCUREMENT_IC')"
-            >
-              <button
-                pButton
-                (click)="updateProcurement(procurement?.id)"
-                [ngClass]="{ updateBlue: true }"
-                class="p-button-sm w-20 h-10 p-2"
-                label="Update"
-              ></button>
-            </div>
-          </td>
-        </tr>
+        <td>{{ procurement?.procurementStatus?.name }}</td>
+        <td>
+          <div
+            class="flex gap-2 mr-2"
+            *ngIf="
+              this.roles.includes('ROLE_ICMS_PROCUREMENT_OWNER') &&
+              !procurement?.actionTaken &&
+              procurement?.procurementStatus?.name === 'Open'
+            "
+          >
+            <button
+              pButton
+              (click)="approveActionPlan(procurement)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-24 h-10 p-2"
+              label="Take action"
+            ></button>
+          </div>
+          <div
+            class="flex gap-2"
+            *ngIf="this.roles.includes('ROLE_ICMS_PROCUREMENT_IC')"
+          >
+            <button
+              pButton
+              (click)="updateProcurement(procurement?.id)"
+              [ngClass]="{ updateBlue: true }"
+              class="p-button-sm w-20 h-10 p-2"
+              label="Update"
+            ></button>
+          </div>
+        </td>
+      </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
       <tr>
