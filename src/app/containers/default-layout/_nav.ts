@@ -245,7 +245,7 @@ export const navItemsICMSAdmin = createNavItem(
       'Trade',
       '/ICMS/Trade',
       [
-        createNavItem('View Share', '/ICMS/Trade/viewTrade'),
+        createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
       ],
     ),
     createNavItem(
