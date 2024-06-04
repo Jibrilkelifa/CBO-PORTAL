@@ -122,6 +122,9 @@ export class AuthService {
     "ROLE_AMS_MEMBER": 'default_dashboard',
     "ROLE_AMS_AUDITEE": 'default_dashboard',
     "ROLE_CIST_ADMIN": 'default_dashboard',
+    "ROLE_CC_USER_DELIQUENT":'cc_dashboard',
+    "ROLE_CC_USER":'cc_dashboard',
+    "ROLE_CC_ADMIN":'cc_dashboard'
     // Add more roles and routes as needed
   };
 
