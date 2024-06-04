@@ -64,27 +64,13 @@ export const navItemSupervisor = createNavItem(
 
 
 export const navItemsAMSAdmin = createNavItem(
-  'AMS',
-  '/ams',
-  [
-    createNavItem('Annual Plan', '/ams/annual-plan'),
-    createNavItem('Audit Schedule', '/ams/audit-schedule'),
-    createNavItem('Audit Engagement', '/ams/audit-engagement'),
-    createNavItem('Audit Reports', '/ams/report-list'),
-    createNavItem(
-      'Setting',
+      'AMS Setting',
       '/ams',
       [
         createNavItem('Auditors', '/ams/audit-staff'),
-        createNavItem('Audit universe', '/ams/audit-universe'),
-        createNavItem('Audit object', '/ams/audit-object'),
-        createNavItem('Audit Type', '/ams/audit-type'),
-        createNavItem('Risk item', '/ams/risk-item'),
+        createNavItem('Audit Type', '/ams/audit-type')
       ],
       'cil-settings'
-    ),
-  ],
-  'cil-drop'
 );
 
 export const navItemsAMSManager = createNavItem(
@@ -99,10 +85,8 @@ export const navItemsAMSManager = createNavItem(
       'Setting',
       '/ams',
       [
-        createNavItem('Auditors', '/ams/audit-staff'),
         createNavItem('Audit universe', '/ams/audit-universe'),
         createNavItem('Audit object', '/ams/audit-object'),
-        createNavItem('Audit Type', '/ams/audit-type'),
         createNavItem('Risk item', '/ams/risk-item'),
       ],
       'cil-settings'
@@ -612,7 +596,8 @@ export const navItemsCCAdmin = createNavItem(
       ]
     ),
     createNavItem('Weekly Check', '/CC/weeklyCheck'),
-  ]
+  ],
+  'cil-shield-alt'
 );
 
 export const navItemsCCUser = createNavItem(
@@ -620,7 +605,8 @@ export const navItemsCCUser = createNavItem(
   '/CC',
   [
     createNavItem('Search', '/CC/viewSanction'),
-  ]
+  ],
+  'cil-shield-alt'
 );
 
 export const navItemsCCUserDeliquent = createNavItem(
@@ -630,7 +616,8 @@ export const navItemsCCUserDeliquent = createNavItem(
     createNavItem('Search', '/CC/viewSanction'),
     createNavItem('Deliquent List', '/CC/upload/deliquent'),
     createNavItem('Business Contuinity', '/CC/upload/business'),
-  ]
+  ],
+  'cil-shield-alt'
 );
 
 export const navItemsECXAdmin = createNavItem(

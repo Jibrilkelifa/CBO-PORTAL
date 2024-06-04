@@ -41,7 +41,7 @@
         <td>{{ riskLevel.low }}</td>
         <td>{{ riskLevel.medium }}</td>
         <td>{{ riskLevel.high }}</td>
-        <td>{{ riskLevel.auditType}}</td>
+        <td>{{ riskLevel?.auditType?.name}}</td>
         <td>
           <div class="flex gap-2">
             <button pButton (click)="updateRiskLevel(riskLevel)" [ngClass]="{ updateBlue: true }"
