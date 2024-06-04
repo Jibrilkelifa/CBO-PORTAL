@@ -37,6 +37,8 @@ export class TradeTableComponent implements OnDestroy {
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   teamId: number = JSON.parse(localStorage.getItem("team")).id;
 
+
+
   currentDate: Date;
 
   private subscriptions: Subscription[] = [];
@@ -68,44 +70,16 @@ export class TradeTableComponent implements OnDestroy {
 
 
 
-  // public getTradeList(roles: string[]): void {
+  public getTradeList(roles: string[]): void {
+    let tradeObservable;
 
-  //   if (roles.indexOf("ROLE_ICMS_ADMIN") !== -1) {
-  //     this.tradeService.getAllTrade().subscribe(
-  //       (response: TradeModel[]) => {
-  //         console.log(";;;",response);
-  //         //this.TradeList = response;
-  //         this.TradeList = response.map(trade => ({
-  //           ...trade,
-  //           daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
-  //         }));          
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         // Handle error
-  //       }
-  //     );
-  //   }
-  //   else if (roles.indexOf("ROLE_ICMS_TRADE_IC") !== -1) {
-  //     this.tradeService.getTradeForDistrict(this.subProcessId).subscribe(
-  //       (response: TradeModel[]) => {  
-  //         console.log("PPP",response);
-
-  //         //this.TradeList = response;
-                                               
-  //         this.TradeList = response.map(trade => ({
-  //           ...trade,
-  //           daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
-  //         }));
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         // Handle error
-  //       }
-  //     );
-  //   }
-    
-
-  // }
-
+    if (roles.includes("ROLE_ICMS_ADMIN")) {
+      tradeObservable = this.tradeService.getAllTrade();
+    } else if (roles.includes("ROLE_ICMS_TRADE_IC")) {
+      tradeObservable = this.tradeService.getTradeForICMSTRADEIC(this.subProcessId);
+    } else if (roles.includes("ROLE_ICMS_TRADE_OWNER")) {
+      tradeObservable = this.tradeService.getTradeForICMSTRADEIC(this.subProcessId);
+    }
 
   public getTradeList(roles: string[]): void {
     let tradeObservable;
