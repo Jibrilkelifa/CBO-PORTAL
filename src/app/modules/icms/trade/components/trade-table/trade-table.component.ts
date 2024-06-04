@@ -37,7 +37,6 @@ export class TradeTableComponent implements OnDestroy {
   subProcessId: number = Number(localStorage.getItem('subProcessId'));
   teamId: number = JSON.parse(localStorage.getItem("team")).id;
 
-  loading: boolean = true; 
 
 
   currentDate: Date;
@@ -89,11 +88,9 @@ export class TradeTableComponent implements OnDestroy {
             daysPastDue: this.daysPastDue(trade.actionPlanDueDate)
           }));
           this.tradeListDisplay = this.TradeList.map(this.formatTradeData.bind(this));
-          this.loading = false;
         },
         (error: HttpErrorResponse) => {
           console.error(error);
-          this.loading = false;
         }
       );
     }
