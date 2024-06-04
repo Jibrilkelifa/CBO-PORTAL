@@ -229,7 +229,14 @@ export const navItemsICMSAdmin = createNavItem(
       'Trade',
       '/ICMS/Trade',
       [
-        createNavItem('View Share', '/ICMS/Trade/viewTrade'),
+        createNavItem('View Trade', '/ICMS/Trade/viewTrade'),
+      ],
+    ),
+    createNavItem(
+      'Procurement',
+      '/ICMS/Procurement',
+      [
+        createNavItem('View Procurement', '/ICMS/Procurement/viewProcurement'),
       ],
     ),
     // Add more children as needed

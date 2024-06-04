@@ -2,6 +2,7 @@ import { Branch } from "src/app/models/sso-models/branch";
 import { SubProcess } from "src/app/models/sso-models/sub-process";
 import { Team } from "src/app/models/sso-models/team";
 import { ProcurementStatusModel} from "./procurement-status-model"
+import { AllIrregularity } from "src/app/models/icms-models/all-irregularity";
 
 export class ProcurementModel {
     id: number;
@@ -11,7 +12,7 @@ export class ProcurementModel {
     allCategory: any; 
     allSubCategory: any; 
     referenceNumber: string; 
-    irregularity: string; 
+    irregularity: AllIrregularity; 
     customerName: string; 
     amountInvolved: string;
     responsiblePerson: string; 
@@ -21,11 +22,5 @@ export class ProcurementModel {
     team: Team;
     actionTaken:boolean;
     actionPlanDueDate: string;
-
-
-  // tradeType:any;
-  // tradeNumber: string; 
-  // tradeHoldersName: string; 
-  //otherIrregularity: string; 
-
+    otherIrregularity: string; 
 }
